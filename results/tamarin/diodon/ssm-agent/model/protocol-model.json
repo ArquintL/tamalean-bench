@@ -1,0 +1,525 @@
+{
+  "id": "diodon/ssm-agent/model/protocol-model",
+  "tool": "tamarin",
+  "setting": "a ranking",
+  "tamarin_version": "1.12.0",
+  "maude_version": "3.5.1",
+  "rts": "+RTS -N4 -M8G -RTS",
+  "parallel_runs": 2,
+  "host": "Apple M4 Pro, 14 cores, 24 GB, macOS 27.0.1",
+  "date": "2026-10-19",
+  "flags": [
+    "--derivcheck-timeout=0"
+  ],
+  "env": {},
+  "flags_basis": "--derivcheck-timeout=0: the authors' command; the oracle is named in the theory file (no flag needed)",
+  "oracle": [
+    "oracle.py"
+  ],
+  "oracle_notes": [],
+  "limits": {
+    "lemma_s": 600,
+    "model_s": 1800
+  },
+  "load": {
+    "wall_s": 0.359,
+    "processing_s": 0.28,
+    "exit": 0,
+    "lock_wait_s": 0.1,
+    "max_rss_mb": 57.9,
+    "status": "ok"
+  },
+  "lemmas": [
+    {
+      "name": "agent_recv_sign_response_valid",
+      "kind": "all-traces",
+      "side": null,
+      "wall_s": 3.433,
+      "processing_s": 3.32,
+      "limit_s": 600.0,
+      "max_rss_mb": 141.3,
+      "lock_wait_s": 0.1,
+      "load_avg": 14.4,
+      "verdict": "verified",
+      "steps": 7,
+      "summary": "verified (7 steps)",
+      "proof": "proofs/diodon/ssm-agent/model/protocol-model/agent_recv_sign_response_valid.spthy",
+      "proof_stats": {
+        "size": 7,
+        "depth": 5,
+        "leaves": {
+          "contradiction": 3
+        },
+        "methods": {
+          "induction": 1,
+          "contradiction": 3,
+          "solve": 3
+        },
+        "solve_goal_kinds": {
+          "disjunction": 1,
+          "premise": 2
+        },
+        "contradictions": {
+          "from formulas": 3
+        }
+      }
+    },
+    {
+      "name": "client_recv_sign_response_valid",
+      "kind": "all-traces",
+      "side": null,
+      "wall_s": 3.772,
+      "processing_s": 3.67,
+      "limit_s": 600.0,
+      "max_rss_mb": 150.3,
+      "lock_wait_s": 0.1,
+      "load_avg": 14.4,
+      "verdict": "verified",
+      "steps": 6,
+      "summary": "verified (6 steps)",
+      "proof": "proofs/diodon/ssm-agent/model/protocol-model/client_recv_sign_response_valid.spthy",
+      "proof_stats": {
+        "size": 6,
+        "depth": 4,
+        "leaves": {
+          "contradiction": 3
+        },
+        "methods": {
+          "induction": 1,
+          "contradiction": 3,
+          "solve": 2
+        },
+        "solve_goal_kinds": {
+          "disjunction": 1,
+          "premise": 1
+        },
+        "contradictions": {
+          "from formulas": 3
+        }
+      }
+    },
+    {
+      "name": "agent_recv_transport_valid",
+      "kind": "all-traces",
+      "side": null,
+      "wall_s": 3.433,
+      "processing_s": 3.33,
+      "limit_s": 600.0,
+      "max_rss_mb": 151.3,
+      "lock_wait_s": 0.1,
+      "load_avg": 15.2,
+      "verdict": "verified",
+      "steps": 45,
+      "summary": "verified (45 steps)",
+      "proof": "proofs/diodon/ssm-agent/model/protocol-model/agent_recv_transport_valid.spthy",
+      "proof_stats": {
+        "size": 45,
+        "depth": 6,
+        "leaves": {
+          "contradiction": 12,
+          "solve": 14
+        },
+        "methods": {
+          "induction": 1,
+          "contradiction": 12,
+          "solve": 32
+        },
+        "solve_goal_kinds": {
+          "disjunction": 1,
+          "KU action": 1,
+          "equation split": 2,
+          "premise": 14,
+          "chain": 14
+        },
+        "contradictions": {
+          "from formulas": 5,
+          "cyclic": 7
+        }
+      }
+    },
+    {
+      "name": "kms_sign_response_unique",
+      "kind": "all-traces",
+      "side": null,
+      "wall_s": 5.484,
+      "processing_s": 5.38,
+      "limit_s": 600.0,
+      "max_rss_mb": 183.4,
+      "lock_wait_s": 0.1,
+      "load_avg": 16.9,
+      "verdict": "verified",
+      "steps": 20,
+      "summary": "verified (20 steps)",
+      "proof": "proofs/diodon/ssm-agent/model/protocol-model/kms_sign_response_unique.spthy",
+      "proof_stats": {
+        "size": 20,
+        "depth": 7,
+        "leaves": {
+          "contradiction": 6
+        },
+        "methods": {
+          "simplify": 1,
+          "solve": 13,
+          "contradiction": 6
+        },
+        "solve_goal_kinds": {
+          "disjunction": 1,
+          "premise": 12
+        },
+        "contradictions": {
+          "cyclic": 6
+        }
+      }
+    },
+    {
+      "name": "loop_induction_client",
+      "kind": "all-traces",
+      "side": null,
+      "wall_s": 4.698,
+      "processing_s": 4.59,
+      "limit_s": 600.0,
+      "max_rss_mb": 162.4,
+      "lock_wait_s": 0.1,
+      "load_avg": 16.4,
+      "verdict": "verified",
+      "steps": 11,
+      "summary": "verified (11 steps)",
+      "proof": "proofs/diodon/ssm-agent/model/protocol-model/loop_induction_client.spthy",
+      "proof_stats": {
+        "size": 11,
+        "depth": 4,
+        "leaves": {
+          "contradiction": 7
+        },
+        "methods": {
+          "induction": 1,
+          "contradiction": 7,
+          "solve": 3
+        },
+        "solve_goal_kinds": {
+          "disjunction": 1,
+          "premise": 2
+        },
+        "contradictions": {
+          "from formulas": 7
+        }
+      }
+    },
+    {
+      "name": "loop_induction_agent",
+      "kind": "all-traces",
+      "side": null,
+      "wall_s": 4.831,
+      "processing_s": 4.77,
+      "limit_s": 600.0,
+      "max_rss_mb": 163.4,
+      "lock_wait_s": 0.1,
+      "load_avg": 16.9,
+      "verdict": "verified",
+      "steps": 11,
+      "summary": "verified (11 steps)",
+      "proof": "proofs/diodon/ssm-agent/model/protocol-model/loop_induction_agent.spthy",
+      "proof_stats": {
+        "size": 11,
+        "depth": 4,
+        "leaves": {
+          "contradiction": 7
+        },
+        "methods": {
+          "induction": 1,
+          "contradiction": 7,
+          "solve": 3
+        },
+        "solve_goal_kinds": {
+          "disjunction": 1,
+          "premise": 2
+        },
+        "contradictions": {
+          "from formulas": 7
+        }
+      }
+    },
+    {
+      "name": "Agent_can_finish_wo_reveal",
+      "kind": "exists-trace",
+      "side": null,
+      "wall_s": 7.36,
+      "processing_s": 7.29,
+      "limit_s": 600.0,
+      "max_rss_mb": 227.3,
+      "lock_wait_s": 0.1,
+      "load_avg": 16.6,
+      "verdict": "verified",
+      "steps": 27,
+      "summary": "verified (27 steps)",
+      "proof": "proofs/diodon/ssm-agent/model/protocol-model/Agent_can_finish_wo_reveal.spthy",
+      "proof_stats": {
+        "size": 27,
+        "depth": 27,
+        "leaves": {
+          "SOLVED": 1
+        },
+        "methods": {
+          "simplify": 1,
+          "solve": 25,
+          "SOLVED": 1
+        },
+        "solve_goal_kinds": {
+          "premise": 20,
+          "KU action": 5
+        },
+        "contradictions": {}
+      }
+    },
+    {
+      "name": "Client_can_finish_wo_reveal",
+      "kind": "exists-trace",
+      "side": null,
+      "wall_s": 32.433,
+      "processing_s": 32.32,
+      "limit_s": 600.0,
+      "max_rss_mb": 1079.6,
+      "lock_wait_s": 0.1,
+      "load_avg": 17.0,
+      "verdict": "verified",
+      "steps": 21,
+      "summary": "verified (21 steps)",
+      "proof": "proofs/diodon/ssm-agent/model/protocol-model/Client_can_finish_wo_reveal.spthy",
+      "proof_stats": {
+        "size": 21,
+        "depth": 21,
+        "leaves": {
+          "SOLVED": 1
+        },
+        "methods": {
+          "simplify": 1,
+          "solve": 19,
+          "SOLVED": 1
+        },
+        "solve_goal_kinds": {
+          "premise": 9,
+          "equation split": 4,
+          "KU action": 6
+        },
+        "contradictions": {}
+      }
+    },
+    {
+      "name": "x_is_secret",
+      "kind": "all-traces",
+      "side": null,
+      "wall_s": 2.93,
+      "processing_s": 2.87,
+      "limit_s": 600.0,
+      "max_rss_mb": 161.4,
+      "lock_wait_s": 0.1,
+      "load_avg": 16.5,
+      "verdict": "verified",
+      "steps": 3,
+      "summary": "verified (3 steps)",
+      "proof": "proofs/diodon/ssm-agent/model/protocol-model/x_is_secret.spthy",
+      "proof_stats": {
+        "size": 4,
+        "depth": 4,
+        "leaves": {
+          "solve": 1
+        },
+        "methods": {
+          "all-traces \"∀ x #i.": 1,
+          "simplify": 1,
+          "solve": 2
+        },
+        "solve_goal_kinds": {
+          "premise": 1,
+          "KU action": 1
+        },
+        "contradictions": {}
+      }
+    },
+    {
+      "name": "y_is_secret",
+      "kind": "all-traces",
+      "side": null,
+      "wall_s": 3.184,
+      "processing_s": 3.11,
+      "limit_s": 600.0,
+      "max_rss_mb": 158.4,
+      "lock_wait_s": 0.1,
+      "load_avg": 16.5,
+      "verdict": "verified",
+      "steps": 3,
+      "summary": "verified (3 steps)",
+      "proof": "proofs/diodon/ssm-agent/model/protocol-model/y_is_secret.spthy",
+      "proof_stats": {
+        "size": 4,
+        "depth": 4,
+        "leaves": {
+          "solve": 1
+        },
+        "methods": {
+          "all-traces \"∀ y #i.": 1,
+          "simplify": 1,
+          "solve": 2
+        },
+        "solve_goal_kinds": {
+          "premise": 1,
+          "KU action": 1
+        },
+        "contradictions": {}
+      }
+    },
+    {
+      "name": "AgentSendEncryptedSessionKey_is_unique",
+      "kind": "all-traces",
+      "side": null,
+      "wall_s": 3.283,
+      "processing_s": 3.18,
+      "limit_s": 600.0,
+      "max_rss_mb": 168.3,
+      "lock_wait_s": 0.1,
+      "load_avg": 16.0,
+      "verdict": "verified",
+      "steps": 4,
+      "summary": "verified (4 steps)",
+      "proof": "proofs/diodon/ssm-agent/model/protocol-model/AgentSendEncryptedSessionKey_is_unique.spthy",
+      "proof_stats": {
+        "size": 4,
+        "depth": 4,
+        "leaves": {
+          "contradiction": 1
+        },
+        "methods": {
+          "simplify": 1,
+          "solve": 2,
+          "contradiction": 1
+        },
+        "solve_goal_kinds": {
+          "premise": 2
+        },
+        "contradictions": {
+          "from formulas": 1
+        }
+      }
+    },
+    {
+      "name": "SharedSecret_is_secret",
+      "kind": "all-traces",
+      "side": null,
+      "wall_s": 132.36,
+      "processing_s": 132.17,
+      "limit_s": 600.0,
+      "max_rss_mb": 2487.5,
+      "lock_wait_s": 0.1,
+      "load_avg": 11.7,
+      "verdict": "verified",
+      "steps": 1351,
+      "summary": "verified (1351 steps)",
+      "proof": "proofs/diodon/ssm-agent/model/protocol-model/SharedSecret_is_secret.spthy",
+      "proof_stats": {
+        "size": 1351,
+        "depth": 31,
+        "leaves": {
+          "contradiction": 94,
+          "solve": 462
+        },
+        "methods": {
+          "simplify": 1,
+          "solve": 1256,
+          "contradiction": 94
+        },
+        "solve_goal_kinds": {
+          "action": 1,
+          "premise": 515,
+          "KU action": 660,
+          "equation split": 80
+        },
+        "contradictions": {
+          "cyclic": 48,
+          "from formulas": 46
+        }
+      }
+    },
+    {
+      "name": "injectiveagreement_agent",
+      "kind": "all-traces",
+      "side": null,
+      "wall_s": 21.326,
+      "processing_s": 21.23,
+      "limit_s": 600.0,
+      "max_rss_mb": 608.4,
+      "lock_wait_s": 0.1,
+      "load_avg": 10.3,
+      "verdict": "verified",
+      "steps": 240,
+      "summary": "verified (240 steps)",
+      "proof": "proofs/diodon/ssm-agent/model/protocol-model/injectiveagreement_agent.spthy",
+      "proof_stats": {
+        "size": 240,
+        "depth": 33,
+        "leaves": {
+          "contradiction": 16,
+          "solve": 75
+        },
+        "methods": {
+          "simplify": 1,
+          "solve": 223,
+          "contradiction": 16
+        },
+        "solve_goal_kinds": {
+          "action": 5,
+          "disjunction": 1,
+          "premise": 103,
+          "KU action": 102,
+          "equation split": 12
+        },
+        "contradictions": {
+          "cyclic": 7,
+          "from formulas": 9
+        }
+      }
+    },
+    {
+      "name": "injectiveagreement_client",
+      "kind": "all-traces",
+      "side": null,
+      "wall_s": 185.488,
+      "processing_s": 185.24,
+      "limit_s": 600.0,
+      "max_rss_mb": 3653.7,
+      "lock_wait_s": 0.1,
+      "load_avg": 9.4,
+      "verdict": "verified",
+      "steps": 2486,
+      "summary": "verified (2486 steps)",
+      "proof": "proofs/diodon/ssm-agent/model/protocol-model/injectiveagreement_client.spthy",
+      "proof_stats": {
+        "size": 2486,
+        "depth": 40,
+        "leaves": {
+          "contradiction": 156,
+          "solve": 738
+        },
+        "methods": {
+          "simplify": 1,
+          "solve": 2329,
+          "contradiction": 156
+        },
+        "solve_goal_kinds": {
+          "action": 73,
+          "disjunction": 13,
+          "premise": 1231,
+          "KU action": 876,
+          "equation split": 136
+        },
+        "contradictions": {
+          "cyclic": 19,
+          "from formulas": 137
+        }
+      }
+    }
+  ],
+  "warnings": [],
+  "notes": [],
+  "status": "complete",
+  "total_wall_s": 414.37
+}

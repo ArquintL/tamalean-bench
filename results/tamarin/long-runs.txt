@@ -1,0 +1,3 @@
+# Lemmas and models that reached a limit of scripts/run_tamarin.py here, for a run
+# with more time or memory.  Columns: model id, lemma (* = the whole model), why,
+# the model's Tamarin flags.  Regenerated after every model.

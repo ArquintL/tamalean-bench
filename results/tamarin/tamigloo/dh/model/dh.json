@@ -1,0 +1,296 @@
+{
+  "id": "tamigloo/dh/model/dh",
+  "tool": "tamarin",
+  "setting": "no guidance",
+  "tamarin_version": "1.12.0",
+  "maude_version": "3.5.1",
+  "rts": "+RTS -N4 -M8G -RTS",
+  "parallel_runs": 2,
+  "host": "Apple M4 Pro, 14 cores, 24 GB, macOS 27.0.1",
+  "date": "2026-10-19",
+  "flags": [
+    "--derivcheck-timeout=0"
+  ],
+  "env": {},
+  "flags_basis": "--derivcheck-timeout=0: the authors' command",
+  "oracle": null,
+  "oracle_notes": [],
+  "limits": {
+    "lemma_s": 600,
+    "model_s": 1800
+  },
+  "load": {
+    "wall_s": 1.68,
+    "processing_s": 1.59,
+    "exit": 0,
+    "lock_wait_s": 0.1,
+    "max_rss_mb": 54.8,
+    "status": "ok"
+  },
+  "lemmas": [
+    {
+      "name": "types",
+      "kind": "all-traces",
+      "side": null,
+      "wall_s": 5.418,
+      "processing_s": 5.35,
+      "limit_s": 600.0,
+      "max_rss_mb": 183.3,
+      "lock_wait_s": 0.1,
+      "load_avg": 13.5,
+      "verdict": "verified",
+      "steps": 63,
+      "summary": "verified (63 steps)",
+      "proof": "proofs/tamigloo/dh/model/dh/types.spthy",
+      "proof_stats": {
+        "size": 63,
+        "depth": 8,
+        "leaves": {
+          "contradiction": 33
+        },
+        "methods": {
+          "induction": 1,
+          "contradiction": 33,
+          "solve": 29
+        },
+        "solve_goal_kinds": {
+          "disjunction": 25,
+          "premise": 1,
+          "KU action": 3
+        },
+        "contradictions": {
+          "from formulas": 6,
+          "cyclic": 24,
+          "forbidden KD-fact": 3
+        }
+      }
+    },
+    {
+      "name": "exec",
+      "kind": "exists-trace",
+      "side": null,
+      "wall_s": 5.884,
+      "processing_s": 5.78,
+      "limit_s": 600.0,
+      "max_rss_mb": 182.3,
+      "lock_wait_s": 0.1,
+      "load_avg": 13.4,
+      "verdict": "verified",
+      "steps": 11,
+      "summary": "verified (11 steps)",
+      "proof": "proofs/tamigloo/dh/model/dh/exec.spthy",
+      "proof_stats": {
+        "size": 11,
+        "depth": 11,
+        "leaves": {
+          "SOLVED": 1
+        },
+        "methods": {
+          "simplify": 1,
+          "solve": 9,
+          "SOLVED": 1
+        },
+        "solve_goal_kinds": {
+          "action": 2,
+          "premise": 2,
+          "equation split": 2,
+          "KU action": 3
+        },
+        "contradictions": {}
+      }
+    },
+    {
+      "name": "ni_agreement_init",
+      "kind": "all-traces",
+      "side": null,
+      "wall_s": 5.513,
+      "processing_s": 5.41,
+      "limit_s": 600.0,
+      "max_rss_mb": 179.3,
+      "lock_wait_s": 0.1,
+      "load_avg": 13.5,
+      "verdict": "verified",
+      "steps": 7,
+      "summary": "verified (7 steps)",
+      "proof": "proofs/tamigloo/dh/model/dh/ni_agreement_init.spthy",
+      "proof_stats": {
+        "size": 7,
+        "depth": 6,
+        "leaves": {
+          "contradiction": 2
+        },
+        "methods": {
+          "simplify": 1,
+          "solve": 4,
+          "contradiction": 2
+        },
+        "solve_goal_kinds": {
+          "action": 1,
+          "premise": 1,
+          "KU action": 2
+        },
+        "contradictions": {
+          "from formulas": 2
+        }
+      }
+    },
+    {
+      "name": "i_agreement_init",
+      "kind": "all-traces",
+      "side": null,
+      "wall_s": 5.397,
+      "processing_s": 5.3,
+      "limit_s": 600.0,
+      "max_rss_mb": 178.3,
+      "lock_wait_s": 0.1,
+      "load_avg": 13.5,
+      "verdict": "verified",
+      "steps": 33,
+      "summary": "verified (33 steps)",
+      "proof": "proofs/tamigloo/dh/model/dh/i_agreement_init.spthy",
+      "proof_stats": {
+        "size": 33,
+        "depth": 12,
+        "leaves": {
+          "contradiction": 8
+        },
+        "methods": {
+          "simplify": 1,
+          "solve": 24,
+          "contradiction": 8
+        },
+        "solve_goal_kinds": {
+          "disjunction": 2,
+          "action": 5,
+          "premise": 5,
+          "KU action": 10,
+          "equation split": 2
+        },
+        "contradictions": {
+          "from formulas": 6,
+          "cyclic": 2
+        }
+      }
+    },
+    {
+      "name": "ni_agreement_resp",
+      "kind": "all-traces",
+      "side": null,
+      "wall_s": 5.481,
+      "processing_s": 5.39,
+      "limit_s": 600.0,
+      "max_rss_mb": 182.3,
+      "lock_wait_s": 0.1,
+      "load_avg": 13.7,
+      "verdict": "verified",
+      "steps": 15,
+      "summary": "verified (15 steps)",
+      "proof": "proofs/tamigloo/dh/model/dh/ni_agreement_resp.spthy",
+      "proof_stats": {
+        "size": 15,
+        "depth": 7,
+        "leaves": {
+          "contradiction": 5
+        },
+        "methods": {
+          "simplify": 1,
+          "solve": 9,
+          "contradiction": 5
+        },
+        "solve_goal_kinds": {
+          "action": 1,
+          "premise": 1,
+          "equation split": 1,
+          "KU action": 6
+        },
+        "contradictions": {
+          "non-normal terms": 1,
+          "from formulas": 4
+        }
+      }
+    },
+    {
+      "name": "i_agreement_resp",
+      "kind": "all-traces",
+      "side": null,
+      "wall_s": 5.529,
+      "processing_s": 5.43,
+      "limit_s": 600.0,
+      "max_rss_mb": 183.2,
+      "lock_wait_s": 0.1,
+      "load_avg": 13.3,
+      "verdict": "verified",
+      "steps": 53,
+      "summary": "verified (53 steps)",
+      "proof": "proofs/tamigloo/dh/model/dh/i_agreement_resp.spthy",
+      "proof_stats": {
+        "size": 53,
+        "depth": 12,
+        "leaves": {
+          "contradiction": 15
+        },
+        "methods": {
+          "simplify": 1,
+          "solve": 37,
+          "contradiction": 15
+        },
+        "solve_goal_kinds": {
+          "disjunction": 2,
+          "action": 5,
+          "premise": 5,
+          "equation split": 7,
+          "KU action": 18
+        },
+        "contradictions": {
+          "non-normal terms": 1,
+          "from formulas": 10,
+          "cyclic": 4
+        }
+      }
+    },
+    {
+      "name": "forward_secrecy",
+      "kind": "all-traces",
+      "side": null,
+      "wall_s": 5.984,
+      "processing_s": 5.92,
+      "limit_s": 600.0,
+      "max_rss_mb": 184.3,
+      "lock_wait_s": 0.1,
+      "load_avg": 13.2,
+      "verdict": "verified",
+      "steps": 117,
+      "summary": "verified (117 steps)",
+      "proof": "proofs/tamigloo/dh/model/dh/forward_secrecy.spthy",
+      "proof_stats": {
+        "size": 117,
+        "depth": 11,
+        "leaves": {
+          "contradiction": 30,
+          "solve": 46
+        },
+        "methods": {
+          "simplify": 1,
+          "solve": 86,
+          "contradiction": 30
+        },
+        "solve_goal_kinds": {
+          "action": 1,
+          "premise": 2,
+          "KU action": 82,
+          "equation split": 1
+        },
+        "contradictions": {
+          "non-normal exponentiation rule instance": 14,
+          "cyclic": 10,
+          "from formulas": 5,
+          "non-normal terms": 1
+        }
+      }
+    }
+  ],
+  "warnings": [],
+  "notes": [],
+  "status": "complete",
+  "total_wall_s": 40.89
+}

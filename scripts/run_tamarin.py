@@ -42,6 +42,7 @@ from pathlib import Path
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))  # -I leaves the script's dir out
 import benchlib  # noqa: E402
+import extract_proofs  # noqa: E402
 
 TAMARIN = os.environ.get("BENCH_TAMARIN", "tamarin-prover")
 RTS_N = 4
@@ -427,21 +428,13 @@ def run_model(s, x, a, meta, cfg):
     if not names and result["load"]["status"] == "ok":
         result["notes"].append("Tamarin lists no lemma for this model")
     benchlib.write_json(benchlib.results_path("tamarin", mid), result)
-    backup(mid, cfg)
+    try:  # the counts of each proof, and its tree under proofs/
+        extract_proofs.process_result(mid)
+    except Exception as e:
+        log(f"{mid}: reading the proofs failed: {e!r}")
+    benchlib.backup_proofs(mid)
     progress(result)
     return result
-
-
-def backup(mid, cfg):
-    dest = cfg.get("proof_backup")
-    src = benchlib.PROOFS / mid
-    if not dest or not src.exists():
-        return
-    d = Path(dest) / mid
-    d.mkdir(parents=True, exist_ok=True)
-    for f in src.iterdir():
-        if f.is_file():
-            shutil.copy2(f, d / f.name)
 
 
 def counts(result):

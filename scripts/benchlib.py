@@ -232,3 +232,19 @@ def local_config():
         if os.environ.get(env):
             cfg[key] = os.environ[env]
     return cfg
+
+
+def backup_proofs(model_id):
+    """Copy proofs/<id>/ to the backup directory (bench.local.toml `proof_backup`, or the
+    environment variable BENCH_PROOF_BACKUP), when one is set."""
+    import shutil
+    dest = local_config().get("proof_backup")
+    src = PROOFS / model_id
+    if not dest or not src.exists():
+        return False
+    d = Path(dest) / model_id
+    d.mkdir(parents=True, exist_ok=True)
+    for f in src.iterdir():
+        if f.is_file():
+            shutil.copy2(f, d / f.name)
+    return True
