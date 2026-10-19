@@ -41,7 +41,22 @@ Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4
 --heuristic=O --oraclename=Contact.oracle --prove=<lemma> Contact_CDA_NoPIN_Offline.spthy
 Where the flags come from: --heuristic=O --oraclename: the command the authors give.
 
-Measured for this benchmark: not run yet.
+Measured for this benchmark (Tamarin 1.12.0, Maude 3.5.1, +RTS -N4 -M8G -RTS, Apple M4 Pro, 14
+cores, 24 GB, macOS 27.0.1, 2026-10-20; limits 600 s per lemma, 1800 s per model;
+results/tamarin/emv/emverify/models-n-proofs/contact/Contact_CDA_NoPIN_Offline.json):
+  ARPC_source               all-traces    verified  21 steps  115.7 s
+  executable                exists-trace  timeout             600.6 s
+  bank_accepts              all-traces    timeout             600.6 s
+  auth_to_terminal_minimal  all-traces    timeout             478.1 s
+  auth_to_terminal          all-traces    not run                   -
+  auth_to_bank_minimal      all-traces    not run                   -
+  auth_to_bank              all-traces    not run                   -
+  secrecy_MK                all-traces    not run                   -
+  secrecy_privkCard         all-traces    not run                   -
+  secrecy_PAN               all-traces    not run                   -
+  total wall-clock time: 1800.6 s
+  Tamarin's wellformedness or derivation warnings: Derivation Checks: Derivation checks timed
+  out. Use --derivcheck-timeout=INT to configure timeout. Set to 0 to deactivate for no timeout.
 
 Reported by the authors: 610.567427072s processing time in Contact_CDA_NoPIN_Offline.proof
 (Tamarin 1.7.0 (git 2884fce8); 2x Xeon E5-2650 v4, 10 threads, 20 GB)

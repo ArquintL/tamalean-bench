@@ -284,13 +284,17 @@ def run_model(s, x, a, host):
 
 def retime_model(s, x, a):
     """Run again, to time them alone on the machine, the lemmas of an accepted model that ended
-    within their limits, and record their new times (and outcomes)."""
+    with a verdict (proved, attack found, no trace), and record their new times (and outcomes).
+    A lemma without a verdict keeps the time of the shared run: it is the time certify took to
+    give up, and timing it alone would hold the whole machine for little."""
     mid = x["id"]
     r = benchlib.load_result("tamalean", mid)
     if not r or not r.get("reader", {}).get("ok"):
         return None
     names = [l["name"] for l in r["lemmas"]
-             if l.get("outcome") in ("proved", "attack found", "no trace", "no verdict")]
+             if l.get("outcome") in ("proved", "attack found", "no trace")]
+    if not names:
+        return None
     module = gen_lean.module_path(mid)
     logdir = benchlib.RUNS / "lean"
     logdir.mkdir(parents=True, exist_ok=True)
@@ -318,7 +322,8 @@ def retime_model(s, x, a):
         by[stopped].update(outcome="timeout", ms=int(a.lemma_limit * 1000),
                            measured_alone=a.measured_alone)
     r["measured_alone"] = a.measured_alone and all(
-        l.get("measured_alone") for l in r["lemmas"] if l["outcome"] != "timeout")
+        l.get("measured_alone") for l in r["lemmas"]
+        if l["outcome"] in ("proved", "attack found", "no trace"))
     r["retimed"] = dt.date.today().isoformat()
     benchlib.write_json(benchlib.results_path("tamalean", mid), r)
     print(f"[{dt.datetime.now().strftime('%H:%M:%S')}] {mid}: retimed {len(names)} lemmas "
@@ -360,8 +365,8 @@ def main():
     ap.add_argument("--reader-only", action="store_true",
                     help="only read each model (no certify): the reader's verdict, quickly")
     ap.add_argument("--retime", action="store_true",
-                    help="run again the lemmas of accepted models that ended within their limits, "
-                         "to time them (start it with an exclusive lock and --measured-alone)")
+                    help="run again the lemmas of accepted models that ended with a verdict, to "
+                         "time them (start it with an exclusive lock and --measured-alone)")
     ap.add_argument("--reclassify", action="store_true",
                     help="recompute the outcomes and rejection reasons of the results from their "
                          "stored messages, and run nothing")

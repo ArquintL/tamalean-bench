@@ -96,8 +96,29 @@ def main():
     lines += table(["source", "models", "Tamarin: models run", "Tamarin: lemmas",
                     "Lean: models in scope", "Lean: models run (read by the reader)",
                     "Lean: lemmas"], rows)
+    alone = shared = 0
+    loads = []
+    for s_, x_ in benchlib.iter_models(m):
+        q = benchlib.load_result("tamalean", x_["id"]) if benchlib.lean_in_scope(x_) else None
+        for l in (q or {}).get("lemmas", []):
+            if l.get("outcome") in ("proved", "attack found", "no trace", "no verdict", "timeout"):
+                if l.get("measured_alone"):
+                    alone += 1
+                else:
+                    shared += 1
+        r_ = benchlib.load_result("tamarin", x_["id"])
+        for l in (r_ or {}).get("lemmas", []):
+            if l.get("load_avg") is not None:
+                loads.append(l["load_avg"])
     lines += ["", "Tamarin's lemmas count each side of an observational-equivalence model "
               "separately.  The Lean side leaves observational equivalence (diff models) out.", ""]
+    lines += [f"Timing: Tamarin ran on a machine shared with other work, two lemmas at a time, each "
+              f"with `+RTS -N4 -M8G` (the load average when its lemmas ended: median "
+              f"{sorted(loads)[len(loads) // 2] if loads else '-'}, highest "
+              f"{max(loads) if loads else '-'}); each result records it.  Of Tamalean's lemma times, "
+              f"{alone} were measured with the machine to itself and {shared} on the shared "
+              "machine (each lemma says which, `measured_alone`): the lemmas that ended with a "
+              "verdict are timed again alone.", ""]
 
     lines += ["## Why Tamalean's reader rejected a model", "",
               "The first construct the reader does not accept, by number of models:", ""]
