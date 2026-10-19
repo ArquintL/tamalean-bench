@@ -44,8 +44,8 @@ The files are copied here unchanged; the license text is in models/tamarin/LICEN
 
 Tamarin
 -------
-Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS --diff
---auto-sources --prove=<lemma> 5G_AKA_priv.spthy
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -M8G -RTS
+--diff --auto-sources --prove=<lemma> 5G_AKA_priv.spthy
 Where the flags come from: --diff: the model states observational equivalence; --auto-sources:
 the authors' command (README or Makefile).
 
@@ -57,4 +57,4 @@ Times stated in the file: 1 sec; 2 sec; 2 min; // 1 sec; // 2 sec; // 2 min
 
 Lean side
 ---------
-out of scope: observational equivalence (a diff model); Tamalean checks trace properties only
+Out of scope: observational equivalence (a diff model); Tamalean checks trace properties only.

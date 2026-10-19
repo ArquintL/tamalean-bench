@@ -36,7 +36,7 @@ The files are copied here unchanged; the license text is in models/tamarin/LICEN
 
 Tamarin
 -------
-Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -M8G -RTS
 --prove=<lemma> robert.spthy
 Where the flags come from: the oracle is named in the theory file (no flag needed).
 
@@ -50,4 +50,6 @@ $n$ phones (\ref{at:robert-refl}, \ref{at:robert-window})
 
 Lean side
 ---------
-trace properties
+In scope (trace properties): Bench/tamarin/usenix23-ens/robert.lean reads the model with
+Tamalean's .spthy reader and states one certify per lemma; scripts/run_lean.py records the
+outcome in results/tamalean/tamarin/usenix23-ens/robert.json.

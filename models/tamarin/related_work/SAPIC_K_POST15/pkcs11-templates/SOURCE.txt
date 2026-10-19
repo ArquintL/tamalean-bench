@@ -33,7 +33,7 @@ The files are copied here unchanged; the license text is in models/tamarin/LICEN
 
 Tamarin
 -------
-Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -M8G -RTS
 --heuristic=P --prove=<lemma> pkcs11-templates.spthy
 Where the flags come from: --heuristic=P: README.
 
@@ -46,4 +46,7 @@ tag (case-studies-regression/) were produced with Tamarin 1.9.0
 
 Lean side
 ---------
-trace properties
+In scope (trace properties): Bench/tamarin/related_work/SAPIC_K_POST15/pkcs11-templates.lean
+reads the model with Tamalean's .spthy reader and states one certify per lemma;
+scripts/run_lean.py records the outcome in
+results/tamalean/tamarin/related_work/SAPIC_K_POST15/pkcs11-templates.json.

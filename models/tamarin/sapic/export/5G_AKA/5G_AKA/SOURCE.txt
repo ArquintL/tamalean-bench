@@ -33,7 +33,7 @@ The files are copied here unchanged; the license text is in models/tamarin/LICEN
 
 Tamarin
 -------
-Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -M8G -RTS
 --prove=<lemma> 5G_AKA.spthy
 Where the flags come from: no flags: the source gives none for this model.
 
@@ -46,4 +46,6 @@ Times stated in the file: real 1m41.666s; real 3m40.457s; proof (automatic) (~1 
 
 Lean side
 ---------
-trace properties
+In scope (trace properties): Bench/tamarin/sapic/export/5G_AKA/5G_AKA.lean reads the model with
+Tamalean's .spthy reader and states one certify per lemma; scripts/run_lean.py records the
+outcome in results/tamalean/tamarin/sapic/export/5G_AKA/5G_AKA.json.

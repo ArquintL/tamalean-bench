@@ -39,7 +39,7 @@ The files are copied here unchanged; the license text is in models/one-for-all/L
 
 Tamarin
 -------
-Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -M8G -RTS
 --auto-sources --heuristic=O --oraclename=attackFinding.oracle --prove=<lemma>
 4_AttackFinding_NoAdvCap.spthy
 Where the flags come from: --auto-sources: the authors' command (README or Makefile);
@@ -53,4 +53,8 @@ compiled 2021-03-05 (README); SANA models: 1.8.0 (f172d7f0), 1.9.0 (86014ad1) or
 
 Lean side
 ---------
-trace properties
+In scope (trace properties):
+Bench/one-for-all/SANA_models/Complete_SANA/Verifiers_initialized_with_owner_id/Honest_APK/4_AttackFinding_NoAdvCap.lean
+reads the model with Tamalean's .spthy reader and states one certify per lemma;
+scripts/run_lean.py records the outcome in
+results/tamalean/one-for-all/SANA_models/Complete_SANA/Verifiers_initialized_with_owner_id/Honest_APK/4_AttackFinding_NoAdvCap.json.

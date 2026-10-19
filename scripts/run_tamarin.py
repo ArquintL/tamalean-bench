@@ -291,21 +291,33 @@ def parse_summary(stdout):
 
 
 def parse_warnings(stdout, stderr):
-    """Tamarin's wellformedness and derivation-check warnings, as short lines."""
+    """Tamarin's wellformedness and derivation-check warnings: one line per failed check
+    (`<check>: <first lines of its explanation>`), and any other line starting with WARNING."""
     warns = []
-    for m in re.finditer(r"/\*\s*\n?WARNING: the following wellformedness checks failed!(.*?)\*/",
-                         stdout, re.S):
-        block = m.group(1)
-        heads = [ln.strip() for ln in block.splitlines()
-                 if ln.strip() and not ln.startswith(" ") and not ln.strip().startswith("*")]
-        warns.append("wellformedness checks failed: " + "; ".join(heads[:12]))
+    for m in re.finditer(r"WARNING: the following wellformedness checks failed!(.*?)\*/", stdout, re.S):
+        lines = m.group(1).splitlines()
+        i = 0
+        while i < len(lines):
+            if i + 1 < len(lines) and lines[i].strip() and set(lines[i + 1].strip()) == {"="}:
+                head = lines[i].strip()
+                body = []
+                j = i + 2
+                while j < len(lines) and not (j + 1 < len(lines) and lines[j].strip()
+                                              and set(lines[j + 1].strip()) == {"="}):
+                    if lines[j].strip():
+                        body.append(lines[j].strip())
+                    j += 1
+                w = f"{head}: {' '.join(body[:3])}"[:400]
+                if w not in warns:
+                    warns.append(w)
+                i = j
+            else:
+                i += 1
     for ln in (stdout + "\n" + stderr).splitlines():
-        s = ln.strip()
-        if re.search(r"(?i)derivation check.*(timed out|did not|could not)|^WARNING", s) \
-                and "wellformedness checks failed" not in s:
-            if s not in warns and len(warns) < 30:
-                warns.append(s[:300])
-    return warns
+        t = ln.strip()
+        if t.startswith("WARNING") and "wellformedness check" not in t and t not in warns:
+            warns.append(t[:300])
+    return warns[:40]
 
 
 def load_error(res):
@@ -519,6 +531,23 @@ def plan(m):
     return order
 
 
+def reparse():
+    for p in sorted((benchlib.RESULTS / "tamarin").rglob("*.json")):
+        r = json.loads(p.read_text(encoding="utf-8"))
+        rundir = benchlib.RUNS / "tamarin" / benchlib.id_to_filename(r["id"])
+        if not rundir.exists():
+            continue
+        warns = []
+        for out in sorted(rundir.glob("*.out")):
+            err = out.with_suffix(".err")
+            for w in parse_warnings(out.read_text(errors="replace"),
+                                    err.read_text(errors="replace") if err.exists() else ""):
+                if w not in warns:
+                    warns.append(w)
+        r["warnings"] = warns
+        benchlib.write_json(p, r)
+
+
 def main():
     global RTS_M
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
@@ -531,8 +560,13 @@ def main():
     ap.add_argument("--rerun", action="store_true", help="run models that already have a result")
     ap.add_argument("--max-models", type=int)
     ap.add_argument("--plan", action="store_true", help="print the order and exit")
+    ap.add_argument("--reparse", action="store_true",
+                    help="recompute the warnings of every result from the output kept in runs/")
     a = ap.parse_args()
     RTS_M = a.memory
+    if a.reparse:
+        reparse()
+        return
     m = benchlib.load_manifest()
     order = plan(m)
     if a.only:

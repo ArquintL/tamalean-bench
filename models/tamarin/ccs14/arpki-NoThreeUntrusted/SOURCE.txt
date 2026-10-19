@@ -34,7 +34,7 @@ The files are copied here unchanged; the license text is in models/tamarin/LICEN
 
 Tamarin
 -------
-Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -M8G -RTS
 --heuristic=S --prove=<lemma> arpki-NoThreeUntrusted.spthy
 Where the flags come from: --heuristic=S: README.
 
@@ -50,4 +50,6 @@ intruder gets hold of it are separat
 
 Lean side
 ---------
-trace properties
+In scope (trace properties): Bench/tamarin/ccs14/arpki-NoThreeUntrusted.lean reads the model
+with Tamalean's .spthy reader and states one certify per lemma; scripts/run_lean.py records the
+outcome in results/tamalean/tamarin/ccs14/arpki-NoThreeUntrusted.json.

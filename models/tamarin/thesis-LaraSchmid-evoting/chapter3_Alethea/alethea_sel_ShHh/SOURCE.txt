@@ -34,7 +34,7 @@ The files are copied here unchanged; the license text is in models/tamarin/LICEN
 
 Tamarin
 -------
-Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -M8G -RTS
 --prove=<lemma> alethea_sel_ShHh.spthy
 Where the flags come from: no flags: the source gives none for this model.
 
@@ -44,4 +44,8 @@ Tamarin version the authors used: 1.5.1 (git 1b68093f) (README)
 
 Lean side
 ---------
-trace properties
+In scope (trace properties):
+Bench/tamarin/thesis-LaraSchmid-evoting/chapter3_Alethea/alethea_sel_ShHh.lean reads the model
+with Tamalean's .spthy reader and states one certify per lemma; scripts/run_lean.py records the
+outcome in
+results/tamalean/tamarin/thesis-LaraSchmid-evoting/chapter3_Alethea/alethea_sel_ShHh.json.

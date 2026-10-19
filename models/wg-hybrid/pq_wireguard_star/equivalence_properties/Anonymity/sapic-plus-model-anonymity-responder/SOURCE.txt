@@ -36,8 +36,8 @@ models/wg-hybrid/LICENSE.
 
 Tamarin
 -------
-Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS --diff
---prove=<lemma> sapic-plus-model-anonymity-responder.spthy
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -M8G -RTS
+--diff --prove=<lemma> sapic-plus-model-anonymity-responder.spthy
 Where the flags come from: --diff: the model states observational equivalence.
 
 Measured for this benchmark: not run yet.
@@ -46,4 +46,4 @@ Tamarin version the authors used: 1.10.0 with Maude 3.5 (artifacts_evaluation/RE
 
 Lean side
 ---------
-out of scope: observational equivalence (a diff model); Tamalean checks trace properties only
+Out of scope: observational equivalence (a diff model); Tamalean checks trace properties only.

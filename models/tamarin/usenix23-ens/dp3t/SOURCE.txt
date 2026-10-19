@@ -36,7 +36,7 @@ The files are copied here unchanged; the license text is in models/tamarin/LICEN
 
 Tamarin
 -------
-Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -M8G -RTS
 --prove=<lemma> dp3t.spthy
 Where the flags come from: the oracle is named in the theory file (no flag needed).
 
@@ -49,4 +49,6 @@ tester with all keys from the last 14 days, one key at a time is provided.
 
 Lean side
 ---------
-trace properties
+In scope (trace properties): Bench/tamarin/usenix23-ens/dp3t.lean reads the model with
+Tamalean's .spthy reader and states one certify per lemma; scripts/run_lean.py records the
+outcome in results/tamalean/tamarin/usenix23-ens/dp3t.json.

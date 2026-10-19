@@ -43,8 +43,8 @@ The files are copied here unchanged; the license text is in models/tamarin/LICEN
 
 Tamarin
 -------
-Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS --diff
---auto-sources --prove=<lemma> rfid-feldhofer.spthy
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -M8G -RTS
+--diff --auto-sources --prove=<lemma> rfid-feldhofer.spthy
 Where the flags come from: --diff: the model states observational equivalence; --auto-sources:
 the authors' command (README or Makefile).
 
@@ -56,4 +56,4 @@ Times stated in the file: // Observational equivalence takes under 2.6 seconds.
 
 Lean side
 ---------
-out of scope: observational equivalence (a diff model); Tamalean checks trace properties only
+Out of scope: observational equivalence (a diff model); Tamalean checks trace properties only.

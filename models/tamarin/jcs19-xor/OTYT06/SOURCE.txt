@@ -35,8 +35,9 @@ The files are copied here unchanged; the license text is in models/tamarin/LICEN
 
 Tamarin
 -------
-Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS --bound=12
---stop-on-trace=BFS --heuristic=O --oraclename=OTYT06.oracle --prove=<lemma> OTYT06.spthy
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -M8G -RTS
+--bound=12 --stop-on-trace=BFS --heuristic=O --oraclename=OTYT06.oracle --prove=<lemma>
+OTYT06.spthy
 Where the flags come from: --bound=12: the authors' command; --stop-on-trace=BFS: the authors'
 command; --heuristic=O --oraclename: the command the authors give.
 
@@ -47,4 +48,6 @@ tag (case-studies-regression/) were produced with Tamarin 1.9.0
 
 Lean side
 ---------
-trace properties
+In scope (trace properties): Bench/tamarin/jcs19-xor/OTYT06.lean reads the model with Tamalean's
+.spthy reader and states one certify per lemma; scripts/run_lean.py records the outcome in
+results/tamalean/tamarin/jcs19-xor/OTYT06.json.

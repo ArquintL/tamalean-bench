@@ -37,7 +37,7 @@ The files are copied here unchanged; the license text is in models/tamarin/LICEN
 
 Tamarin
 -------
-Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -M8G -RTS
 --heuristic=O --oraclename=Oracle_Certify.py --prove=<lemma>
 TPM_DAA_JoinCertify_with_fix_BSN.spthy
 Where the flags come from: --heuristic=O --oraclename: the command the authors give.
@@ -54,4 +54,8 @@ Times stated in the file: real 94m6.479s
 
 Lean side
 ---------
-trace properties
+In scope (trace properties):
+Bench/tamarin/asiaccs20-eccDAA/CERTIFY/TPM_DAA_JoinCertify_with_fix_BSN.lean reads the model
+with Tamalean's .spthy reader and states one certify per lemma; scripts/run_lean.py records the
+outcome in
+results/tamalean/tamarin/asiaccs20-eccDAA/CERTIFY/TPM_DAA_JoinCertify_with_fix_BSN.json.

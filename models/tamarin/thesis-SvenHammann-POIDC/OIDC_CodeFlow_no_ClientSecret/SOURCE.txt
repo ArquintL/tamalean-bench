@@ -34,7 +34,7 @@ The files are copied here unchanged; the license text is in models/tamarin/LICEN
 
 Tamarin
 -------
-Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -M8G -RTS
 --prove=<lemma> OIDC_CodeFlow_no_ClientSecret.spthy
 Where the flags come from: no flags: the source gives none for this model.
 
@@ -48,4 +48,7 @@ Tamarin version the authors used: 1.4.1 (git d2e1c573)
 
 Lean side
 ---------
-trace properties
+In scope (trace properties):
+Bench/tamarin/thesis-SvenHammann-POIDC/OIDC_CodeFlow_no_ClientSecret.lean reads the model with
+Tamalean's .spthy reader and states one certify per lemma; scripts/run_lean.py records the
+outcome in results/tamalean/tamarin/thesis-SvenHammann-POIDC/OIDC_CodeFlow_no_ClientSecret.json.

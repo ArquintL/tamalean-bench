@@ -36,7 +36,7 @@ pinned commit and checks their sha256.
 
 Tamarin
 -------
-Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -M8G -RTS
 --derivcheck-timeout=20 --prove=<lemma> Mastercard_GooglePay_SquareOffline_CheckIAD.spthy
 Where the flags come from: --derivcheck-timeout=20: the authors' command.
 
@@ -52,4 +52,8 @@ Processing time stated in the file: [91.42] s
 
 Lean side
 ---------
-trace properties
+In scope (trace properties):
+Bench/emv/more-is-less/RevisedModels/Mastercard_GooglePay_SquareOffline_CheckIAD.lean reads the
+model with Tamalean's .spthy reader and states one certify per lemma; scripts/run_lean.py
+records the outcome in
+results/tamalean/emv/more-is-less/RevisedModels/Mastercard_GooglePay_SquareOffline_CheckIAD.json.

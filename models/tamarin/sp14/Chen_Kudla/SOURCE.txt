@@ -33,8 +33,8 @@ The files are copied here unchanged; the license text is in models/tamarin/LICEN
 
 Tamarin
 -------
-Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS -Dsecure
---prove=<lemma> Chen_Kudla.spthy
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -M8G -RTS
+-Dsecure --prove=<lemma> Chen_Kudla.spthy
 Where the flags come from: -Dsecure: examples/sp14/run.sh (its first configuration).
 
 Measured for this benchmark: not run yet.
@@ -44,4 +44,6 @@ tag (case-studies-regression/) were produced with Tamarin 1.9.0
 
 Lean side
 ---------
-trace properties
+In scope (trace properties): Bench/tamarin/sp14/Chen_Kudla.lean reads the model with Tamalean's
+.spthy reader and states one certify per lemma; scripts/run_lean.py records the outcome in
+results/tamalean/tamarin/sp14/Chen_Kudla.json.

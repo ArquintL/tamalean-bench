@@ -35,7 +35,7 @@ The files are copied here unchanged; the license text is in models/tamarin/LICEN
 
 Tamarin
 -------
-Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -M8G -RTS
 --heuristic=O --oraclename=oracle_BP_IBS --prove=<lemma> BP_IBS_4.spthy
 Where the flags come from: --heuristic=O --oraclename: the directory's README.
 
@@ -48,4 +48,6 @@ oracle on the server (<2 minutes)
 
 Lean side
 ---------
-trace properties
+In scope (trace properties): Bench/tamarin/idbased/BP_IBS_4.lean reads the model with Tamalean's
+.spthy reader and states one certify per lemma; scripts/run_lean.py records the outcome in
+results/tamalean/tamarin/idbased/BP_IBS_4.json.

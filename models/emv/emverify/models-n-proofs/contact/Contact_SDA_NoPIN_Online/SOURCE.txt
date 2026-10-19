@@ -37,7 +37,7 @@ pinned commit and checks their sha256.
 
 Tamarin
 -------
-Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -M8G -RTS
 --heuristic=O --oraclename=Contact.oracle --prove=<lemma> Contact_SDA_NoPIN_Online.spthy
 Where the flags come from: --heuristic=O --oraclename: the command the authors give.
 
@@ -50,4 +50,7 @@ Tamarin version the authors used: Tamarin 1.7.0 (git 2884fce8)
 
 Lean side
 ---------
-trace properties
+In scope (trace properties):
+Bench/emv/emverify/models-n-proofs/contact/Contact_SDA_NoPIN_Online.lean reads the model with
+Tamalean's .spthy reader and states one certify per lemma; scripts/run_lean.py records the
+outcome in results/tamalean/emv/emverify/models-n-proofs/contact/Contact_SDA_NoPIN_Online.json.

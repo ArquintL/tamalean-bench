@@ -33,8 +33,9 @@ The files are copied here unchanged; the license text is in models/tamarin/LICEN
 
 Tamarin
 -------
-Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS -DInitLeg
--DInitLegPINi -DRespLeg -DRespLegPINi -DLegPINiLegPINi -DInputInput --prove=<lemma> bredr.spthy
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -M8G -RTS
+-DInitLeg -DInitLegPINi -DRespLeg -DRespLegPINi -DLegPINiLegPINi -DInputInput --prove=<lemma>
+bredr.spthy
 Where the flags come from: the -D flags of the first configuration the README lists for the
 model.
 
@@ -45,4 +46,6 @@ tag (case-studies-regression/) were produced with Tamarin 1.9.0
 
 Lean side
 ---------
-trace properties
+In scope (trace properties): Bench/tamarin/esorics23-bluetooth/models/bredr.lean reads the model
+with Tamalean's .spthy reader and states one certify per lemma; scripts/run_lean.py records the
+outcome in results/tamalean/tamarin/esorics23-bluetooth/models/bredr.json.

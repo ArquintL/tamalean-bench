@@ -33,8 +33,8 @@ The files are copied here unchanged; the license text is in models/tamarin/LICEN
 
 Tamarin
 -------
-Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS --diff
---prove=<lemma> SignedDH.spthy
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -M8G -RTS
+--diff --prove=<lemma> SignedDH.spthy
 Where the flags come from: --diff: the model states observational equivalence.
 
 Measured for this benchmark: not run yet.
@@ -44,4 +44,4 @@ tag (case-studies-regression/) were produced with Tamarin 1.9.0
 
 Lean side
 ---------
-out of scope: observational equivalence (a diff model); Tamalean checks trace properties only
+Out of scope: observational equivalence (a diff model); Tamalean checks trace properties only.

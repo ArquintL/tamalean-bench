@@ -34,7 +34,7 @@ The files are copied here unchanged; the license text is in models/tamarin/LICEN
 
 Tamarin
 -------
-Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -M8G -RTS
 --prove=<lemma> AC_counter_with_attack.spthy
 Where the flags come from: no flags: the source gives none for this model.
 
@@ -45,4 +45,8 @@ tag (case-studies-regression/) were produced with Tamarin 1.9.0
 
 Lean side
 ---------
-trace properties
+In scope (trace properties):
+Bench/tamarin/sapic/export/ExistingSapicModels/AC_counter_with_attack.lean reads the model with
+Tamalean's .spthy reader and states one certify per lemma; scripts/run_lean.py records the
+outcome in
+results/tamalean/tamarin/sapic/export/ExistingSapicModels/AC_counter_with_attack.json.

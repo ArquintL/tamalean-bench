@@ -34,7 +34,7 @@ The files are copied here unchanged; the license text is in models/tamarin/LICEN
 
 Tamarin
 -------
-Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -M8G -RTS
 --prove=<lemma> ssh-with-forwarding-bounded.spthy
 Where the flags come from: no flags: the source gives none for this model.
 
@@ -46,4 +46,7 @@ Times stated in the file: Depth 3 - 1 minute; Depth 4 - 2 minutes 24; Depth 5 - 
 
 Lean side
 ---------
-trace properties
+In scope (trace properties): Bench/tamarin/sapic/export/SSH/ssh-with-forwarding-bounded.lean
+reads the model with Tamalean's .spthy reader and states one certify per lemma;
+scripts/run_lean.py records the outcome in
+results/tamalean/tamarin/sapic/export/SSH/ssh-with-forwarding-bounded.json.

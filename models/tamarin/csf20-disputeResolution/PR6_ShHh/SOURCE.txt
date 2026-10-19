@@ -33,7 +33,7 @@ The files are copied here unchanged; the license text is in models/tamarin/LICEN
 
 Tamarin
 -------
-Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -M8G -RTS
 --prove=<lemma> PR6_ShHh.spthy
 Where the flags come from: no flags: the source gives none for this model.
 
@@ -43,4 +43,6 @@ Tamarin version the authors used: 1.5.1 (git 5c569d9f) (README)
 
 Lean side
 ---------
-trace properties
+In scope (trace properties): Bench/tamarin/csf20-disputeResolution/PR6_ShHh.lean reads the model
+with Tamalean's .spthy reader and states one certify per lemma; scripts/run_lean.py records the
+outcome in results/tamalean/tamarin/csf20-disputeResolution/PR6_ShHh.json.

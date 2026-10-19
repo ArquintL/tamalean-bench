@@ -33,8 +33,8 @@ The files are copied here unchanged; the license text is in models/tamarin-dev/L
 
 Tamarin
 -------
-Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS --diff
---stop-on-trace=BFS --prove=<lemma> exponential_mixnet_V2_fix.spthy
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -M8G -RTS
+--diff --stop-on-trace=BFS --prove=<lemma> exponential_mixnet_V2_fix.spthy
 Where the flags come from: --diff: the model states observational equivalence;
 --stop-on-trace=BFS: the authors' command.
 
@@ -47,4 +47,4 @@ examples/csf26-ac/README.md)
 
 Lean side
 ---------
-out of scope: observational equivalence (a diff model); Tamalean checks trace properties only
+Out of scope: observational equivalence (a diff model); Tamalean checks trace properties only.

@@ -36,7 +36,7 @@ The files are copied here unchanged; the license text is in models/tamarin/LICEN
 
 Tamarin
 -------
-Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -M8G -RTS
 --auto-sources --prove=<lemma> RFID_Simple-without-SL.spthy
 Where the flags come from: --auto-sources: the authors' command (README or Makefile).
 
@@ -47,4 +47,8 @@ tag (case-studies-regression/) were produced with Tamarin 1.9.0
 
 Lean side
 ---------
-trace properties
+In scope (trace properties):
+Bench/tamarin/features/auto-sources/tamarin-repo/loops/RFID_Simple-without-SL.lean reads the
+model with Tamalean's .spthy reader and states one certify per lemma; scripts/run_lean.py
+records the outcome in
+results/tamalean/tamarin/features/auto-sources/tamarin-repo/loops/RFID_Simple-without-SL.json.

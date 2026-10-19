@@ -34,7 +34,7 @@ The files are copied here unchanged; the license text is in models/pq3/LICENSE.
 
 Tamarin
 -------
-Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -M8G -RTS
 --prove=<lemma> nested-loop.spthy
 Where the flags come from: no flags: the source gives none for this model.
 
@@ -45,4 +45,6 @@ Tamarin version the authors used: 1.8.0 with Maude 3.1 and 3.2.1 (README)
 
 Lean side
 ---------
-trace properties
+In scope (trace properties): Bench/pq3/case-study/nested-loop.lean reads the model with
+Tamalean's .spthy reader and states one certify per lemma; scripts/run_lean.py records the
+outcome in results/tamalean/pq3/case-study/nested-loop.json.

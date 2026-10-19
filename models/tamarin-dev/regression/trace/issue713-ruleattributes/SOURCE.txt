@@ -32,7 +32,7 @@ The files are copied here unchanged; the license text is in models/tamarin-dev/L
 
 Tamarin
 -------
-Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -M8G -RTS
 --prove=<lemma> issue713-ruleattributes.spthy
 Where the flags come from: no flags: the source gives none for this model.
 
@@ -42,4 +42,7 @@ The authors report no time for this model.
 
 Lean side
 ---------
-trace properties
+In scope (trace properties): Bench/tamarin-dev/regression/trace/issue713-ruleattributes.lean
+reads the model with Tamalean's .spthy reader and states one certify per lemma;
+scripts/run_lean.py records the outcome in
+results/tamalean/tamarin-dev/regression/trace/issue713-ruleattributes.json.

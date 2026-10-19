@@ -36,7 +36,7 @@ The files are copied here unchanged; the license text is in models/tamarin/LICEN
 
 Tamarin
 -------
-Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -M8G -RTS
 --heuristic=O --oraclename=gcm.spthy.oracle --prove=<lemma> gcm.spthy
 Where the flags come from: --heuristic=O --oraclename: the command the authors give.
 
@@ -51,4 +51,6 @@ threads, 64 GB, +RTS -N3
 
 Lean side
 ---------
-trace properties
+In scope (trace properties): Bench/tamarin/csf19-wrapping/gcm.lean reads the model with
+Tamalean's .spthy reader and states one certify per lemma; scripts/run_lean.py records the
+outcome in results/tamalean/tamarin/csf19-wrapping/gcm.json.

@@ -36,7 +36,7 @@ models/wg-hybrid/LICENSE.
 
 Tamarin
 -------
-Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -M8G -RTS
 --prove=<lemma> wireguard_intro.spthy
 Where the flags come from: no flags: the source gives none for this model.
 
@@ -46,4 +46,8 @@ Tamarin version the authors used: 1.10.0 with Maude 3.5 (artifacts_evaluation/RE
 
 Lean side
 ---------
-trace properties
+In scope (trace properties):
+Bench/wg-hybrid/wireguard_with_fix_psk/trace_properties/process_empty/wireguard_intro.lean reads
+the model with Tamalean's .spthy reader and states one certify per lemma; scripts/run_lean.py
+records the outcome in
+results/tamalean/wg-hybrid/wireguard_with_fix_psk/trace_properties/process_empty/wireguard_intro.json.

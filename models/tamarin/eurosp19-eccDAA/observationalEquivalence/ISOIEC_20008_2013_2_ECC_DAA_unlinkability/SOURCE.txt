@@ -40,9 +40,9 @@ The files are copied here unchanged; the license text is in models/tamarin/LICEN
 
 Tamarin
 -------
-Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS --diff
---heuristic=o --oraclename=ISOIEC_20008_2013_2_ECC_DAA.unlinkability.oracle --prove=<lemma>
-ISOIEC_20008_2013_2_ECC_DAA.unlinkability.spthy
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -M8G -RTS
+--diff --heuristic=o --oraclename=ISOIEC_20008_2013_2_ECC_DAA.unlinkability.oracle
+--prove=<lemma> ISOIEC_20008_2013_2_ECC_DAA.unlinkability.spthy
 Where the flags come from: --diff: the model states observational equivalence; --heuristic=o
 --oraclename: the command the authors give.
 
@@ -52,4 +52,4 @@ Tamarin version the authors used: git 44d5ecbc or later (README)
 
 Lean side
 ---------
-out of scope: observational equivalence (a diff model); Tamalean checks trace properties only
+Out of scope: observational equivalence (a diff model); Tamalean checks trace properties only.

@@ -37,8 +37,8 @@ The files are copied here unchanged; the license text is in models/tamarin/LICEN
 
 Tamarin
 -------
-Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS --diff
---heuristic=O --oraclename=o_aletheaDR_ShHh_RF --prove=<lemma> aletheaDR_ShHh_RF.spthy
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -M8G -RTS
+--diff --heuristic=O --oraclename=o_aletheaDR_ShHh_RF --prove=<lemma> aletheaDR_ShHh_RF.spthy
 Where the flags come from: --diff: the model states observational equivalence; --heuristic=O
 --oraclename: the directory's README.
 
@@ -48,4 +48,4 @@ Tamarin version the authors used: 1.5.1 (git 1b68093f) (README)
 
 Lean side
 ---------
-out of scope: observational equivalence (a diff model); Tamalean checks trace properties only
+Out of scope: observational equivalence (a diff model); Tamalean checks trace properties only.

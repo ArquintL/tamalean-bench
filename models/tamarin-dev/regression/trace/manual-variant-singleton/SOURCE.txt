@@ -33,7 +33,7 @@ The files are copied here unchanged; the license text is in models/tamarin-dev/L
 
 Tamarin
 -------
-Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -M8G -RTS
 --prove=<lemma> manual-variant-singleton.spthy
 Where the flags come from: no flags: the source gives none for this model.
 
@@ -50,4 +50,7 @@ time 0.06 s with Tamarin 1.13.0, flags --prove --stop-on-trace=dfs, on Tamarin C
 
 Lean side
 ---------
-trace properties
+In scope (trace properties): Bench/tamarin-dev/regression/trace/manual-variant-singleton.lean
+reads the model with Tamalean's .spthy reader and states one certify per lemma;
+scripts/run_lean.py records the outcome in
+results/tamalean/tamarin-dev/regression/trace/manual-variant-singleton.json.

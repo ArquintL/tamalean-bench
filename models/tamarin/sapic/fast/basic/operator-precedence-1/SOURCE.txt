@@ -34,7 +34,7 @@ The files are copied here unchanged; the license text is in models/tamarin/LICEN
 
 Tamarin
 -------
-Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -M8G -RTS
 --prove=<lemma> operator-precedence-1.spthy
 Where the flags come from: no flags: the source gives none for this model.
 
@@ -49,4 +49,6 @@ i5-10400, 12 threads, 64 GB, +RTS -N3
 
 Lean side
 ---------
-trace properties
+In scope (trace properties): Bench/tamarin/sapic/fast/basic/operator-precedence-1.lean reads the
+model with Tamalean's .spthy reader and states one certify per lemma; scripts/run_lean.py
+records the outcome in results/tamalean/tamarin/sapic/fast/basic/operator-precedence-1.json.

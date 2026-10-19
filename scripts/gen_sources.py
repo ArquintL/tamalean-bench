@@ -130,7 +130,8 @@ def tamarin_lines(s, x, r):
     out = section("Tamarin")
     args = " ".join(x.get("tamarin_args", []))
     env = " ".join(f"{k}={v}" for k, v in x.get("tamarin_env", {}).items())
-    cmd = (env + " " if env else "") + "tamarin-prover +RTS -N4 -RTS " + (args + " " if args else "")
+    rts = (r or {}).get("rts") or "+RTS -N4 -M8G -RTS"
+    cmd = (env + " " if env else "") + f"tamarin-prover {rts} " + (args + " " if args else "")
     out.append(wrap(f"Run here, one lemma at a time, in the model's directory: {cmd}"
                     f"--prove=<lemma> {benchlib.model_entry(x)['dest'].split('/')[-1]}"))
     out.append(wrap(f"Where the flags come from: {x.get('tamarin_args_basis', '')}."))
@@ -212,7 +213,14 @@ def render(m, s, x, papers):
     lines.extend(tamarin_lines(s, x, r))
     lines.append("")
     lines.extend(section("Lean side"))
-    lines.append(wrap(x.get("lean_scope", "")))
+    if benchlib.lean_in_scope(x):
+        lines.append(wrap(f"In scope (trace properties): Bench/{x['id']}.lean reads the model with "
+                          f"Tamalean's .spthy reader and states one certify per lemma; "
+                          f"scripts/run_lean.py records the outcome in "
+                          f"results/tamalean/{x['id']}.json."))
+    else:
+        lines.append(wrap("Out of scope: " + x.get("lean_scope", "").removeprefix("out of scope: ")
+                          + "."))
     return "\n".join(lines) + "\n"
 
 

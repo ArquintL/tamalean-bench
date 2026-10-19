@@ -32,7 +32,7 @@ The files are copied here unchanged; the license text is in models/tamarin-dev/L
 
 Tamarin
 -------
-Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -M8G -RTS
 --prove=<lemma> TAK1_eCK_like.spthy
 Where the flags come from: no flags: the source gives none for this model.
 
@@ -52,4 +52,6 @@ develop: 14-core Mac (hippo2.local), Tamarin 1.13.0
 
 Lean side
 ---------
-trace properties
+In scope (trace properties): Bench/tamarin-dev/csf26-ac/fast/TAK1_eCK_like.lean reads the model
+with Tamalean's .spthy reader and states one certify per lemma; scripts/run_lean.py records the
+outcome in results/tamalean/tamarin-dev/csf26-ac/fast/TAK1_eCK_like.json.

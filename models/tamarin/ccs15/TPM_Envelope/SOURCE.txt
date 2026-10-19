@@ -33,8 +33,8 @@ The files are copied here unchanged; the license text is in models/tamarin/LICEN
 
 Tamarin
 -------
-Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS --diff
---prove=<lemma> TPM_Envelope.spthy
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -M8G -RTS
+--diff --prove=<lemma> TPM_Envelope.spthy
 Where the flags come from: --diff: the model states observational equivalence.
 
 Measured for this benchmark: not run yet.
@@ -50,4 +50,4 @@ and 0.5 seconds to check.; proof steps (7136) and time (74 seconds).; // reset t
 
 Lean side
 ---------
-out of scope: observational equivalence (a diff model); Tamalean checks trace properties only
+Out of scope: observational equivalence (a diff model); Tamalean checks trace properties only.

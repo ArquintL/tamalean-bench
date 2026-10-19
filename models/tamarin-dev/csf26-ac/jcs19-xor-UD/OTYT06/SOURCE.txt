@@ -32,7 +32,7 @@ The files are copied here unchanged; the license text is in models/tamarin-dev/L
 
 Tamarin
 -------
-Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -M8G -RTS
 --prove=<lemma> OTYT06.spthy
 Where the flags come from: no flags: the source gives none for this model.
 
@@ -45,4 +45,6 @@ examples/csf26-ac/README.md)
 
 Lean side
 ---------
-trace properties
+In scope (trace properties): Bench/tamarin-dev/csf26-ac/jcs19-xor-UD/OTYT06.lean reads the model
+with Tamalean's .spthy reader and states one certify per lemma; scripts/run_lean.py records the
+outcome in results/tamalean/tamarin-dev/csf26-ac/jcs19-xor-UD/OTYT06.json.

@@ -35,7 +35,7 @@ The files are copied here unchanged; the license text is in models/tamarin/LICEN
 
 Tamarin
 -------
-Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -M8G -RTS
 --prove=<lemma> model_used_in_proofs.spthy
 Where the flags come from: no flags: the source gives none for this model.
 
@@ -46,4 +46,7 @@ tag (case-studies-regression/) were produced with Tamarin 1.9.0
 
 Lean side
 ---------
-trace properties
+In scope (trace properties): Bench/tamarin/sapic/manual-proofs/Yubikey/model_used_in_proofs.lean
+reads the model with Tamalean's .spthy reader and states one certify per lemma;
+scripts/run_lean.py records the outcome in
+results/tamalean/tamarin/sapic/manual-proofs/Yubikey/model_used_in_proofs.json.

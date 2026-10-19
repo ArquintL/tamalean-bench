@@ -35,7 +35,7 @@ The files are copied here unchanged; the license text is in models/tamarin/LICEN
 
 Tamarin
 -------
-Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -M8G -RTS
 --heuristic=O --oraclename=LD07.oracle --prove=<lemma> LD07.spthy
 Where the flags come from: --heuristic=O --oraclename: the directory's README.
 
@@ -46,4 +46,6 @@ tag (case-studies-regression/) were produced with Tamarin 1.9.0
 
 Lean side
 ---------
-trace properties
+In scope (trace properties): Bench/tamarin/jcs19-xor/LD07.lean reads the model with Tamalean's
+.spthy reader and states one certify per lemma; scripts/run_lean.py records the outcome in
+results/tamalean/tamarin/jcs19-xor/LD07.json.

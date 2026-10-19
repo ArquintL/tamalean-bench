@@ -37,7 +37,7 @@ The files are copied here unchanged; the license text is in models/tamarin/LICEN
 
 Tamarin
 -------
-Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -M8G -RTS
 --heuristic=o --oraclename=5G_handover.oracle --prove=<lemma> 5G_handover.spthy
 Where the flags come from: --heuristic=o --oraclename: the command the authors give.
 
@@ -50,4 +50,8 @@ Tamarin version the authors used: 1.5.1 (git 57056945) (README)
 
 Lean side
 ---------
-trace properties
+In scope (trace properties):
+Bench/tamarin/wisec21-5G-handover/inter-5G/5GS_to_EPS_over_N26/5G_handover.lean reads the model
+with Tamalean's .spthy reader and states one certify per lemma; scripts/run_lean.py records the
+outcome in
+results/tamalean/tamarin/wisec21-5G-handover/inter-5G/5GS_to_EPS_over_N26/5G_handover.json.

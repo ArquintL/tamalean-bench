@@ -1,0 +1,30 @@
+{
+  "id": "tamarin/ake/bilinear/Chen_Kudla_eCK",
+  "tool": "tamalean",
+  "setting": "no guidance",
+  "tactic": "certify (the model's default sources)",
+  "tamalean_commit": "7e8e63f23cef2427c1bef6a241adb67ce375c9a2",
+  "lean_toolchain": "leanprover/lean4:v4.35.0",
+  "host": "Apple M4 Pro, 14 cores, 24 GB, macOS 27.0.1",
+  "date": "2026-10-19",
+  "measured_alone": false,
+  "limits": {
+    "lemma_s": 600,
+    "model_s": 1800
+  },
+  "reader": {
+    "ok": false,
+    "ms": 3,
+    "error": "Bench/tamarin/ake/bilinear/Chen_Kudla_eCK.lean:12:0: error: ../../../../models/tamarin/ake/bilinear/Chen_Kudla_eCK/Chen_Kudla_eCK.spthy:4:11: tamarin_theory: unsupported builtin `bilinear-pairing` (supported: hashing, symmetric-encryption, asymmetric-encryption, signing, revealing-signing, diffie-hellman, xor, multiset)\n",
+    "reason": "unsupported builtin: bilinear-pairing"
+  },
+  "lemmas": [
+    {
+      "name": "key_secrecy_eCK_like",
+      "ms": 0,
+      "outcome": "rejected",
+      "message": "no statement Chen_Kudla.Lemmas.key_secrecy_eCK_like: the reader did not generate it"
+    }
+  ],
+  "total_wall_s": 0.1
+}

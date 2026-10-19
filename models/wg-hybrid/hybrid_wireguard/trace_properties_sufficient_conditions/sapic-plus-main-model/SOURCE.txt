@@ -36,7 +36,7 @@ models/wg-hybrid/LICENSE.
 
 Tamarin
 -------
-Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -M8G -RTS
 --prove=<lemma> sapic-plus-main-model.spthy
 Where the flags come from: no flags: the source gives none for this model.
 
@@ -50,4 +50,8 @@ Processing time stated in the file: [691.68] s (Tamarin ['1.11.0'])
 
 Lean side
 ---------
-trace properties
+In scope (trace properties):
+Bench/wg-hybrid/hybrid_wireguard/trace_properties_sufficient_conditions/sapic-plus-main-model.lean
+reads the model with Tamalean's .spthy reader and states one certify per lemma;
+scripts/run_lean.py records the outcome in
+results/tamalean/wg-hybrid/hybrid_wireguard/trace_properties_sufficient_conditions/sapic-plus-main-model.json.

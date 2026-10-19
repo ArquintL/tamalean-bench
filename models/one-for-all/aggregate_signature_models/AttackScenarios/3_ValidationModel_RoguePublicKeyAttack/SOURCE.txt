@@ -37,7 +37,7 @@ The files are copied here unchanged; the license text is in models/one-for-all/L
 
 Tamarin
 -------
-Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -M8G -RTS
 --heuristic=O --oraclename=3_ValidationModel_RoguePublicKeyAttack.oracle --prove=<lemma>
 3_ValidationModel_RoguePublicKeyAttack.spthy
 Where the flags come from: --heuristic=O --oraclename: the directory's README.
@@ -52,4 +52,8 @@ showZeroSplitting_WorseCase_falsified://Disproof with oracle takes about 20 seco
 
 Lean side
 ---------
-trace properties
+In scope (trace properties):
+Bench/one-for-all/aggregate_signature_models/AttackScenarios/3_ValidationModel_RoguePublicKeyAttack.lean
+reads the model with Tamalean's .spthy reader and states one certify per lemma;
+scripts/run_lean.py records the outcome in
+results/tamalean/one-for-all/aggregate_signature_models/AttackScenarios/3_ValidationModel_RoguePublicKeyAttack.json.

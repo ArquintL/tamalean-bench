@@ -33,8 +33,8 @@ The files are copied here unchanged; the license text is in models/tamarin-dev/L
 
 Tamarin
 -------
-Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS --diff
---prove=<lemma> mixvote_ShHh_RF.spthy
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -M8G -RTS
+--diff --prove=<lemma> mixvote_ShHh_RF.spthy
 Where the flags come from: --diff: the model states observational equivalence.
 
 Measured for this benchmark: not run yet.
@@ -46,4 +46,4 @@ examples/csf26-ac/README.md)
 
 Lean side
 ---------
-out of scope: observational equivalence (a diff model); Tamalean checks trace properties only
+Out of scope: observational equivalence (a diff model); Tamalean checks trace properties only.

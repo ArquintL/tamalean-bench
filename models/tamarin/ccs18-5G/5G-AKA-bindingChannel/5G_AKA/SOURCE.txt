@@ -35,7 +35,7 @@ The files are copied here unchanged; the license text is in models/tamarin/LICEN
 
 Tamarin
 -------
-Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -M8G -RTS
 --heuristic=O --oraclename=5G_AKA.oracle --prove=<lemma> 5G_AKA.spthy
 Where the flags come from: --heuristic=O --oraclename: the command the authors give.
 
@@ -46,4 +46,6 @@ Times stated in the file: proof (automatic) (~1 sec); proof (automatic) (~2 min)
 
 Lean side
 ---------
-trace properties
+In scope (trace properties): Bench/tamarin/ccs18-5G/5G-AKA-bindingChannel/5G_AKA.lean reads the
+model with Tamalean's .spthy reader and states one certify per lemma; scripts/run_lean.py
+records the outcome in results/tamalean/tamarin/ccs18-5G/5G-AKA-bindingChannel/5G_AKA.json.

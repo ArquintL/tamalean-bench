@@ -1,0 +1,54 @@
+{
+  "id": "tamarin/accountability/csf21-acc-unbounded/mixnets/basic/dmn-basic",
+  "tool": "tamalean",
+  "setting": "no guidance",
+  "tactic": "certify (the model's default sources)",
+  "tamalean_commit": "7e8e63f23cef2427c1bef6a241adb67ce375c9a2",
+  "lean_toolchain": "leanprover/lean4:v4.35.0",
+  "host": "Apple M4 Pro, 14 cores, 24 GB, macOS 27.0.1",
+  "date": "2026-10-19",
+  "measured_alone": false,
+  "limits": {
+    "lemma_s": 600,
+    "model_s": 1800
+  },
+  "reader": {
+    "ok": false,
+    "ms": 4,
+    "error": "Bench/tamarin/accountability/csf21-acc-unbounded/mixnets/basic/dmn-basic.lean:12:0: error: ../../../../../../models/tamarin/accountability/csf21-acc-unbounded/mixnets/basic/dmn-basic/dmn-basic.spthy:16:9: tamarin_theory_file: function attributes (`[private]`, `[destructor]`) are not supported\n",
+    "reason": "function attributes ([private], [destructor])"
+  },
+  "lemmas": [
+    {
+      "name": "sanity_submit",
+      "ms": 0,
+      "outcome": "rejected",
+      "message": "no statement DMNBasic.Lemmas.sanity_submit: the reader did not generate it"
+    },
+    {
+      "name": "sanity_mix",
+      "ms": 0,
+      "outcome": "rejected",
+      "message": "no statement DMNBasic.Lemmas.sanity_mix: the reader did not generate it"
+    },
+    {
+      "name": "sanity_receive",
+      "ms": 0,
+      "outcome": "rejected",
+      "message": "no statement DMNBasic.Lemmas.sanity_receive: the reader did not generate it"
+    },
+    {
+      "name": "correctness",
+      "ms": 0,
+      "outcome": "rejected",
+      "message": "no statement DMNBasic.Lemmas.correctness: the reader did not generate it"
+    },
+    {
+      "name": "duplicates",
+      "ms": 0,
+      "outcome": "rejected",
+      "message": "no statement DMNBasic.Lemmas.duplicates: the reader did not generate it"
+    }
+  ],
+  "total_wall_s": 0.1
+}

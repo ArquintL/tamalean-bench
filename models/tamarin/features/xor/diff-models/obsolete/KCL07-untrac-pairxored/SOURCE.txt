@@ -34,8 +34,8 @@ The files are copied here unchanged; the license text is in models/tamarin/LICEN
 
 Tamarin
 -------
-Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS --diff
---prove=<lemma> KCL07-untrac-pairxored.spthy
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -M8G -RTS
+--diff --prove=<lemma> KCL07-untrac-pairxored.spthy
 Where the flags come from: --diff: the model states observational equivalence.
 
 Measured for this benchmark: not run yet.
@@ -48,4 +48,4 @@ after about 80 minutes CPU (2017-11-01, aa65be43cd4965ffa1c51a991d9139e98ec1662e
 
 Lean side
 ---------
-out of scope: observational equivalence (a diff model); Tamalean checks trace properties only
+Out of scope: observational equivalence (a diff model); Tamalean checks trace properties only.

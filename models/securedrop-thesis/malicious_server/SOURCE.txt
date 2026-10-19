@@ -39,7 +39,7 @@ pinned commit and checks their sha256.
 
 Tamarin
 -------
-Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -M8G -RTS
 --prove=<lemma> malicious_server.spthy
 Where the flags come from: the oracle is named in the theory file (no flag needed).
 
@@ -49,4 +49,6 @@ Tamarin version the authors used: 1.8.0 (README; stored proofs say Tamarin 1.8.0
 
 Lean side
 ---------
-trace properties
+In scope (trace properties): Bench/securedrop-thesis/malicious_server.lean reads the model with
+Tamalean's .spthy reader and states one certify per lemma; scripts/run_lean.py records the
+outcome in results/tamalean/securedrop-thesis/malicious_server.json.

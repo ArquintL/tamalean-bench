@@ -37,7 +37,7 @@ The files are copied here unchanged.
 
 Tamarin
 -------
-Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -M8G -RTS
 --auto-sources --derivcheck-timeout=100 --quit-on-warning --prove=<lemma> AKMA_plus.spthy
 Where the flags come from: --auto-sources: the authors' command (README or Makefile);
 --derivcheck-timeout=100: the authors' command; --quit-on-warning: the authors' command; the
@@ -50,4 +50,6 @@ Tamarin version the authors used: 1.8.0 (README)
 
 Lean side
 ---------
-trace properties
+In scope (trace properties): Bench/akma-plus/AKMA_plus.lean reads the model with Tamalean's
+.spthy reader and states one certify per lemma; scripts/run_lean.py records the outcome in
+results/tamalean/akma-plus/AKMA_plus.json.

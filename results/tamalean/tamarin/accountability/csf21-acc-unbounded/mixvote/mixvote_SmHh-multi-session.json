@@ -1,0 +1,150 @@
+{
+  "id": "tamarin/accountability/csf21-acc-unbounded/mixvote/mixvote_SmHh-multi-session",
+  "tool": "tamalean",
+  "setting": "no guidance",
+  "tactic": "certify (the model's default sources)",
+  "tamalean_commit": "7e8e63f23cef2427c1bef6a241adb67ce375c9a2",
+  "lean_toolchain": "leanprover/lean4:v4.35.0",
+  "host": "Apple M4 Pro, 14 cores, 24 GB, macOS 27.0.1",
+  "date": "2026-10-19",
+  "measured_alone": false,
+  "limits": {
+    "lemma_s": 600,
+    "model_s": 1800
+  },
+  "reader": {
+    "ok": false,
+    "ms": 5,
+    "error": "Bench/tamarin/accountability/csf21-acc-unbounded/mixvote/mixvote_SmHh-multi-session.lean:12:0: error: ../../../../../models/tamarin/accountability/csf21-acc-unbounded/mixvote/mixvote_SmHh-multi-session/mixvote_SmHh-multi-session.spthy:55:1: tamarin_theory_file: `restriction`: restrictions are not supported: the core has no trace restrictions\n",
+    "reason": "restrictions"
+  },
+  "lemmas": [
+    {
+      "name": "onlyonce1",
+      "ms": 0,
+      "outcome": "rejected",
+      "message": "no statement mixvote_SmHh_acc_multi.Lemmas.onlyonce1: the reader did not generate it"
+    },
+    {
+      "name": "onlyonce2",
+      "ms": 0,
+      "outcome": "rejected",
+      "message": "no statement mixvote_SmHh_acc_multi.Lemmas.onlyonce2: the reader did not generate it"
+    },
+    {
+      "name": "onlyonce3",
+      "ms": 0,
+      "outcome": "rejected",
+      "message": "no statement mixvote_SmHh_acc_multi.Lemmas.onlyonce3: the reader did not generate it"
+    },
+    {
+      "name": "onlyonce4",
+      "ms": 0,
+      "outcome": "rejected",
+      "message": "no statement mixvote_SmHh_acc_multi.Lemmas.onlyonce4: the reader did not generate it"
+    },
+    {
+      "name": "onlyonce5",
+      "ms": 0,
+      "outcome": "rejected",
+      "message": "no statement mixvote_SmHh_acc_multi.Lemmas.onlyonce5: the reader did not generate it"
+    },
+    {
+      "name": "onlyonce6",
+      "ms": 0,
+      "outcome": "rejected",
+      "message": "no statement mixvote_SmHh_acc_multi.Lemmas.onlyonce6: the reader did not generate it"
+    },
+    {
+      "name": "onlyonce7",
+      "ms": 0,
+      "outcome": "rejected",
+      "message": "no statement mixvote_SmHh_acc_multi.Lemmas.onlyonce7: the reader did not generate it"
+    },
+    {
+      "name": "onlyonce8",
+      "ms": 0,
+      "outcome": "rejected",
+      "message": "no statement mixvote_SmHh_acc_multi.Lemmas.onlyonce8: the reader did not generate it"
+    },
+    {
+      "name": "onlyonce9",
+      "ms": 0,
+      "outcome": "rejected",
+      "message": "no statement mixvote_SmHh_acc_multi.Lemmas.onlyonce9: the reader did not generate it"
+    },
+    {
+      "name": "onlyonce10",
+      "ms": 0,
+      "outcome": "rejected",
+      "message": "no statement mixvote_SmHh_acc_multi.Lemmas.onlyonce10: the reader did not generate it"
+    },
+    {
+      "name": "functional",
+      "ms": 0,
+      "outcome": "rejected",
+      "message": "no statement mixvote_SmHh_acc_multi.Lemmas.functional: the reader did not generate it"
+    },
+    {
+      "name": "indivVerif",
+      "ms": 0,
+      "outcome": "rejected",
+      "message": "no statement mixvote_SmHh_acc_multi.Lemmas.indivVerif: the reader did not generate it"
+    },
+    {
+      "name": "VoterC",
+      "ms": 0,
+      "outcome": "rejected",
+      "message": "no statement mixvote_SmHh_acc_multi.Lemmas.VoterC: the reader did not generate it"
+    },
+    {
+      "name": "TimelyP",
+      "ms": 0,
+      "outcome": "rejected",
+      "message": "no statement mixvote_SmHh_acc_multi.Lemmas.TimelyP: the reader did not generate it"
+    },
+    {
+      "name": "Uniqueness",
+      "ms": 0,
+      "outcome": "rejected",
+      "message": "no statement mixvote_SmHh_acc_multi.Lemmas.Uniqueness: the reader did not generate it"
+    },
+    {
+      "name": "secretSskD",
+      "ms": 0,
+      "outcome": "rejected",
+      "message": "no statement mixvote_SmHh_acc_multi.Lemmas.secretSskD: the reader did not generate it"
+    },
+    {
+      "name": "ballotsFromVoters",
+      "ms": 0,
+      "outcome": "rejected",
+      "message": "no statement mixvote_SmHh_acc_multi.Lemmas.ballotsFromVoters: the reader did not generate it"
+    },
+    {
+      "name": "TalliedAsRecorded",
+      "ms": 0,
+      "outcome": "rejected",
+      "message": "no statement mixvote_SmHh_acc_multi.Lemmas.TalliedAsRecorded: the reader did not generate it"
+    },
+    {
+      "name": "EligVerif",
+      "ms": 0,
+      "outcome": "rejected",
+      "message": "no statement mixvote_SmHh_acc_multi.Lemmas.EligVerif: the reader did not generate it"
+    },
+    {
+      "name": "acc_VoterC",
+      "ms": 0,
+      "outcome": "rejected",
+      "message": "no statement mixvote_SmHh_acc_multi.Lemmas.acc_VoterC: the reader did not generate it"
+    },
+    {
+      "name": "acc_TimelyP",
+      "ms": 0,
+      "outcome": "rejected",
+      "message": "no statement mixvote_SmHh_acc_multi.Lemmas.acc_TimelyP: the reader did not generate it"
+    }
+  ],
+  "total_wall_s": 0.1
+}
