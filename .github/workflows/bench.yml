@@ -1,0 +1,172 @@
+name: Benchmark
+
+# Every push runs the Lean side of the benchmark on every model in its scope.  Tamarin does not
+# run here: its runs take hours to days, so the committed summaries under results/tamarin/ stand
+# for it.
+
+on:
+  push:
+  workflow_dispatch:
+
+env:
+  SHARDS: 4
+
+jobs:
+  # A light check that needs neither Lean nor Tamalean: the manifest, the copies of the models
+  # and every SOURCE.txt agree.
+  validate:
+    name: Manifest and SOURCE.txt files
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Validate
+        run: python3 -I scripts/validate.py
+
+  # Tamalean, the submodule, is private: it is fetched with a read-only deploy key, and only it.
+  # The build is cached between runs, keyed by the toolchain, the packages and the submodule's
+  # commit; Mathlib's build comes from Mathlib's own cache server.
+  build:
+    name: Build Tamalean and the harness
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    outputs:
+      cache-key: ${{ steps.key.outputs.key }}
+    steps:
+      - uses: actions/checkout@v7
+      - name: Fetch the Tamalean submodule with the deploy key
+        env:
+          DEPLOY_KEY: ${{ secrets.TAMALEAN_DEPLOY_KEY }}
+        run: |
+          eval "$(ssh-agent -s)"
+          ssh-add - <<< "$DEPLOY_KEY"
+          mkdir -p ~/.ssh && ssh-keyscan github.com >> ~/.ssh/known_hosts 2>/dev/null
+          git submodule update --init tamalean
+          ssh-agent -k
+      - name: Install elan
+        run: |
+          curl -sSfL https://elan.lean-lang.org/elan-init.sh | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Fetch the packages' sources
+        run: lake env true
+      - name: Cache key
+        id: key
+        run: |
+          sub=$(git ls-tree HEAD tamalean | awk '{print $3}')
+          echo "key=bench-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-$sub-${{ hashFiles('Bench/Harness.lean') }}" >> "$GITHUB_OUTPUT"
+          echo "prefix=bench-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-" >> "$GITHUB_OUTPUT"
+      - name: Restore the build cache
+        uses: actions/cache/restore@v6
+        with:
+          path: |
+            .lake/build
+            tamalean/.lake/build
+            .lake/packages/mathlib/.lake/build/bin
+            .lake/packages/mathlib/.lake/build/lib/lean/Cache
+            .lake/packages/mathlib/.lake/build/ir/Cache
+          key: ${{ steps.key.outputs.key }}
+          restore-keys: ${{ steps.key.outputs.prefix }}
+      # The modules of the dependencies that Tamalean's sources and the harness import, as
+      # Tamalean's own CI lists them; `lake exe cache get` fetches them and what they import.
+      - name: Fetch Mathlib's build of the modules Tamalean imports
+        run: |
+          mods=$( { git -C tamalean ls-files '*.lean' | sed 's|^|tamalean/|'; echo Bench/Harness.lean; } \
+            | xargs grep -hoE \
+            '^[[:space:]]*(public[[:space:]]+)?(meta[[:space:]]+)?import[[:space:]]+(all[[:space:]]+)?(Mathlib|Batteries|Aesop|Qq|Plausible|ProofWidgets|ImportGraph|LeanSearchClient|Cli)[A-Za-z0-9_.]*' \
+            | awk '{print $NF}' | sort -u)
+          if [ -n "$mods" ]; then lake exe cache get $mods; fi
+      - name: Build
+        run: lake build
+      - name: Save the build cache
+        if: success() || failure()
+        uses: actions/cache/save@v6
+        with:
+          path: |
+            .lake/build
+            tamalean/.lake/build
+            .lake/packages/mathlib/.lake/build/bin
+            .lake/packages/mathlib/.lake/build/lib/lean/Cache
+            .lake/packages/mathlib/.lake/build/ir/Cache
+          key: ${{ steps.key.outputs.key }}
+
+  # The generated modules, a quarter of the models per job.  Each lemma has 300 s and each model
+  # 900 s here (600 s and 1800 s in the committed runs), and a job stops starting models after
+  # four hours, so that it ends within GitHub's six.
+  lean:
+    name: Lean side (shard ${{ matrix.shard }})
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 340
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]
+    steps:
+      - uses: actions/checkout@v7
+      - name: Fetch the Tamalean submodule with the deploy key
+        env:
+          DEPLOY_KEY: ${{ secrets.TAMALEAN_DEPLOY_KEY }}
+        run: |
+          eval "$(ssh-agent -s)"
+          ssh-add - <<< "$DEPLOY_KEY"
+          mkdir -p ~/.ssh && ssh-keyscan github.com >> ~/.ssh/known_hosts 2>/dev/null
+          git submodule update --init tamalean
+          ssh-agent -k
+      - name: Install elan
+        run: |
+          curl -sSfL https://elan.lean-lang.org/elan-init.sh | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Fetch the packages' sources
+        run: lake env true
+      - name: Restore the build cache
+        uses: actions/cache/restore@v6
+        with:
+          path: |
+            .lake/build
+            tamalean/.lake/build
+            .lake/packages/mathlib/.lake/build/bin
+            .lake/packages/mathlib/.lake/build/lib/lean/Cache
+            .lake/packages/mathlib/.lake/build/ir/Cache
+          key: ${{ needs.build.outputs.cache-key }}
+          fail-on-cache-miss: true
+      - name: Fetch Mathlib's build of the modules Tamalean imports
+        run: |
+          mods=$( { git -C tamalean ls-files '*.lean' | sed 's|^|tamalean/|'; echo Bench/Harness.lean; } \
+            | xargs grep -hoE \
+            '^[[:space:]]*(public[[:space:]]+)?(meta[[:space:]]+)?import[[:space:]]+(all[[:space:]]+)?(Mathlib|Batteries|Aesop|Qq|Plausible|ProofWidgets|ImportGraph|LeanSearchClient|Cli)[A-Za-z0-9_.]*' \
+            | awk '{print $NF}' | sort -u)
+          if [ -n "$mods" ]; then lake exe cache get $mods; fi
+      - name: Build (from the cache)
+        run: lake build
+      - name: Fetch the models that may not be redistributed
+        run: python3 -I scripts/fetch_models.py --cache-only --no-sources
+      - name: Run the Lean side
+        run: |
+          rm -rf results/tamalean
+          python3 -I scripts/run_lean.py --shard ${{ matrix.shard }}/$SHARDS \
+            --lemma-limit 300 --model-limit 900 --total-limit 14400
+      - uses: actions/upload-artifact@v6
+        if: always()
+        with:
+          name: tamalean-shard-${{ matrix.shard }}
+          path: results/tamalean/
+
+  summary:
+    name: Summary
+    needs: lean
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/download-artifact@v6
+        with:
+          pattern: tamalean-shard-*
+          path: shards
+      - name: Merge the shards and summarize
+        run: |
+          rm -rf results/tamalean && mkdir -p results/tamalean
+          for d in shards/*/; do cp -R "$d". results/tamalean/; done
+          python3 -I scripts/summarize.py
+      - uses: actions/upload-artifact@v6
+        with:
+          name: results
+          path: results/
