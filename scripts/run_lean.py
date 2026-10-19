@@ -92,16 +92,28 @@ REJECT_PATTERNS = [
 ]
 
 
+EXTRA_PATTERNS = [
+    (r"applies the destructor", "a protocol rule applies a destructor"),
+    (r"unterminated public name", "lexer: an unterminated public name (a quote ' in the text)"),
+    (r"expected the theory's name, found `\d", "a theory name that starts with a digit"),
+    (r"unexpected `([^`]+)`: expected an item", "unsupported item `{0}`"),
+]
+
+
 def rejection_reason(err):
-    body = re.sub(r"^.*?tamarin_theory_file:\s*", "", err.strip().splitlines()[0] if err else "")
-    for pat, label in REJECT_PATTERNS:
+    """The reason the reader gives, as a short label shared by every model with that reason."""
+    for pat, label in REJECT_PATTERNS + EXTRA_PATTERNS:
         mm = re.search(pat, err)
         if mm:
             return label.format(*mm.groups()) if mm.groups() else label
-    if "tamarin_theory:" in err:
-        mm = re.search(r"tamarin_theory: ([^:\n]{0,80})", err)
-        return "frontend: " + (mm.group(1).strip() if mm else body[:80])
-    return "other: " + body[:100]
+    mm = re.search(r"tamarin_theory(?:_file)?: (.*)", err)
+    if mm:
+        msg = mm.group(1)
+        msg = re.sub(r"`[^`]*`", "`…`", msg)          # names differ from model to model
+        msg = re.split(r"[;(:]", msg)[0].strip()
+        return "frontend: " + msg[:90]
+    first = err.strip().splitlines()[0] if err.strip() else "no message"
+    return "other: " + re.sub(r"^.*?error:\s*", "", first)[:90]
 
 
 LOCK = os.environ.get("BENCH_LOCK", "")  # e.g. "zsh /path/to/lakelock.sh": one slot per module
