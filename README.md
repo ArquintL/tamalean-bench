@@ -67,6 +67,7 @@ directory. Each prints its options with `--help`.
 | `scripts/run_lean.py` | Runs each `Bench/<id>.lean` with `lake lean`, which loads Tamalean's precompiled engine, and writes `results/tamalean/<id>.json`: whether the reader accepted the model (or why not), and per lemma `proved`, `attack found`, `no trace`, `no verdict` (with the first line of `certify`'s report) or `timeout`, with its time, within a limit per lemma (600 s) and per model (1800 s). `--reader-only` only reads the models; `--accepted` runs the models the reader accepted; `--retime --measured-alone`, started with the machine to itself, times again the lemmas that ended within their limits. |
 | `scripts/summarize.py` | Writes `results/summary.md`: both tools' outcomes per source and overall, the reasons for the reader's rejections, and a table per lemma for the papers run first. |
 | `scripts/validate.py` | Checks the manifest, the copies under `models/` and every `SOURCE.txt` against each other. |
+| `scripts/refresh.py` | Brings the derived files up to date with the results (the proofs' counts, Tamarin's warnings, the Lean outcomes, every `SOURCE.txt`, `results/summary.md`) and validates them; run it before committing results. |
 | `scripts/curate_manifest.py` | Adds the id, the files with their sha256 and the Tamarin flags to new models of the manifest. |
 
 ### Running it
@@ -87,7 +88,7 @@ python3 -I scripts/run_lean.py --reader-only
 python3 -I scripts/run_lean.py --accepted
 python3 -I scripts/run_lean.py --retime --measured-alone    # with the machine to itself
 
-python3 -I scripts/gen_sources.py && python3 -I scripts/summarize.py
+python3 -I scripts/refresh.py          # SOURCE.txt files, summary.md and the checks
 ```
 
 The settings of one machine go in `bench.local.toml` (not committed) or the environment:

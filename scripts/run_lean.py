@@ -111,7 +111,7 @@ def rejection_reason(err):
         msg = mm.group(1)
         msg = re.sub(r"`[^`]*`", "`…`", msg)          # names differ from model to model
         msg = re.split(r"[;(:]", msg)[0].strip()
-        return "frontend: " + msg[:90]
+        return "frontend: " + msg[:120]
     first = err.strip().splitlines()[0] if err.strip() else "no message"
     return "other: " + re.sub(r"^.*?error:\s*", "", first)[:90]
 

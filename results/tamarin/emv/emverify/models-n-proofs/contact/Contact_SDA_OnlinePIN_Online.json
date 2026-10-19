@@ -46,7 +46,25 @@
       "verdict": "verified",
       "steps": 21,
       "summary": "verified (21 steps)",
-      "proof": "proofs/emv/emverify/models-n-proofs/contact/Contact_SDA_OnlinePIN_Online/ARPC_source.spthy"
+      "proof": "proofs/emv/emverify/models-n-proofs/contact/Contact_SDA_OnlinePIN_Online/ARPC_source.spthy",
+      "proof_stats": {
+        "size": 21,
+        "depth": 4,
+        "leaves": {
+          "contradiction": 17
+        },
+        "methods": {
+          "induction": 1,
+          "contradiction": 17,
+          "solve": 3
+        },
+        "solve_goal_kinds": {
+          "premise": 3
+        },
+        "contradictions": {
+          "from formulas": 17
+        }
+      }
     },
     {
       "name": "executable",
@@ -124,9 +142,7 @@
     }
   ],
   "warnings": [
-    "wellformedness checks failed: Derivation Checks; =================",
-    "Derivation checks timed out.",
-    "WARNING: 1 wellformedness check failed!"
+    "Derivation Checks: Derivation checks timed out. Use --derivcheck-timeout=INT to configure timeout. Set to 0 to deactivate for no timeout."
   ],
   "notes": [],
   "status": "limit reached",

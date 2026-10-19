@@ -54,9 +54,8 @@ results/tamarin/emv/emverify/models-n-proofs/contact/Contact_CDA_PlainPIN_Online
   secrecy_PIN               all-traces    not run                   -
   secrecy_PAN               all-traces    not run                   -
   total wall-clock time: 1800.6 s
-  Tamarin's wellformedness or derivation warnings: wellformedness checks failed: Derivation
-  Checks; =================; Derivation checks timed out.; WARNING: 1 wellformedness check
-  failed!
+  Tamarin's wellformedness or derivation warnings: Derivation Checks: Derivation checks timed
+  out. Use --derivcheck-timeout=INT to configure timeout. Set to 0 to deactivate for no timeout.
 
 Reported by the authors: 5608.202856076s processing time in Contact_CDA_PlainPIN_Online.proof
 (Tamarin 1.7.0 (git 2884fce8); 2x Xeon E5-2650 v4, 10 threads, 20 GB)
