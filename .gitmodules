@@ -1,0 +1,3 @@
+[submodule "tamalean"]
+	path = tamalean
+	url = git@github.com:ArquintL/tamalean.git

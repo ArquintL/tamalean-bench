@@ -1,0 +1,6 @@
+/.lake/
+# Model sources, fetched at the commits the manifest pins (`scripts/fetch_models.py`).
+/cache/
+# Raw tool output; the summaries under results/ are committed.
+/runs/
+__pycache__/

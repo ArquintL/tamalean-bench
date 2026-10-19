@@ -1,0 +1,15 @@
+name = "tamalean-bench"
+version = "0.1.0"
+defaultTargets = ["Bench"]
+# Tamalean is written without the module system, as is this package.
+allowNonModules = true
+
+# The prover under test, at the commit the submodule pins.  Bumping the submodule is the only
+# way a benchmark run sees a new version of Tamalean.
+[[require]]
+name = "tamalean"
+path = "tamalean"
+
+# One module per benchmark model, generated from `models/manifest.toml` (`scripts/gen_lean.py`).
+[[lean_lib]]
+name = "Bench"
