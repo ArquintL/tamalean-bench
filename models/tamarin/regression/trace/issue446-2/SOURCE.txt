@@ -27,8 +27,8 @@ model: examples/regression/trace/issue446-2.spthy -> issue446-2.spthy
 
 License
 -------
-GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
-copies, mark any modifications, and keep the files under GPL-3.0.
+License: GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices
+with the copies, mark any modifications, and keep the files under GPL-3.0.
 The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
 
 Tamarin

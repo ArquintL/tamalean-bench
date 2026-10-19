@@ -28,8 +28,8 @@ model: case-study/nested-loop.spthy -> nested-loop.spthy
 
 License
 -------
-MIT. MIT (Copyright (c) 2025 Felix Linker, Ralf Sasse, David Basin): keep the copyright and
-permission notice.
+License: MIT. MIT (Copyright (c) 2025 Felix Linker, Ralf Sasse, David Basin): keep the copyright
+and permission notice.
 The files are copied here unchanged; the license text is in models/pq3/LICENSE.
 
 Tamarin

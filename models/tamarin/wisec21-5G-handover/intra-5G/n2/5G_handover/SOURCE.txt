@@ -29,8 +29,8 @@ oracle: examples/wisec21-5G-handover/intra-5G/n2/5G_handover.oracle -> 5G_handov
 
 License
 -------
-GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
-copies, mark any modifications, and keep the files under GPL-3.0.
+License: GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices
+with the copies, mark any modifications, and keep the files under GPL-3.0.
 The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
 
 Tamarin

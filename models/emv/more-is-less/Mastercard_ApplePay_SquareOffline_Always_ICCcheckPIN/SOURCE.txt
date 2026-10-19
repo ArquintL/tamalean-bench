@@ -29,8 +29,8 @@ Mastercard_ApplePay_SquareOffline_Always_ICCcheckPIN.spthy
 
 License
 -------
-none stated. no license stated (GitLab project license: none; README checked; artifact listed
-via Software Heritage).
+No license stated (GitLab project license: none; README checked; artifact listed via Software
+Heritage).
 The files are not copied into this repository; scripts/fetch_models.py fetches them at the
 pinned commit and checks their sha256.
 

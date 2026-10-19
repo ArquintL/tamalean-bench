@@ -72,7 +72,7 @@ def source_lines(s, x):
     if url.startswith("zip:"):
         archive, _, member = url[4:].partition("#")
         out.append(f"Archive: {archive}")
-        out.append(f"  (the repository's DOI: {s['repo']})")
+        out.append(f"  (the Zenodo record: {s['repo']})")
         out.append(f"File in the archive: {s.get('archive_root', '')}{x['path']}")
         out.append(f"Archive sha256: {s['archive_sha256']}")
     else:
@@ -200,11 +200,17 @@ def render(m, s, x, papers):
         lines.append(f"  sha256 {f['sha256']}")
     lines.append("")
     lines.extend(section("License"))
-    lines.append(wrap(f"{x.get('license', s.get('license_spdx'))}. {x['redistributable_reason']}."))
+    lic = x.get("license", s.get("license_spdx", ""))
+    reason = x["redistributable_reason"]
+    reason = reason[:1].upper() + reason[1:]
+    lines.append(wrap((f"{reason}." if lic.startswith("none") else f"License: {lic}. {reason}.")))
     if x["redistributable"]:
-        lic = ", ".join(f"models/{s['slug']}/{c['dest']}" for c in s.get("license_copies", []))
-        lines.append(wrap("The files are copied here unchanged"
-                          + (f"; the license text is in {lic}." if lic else ".")))
+        lic = [f"models/{s['slug']}/{c['dest']}" for c in s.get("license_copies", [])]
+        if s["slug"] == "akma-plus":
+            lic = ["models/akma-plus/LICENSE"]
+        where = (f"; the license text is in {lic[0]}." if len(lic) == 1 else
+                 f"; the license texts are in {', '.join(lic[:-1])} and {lic[-1]}." if lic else ".")
+        lines.append(wrap("The files are copied here unchanged" + where))
     else:
         lines.append(wrap("The files are not copied into this repository; scripts/fetch_models.py "
                           "fetches them at the pinned commit and checks their sha256."))

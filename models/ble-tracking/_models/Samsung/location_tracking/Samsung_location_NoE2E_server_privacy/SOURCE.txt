@@ -30,7 +30,7 @@ Samsung_location_NoE2E_server_privacy.spthy
 
 License
 -------
-none stated. no license stated (no LICENSE file; README checked).
+No license stated (no LICENSE file; README checked).
 The files are not copied into this repository; scripts/fetch_models.py fetches them at the
 pinned commit and checks their sha256.
 

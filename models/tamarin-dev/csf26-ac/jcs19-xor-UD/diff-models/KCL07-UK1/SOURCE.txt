@@ -27,7 +27,7 @@ model: examples/csf26-ac/jcs19-xor-UD/diff-models/KCL07-UK1.spthy -> KCL07-UK1.s
 
 License
 -------
-GPL-3.0. GPL-3.0 (as for tag 1.10.0).
+License: GPL-3.0. GPL-3.0 (as for tag 1.10.0).
 The files are copied here unchanged; the license text is in models/tamarin-dev/LICENSE.
 
 Tamarin

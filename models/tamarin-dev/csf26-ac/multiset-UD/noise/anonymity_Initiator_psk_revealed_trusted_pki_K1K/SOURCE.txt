@@ -29,7 +29,7 @@ anonymity_Initiator_psk_revealed_trusted_pki_K1K.spthy
 
 License
 -------
-GPL-3.0. GPL-3.0 (as for tag 1.10.0).
+License: GPL-3.0. GPL-3.0 (as for tag 1.10.0).
 The files are copied here unchanged; the license text is in models/tamarin-dev/LICENSE.
 
 Tamarin

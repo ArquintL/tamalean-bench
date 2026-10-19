@@ -29,9 +29,9 @@ oracle: examples/usenix23-ens/oracles/oracle-robert -> oracles/oracle-robert
 
 License
 -------
-MIT (examples/usenix23-ens/LICENSE) within the GPL-3.0 repository. MIT (directory LICENSE,
-Copyright (c) 2020-2022 Kevin Morio, Ilkan Esiyok, Dennis Jackson, Robert Künnemann): keep the
-copyright and permission notice; the repository is also GPL-3.0.
+License: MIT (examples/usenix23-ens/LICENSE) within the GPL-3.0 repository. MIT (directory
+LICENSE, Copyright (c) 2020-2022 Kevin Morio, Ilkan Esiyok, Dennis Jackson, Robert Künnemann):
+keep the copyright and permission notice; the repository is also GPL-3.0.
 The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
 
 Tamarin

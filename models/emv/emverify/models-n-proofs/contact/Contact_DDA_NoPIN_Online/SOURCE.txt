@@ -30,8 +30,7 @@ oracle: Contact.oracle -> Contact.oracle
 
 License
 -------
-none stated. no license stated (no LICENSE file; README, file headers and the EMVrace website
-checked).
+No license stated (no LICENSE file; README, file headers and the EMVrace website checked).
 The files are not copied into this repository; scripts/fetch_models.py fetches them at the
 pinned commit and checks their sha256.
 

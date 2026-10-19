@@ -16,7 +16,7 @@ DBLP: https://dblp.org/rec/conf/csfw/HofmeierRSJB25
 Online source
 -------------
 Archive: https://zenodo.org/api/records/15357178/files/tamarin-aggregate-signatures.zip/content
-  (the repository's DOI: https://doi.org/10.5281/zenodo.15357178)
+  (the Zenodo record: https://doi.org/10.5281/zenodo.15357178)
 File in the archive: tamarin-aggregate-signatures/SANA_models/Complete_SANA/Verifiers_initialized_with_owner_id/Adversarial_APK/1_Validation_noMalKeys.spthy
 Archive sha256: 101a4756c17638c7e076ad76e7bfc69a6f4fdbba8dbe6da86ff0d0aeb36d7268
 
@@ -33,8 +33,8 @@ SANA_models/Complete_SANA/Verifiers_initialized_with_owner_id/Adversarial_APK/va
 
 License
 -------
-MIT. MIT (Copyright (c) 2025 Xenia Hofmeier, Andrea Raguso, Ralf Sasse, Dennis Jackson, David
-Basin): keep the copyright and permission notice.
+License: MIT. MIT (Copyright (c) 2025 Xenia Hofmeier, Andrea Raguso, Ralf Sasse, Dennis Jackson,
+David Basin): keep the copyright and permission notice.
 The files are copied here unchanged; the license text is in models/one-for-all/LICENSE.
 
 Tamarin

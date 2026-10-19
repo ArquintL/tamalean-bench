@@ -37,8 +37,8 @@ oracle: oracle.py -> oracle.py
 
 License
 -------
-MIT. MIT (Copyright (c) 2026 Felix Linker, Luca Maier): keep the copyright and permission
-notice.
+License: MIT. MIT (Copyright (c) 2026 Felix Linker, Luca Maier): keep the copyright and
+permission notice.
 The files are copied here unchanged; the license text is in models/securedrop/LICENSE.
 
 Tamarin

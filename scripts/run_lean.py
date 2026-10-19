@@ -261,6 +261,21 @@ def run_model(s, x, a, host):
     return result
 
 
+def reclassify():
+    n = 0
+    for p in sorted((benchlib.RESULTS / "tamalean").rglob("*.json")):
+        r = json.loads(p.read_text(encoding="utf-8"))
+        rd = r.get("reader", {})
+        if not rd.get("ok") and rd.get("error"):
+            rd["reason"] = rejection_reason(rd["error"])
+        for l in r.get("lemmas", []):
+            if l.get("outcome") in ("attack found", "no trace", "no verdict") and l.get("message"):
+                l["outcome"], l["message"] = classify_error(l["message"])
+        benchlib.write_json(p, r)
+        n += 1
+    print(f"{n} results reclassified", file=sys.stderr)
+
+
 def host_description():
     import run_tamarin
     return run_tamarin.host_description()
@@ -277,10 +292,16 @@ def main():
     ap.add_argument("--measured-alone", action="store_true",
                     help="record that the run had the machine to itself (an exclusive lock)")
     ap.add_argument("--no-build", action="store_true", help="do not build Bench.Harness first")
+    ap.add_argument("--reclassify", action="store_true",
+                    help="recompute the outcomes and rejection reasons of the results from their "
+                         "stored messages, and run nothing")
     ap.add_argument("--shard", help="I/N: run only the I-th of N equal shares of the models (CI)")
     ap.add_argument("--total-limit", type=float,
                     help="stop starting models after this many seconds (CI); the rest are skipped")
     a = ap.parse_args()
+    if a.reclassify:
+        reclassify()
+        return
     a.commit = subprocess.run(["git", "-C", str(benchlib.ROOT / "tamalean"), "rev-parse", "HEAD"],
                               capture_output=True, text=True).stdout.strip()
     a.toolchain = (benchlib.ROOT / "lean-toolchain").read_text().strip()

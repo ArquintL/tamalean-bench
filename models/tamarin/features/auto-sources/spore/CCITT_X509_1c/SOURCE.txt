@@ -29,8 +29,8 @@ model: examples/features/auto-sources/spore/CCITT_X509_1c.spthy -> CCITT_X509_1c
 
 License
 -------
-GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
-copies, mark any modifications, and keep the files under GPL-3.0.
+License: GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices
+with the copies, mark any modifications, and keep the files under GPL-3.0.
 The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
 
 Tamarin

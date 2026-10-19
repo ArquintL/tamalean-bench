@@ -27,8 +27,8 @@ model: dh/model/protocol-model.spthy -> protocol-model.spthy
 
 License
 -------
-Apache-2.0. Apache-2.0: redistribution allowed; include the license text, keep notices, state
-changes.
+License: Apache-2.0. Apache-2.0: redistribution allowed; include the license text, keep notices,
+state changes.
 The files are copied here unchanged; the license text is in models/diodon/LICENSE.
 
 Tamarin

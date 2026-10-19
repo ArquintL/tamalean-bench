@@ -30,10 +30,10 @@ oracle: akma_oracle -> akma_oracle
 
 License
 -------
-CC-BY-4.0 (via Zenodo record; none on GitHub). the GitHub repository states no license, but the
-authors' Zenodo deposit 10.5281/zenodo.14649847 (AKMA-Plus-Tamarin.zip) is CC-BY-4.0 and its
-four files are byte-identical (sha256) to this commit; attribution required.
-The files are copied here unchanged.
+License: CC-BY-4.0 (via Zenodo record; none on GitHub). The GitHub repository states no license,
+but the authors' Zenodo deposit 10.5281/zenodo.14649847 (AKMA-Plus-Tamarin.zip) is CC-BY-4.0 and
+its four files are byte-identical (sha256) to this commit; attribution required.
+The files are copied here unchanged; the license text is in models/akma-plus/LICENSE.
 
 Tamarin
 -------

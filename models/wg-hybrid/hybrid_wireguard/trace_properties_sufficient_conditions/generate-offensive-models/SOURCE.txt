@@ -16,7 +16,7 @@ DBLP: https://dblp.org/rec/conf/uss/0001MRT25
 Online source
 -------------
 Archive: https://zenodo.org/api/records/16736982/files/artifacts-usenix-2025-wireguard-hybridization.zip/content
-  (the repository's DOI: https://doi.org/10.5281/zenodo.15551056)
+  (the Zenodo record: https://doi.org/10.5281/zenodo.15551056)
 File in the archive: artifacts-usenix-2025-wireguard-hybridization/artifacts_evaluation/hybrid_wireguard/trace_properties_sufficient_conditions/generate-offensive-models.spthy
 Archive sha256: 7ccd000f2c785aa83318bceea5218742c57a2c40eb8c37b98488752f1e2273e7
 
@@ -29,9 +29,9 @@ artifacts_evaluation/hybrid_wireguard/trace_properties_sufficient_conditions/gen
 
 License
 -------
-GPL-3.0 (README); Zenodo metadata says CC-BY-4.0. README states GNU GPL v3 and the Zenodo record
-states CC-BY-4.0; both allow redistribution (keep license text/attribution).
-The files are copied here unchanged; the license text is in models/wg-hybrid/README.md,
+License: GPL-3.0 (README); Zenodo metadata says CC-BY-4.0. README states GNU GPL v3 and the
+Zenodo record states CC-BY-4.0; both allow redistribution (keep license text/attribution).
+The files are copied here unchanged; the license texts are in models/wg-hybrid/README.md and
 models/wg-hybrid/LICENSE.
 
 Tamarin

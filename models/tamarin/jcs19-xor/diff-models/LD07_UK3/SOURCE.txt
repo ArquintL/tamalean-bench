@@ -27,8 +27,8 @@ model: examples/jcs19-xor/diff-models/LD07_UK3.spthy -> LD07_UK3.spthy
 
 License
 -------
-GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
-copies, mark any modifications, and keep the files under GPL-3.0.
+License: GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices
+with the copies, mark any modifications, and keep the files under GPL-3.0.
 The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
 
 Tamarin

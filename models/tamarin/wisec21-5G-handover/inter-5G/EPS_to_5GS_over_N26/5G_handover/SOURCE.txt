@@ -31,8 +31,8 @@ oracle: examples/wisec21-5G-handover/inter-5G/EPS_to_5GS_over_N26/5G_handover.or
 
 License
 -------
-GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
-copies, mark any modifications, and keep the files under GPL-3.0.
+License: GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices
+with the copies, mark any modifications, and keep the files under GPL-3.0.
 The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
 
 Tamarin

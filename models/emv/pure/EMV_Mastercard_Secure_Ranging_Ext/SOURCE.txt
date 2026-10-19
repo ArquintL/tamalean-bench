@@ -31,8 +31,8 @@ oracle: Mastercard.oracle -> Mastercard.oracle
 
 License
 -------
-none stated. no license stated (no LICENSE file; README checked); the models derive from
-EMVerify, which also states no license.
+No license stated (no LICENSE file; README checked); the models derive from EMVerify, which also
+states no license.
 The files are not copied into this repository; scripts/fetch_models.py fetches them at the
 pinned commit and checks their sha256.
 

@@ -129,8 +129,11 @@ def python_version(exe):
 
 def is_python2(text):
     """True when the oracle is not Python 3 syntax (it is compiled, never run, to find out)."""
+    import warnings
     try:
-        compile(text, "<oracle>", "exec")
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            compile(text, "<oracle>", "exec")
         return False
     except SyntaxError:
         return True

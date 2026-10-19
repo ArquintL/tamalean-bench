@@ -28,8 +28,8 @@ model: dh/model/dh.spthy -> dh.spthy
 
 License
 -------
-MPL-2.0. MPL-2.0: redistribution allowed; keep the MPL-2.0 notice and keep the files (and
-modifications to them) under MPL-2.0.
+License: MPL-2.0. MPL-2.0: redistribution allowed; keep the MPL-2.0 notice and keep the files
+(and modifications to them) under MPL-2.0.
 The files are copied here unchanged; the license text is in models/tamigloo/LICENSE.
 
 Tamarin

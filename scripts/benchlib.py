@@ -212,8 +212,22 @@ def load_result(tool, model_id):
     return None
 
 
+def scrub_paths(obj):
+    """`obj` without this machine's paths: the checkout's own path is dropped (paths in it are
+    relative to the repository) and the home directory becomes `~`.  Results are committed."""
+    if isinstance(obj, str):
+        return obj.replace(str(ROOT) + os.sep, "").replace(str(Path.home()), "~")
+    if isinstance(obj, list):
+        return [scrub_paths(v) for v in obj]
+    if isinstance(obj, dict):
+        return {k: scrub_paths(v) for k, v in obj.items()}
+    return obj
+
+
 def write_json(path, data):
     path = Path(path)
+    if RESULTS in path.parents:
+        data = scrub_paths(data)
     path.parent.mkdir(parents=True, exist_ok=True)
     tmp = path.with_suffix(path.suffix + ".tmp")
     tmp.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")

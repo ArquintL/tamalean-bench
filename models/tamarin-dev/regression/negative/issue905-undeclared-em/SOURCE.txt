@@ -27,7 +27,7 @@ model: examples/regression/negative/issue905-undeclared-em.spthy -> issue905-und
 
 License
 -------
-GPL-3.0. GPL-3.0 (as for tag 1.10.0).
+License: GPL-3.0. GPL-3.0 (as for tag 1.10.0).
 The files are copied here unchanged; the license text is in models/tamarin-dev/LICENSE.
 
 Tamarin
