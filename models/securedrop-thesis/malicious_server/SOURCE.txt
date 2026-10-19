@@ -1,0 +1,52 @@
+securedrop-thesis/malicious_server
+==================================
+
+The model file is not stored here (see License): scripts/fetch_models.py fetches it to
+cache/securedrop-thesis/malicious_server/malicious_server.spthy.
+Theory: SecureDrop
+
+Paper
+-----
+DBLP has no record of this work (searched: sparql.dblp.org: titles containing 'a formal analysis
+of the securedrop'; sparql.dblp.org: titles containing 'securedrop' (only the 2026 ePrint paper
+and its artifact records)).
+What its own source states (README of github.com/lumaier/securedrop-formalanalysis (not DBLP)):
+  Authors: Luca Maier
+  Title: A Formal Analysis of the SecureDrop protocol
+  Type: master's thesis
+  URL: https://github.com/lumaier/securedrop-formalanalysis/blob/241439b5aaf7e99c02d0cc6ee4c48c938352a30a/thesis.pdf
+(Why this paper: README.)
+
+Online source
+-------------
+File:       https://github.com/lumaier/securedrop-formalanalysis/blob/241439b5aaf7e99c02d0cc6ee4c48c938352a30a/models/malicious_server.spthy
+Repository: https://github.com/lumaier/securedrop-formalanalysis
+Commit:     241439b5aaf7e99c02d0cc6ee4c48c938352a30a
+Ref:        main (HEAD)
+
+Files
+-----
+model: models/malicious_server.spthy -> malicious_server.spthy
+  sha256 ce29421d8c9dcb43295823cdeebb39ab7fd86b6cba76147c48a9e4636107ecff
+oracle: models/oracles/malicious_server.py -> oracles/malicious_server.py
+  sha256 df6b1857a83401a858b4fd3098493d622fc5303b204fbb4b5dd3e054b0594e50
+
+License
+-------
+none stated. no license stated (no LICENSE file; README checked).
+The files are not copied into this repository; scripts/fetch_models.py fetches them at the
+pinned commit and checks their sha256.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--prove=<lemma> malicious_server.spthy
+Where the flags come from: the oracle is named in the theory file (no flag needed).
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: 1.8.0 (README; stored proofs say Tamarin 1.8.0, Maude 2.7.1)
+
+Lean side
+---------
+trace properties

@@ -1,0 +1,55 @@
+tamarin-dev/csf26-ac/fast/diff/KCL07-UK2
+========================================
+
+The model file is KCL07-UK2.spthy in this directory.
+Theory: KCL07_UK2
+
+Paper
+-----
+Jannik Dreier, Elise Klein 0002, Steve Kremer.
+Tamarin Unchained: Handling User-Defined AC Operators.
+CSF, 2026, pages 329-344.
+DOI:  https://doi.org/10.1109/CSF68417.2026.00022
+DBLP: https://dblp.org/rec/conf/csfw/DreierKK26
+(Why this paper: README of csf26-ac.)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/7e4e16e364dfa0d60092ce7f6f44109156e24fd7/examples/csf26-ac/fast/diff/KCL07-UK2.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     7e4e16e364dfa0d60092ce7f6f44109156e24fd7
+Ref:        branch develop (cabal version 1.13.0)
+
+Files
+-----
+model: examples/csf26-ac/fast/diff/KCL07-UK2.spthy -> KCL07-UK2.spthy
+  sha256 82e6e994a66423018a3cce3e7415ffcd5b5890cb735d79e1f07cfd1492277de1
+
+License
+-------
+GPL-3.0. GPL-3.0 (as for tag 1.10.0).
+The files are copied here unchanged; the license text is in models/tamarin-dev/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS --diff
+--prove=<lemma> KCL07-UK2.spthy
+Where the flags come from: --diff: the model states observational equivalence.
+
+Measured for this benchmark: not run yet.
+
+Reported by the authors: files in fast/: under 15 minutes on a standard laptop with 32 GB RAM;
+toy voting system: 5-10 minutes (eligibility, exec), about 30 minutes for the sources lemma;
+exponential mixnet: attack in 3008 steps (BFS) in one or two minutes (README
+examples/csf26-ac/README.md)
+Tamarin's own CI
+(case-studies-regression/fast-tests/csf26-ac/fast/diff/KCL07-UK2_analyzed-diff.spthy):
+processing time 142.77 s with Tamarin 1.13.0, flags --prove --diff --stop-on-trace=dfs, on
+Tamarin CI on develop: 14-core Mac (hippo2.local), Tamarin 1.13.0
+Tamarin's own CI (case-studies-regression/csf26-ac/fast/diff/KCL07-UK2_analyzed-diff.spthy):
+processing time 142.32 s with Tamarin 1.13.0, flags --prove --diff --stop-on-trace=dfs, on
+Tamarin CI on develop: 14-core Mac (hippo2.local), Tamarin 1.13.0
+
+Lean side
+---------
+out of scope: observational equivalence (a diff model); Tamalean checks trace properties only

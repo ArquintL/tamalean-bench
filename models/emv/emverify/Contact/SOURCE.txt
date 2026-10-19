@@ -1,0 +1,51 @@
+emv/emverify/Contact
+====================
+
+The model file is not stored here (see License): scripts/fetch_models.py fetches it to
+cache/emv/emverify/Contact/Contact.spthy.
+Theory: Contact
+
+Paper
+-----
+David A. Basin, Ralf Sasse, Jorge Toro-Pozo.
+The EMV Standard: Break, Fix, Verify.
+SP, 2021, pages 1766-1781.
+DOI:  https://doi.org/10.1109/SP40001.2021.00037
+DBLP: https://dblp.org/rec/conf/sp/BasinST21
+(Why this paper: README.)
+
+Online source
+-------------
+File:       https://github.com/EMVrace/EMVerify/blob/592200990f6738f41c540f9c619e11e932b0c6d5/Contact.spthy
+Repository: https://github.com/EMVrace/EMVerify
+Commit:     592200990f6738f41c540f9c619e11e932b0c6d5
+Ref:        master (HEAD)
+
+Files
+-----
+model: Contact.spthy -> Contact.spthy
+  sha256 f054dbe0b45a7513de21a050fe3819bf216b63e7a99b8c300804fe21438e8c73
+oracle: Contact.oracle -> Contact.oracle
+  sha256 dfb2661218b1af995074337f2b9f8f8775cd9745009f4396d7885947256bb11a
+
+License
+-------
+none stated. no license stated (no LICENSE file; README, file headers and the EMVrace website
+checked).
+The files are not copied into this repository; scripts/fetch_models.py fetches them at the
+pinned commit and checks their sha256.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--heuristic=O --oraclename=Contact.oracle --prove=<lemma> Contact.spthy
+Where the flags come from: --heuristic=O --oraclename: the command the authors give.
+
+Measured for this benchmark: not run yet.
+
+Hardware the authors state: 2x Xeon E5-2650 v4, 10 threads, 20 GB
+Tamarin version the authors used: Tamarin 1.7.0 (git 2884fce8)
+
+Lean side
+---------
+trace properties

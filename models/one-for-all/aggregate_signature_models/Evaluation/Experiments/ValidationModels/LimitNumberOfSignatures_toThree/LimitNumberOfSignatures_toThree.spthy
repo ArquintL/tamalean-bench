@@ -1,0 +1,333 @@
+theory AggregateSignature_RestrictionBased_LimitNumberOfSignaturesToThree
+
+//Theory Description:
+//==================
+/*
+Restriction based version, with one verification rule and no 
+additional adversary capabilities.
+
+The aggregation is done with the public function agg, which 
+takes a multiset of signatures as input. Each agent in possession
+of signatures, can use the function to aggregate them. 
+To validate an aggregation, we add the action fact VerifyAgg 
+with a aggregation and a multiset of pairs of messages and public 
+keys and the expected result (true or false). Restrictions ensure
+that only correct VerifyAgg facts are allowed in the traces.
+
+To match the signatures and the pairs of messages and public keys
+we use a index, represented by a fresh value.
+*/
+
+//Assumptions:
+//============
+/*
+- The public keys as aggregation input are omitted
+- The aggregation is done in one step (no incremental aggregation)
+*/
+
+begin
+
+builtins: signing, multiset
+
+functions: agg/1 // a multiset of pair of signatures and numbers
+functions: false/0 //for the correctness definition
+
+
+// Public key infrastructure
+//==========================
+//from the Tamarin Manual
+rule Register_pk:
+  [ Fr(~ltkA) ]
+--[ RegisterHonestKey(pk(~ltkA))
+  , Register($A, ~ltkA) ]->
+  [ !Ltk($A, ~ltkA)
+  , !Pk($A, pk(~ltkA))
+  ,  Out(pk(~ltkA)) ]
+
+rule Reveal_ltk:
+  [ !Ltk(A, ltk) ]
+--[ LtkReveal(A) ]->
+  [ Out(ltk) ]
+
+/* Protocol
+   ========
+- Temperature sensors (Sensor_i) are taking measurements on a glacier.
+  They send the measurements and the signatures of those measurements 
+  to the Glacier station (Glac)
+- The glacier station creates an aggregated signature of the received 
+  signatures and sends the aggregation and the messages to the 
+  valley station (vall)
+- The valley station looks up the keys and then validates the signature 
+  aggregation
+
+Sensor_1 -> Glac: m1, sign(m1, sk1), Sensor_1
+..
+Sensor_n -> Glac: mn, sign(mn, skn), Sensor_n
+Glac -> Vall : (m1, ..., mn), (Sensor_1, ..., Sensor_n), agg(sign(m1, sk1), ..., sign(mn, skn))
+Val: lookup keys then verify aggregation
+*/
+
+//Sensor
+//------
+rule Sensor_send: //A sends the measurement and its signature
+  [ !Ltk($Sensor, ~sk), Fr(~measurement)]
+--[ Sign($Sensor, ~measurement, ~sk)
+  , Running_weakAgreement($Sensor, $Valley)
+  , Running_aliveness($Sensor)
+  , Running_aliveness_message($Sensor, ~measurement)
+  , Signed($Sensor, ~measurement) ]->
+  [ Out(<~measurement, $Sensor, sign(~measurement, ~sk)>) ]
+
+
+//Glacier
+//-------
+//the aggregation can be done by the adversary
+//the following glacier role should illustrate the expected behavior of an honest aggregator
+rule Glacier_receives_first:
+  [ In(<m1, $Sensor_1, s1>)
+  , Fr(~index_1) ]
+--[ GlacierFirst()
+  , GlacierReceives(s1)
+  , GlacierRightMessage(s1, m1)
+  , GlacierRightName(s1, $Sensor_1) ]->
+  [ Glacier(<s1, ~index_1>, <m1, $Sensor_1, ~index_1> )
+  , Out(~index_1) ]
+  
+rule Glacier_receives:
+  [ In(<mi, $Sensor_i, si>)
+  , Fr(~index_i)
+  , Glacier(signatures, messagesAndNames) ]
+--[ GlacierReceives(si)
+  , GlacierRightMessage(si, mi)
+  , GlacierRightName(si, $Sensor_i) ]->
+  [ Glacier(<si, ~index_i> + signatures, <mi, $Sensor_i, ~index_i>+messagesAndNames)
+  , Out(~index_i) ]
+  
+rule Glacier_sends:
+  [ Glacier(signatures, messagesAndNames) ]
+-->
+  [ Out(<agg(signatures), messagesAndNames>) ]
+
+
+//Valley
+//------
+rule Valley_Receives_aggregation:
+  [ In(<aggregation, messagesAndNames>) ]
+-->
+  [ ValleyReceivedAggregation(aggregation, messagesAndNames) ] 
+
+//Lookup keys
+rule Valley_LookupKey_first:
+  [ ValleyReceivedAggregation(aggregation, <m1, $Sensor_1, index_1>+restMessagesAndNames) 
+  , !Pk($Sensor_1, pk1) ]
+-->
+  [ ValleyLookupKey(<m1, pk1, index_1>, aggregation, restMessagesAndNames) ]
+
+rule Valley_LookupKey_singel:
+  [ ValleyReceivedAggregation(aggregation, <m1, $Sensor_1, index_1>) 
+  , !Pk($Sensor_1, pk1) ]
+-->
+  [ ValleyKeysLookedUp(<m1, pk1, index_1>, aggregation) ]
+
+rule Valley_LookupKey_i:
+  [ ValleyLookupKey(messagesAndKeys, aggregation
+      , <mi, $Sensor_i, index_i>+restMessagesAndNames)
+  , !Pk($Sensor_i, pki) ]
+--[ LimitMessagesAndKeys(messagesAndKeys) ]->
+  [ ValleyLookupKey(<mi, pki, index_i>+messagesAndKeys, aggregation, restMessagesAndNames) ]
+
+rule Valley_LookupKey_last:
+  [ ValleyLookupKey(messagesAndKeys, aggregation, <m_n, $Sensor_n, index_n>)
+  , !Pk($Sensor_n, pk_n) ]
+-->
+  [ ValleyKeysLookedUp(<m_n, pk_n, index_n>+messagesAndKeys, aggregation) ]
+
+//Verification
+rule Valley_verifies:
+  [ ValleyKeysLookedUp(messagesAndKeys, aggregation) ] 
+--[ VerifyAgg(aggregation, messagesAndKeys, true)
+  , Done(aggregation, messagesAndKeys)
+  , LimitAgg(aggregation)
+  , LimitMessagesAndKeys(messagesAndKeys) ]->
+  [ AggIsVerified(aggregation, messagesAndKeys, 'Hurrrah') ]
+
+//Look at a single message for agreement lemmas
+rule Valley_looksAtMessage:
+  [ AggIsVerified(aggregation, <m, pk, ind>+messagesAndKeys, 'Hurrrah')
+  , !Pk($Sensor, pk) ]
+--[ Commit($Valley, $Sensor)
+  , Commit_message($Valley, $Sensor, m)
+  , ClaimSigned($Sensor, m)
+  , ClaimHonest($Sensor)
+  , ClaimHonest($Valley) ]->
+  [ ValleyDidKeyLookup($Valley, $Sensor) ]
+
+rule Valley_looksAtMessage_oneSignature:
+  [ AggIsVerified(aggregation, <m, pk, ind>, 'Hurrrah')
+  , !Pk($Sensor, pk) ]
+--[ Commit($Valley, $Sensor)
+  , Commit_message($Valley, $Sensor, m)
+  , ClaimSigned($Sensor, m)
+  , ClaimHonest($Sensor)
+  , ClaimHonest($Valley) ]->
+  [ ValleyDidKeyLookup($Valley, $Sensor) ]
+
+
+//Restrictions:
+//=============
+
+//Restrictions to define the aggregation
+//--------------------------------------
+restriction Verification_Correctness_morePrecise: 
+  "All aggregation mAndPk #i. VerifyAgg(aggregation, mAndPk, false)@i
+    ==> ((Ex si nr thetaAgg mi ski thetaMPk.
+          VerifyAgg(agg(<si, nr>+thetaAgg), <mi, pk(ski), nr> + thetaMPk, false)@i
+	  & (not(si = sign(mi, ski)) | not(Ex #j. RegisterHonestKey(pk(ski))@j) ))
+        |(Ex si nr mi ski.
+          VerifyAgg(agg(<si, nr>), <mi, pk(ski), nr>, false)@i
+	& (not (si = sign(mi, ski)) | not(Ex #j. RegisterHonestKey(pk(ski))@j))))"
+
+restriction Verification_Secure:
+  "All si thetaAgg mi ski nr thetaMPk #i. 
+    VerifyAgg(agg(<si, nr>+thetaAgg), 
+         <mi, pk(ski), nr> + thetaMPk, true)@i 
+    ==> (not (Ex #j. RegisterHonestKey(pk(ski))@j)
+      | sign(mi, ski) = si)"
+
+restriction Consistency:
+  "All aggregation messagesAndKeys result1 result2 #t1 #t2.
+    VerifyAgg(aggregation, messagesAndKeys, result1)@t1 & VerifyAgg(aggregation, messagesAndKeys, result2)@t2
+  ==> result1 = result2"
+
+restriction OneSignaturePerMessageKeyPair:
+  "All aggregation mi ski nr thetaMPk #i. VerifyAgg(aggregation, <mi, pk(ski), nr> + thetaMPk, true)@i
+  ==> Ex si thetaAgg. VerifyAgg(agg(<si, nr>+thetaAgg), <mi, pk(ski), nr> + thetaMPk, true)@i"
+
+restriction OneMessageKeyPairPerSignature:
+  "All si thetaAgg nr messagesKeys #i. VerifyAgg(agg(<si, nr>+thetaAgg), messagesKeys, true)@i
+  ==> Ex mi ski thetaMPk. messagesKeys = <mi, pk(ski), nr> + thetaMPk" 
+
+//One Signature restrictions
+restriction Verification_Secure_OneSignature:
+  "All si mi ski nr #i. 
+    VerifyAgg(agg(<si, nr>), <mi, pk(ski), nr>, true)@i 
+      ==> (not (Ex #j. RegisterHonestKey(pk(ski))@j)
+        | sign(mi, ski) = si)"
+
+restriction OneSignaturePerMessageKeyPair_OneSignature:
+  "All aggregation mi ski nr #i. VerifyAgg(aggregation, <mi, pk(ski), nr>, true)@i
+  ==> Ex si. VerifyAgg(agg(<si, nr>), <mi, pk(ski), nr>, true)@i"
+
+restriction OneMessageKeyPairPerSignature_OneSignature:
+  "All si nr messagesKeys #i. VerifyAgg(agg(<si, nr>), messagesKeys, true)@i
+  ==> Ex mi ski. messagesKeys = <mi, pk(ski), nr>"
+
+//to ensure that the numbers are unique
+restriction NumbersSignatureUnique:
+  "not(Ex si sj nr theta messagesAndKeys #i.
+    VerifyAgg(agg(<si, nr>+<sj, nr>+theta), messagesAndKeys, true)@i)"
+
+restriction NumbersMessageUnique:
+  "not(Ex aggregation mi pki nr mj pkj theta #i.
+    VerifyAgg(aggregation, <mi, pki, nr>+<mj, pkj, nr>+theta, true)@i)"
+
+//case two signatures
+restriction NumbersSignatureUnique_TwoSignatures:
+  "not(Ex si sj nr messagesAndKeys #i.
+    VerifyAgg(agg(<si, nr>+<sj, nr>), messagesAndKeys, true)@i)"
+
+restriction NumbersMessageUnique_TwoSignatures:
+  "not(Ex aggregation mi pki nr mj pkj #i.
+    VerifyAgg(aggregation, <mi, pki, nr>+<mj, pkj, nr>, true)@i)"
+
+
+//Restrictions to limit the number of signatures
+//----------------------------------------------
+//Restrict the number of signatures to get some lemmas to terminate
+//With this restriction, the proof holds only under the assumption of a limited number of signatures
+restriction limitNumberOf_Signatures_three:
+  "All s1 s2 ind1 ind2 thetaAgg #i.
+    LimitAgg(agg(<s1, ind1>+<s2, ind2>+thetaAgg))@i
+  ==> Ex sLast indLast. thetaAgg = <sLast, indLast>"
+
+restriction limitNumberOf_MessagesAndPublicKeys_three:
+  "All m1 pk1 ind1 m2 pk2 ind2 theta #i.
+    LimitMessagesAndKeys(<m1, pk1, ind1>+<m2, pk2, ind2>+theta)@i
+  ==> Ex mLast pkLast indLast. theta = <mLast, pkLast, indLast>"
+
+
+//Lemmas
+//======
+
+//Trace exist lemmas to show valid traces
+//---------------------------------------
+lemma executable_oneSignature:
+ exists-trace
+  "Ex s ind m pk #i.
+    Done(agg(<s, ind>), <m, pk, ind>)@i
+    & Ex #j. RegisterHonestKey(pk)@j"
+    
+lemma executable_twoSignatures:
+ exists-trace
+  "Ex s1 s2 ind1 ind2 pk1 pk2 m1 m2 #i.
+    Done(agg(<s1, ind1> + <s2, ind2>), <m1, pk1, ind1>+<m2, pk2, ind2>)@i
+    & Ex #j1 #j2. RegisterHonestKey(pk1)@j1 & RegisterHonestKey(pk2)@j2"
+    
+lemma executable_twoSignatures_nice:
+ exists-trace
+  "Ex s1 s2 ind1 ind2 pk1 pk2 m1 m2 #i.
+    Done(agg(<s1, ind1> + <s2, ind2>), <m1, pk1, ind1>+<m2, pk2, ind2>)@i
+    & Ex #j1 #j2. RegisterHonestKey(pk1)@j1 & RegisterHonestKey(pk2)@j2
+    & Ex #k1 #k2. GlacierReceives(s1)@k1 & GlacierReceives(s2)@k2
+    & not (Ex #k3 s3. GlacierReceives(s3)@k3 & not (#k3 = #k2 | #k3 = #k1))
+    & not (s1 = s2)
+    & All s m #o. GlacierRightMessage(s, m)@o ==> (Ex sk. s = sign(m, sk))
+    & All s name #p. GlacierRightName(s, name)@p
+      ==> (Ex ltk #q. Register(name, ltk)@q & Ex m. s = sign(m, ltk))"
+
+lemma executable_twoSignatures_No_Glacier:
+ exists-trace
+  "Ex s1 s2 ind1 ind2 m1 m2 pk1 pk2 #i.
+    Done(agg(<s1, ind1> + <s2, ind2>), <m1, pk1, ind1>+<m2, pk2, ind2>)@i
+    & Ex #j #k. RegisterHonestKey(pk1)@j & RegisterHonestKey(pk2)@k
+    & not (Ex #j. GlacierFirst()@j)"
+
+
+//Authentication Lemmas
+//---------------------
+//Aliveness Lemma adapted form Tamarin Manual and FMSec lecture slides
+lemma aliveness: 
+  "All valley sensor #i.Commit(valley, sensor)@i
+  ==>  (Ex #j. Running_aliveness(sensor)@j)
+    | (Ex C #r. LtkReveal(C)@r & ClaimHonest(C)@i)
+  "
+
+lemma aliveness_message:
+  "All valley sensor message #i.Commit_message(valley, sensor, message)@i
+  ==>  (Ex #j. Running_aliveness_message(sensor, message)@j)
+    | (Ex C #r. LtkReveal(C)@r & ClaimHonest(C)@i)
+  "
+
+//Weak agreement adapted form Tamarin Manual and FMSec lecture slides
+lemma weak_agreement_falsified:
+  "All valley sensor #i. Commit(valley, sensor)@i
+  ==> (Ex #j. Running_weakAgreement(sensor, valley) @j)
+    | (Ex C #r. LtkReveal(C)@r & ClaimHonest(C)@i)
+  "
+
+//Attack Lemmas
+//-------------
+lemma no_ZerosplittingAttack:
+"not(Ex agg mAndKA mAndKB #i #j.
+    VerifyAgg(agg, mAndKA, true)@i
+    & VerifyAgg(agg, mAndKB, true)@j
+    & not(mAndKA = mAndKB))
+  "
+
+lemma no_RogueKeyAttack:
+  "not(Ex sensor m #i. (ClaimSigned(sensor, m)@i
+    & not(Ex #j. Signed(sensor, m)@j)
+    & not(Ex #k. LtkReveal(sensor)@k)))
+  "
+
+end

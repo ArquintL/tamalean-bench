@@ -1,0 +1,408 @@
+
+theory PQWireGuard
+
+begin
+
+/*
+builtins: hashing, dest-asymmetric-encryption, dest-pairing
+functions: kdf1/1, kdf2/1, kdf3/1, aead/4, decrypt/3[destructor], checkaead/4[destructor], mac/2, checkmac/3[destructor], true/0
+*/
+
+
+builtins: hashing, asymmetric-encryption
+functions: kdf1/1, kdf2/1, kdf3/1, aead/4, decrypt/3, checkaead/4, mac/2, checkmac/3, true/0
+
+equations: decrypt(k, n, aead(k, n, a, p)) = p
+equations: checkaead(k, n, a, aead(k, n, a, p)) = true
+equations: checkmac(k, m, mac(k,m)) = true
+
+
+#ifdef not Si
+export queries:
+"
+not x:bitstring; attacker(diff[new kemltkI_2,x]).
+not x:bitstring; attacker(diff[x,new kemltkI_2]).
+"
+
+let RevealKEMLtk(kemltk) =
+    event RevKEMLtk(pk(kemltk))
+#endif
+
+#ifdef Si
+let RevealKEMLtk(kemltk) =
+    event RevKEMLtk(pk(kemltk)); out(kemltk)
+#endif
+
+#ifdef not Ei
+export queries:
+"
+not x:bitstring; attacker(diff[new kemekI_2,x]).
+not x:bitstring; attacker(diff[x,new kemekI_2]).
+"
+
+let RevealKEMEki(kemeki) =
+    event RevKEMEki(pk(kemeki))
+#endif
+
+#ifdef Ei
+let RevealKEMEki(kemeki) =
+    event RevKEMEki(pk(kemeki)); out(kemeki)
+#endif
+
+#ifdef not Re
+export queries:
+"
+not x:bitstring; attacker(diff[new re_2,x]).
+not x:bitstring; attacker(diff[x,new re_2]).
+"
+let RevealRe(re) =
+    event RevRe(re)
+#endif
+
+#ifdef Re
+let RevealRe(re) =
+    event RevRe(re); out(re)
+#endif
+
+#ifdef Ra
+let RevealRa(ra) =
+    event RevRa(ra); out(ra)
+#endif
+
+#ifdef not Ra
+export queries:
+"
+not x:bitstring; attacker(diff[new ra_2,x]).
+not x:bitstring; attacker(diff[x,new ra_2]).
+"
+let RevealRa(ra) =
+    event RevRa(ra)
+#endif
+
+#ifdef Rb
+let RevealRb(rb) =
+    event RevRb(rb); out(rb)
+#endif
+
+#ifdef not Rb
+export queries:
+"
+not x:bitstring; attacker(diff[new rb_2,x]).
+not x:bitstring; attacker(diff[x,new rb_2]).
+"
+let RevealRb(rb) =
+    event RevRb(rb)
+#endif
+
+#ifdef not Psk
+export queries:
+"
+not x:bitstring; attacker(diff[new psk_2,x]).
+not x:bitstring; attacker(diff[x,new psk_2]).
+"
+
+let RevealPsk(psk) =
+    event RevPsk(psk)
+#endif
+
+#ifdef Psk
+let RevealPsk(psk) =
+    event RevPsk(psk); out(psk)
+#endif
+
+// beginning of initiator process
+
+let Initiator(kemltkI, kempkR, psk) =
+
+    let kempkI = pk(kemltkI) in
+    new ~rb;
+    new ~kemekI;
+    new ~ts;
+    new sidI;
+    new ~firstI;
+
+    //InitHello generation
+
+    let kempekI = pk(~kemekI) in
+
+    (   // This parallelizes kemekI, rb compromise
+
+      let kb = h(~rb) in
+      let ck=h('noise') in
+      let hi0   = h(<ck, 'ident'>) in
+      let hi1   = h(<hi0, kempkR>) in
+      let ci0   = kdf1(<ck, kempekI>) in
+
+      let ct1 = aenc(kb, kempkR) in
+
+      let hi2   = h(<hi1, kempekI>) in
+      let ci1   = kdf1(<ci0, kb>) in      let ki1   = kdf2(<ci0, kb>) in
+
+      let astat = aead(ki1, 'zerostring', hi2, h(kempkI)) in
+      let hi3   = h(<hi2, astat>) in
+      let ci2 = kdf1(<ci1, h(<kempkI, kempkR>)>) in
+      let ki2 = kdf2(<ci1, h(<kempkI, kempkR>)>) in
+      let ats = aead(ki2, 'zerostring', hi3, ~ts) in
+      let hi4   = h(<hi3, ats>) in
+
+      let kmacI1 = h(<'noise', kempkR, psk>) in
+      let macI1 = mac(kmacI1, <sidI, kempekI, ct1, astat, ats>) in
+
+      event ISend(ki2, kempkI, kempkR, kempekI, psk, kb);
+      out(<'xI', sidI, kempekI, ct1, astat, ats, macI1>);    // Send InitHello
+
+      // RecHello reception
+
+      let kmacR = h(<'noise', kempkI, psk>) in        // mac key
+      in(<'xR', sidIR, sidR, ct2, ct3, aempt, macR>);   // Receive RecHello
+
+      if(checkmac(kmacR, <sidIR, sidR, ct2, ct3, aempt>, macR)=true) then
+      (
+          if(sidIR=sidI) then
+              (
+
+                  let ke = adec(ct2, ~kemekI) in
+                  let ka = adec(ct3, kemltkI) in
+                  let ci3   = kdf1(<ci2, ct2>) in
+                  let hi5   = h(<hi4, ct2>) in
+                  let ci4   = kdf1(<ci3, ke>) in
+                  let ci5   = kdf1(<ci4, ka>) in
+                  let ci6   = kdf1(<ci5, psk>) in
+                  let hit   = kdf2(<ci5, psk>) in
+                  let ki6   = kdf3(<ci5, psk>) in
+                  let hi6   = h(<hi5, hit>) in
+
+                  let dempty = decrypt(ki6, 'zerostring', aempt) in
+
+                  if(checkaead(ki6, 'zerostring', hi6, aempt) = true) then
+                      (
+                      if(dempty='empty') then
+                      (
+
+                      event IKeys(ki6, kempkI, kempkR, kempekI, psk, kb, ka, ke);
+
+                      let hi7 = h(<hi6, aempt>) in
+
+                      let ci7 = kdf1(ci6) in
+                      let ki7 = kdf2(ci6) in
+                      event I_SK7(ki7, kempkI, kempkR, kempekI, psk, kb, ka, ke);
+
+                      let keyItoR = kdf1(ki7) in
+                      event I_SK_ItoR(keyItoR, kempkI, kempkR, kempekI, psk, kb, ka, ke);
+                      let keyRtoI = kdf2(ki7) in
+                      event I_SK_RtoI(keyRtoI, kempkI, kempkR, kempekI, psk, kb, ka, ke);
+
+                      // first transport message shall be I->R
+                      let confirmI = aead(keyItoR, 'zerostring', 'empty', ~firstI) in
+                      event IConfirm(keyItoR, kempkI, kempkR, kempekI, psk, kb, ka, ke);
+                      out(<'xTi0', sidR, 'zerostring', confirmI>)//;
+                      )
+                      ) // chekaead & dempty = 'empty'
+             ) // sidIR = sidI
+         ) // checkmac
+    )     // This parallelizes ekI, rb compromise
+| RevealKEMEki(~kemekI)
+| RevealRb(~rb)
+
+
+// end of initiator process
+
+
+// beginning of responder process
+
+let Responder(kemltkR, kempkI, psk) =
+
+    let kempkR = pk(kemltkR) in
+    new ~re;
+    new ~ra;
+    new sidR;
+    let ka = h(~ra) in
+    let ke = h(~re) in
+
+    ( // This parallelizes ra, re compromise
+
+    // InitHello reception
+    let ck = h('noise') in
+
+    in(<'xI', sidI, kempekI, ct1, astat, ats, macI1>);     // Receive InitHello
+
+    let hr0 = h(<ck, 'ident'>) in
+    let hr1 = h(<hr0, kempkR>) in
+    let cr0   = kdf1(<ck, kempekI>) in
+    let hr2   = h(<hr1, kempekI>) in
+
+    let kb = adec(ct1, kemltkR) in
+
+    let cr1   = kdf1(<cr0, kb>) in
+    let kr1   = kdf2(<cr0, kb>) in
+
+    let hpkikem = decrypt(kr1, 'zerostring', astat) in
+
+    let kmacI1 = h(<'noise', kempkR, psk>) in        // mac key
+    if(checkmac(kmacI1, <sidI, kempekI, ct1, astat, ats>, macI1) = true) then
+    (
+
+        if(checkaead(kr1, 'zerostring', hr2, astat) = true) then
+            (
+
+            if (hpkikem=h(kempkI)) then
+            (
+
+            let ct3 = aenc(ka, kempkI) in
+            let hr3   = h(<hr2, astat>) in
+            let cr2   = kdf1(<cr1, h(<kempkI, kempkR>)>) in //
+            let kr2   = kdf2(<cr1, h(<kempkI, kempkR>)>) in //
+
+            let dtime = decrypt(kr2, 'zerostring', ats) in
+
+            if(checkaead(kr2, 'zerostring', hr3, ats) = true) then
+                (
+                let hr4 = h(<hr3, ats>) in
+                event RRec(kr2, kempkI, kempkR, kempekI, psk, kb, ka, ke);
+
+                // Rechello generation
+
+                let ct2 = aenc(ke, kempekI) in
+
+                let cr3 = kdf1(<cr2, ct2>) in
+                let hr5 = h(<hr4, ct2>) in
+                let cr4 = kdf1(<cr3, ke>) in
+                let cr5 = kdf1(<cr4, ka>) in
+                let cr6 = kdf1(<cr5, psk>) in
+                let hrt = kdf2(<cr5, psk>) in
+                let kr6 = kdf3(<cr5, psk>) in
+                let hr6 = h(<hr5, hrt>) in
+
+                let aempt = aead(kr6, 'zerostring', hr6, 'empty') in
+                let hr7 = h(<hr6, aempt>) in
+
+                let kmacR = h(<'noise', kempkI, psk>) in        // mac key
+                let macR = mac(kmacR, <sidI, sidR, ct2, ct3, aempt>) in
+
+                event RKeys(kr6, kempkI, kempkR, kempekI, psk, kb, ka, ke);
+                out(<'xR', sidI, sidR, ct2, ct3, aempt, macR>);  // Send RecHello
+
+                let cr7 = kdf1(cr6) in
+                let kr7 = kdf2(cr6) in
+                event R_SK7(kr7, kempkI, kempkR, kempekI, psk, kb, ka, ke);
+
+
+                let keyItoR = kdf1(kr7) in
+                event R_SK_ItoR(keyItoR, kempkI, kempkR, kempekI, psk, kb, ka, ke);
+                let keyRtoI = kdf2(kr7) in
+                event R_SK_RtoI(keyRtoI, kempkI, kempkR, kempekI, psk, kb, ka, ke);
+
+                // receive first message I->R
+                in(<'xTi0', sidC, cI0, confirmI>);
+
+
+                if (sidC = sidR) then // true
+
+                    (
+                    if(cI0 = 'zerostring') then
+                    (
+
+                    let dfirstI = decrypt(keyItoR, cI0, confirmI) in
+                    if(checkaead(keyItoR, cI0, 'empty', confirmI) = true) then
+                        (
+                            event RConfirm(keyItoR, kempkI, kempkR, kempekI, psk, kb, ka, ke)//;
+                        )
+                    )
+                    )
+
+                ) //hpki
+
+                )   // checkaead
+
+              )    // checkaead
+        )   // checkmac1
+
+    ) // This parallelizes ra, re compromise
+| RevealRa(~ra)
+| RevealRe(~re)
+
+// end of responder process
+
+
+
+export queries:
+"
+set simplifyProcess = false.
+set reconstructTrace = false.
+"
+
+#ifdef not Sr
+
+process:
+0
+
+diffEquivLemma:
+(
+!(
+new ~kemltkR1;
+new ~kemltkR2;
+new ~kemltkI;
+new ~psk;
+out(<pk(~kemltkR1), pk(~kemltkR2), pk(~kemltkI)>);
+let kemltkR = diff(~kemltkR1, ~kemltkR2) in
+(
+  (! Initiator(~kemltkI, pk(kemltkR), ~psk))
+| (! Responder(kemltkR, pk(~kemltkI), ~psk))
+| RevealKEMLtk(~kemltkI)
+| RevealPsk(~psk)
+)
+)
+)
+#endif
+
+#ifdef Sr
+
+process:
+0
+
+diffEquivLemma:
+(
+!(
+new ~kemltkR1;
+new ~kemltkR2;
+new ~kemltkI;
+new ~psk;
+out(<~kemltkR1, ~kemltkR2, pk(~kemltkI)>);
+let kemltkR = diff(~kemltkR1, ~kemltkR2) in
+(
+  (! Initiator(~kemltkI, pk(kemltkR), ~psk))
+| (! Responder(kemltkR, pk(~kemltkI), ~psk))
+| RevealKEMLtk(~kemltkI)
+| RevealPsk(~psk)
+)
+)
+)
+#endif
+
+
+#ifdef not Sr
+export requests:
+"
+free kemltkR1, kemltkR2, kemltkI, psk[private].
+
+let sys1 = out(att, (pk(kemltkR1), pk(kemltkR2), pk(kemltkI)));  (!^1 Initiator(kemltkI, pk(kemltkR1), psk) | !^1 Responder(kemltkR1, pk(kemltkI), psk) | !^1 RevealKEMLtk(kemltkI) | !^1 RevealPsk(psk)).
+
+let sys2 = out(att, (pk(kemltkR1), pk(kemltkR2), pk(kemltkI)));  (!^1 Initiator(kemltkI, pk(kemltkR2), psk) | !^1 Responder(kemltkR2, pk(kemltkI), psk) | !^1 RevealKEMLtk(kemltkI) | !^1 RevealPsk(psk)).
+query trace_equiv(sys1,sys2).
+"
+#endif
+
+#ifdef Sr
+export requests:
+"
+free kemltkR1, kemltkR2.
+free kemltkI, psk[private].
+
+let sys1 = out(att, pk(kemltkI));  (!^1 Initiator(kemltkI, pk(kemltkR1), psk) | !^1 Responder(kemltkR1, pk(kemltkI), psk) | !^1 RevealKEMLtk(kemltkI) | !^1 RevealPsk(psk)).
+
+let sys2 = out(att, pk(kemltkI));  (!^1 Initiator(kemltkI, pk(kemltkR2), psk) | !^1 Responder(kemltkR2, pk(kemltkI), psk) | !^1 RevealKEMLtk(kemltkI) | !^1 RevealPsk(psk)).
+query trace_equiv(sys1,sys2).
+"
+#endif
+
+end

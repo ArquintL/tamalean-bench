@@ -1,0 +1,53 @@
+tamarin-dev/regression/trace/soundness-partial-evaluation-variants
+==================================================================
+
+The model file is soundness-partial-evaluation-variants.spthy in this directory.
+Theory: SoundnessPartialEvaluationVariants
+
+Paper
+-----
+Simon Meier, Benedikt Schmidt 0002, Cas Cremers, David A. Basin.
+The TAMARIN Prover for the Symbolic Analysis of Security Protocols.
+CAV, 2013, pages 696-701.
+DOI:  https://doi.org/10.1007/978-3-642-39799-8_48
+DBLP: https://dblp.org/rec/conf/cav/MeierSCB13
+(Why this paper: regression tests, no paper -> Tamarin tool paper cited instead.)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/7e4e16e364dfa0d60092ce7f6f44109156e24fd7/examples/regression/trace/soundness-partial-evaluation-variants.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     7e4e16e364dfa0d60092ce7f6f44109156e24fd7
+Ref:        branch develop (cabal version 1.13.0)
+
+Files
+-----
+model: examples/regression/trace/soundness-partial-evaluation-variants.spthy ->
+soundness-partial-evaluation-variants.spthy
+  sha256 6fd55b0b38b6aa4d2e1a90b1155aeb0f993cdb235bbd62a0d7716b9d6461b915
+
+License
+-------
+GPL-3.0. GPL-3.0 (as for tag 1.10.0).
+The files are copied here unchanged; the license text is in models/tamarin-dev/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--prove=<lemma> soundness-partial-evaluation-variants.spthy
+Where the flags come from: no flags: the source gives none for this model.
+
+Measured for this benchmark: not run yet.
+
+Tamarin's own CI
+(case-studies-regression/fast-tests/regression/trace/soundness-partial-evaluation-variants_analyzed.spthy):
+processing time 0.08 s with Tamarin 1.13.0, flags --prove --stop-on-trace=dfs, on Tamarin CI on
+develop: 14-core Mac (hippo2.local), Tamarin 1.13.0
+Tamarin's own CI
+(case-studies-regression/regression/trace/soundness-partial-evaluation-variants_analyzed.spthy):
+processing time 0.05 s with Tamarin 1.13.0, flags --prove --stop-on-trace=dfs, on Tamarin CI on
+develop: 14-core Mac (hippo2.local), Tamarin 1.13.0
+
+Lean side
+---------
+trace properties

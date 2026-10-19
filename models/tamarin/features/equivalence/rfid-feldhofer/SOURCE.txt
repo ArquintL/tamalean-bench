@@ -1,0 +1,49 @@
+tamarin/features/equivalence/rfid-feldhofer
+===========================================
+
+The model file is rfid-feldhofer.spthy in this directory.
+Theory: RFID_Feldhofer
+
+Paper
+-----
+David A. Basin, Jannik Dreier, Ralf Sasse.
+Automated Symbolic Proofs of Observational Equivalence.
+CCS, 2015, pages 1144-1155.
+DOI:  https://doi.org/10.1145/2810103.2813662
+DBLP: https://dblp.org/rec/conf/ccs/BasinDS15
+(Why this paper: header 'Described in: Automated Symbolic Proofs of Observational Equivalence
+[CCS'15]'.)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32/examples/features/equivalence/rfid-feldhofer.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32
+Ref:        tag 1.10.0 (lightweight tag)
+
+Files
+-----
+model: examples/features/equivalence/rfid-feldhofer.spthy -> rfid-feldhofer.spthy
+  sha256 960d8efbc7d0b469a1e0389fc45e5e866bb8fa5d64f16b247bd6c39bf38e4c0d
+
+License
+-------
+GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
+copies, mark any modifications, and keep the files under GPL-3.0.
+The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS --diff
+--prove=<lemma> rfid-feldhofer.spthy
+Where the flags come from: --diff: the model states observational equivalence.
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: varies per directory (see models); Tamarin CI outputs at this
+tag (case-studies-regression/) were produced with Tamarin 1.9.0
+Times stated in the file: // Observational equivalence takes under 2.6 seconds.
+
+Lean side
+---------
+out of scope: observational equivalence (a diff model); Tamalean checks trace properties only

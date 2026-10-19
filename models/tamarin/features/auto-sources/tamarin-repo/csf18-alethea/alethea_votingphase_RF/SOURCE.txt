@@ -1,0 +1,61 @@
+tamarin/features/auto-sources/tamarin-repo/csf18-alethea/alethea_votingphase_RF
+===============================================================================
+
+The model file is alethea_votingphase_RF.spthy in this directory.
+Theory: alethea_votingphase_RF
+
+Papers
+------
+Véronique Cortier, Stéphanie Delaune, Jannik Dreier.
+Automatic Generation of Sources Lemmas in Tamarin: Towards Automatic Proofs of Security
+Protocols.
+ESORICS (2), 2020, pages 3-22.
+DOI:  https://doi.org/10.1007/978-3-030-59013-0_1
+DBLP: https://dblp.org/rec/conf/esorics/CortierDD20
+
+David A. Basin, Sasa Radomirovic, Lara Schmid.
+Alethea: A Provably Secure Random Sample Voting Protocol.
+CSF, 2018, pages 283-297.
+DOI:  https://doi.org/10.1109/CSF.2018.00028
+DBLP: https://dblp.org/rec/conf/csfw/BasinRS18
+(Why this paper: README of features/auto-sources (refers to 'the paper' introducing
+--auto-sources; title not written in the files); copy of examples/csf18-alethea (README).)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32/examples/features/auto-sources/tamarin-repo/csf18-alethea/alethea_votingphase_RF.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32
+Ref:        tag 1.10.0 (lightweight tag)
+
+Files
+-----
+model: examples/features/auto-sources/tamarin-repo/csf18-alethea/alethea_votingphase_RF.spthy ->
+alethea_votingphase_RF.spthy
+  sha256 91fbce276c63779589b3f27e388b6440df8a224f91c2d1f5a416af9533ec4c23
+oracle: examples/features/auto-sources/tamarin-repo/csf18-alethea/oracle_alethea_votingphase_RF
+-> oracle_alethea_votingphase_RF
+  sha256 59b38382ca520031c7259dc342f73ba3c6be87599cc20f6bfd31be6b1b9a8a3d
+
+License
+-------
+GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
+copies, mark any modifications, and keep the files under GPL-3.0.
+The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS --diff
+--auto-sources --heuristic=o --oraclename=oracle_alethea_votingphase_RF --prove=<lemma>
+alethea_votingphase_RF.spthy
+Where the flags come from: --diff: the model states observational equivalence; --auto-sources:
+the authors' command (README or Makefile); --heuristic=o --oraclename: the directory's README.
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: varies per directory (see models); Tamarin CI outputs at this
+tag (case-studies-regression/) were produced with Tamarin 1.9.0
+
+Lean side
+---------
+out of scope: observational equivalence (a diff model); Tamalean checks trace properties only

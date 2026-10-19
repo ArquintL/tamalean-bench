@@ -1,0 +1,51 @@
+tamarin/features/xor/diff-models/obsolete/KCL07-untrac-pairxored
+================================================================
+
+The model file is KCL07-untrac-pairxored.spthy in this directory.
+Theory: KCL07_untrac_pairxored
+
+Paper
+-----
+Jannik Dreier, Lucca Hirschi, Sasa Radomirovic, Ralf Sasse.
+Automated Unbounded Verification of Stateful Cryptographic Protocols with Exclusive OR.
+CSF, 2018, pages 359-373.
+DOI:  https://doi.org/10.1109/CSF.2018.00033
+DBLP: https://dblp.org/rec/conf/csfw/DreierHRS18
+(Why this paper: README of features/xor: obsolete versions of the csf18-xor models.)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32/examples/features/xor/diff-models/obsolete/KCL07-untrac-pairxored.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32
+Ref:        tag 1.10.0 (lightweight tag)
+
+Files
+-----
+model: examples/features/xor/diff-models/obsolete/KCL07-untrac-pairxored.spthy ->
+KCL07-untrac-pairxored.spthy
+  sha256 48f4bb89effb3647aea869b89ac3f8e09e1ee9a9a10577df0edc09493fd29e28
+
+License
+-------
+GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
+copies, mark any modifications, and keep the files under GPL-3.0.
+The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS --diff
+--prove=<lemma> KCL07-untrac-pairxored.spthy
+Where the flags come from: --diff: the model states observational equivalence.
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: varies per directory (see models); Tamarin CI outputs at this
+tag (case-studies-regression/) were produced with Tamarin 1.9.0
+Times stated in the file: FINDS EXPECTED ATTACK AUTOMATICALLY after about 80 minutes CPU
+(2017-11-01, aa65be43cd4965ffa1c51a991d9139e98ec1662e); // FINDS EXPECTED ATTACK AUTOMATICALLY
+after about 80 minutes CPU (2017-11-01, aa65be43cd4965ffa1c51a991d9139e98ec1662e)
+
+Lean side
+---------
+out of scope: observational equivalence (a diff model); Tamalean checks trace properties only

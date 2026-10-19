@@ -1,0 +1,53 @@
+tamarin/csf12/KAS1
+==================
+
+The model file is KAS1.spthy in this directory.
+Theory: KAS1
+
+Paper
+-----
+Benedikt Schmidt 0002, Simon Meier, Cas Cremers, David A. Basin.
+Automated Analysis of Diffie-Hellman Protocols and Advanced Security Properties.
+CSF, 2012, pages 78-94.
+DOI:  https://doi.org/10.1109/CSF.2012.25
+DBLP: https://dblp.org/rec/conf/csfw/SchmidtMCB12
+(Why this paper: directory name and Makefile 'CSF'12 case studies'.)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32/examples/csf12/KAS1.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32
+Ref:        tag 1.10.0 (lightweight tag)
+
+Files
+-----
+model: examples/csf12/KAS1.spthy -> KAS1.spthy
+  sha256 51da44d8fad23d664e9f5b05fc93f2c00f9fd714b8ad2a88e62333e3b6e43fe5
+
+License
+-------
+GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
+copies, mark any modifications, and keep the files under GPL-3.0.
+The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--prove=<lemma> KAS1.spthy
+Where the flags come from: no flags: the source gives none for this model.
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: varies per directory (see models); Tamarin CI outputs at this
+tag (case-studies-regression/) were produced with Tamarin 1.9.0
+Tamarin's own CI (case-studies-regression/csf12/KAS1_analyzed.spthy): processing time 0.52 s
+with Tamarin 1.9.0, flags --prove --stop-on-trace=dfs, on Tamarin CI at tag 1.10.0: i5-10400, 12
+threads, 64 GB, +RTS -N3
+Tamarin's own CI (case-studies-regression/fast-tests/csf12/KAS1_analyzed.spthy): processing time
+0.5 s with Tamarin 1.9.0, flags --prove --stop-on-trace=dfs, on Tamarin CI at tag 1.10.0:
+i5-10400, 12 threads, 64 GB, +RTS -N3
+
+Lean side
+---------
+trace properties

@@ -1,0 +1,53 @@
+tamarin/features/auto-sources/spore/Nssk_amended
+================================================
+
+The model file is Nssk_amended.spthy in this directory.
+Theory: Nssk_amended
+
+Paper
+-----
+Véronique Cortier, Stéphanie Delaune, Jannik Dreier.
+Automatic Generation of Sources Lemmas in Tamarin: Towards Automatic Proofs of Security
+Protocols.
+ESORICS (2), 2020, pages 3-22.
+DOI:  https://doi.org/10.1007/978-3-030-59013-0_1
+DBLP: https://dblp.org/rec/conf/esorics/CortierDD20
+(Why this paper: README of features/auto-sources (refers to 'the paper'; title not written in
+the files).)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32/examples/features/auto-sources/spore/Nssk_amended.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32
+Ref:        tag 1.10.0 (lightweight tag)
+
+Files
+-----
+model: examples/features/auto-sources/spore/Nssk_amended.spthy -> Nssk_amended.spthy
+  sha256 8bdc8ff9b56c7c45815678038d709effb5daad7e80f35a924d60bb4eeaf075f5
+
+License
+-------
+GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
+copies, mark any modifications, and keep the files under GPL-3.0.
+The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--auto-sources --prove=<lemma> Nssk_amended.spthy
+Where the flags come from: --auto-sources: Tamarin's own CI command.
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: varies per directory (see models); Tamarin CI outputs at this
+tag (case-studies-regression/) were produced with Tamarin 1.9.0
+Tamarin's own CI
+(case-studies-regression/features/auto-sources/spore/Nssk_amended_analyzed-auto-sources.spthy):
+processing time 6.35 s with Tamarin 1.9.0, flags --auto-sources --prove --stop-on-trace=dfs, on
+Tamarin CI at tag 1.10.0: i5-10400, 12 threads, 64 GB, +RTS -N3
+
+Lean side
+---------
+trace properties

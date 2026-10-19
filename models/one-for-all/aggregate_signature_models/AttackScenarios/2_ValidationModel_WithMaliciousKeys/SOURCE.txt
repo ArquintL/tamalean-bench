@@ -1,0 +1,55 @@
+one-for-all/aggregate_signature_models/AttackScenarios/2_ValidationModel_WithMaliciousKeys
+==========================================================================================
+
+The model file is 2_ValidationModel_WithMaliciousKeys.spthy in this directory.
+Theory: AggregateSignature_ValidationModel_WithMaliciousKeys
+
+Paper
+-----
+Xenia Hofmeier, Andrea Raguso, Ralf Sasse, Dennis Jackson, David A. Basin.
+One For All: Formally Verifying Protocols which use Aggregate Signatures.
+CSF, 2025, pages 347-362.
+DOI:  https://doi.org/10.1109/CSF64896.2025.00027
+DBLP: https://dblp.org/rec/conf/csfw/HofmeierRSJB25
+(Why this paper: README of the Zenodo artifact.)
+
+Online source
+-------------
+Archive: https://zenodo.org/api/records/15357178/files/tamarin-aggregate-signatures.zip/content
+  (the repository's DOI: https://doi.org/10.5281/zenodo.15357178)
+File in the archive: tamarin-aggregate-signatures/aggregate_signature_models/AttackScenarios/2_ValidationModel_WithMaliciousKeys.spthy
+Archive sha256: 101a4756c17638c7e076ad76e7bfc69a6f4fdbba8dbe6da86ff0d0aeb36d7268
+
+Files
+-----
+model: aggregate_signature_models/AttackScenarios/2_ValidationModel_WithMaliciousKeys.spthy ->
+2_ValidationModel_WithMaliciousKeys.spthy
+  sha256 ec7b36d42c482f232eb267c54aa49d7aabb6d54d5834a0564cb6cf6fcf02b422
+oracle: aggregate_signature_models/AttackScenarios/2_ValidationModel_WithMaliciousKeys.oracle ->
+2_ValidationModel_WithMaliciousKeys.oracle
+  sha256 06cab64750c91918d96338554e4853bbd3d7cbe8a3ec8dab3b27efd8c280db0c
+
+License
+-------
+MIT. MIT (Copyright (c) 2025 Xenia Hofmeier, Andrea Raguso, Ralf Sasse, Dennis Jackson, David
+Basin): keep the copyright and permission notice.
+The files are copied here unchanged; the license text is in models/one-for-all/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--heuristic=O --oraclename=2_ValidationModel_WithMaliciousKeys.oracle --prove=<lemma>
+2_ValidationModel_WithMaliciousKeys.spthy
+Where the flags come from: --heuristic=O --oraclename: the directory's README.
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: aggregate_signature_models: Tamarin development version
+compiled 2021-03-05 (README); SANA models: 1.8.0 (f172d7f0), 1.9.0 (86014ad1) or 1.11.0
+(a6df687a, develop) per each folder's Notes.md
+Times stated in the file: Proof with oracle takes about 1.5 minutes; lemma
+no_ZerosplittingAttack_falsified: //Proof with oracle takes about 1.5 minutes
+
+Lean side
+---------
+trace properties

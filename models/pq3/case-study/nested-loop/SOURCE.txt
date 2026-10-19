@@ -1,0 +1,48 @@
+pq3/case-study/nested-loop
+==========================
+
+The model file is nested-loop.spthy in this directory.
+Theory: NestedLoop
+
+Paper
+-----
+Felix Linker, Ralf Sasse, David A. Basin.
+A Formal Analysis of Apple's iMessage PQ3 Protocol.
+USENIX Security Symposium, 2025, pages 5015-5034.
+URL:  https://www.usenix.org/conference/usenixsecurity25/presentation/linker
+DBLP: https://dblp.org/rec/conf/uss/LinkerSB25
+(Why this paper: README.)
+
+Online source
+-------------
+File:       https://github.com/tamarin-pq3/tamarin-pq3/blob/a33afa6f959b46683400416002415b154eb6f973/case-study/nested-loop.spthy
+Repository: https://github.com/tamarin-pq3/tamarin-pq3
+Commit:     a33afa6f959b46683400416002415b154eb6f973
+Ref:        main (HEAD); tags usenix-submission a97dccc9, usenix-revision 884b7d88,
+sp-submission cb161d48
+
+Files
+-----
+model: case-study/nested-loop.spthy -> nested-loop.spthy
+  sha256 5aec7d3a0a26ba0b3be87098c458d58f0152c22ee46384a150077df2f8cf5aee
+
+License
+-------
+MIT. MIT (Copyright (c) 2025 Felix Linker, Ralf Sasse, David Basin): keep the copyright and
+permission notice.
+The files are copied here unchanged; the license text is in models/pq3/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--prove=<lemma> nested-loop.spthy
+Where the flags come from: no flags: the source gives none for this model.
+
+Measured for this benchmark: not run yet.
+
+Hardware the authors state: Ubuntu 24.04, 252 GB, 2x Intel Xeon E5-2650 v4 (48 threads) (README)
+Tamarin version the authors used: 1.8.0 with Maude 3.1 and 3.2.1 (README)
+
+Lean side
+---------
+trace properties

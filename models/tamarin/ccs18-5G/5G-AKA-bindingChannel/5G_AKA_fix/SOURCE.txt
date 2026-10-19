@@ -1,0 +1,49 @@
+tamarin/ccs18-5G/5G-AKA-bindingChannel/5G_AKA_fix
+=================================================
+
+The model file is 5G_AKA_fix.spthy in this directory.
+Theory: 5G_aka_fix
+
+Paper
+-----
+David A. Basin, Jannik Dreier, Lucca Hirschi, Sasa Radomirovic, Ralf Sasse, Vincent Stettler.
+A Formal Analysis of 5G Authentication.
+CCS, 2018, pages 1383-1396.
+DOI:  https://doi.org/10.1145/3243734.3243846
+DBLP: https://dblp.org/rec/conf/ccs/BasinDHRSS18
+(Why this paper: directory name and README (paper title not written in the files).)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32/examples/ccs18-5G/5G-AKA-bindingChannel/5G_AKA_fix.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32
+Ref:        tag 1.10.0 (lightweight tag)
+
+Files
+-----
+model: examples/ccs18-5G/5G-AKA-bindingChannel/5G_AKA_fix.spthy -> 5G_AKA_fix.spthy
+  sha256 1c1b171aa97a55e217aa48f1fa818a2cb2feca5b2973c019c3b0b92d0a1413cd
+oracle: examples/ccs18-5G/5G-AKA-bindingChannel/5G_AKA_fix.oracle -> 5G_AKA_fix.oracle
+  sha256 09cc22fccca106906133d5dc59da846a135f9dce5317b175ea638d3637096eab
+
+License
+-------
+GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
+copies, mark any modifications, and keep the files under GPL-3.0.
+The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--heuristic=O --oraclename=5G_AKA_fix.oracle --prove=<lemma> 5G_AKA_fix.spthy
+Where the flags come from: --heuristic=O --oraclename: the command the authors give.
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: 1.4.0 (README)
+Times stated in the file: proof (automatic) (~1 sec); proof (automatic) (~2 min)
+
+Lean side
+---------
+trace properties

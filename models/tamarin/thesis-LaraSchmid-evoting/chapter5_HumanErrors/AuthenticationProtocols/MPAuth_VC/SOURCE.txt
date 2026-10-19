@@ -1,0 +1,52 @@
+tamarin/thesis-LaraSchmid-evoting/chapter5_HumanErrors/AuthenticationProtocols/MPAuth_VC
+========================================================================================
+
+The model file is MPAuth_VC.spthy in this directory.
+Theory: MPAuth_VC
+
+Paper
+-----
+Lara Schmid.
+Advancing the Formal Foundations for Voting Protocols.
+ETH Zurich, Zürich, Switzerland, 2020.
+DOI:  https://doi.org/10.3929/ETHZ-B-000418853
+DBLP: https://dblp.org/rec/phd/basesearch/Schmid20
+(Why this paper: README.)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32/examples/thesis-LaraSchmid-evoting/chapter5_HumanErrors/AuthenticationProtocols/MPAuth_VC.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32
+Ref:        tag 1.10.0 (lightweight tag)
+
+Files
+-----
+model:
+examples/thesis-LaraSchmid-evoting/chapter5_HumanErrors/AuthenticationProtocols/MPAuth_VC.spthy
+-> MPAuth_VC.spthy
+  sha256 669e50ff195a403003bb55e8d6c32bfdd98d256c0e79b5f0acc9b1b40cc24fa8
+oracle:
+examples/thesis-LaraSchmid-evoting/chapter5_HumanErrors/AuthenticationProtocols/o_MPAuth_VC ->
+o_MPAuth_VC
+  sha256 427f8b8ba758bbe420506c8f6d673ca68d8cfa89effda00b0a0ec67d19b9d2a3
+
+License
+-------
+GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
+copies, mark any modifications, and keep the files under GPL-3.0.
+The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--heuristic=O --oraclename=o_MPAuth_VC --prove=<lemma> MPAuth_VC.spthy
+Where the flags come from: --heuristic=O --oraclename: the directory's README.
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: 1.5.1 (git 1b68093f) (README)
+
+Lean side
+---------
+trace properties

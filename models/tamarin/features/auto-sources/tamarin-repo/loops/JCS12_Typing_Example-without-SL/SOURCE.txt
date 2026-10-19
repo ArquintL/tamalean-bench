@@ -1,0 +1,57 @@
+tamarin/features/auto-sources/tamarin-repo/loops/JCS12_Typing_Example-without-SL
+================================================================================
+
+The model file is JCS12_Typing_Example-without-SL.spthy in this directory.
+Theory: JCS12_Typing_Example
+
+Papers
+------
+Véronique Cortier, Stéphanie Delaune, Jannik Dreier.
+Automatic Generation of Sources Lemmas in Tamarin: Towards Automatic Proofs of Security
+Protocols.
+ESORICS (2), 2020, pages 3-22.
+DOI:  https://doi.org/10.1007/978-3-030-59013-0_1
+DBLP: https://dblp.org/rec/conf/esorics/CortierDD20
+
+Simon Meier, Cas Cremers, David A. Basin.
+Efficient construction of machine-checked symbolic protocol security proofs.
+J. Comput. Secur., 2013, volume 21, number 1, pages 41-87.
+DOI:  https://doi.org/10.3233/JCS-2012-0455
+DBLP: https://dblp.org/rec/journals/jcs/MeierCB13
+(Why this paper: README of features/auto-sources (refers to 'the paper' introducing
+--auto-sources; title not written in the files); copy of examples/loops (header: 'Typing
+Assertion Example from our JCS'12 paper').)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32/examples/features/auto-sources/tamarin-repo/loops/JCS12_Typing_Example-without-SL.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32
+Ref:        tag 1.10.0 (lightweight tag)
+
+Files
+-----
+model: examples/features/auto-sources/tamarin-repo/loops/JCS12_Typing_Example-without-SL.spthy
+-> JCS12_Typing_Example-without-SL.spthy
+  sha256 2e9a3a824201f2555ca16f54355b52851a4e15ff18c67dcc98b1ae7f95558d76
+
+License
+-------
+GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
+copies, mark any modifications, and keep the files under GPL-3.0.
+The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--auto-sources --prove=<lemma> JCS12_Typing_Example-without-SL.spthy
+Where the flags come from: --auto-sources: the authors' command (README or Makefile).
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: varies per directory (see models); Tamarin CI outputs at this
+tag (case-studies-regression/) were produced with Tamarin 1.9.0
+
+Lean side
+---------
+trace properties

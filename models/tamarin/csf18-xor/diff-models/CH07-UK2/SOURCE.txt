@@ -1,0 +1,52 @@
+tamarin/csf18-xor/diff-models/CH07-UK2
+======================================
+
+The model file is CH07-UK2.spthy in this directory.
+Theory: CH07_UK2
+
+Paper
+-----
+Jannik Dreier, Lucca Hirschi, Sasa Radomirovic, Ralf Sasse.
+Automated Unbounded Verification of Stateful Cryptographic Protocols with Exclusive OR.
+CSF, 2018, pages 359-373.
+DOI:  https://doi.org/10.1109/CSF.2018.00033
+DBLP: https://dblp.org/rec/conf/csfw/DreierHRS18
+(Why this paper: directory name and README ('the CSF paper').)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32/examples/csf18-xor/diff-models/CH07-UK2.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32
+Ref:        tag 1.10.0 (lightweight tag)
+
+Files
+-----
+model: examples/csf18-xor/diff-models/CH07-UK2.spthy -> CH07-UK2.spthy
+  sha256 656b6ca9f92c51164c2d65241ed7cab4057983a5d4154a7d7881453d029d4cfd
+
+License
+-------
+GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
+copies, mark any modifications, and keep the files under GPL-3.0.
+The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS --diff
+--prove=<lemma> CH07-UK2.spthy
+Where the flags come from: --diff: the model states observational equivalence.
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: varies per directory (see models); Tamarin CI outputs at this
+tag (case-studies-regression/) were produced with Tamarin 1.9.0
+Times stated in the file: Observational Equivalence: PROVEN automatically, <=10 minutes; //
+Observational Equivalence: PROVEN automatically, <=10 minutes
+Tamarin's own CI (case-studies-regression/csf18-xor/diff-models/CH07-UK2_analyzed-diff.spthy):
+processing time 56.37 s with Tamarin 1.9.0, flags --prove --diff --stop-on-trace=dfs, on Tamarin
+CI at tag 1.10.0: i5-10400, 12 threads, 64 GB, +RTS -N3
+
+Lean side
+---------
+out of scope: observational equivalence (a diff model); Tamalean checks trace properties only

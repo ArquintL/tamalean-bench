@@ -1,0 +1,53 @@
+emv/pan-routing/Visa_EMV_High_PaynetPAN
+=======================================
+
+The model file is not stored here (see License): scripts/fetch_models.py fetches it to
+cache/emv/pan-routing/Visa_EMV_High_PaynetPAN/Visa_EMV_High_PaynetPAN.spthy.
+Theory: Visa_EMV_High_PaynetPAN
+
+Paper
+-----
+David A. Basin, Ralf Sasse, Jorge Toro-Pozo.
+Card Brand Mixup Attack: Bypassing the PIN in non-Visa Cards by Using Them for Visa
+Transactions.
+USENIX Security Symposium, 2021, pages 179-194.
+URL:  https://www.usenix.org/conference/usenixsecurity21/presentation/basin
+DBLP: https://dblp.org/rec/conf/uss/BasinST21
+(Why this paper: README.)
+
+Online source
+-------------
+File:       https://github.com/EMVrace/EMVerify-PAN-routing/blob/a660516370651fd26092c3686a0a3eaed3fcc493/models-n-proofs/Visa_EMV_High_PaynetPAN.spthy
+Repository: https://github.com/EMVrace/EMVerify-PAN-routing
+Commit:     a660516370651fd26092c3686a0a3eaed3fcc493
+Ref:        main (HEAD)
+
+Files
+-----
+model: models-n-proofs/Visa_EMV_High_PaynetPAN.spthy -> Visa_EMV_High_PaynetPAN.spthy
+  sha256 d1100f095a0072f7d5e7269af3b03116fdda7397b09bf7653d9541d0d7cb006d
+oracle: Visa.oracle -> Visa.oracle
+  sha256 a9f96140ea43e76a80851a830297fb97cedc709b35ea59babf4ca650c4b44c78
+
+License
+-------
+none stated. no license stated (no LICENSE file; README and file headers checked).
+The files are not copied into this repository; scripts/fetch_models.py fetches them at the
+pinned commit and checks their sha256.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--heuristic=O --oraclename=Visa.oracle --prove=<lemma> Visa_EMV_High_PaynetPAN.spthy
+Where the flags come from: --heuristic=O --oraclename: the command the authors give.
+
+Measured for this benchmark: not run yet.
+
+Reported by the authors: 61.10426392s processing time in Visa_EMV_High_PaynetPAN.proof (Tamarin
+1.7.0 (git 2884fce8); 2x Xeon E5-2650 v4, 10 threads, 20 GB)
+Hardware the authors state: 2x Xeon E5-2650 v4, 10 threads, 20 GB
+Tamarin version the authors used: Tamarin 1.7.0 (git 2884fce8)
+
+Lean side
+---------
+trace properties

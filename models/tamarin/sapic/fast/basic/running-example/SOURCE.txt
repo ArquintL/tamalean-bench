@@ -1,0 +1,51 @@
+tamarin/sapic/fast/basic/running-example
+========================================
+
+The model file is running-example.spthy in this directory.
+Theory: RunningExample
+
+Paper
+-----
+Simon Meier, Benedikt Schmidt 0002, Cas Cremers, David A. Basin.
+The TAMARIN Prover for the Symbolic Analysis of Security Protocols.
+CAV, 2013, pages 696-701.
+DOI:  https://doi.org/10.1007/978-3-642-39799-8_48
+DBLP: https://dblp.org/rec/conf/cav/MeierSCB13
+(Why this paper: SAPIC example collection; per-model publication not stated -> Tamarin tool
+paper cited instead.)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32/examples/sapic/fast/basic/running-example.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32
+Ref:        tag 1.10.0 (lightweight tag)
+
+Files
+-----
+model: examples/sapic/fast/basic/running-example.spthy -> running-example.spthy
+  sha256 802f6d40d2e8a847b23e0fb6357139da3a0c7a8150ed8f2b4f26fe1181ac90ce
+
+License
+-------
+GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
+copies, mark any modifications, and keep the files under GPL-3.0.
+The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--prove=<lemma> running-example.spthy
+Where the flags come from: no flags: the source gives none for this model.
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: varies per directory (see models); Tamarin CI outputs at this
+tag (case-studies-regression/) were produced with Tamarin 1.9.0
+Tamarin's own CI (case-studies-regression/sapic/fast/basic/running-example_analyzed.spthy):
+processing time 3.02 s with Tamarin 1.9.0, flags --prove --stop-on-trace=dfs, on Tamarin CI at
+tag 1.10.0: i5-10400, 12 threads, 64 GB, +RTS -N3
+
+Lean side
+---------
+trace properties

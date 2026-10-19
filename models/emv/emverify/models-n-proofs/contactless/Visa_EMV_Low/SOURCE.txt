@@ -1,0 +1,53 @@
+emv/emverify/models-n-proofs/contactless/Visa_EMV_Low
+=====================================================
+
+The model file is not stored here (see License): scripts/fetch_models.py fetches it to
+cache/emv/emverify/models-n-proofs/contactless/Visa_EMV_Low/Visa_EMV_Low.spthy.
+Theory: Visa_EMV_Low
+
+Paper
+-----
+David A. Basin, Ralf Sasse, Jorge Toro-Pozo.
+The EMV Standard: Break, Fix, Verify.
+SP, 2021, pages 1766-1781.
+DOI:  https://doi.org/10.1109/SP40001.2021.00037
+DBLP: https://dblp.org/rec/conf/sp/BasinST21
+(Why this paper: README.)
+
+Online source
+-------------
+File:       https://github.com/EMVrace/EMVerify/blob/592200990f6738f41c540f9c619e11e932b0c6d5/models-n-proofs/contactless/Visa_EMV_Low.spthy
+Repository: https://github.com/EMVrace/EMVerify
+Commit:     592200990f6738f41c540f9c619e11e932b0c6d5
+Ref:        master (HEAD)
+
+Files
+-----
+model: models-n-proofs/contactless/Visa_EMV_Low.spthy -> Visa_EMV_Low.spthy
+  sha256 12d9cc9835ceab4e8955e45c3f363c80d6a2f86804b47da87047a23858450f29
+oracle: Visa.oracle -> Visa.oracle
+  sha256 a9f96140ea43e76a80851a830297fb97cedc709b35ea59babf4ca650c4b44c78
+
+License
+-------
+none stated. no license stated (no LICENSE file; README, file headers and the EMVrace website
+checked).
+The files are not copied into this repository; scripts/fetch_models.py fetches them at the
+pinned commit and checks their sha256.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--heuristic=O --oraclename=Visa.oracle --prove=<lemma> Visa_EMV_Low.spthy
+Where the flags come from: --heuristic=O --oraclename: the command the authors give.
+
+Measured for this benchmark: not run yet.
+
+Reported by the authors: 75.441032509s processing time in Visa_EMV_Low.proof (Tamarin 1.7.0 (git
+2884fce8); 2x Xeon E5-2650 v4, 10 threads, 20 GB)
+Hardware the authors state: 2x Xeon E5-2650 v4, 10 threads, 20 GB
+Tamarin version the authors used: Tamarin 1.7.0 (git 2884fce8)
+
+Lean side
+---------
+trace properties

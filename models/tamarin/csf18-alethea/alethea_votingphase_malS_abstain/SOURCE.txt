@@ -1,0 +1,52 @@
+tamarin/csf18-alethea/alethea_votingphase_malS_abstain
+======================================================
+
+The model file is alethea_votingphase_malS_abstain.spthy in this directory.
+Theory: alethea_votingphase_malS_abstain
+
+Paper
+-----
+David A. Basin, Sasa Radomirovic, Lara Schmid.
+Alethea: A Provably Secure Random Sample Voting Protocol.
+CSF, 2018, pages 283-297.
+DOI:  https://doi.org/10.1109/CSF.2018.00028
+DBLP: https://dblp.org/rec/conf/csfw/BasinRS18
+(Why this paper: README.)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32/examples/csf18-alethea/alethea_votingphase_malS_abstain.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32
+Ref:        tag 1.10.0 (lightweight tag)
+
+Files
+-----
+model: examples/csf18-alethea/alethea_votingphase_malS_abstain.spthy ->
+alethea_votingphase_malS_abstain.spthy
+  sha256 68da352ec89e35a3c8b013fe8f8b43cdf06adc32333f8c49f454284887022743
+oracle: examples/csf18-alethea/oracle_alethea_votingphase_abstain ->
+oracle_alethea_votingphase_abstain
+  sha256 681086281c7c9ac796f46f2f6ca8bf490e389a66937c12253e5d483394ff3e29
+
+License
+-------
+GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
+copies, mark any modifications, and keep the files under GPL-3.0.
+The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--heuristic=o --oraclename=oracle_alethea_votingphase_abstain --prove=<lemma>
+alethea_votingphase_malS_abstain.spthy
+Where the flags come from: --heuristic=o --oraclename: the command the authors give.
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: varies per directory (see models); Tamarin CI outputs at this
+tag (case-studies-regression/) were produced with Tamarin 1.9.0
+
+Lean side
+---------
+trace properties

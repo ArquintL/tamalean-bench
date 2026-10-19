@@ -1,0 +1,52 @@
+emv/emverify/Contactless
+========================
+
+The model file is not stored here (see License): scripts/fetch_models.py fetches it to
+cache/emv/emverify/Contactless/Contactless.spthy.
+Theory: Contactless
+
+Paper
+-----
+David A. Basin, Ralf Sasse, Jorge Toro-Pozo.
+The EMV Standard: Break, Fix, Verify.
+SP, 2021, pages 1766-1781.
+DOI:  https://doi.org/10.1109/SP40001.2021.00037
+DBLP: https://dblp.org/rec/conf/sp/BasinST21
+(Why this paper: README.)
+
+Online source
+-------------
+File:       https://github.com/EMVrace/EMVerify/blob/592200990f6738f41c540f9c619e11e932b0c6d5/Contactless.spthy
+Repository: https://github.com/EMVrace/EMVerify
+Commit:     592200990f6738f41c540f9c619e11e932b0c6d5
+Ref:        master (HEAD)
+
+Files
+-----
+model: Contactless.spthy -> Contactless.spthy
+  sha256 397df9c70470836b192a69ff5c17fdae1c01afaf78b65c2c26c6ace64a8b9d99
+oracle: Mastercard.oracle -> Mastercard.oracle
+  sha256 7174b21811d70162e4f79b4e692f23ce908703b0d2e54d42f0140b4ddbae247c
+
+License
+-------
+none stated. no license stated (no LICENSE file; README, file headers and the EMVrace website
+checked).
+The files are not copied into this repository; scripts/fetch_models.py fetches them at the
+pinned commit and checks their sha256.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--heuristic=O --oraclename=Mastercard.oracle --prove=<lemma> Contactless.spthy
+Where the flags come from: --heuristic=O --oraclename: Makefile: the default kernel is
+Mastercard (--heuristic=O --oraclename=Mastercard.oracle).
+
+Measured for this benchmark: not run yet.
+
+Hardware the authors state: 2x Xeon E5-2650 v4, 10 threads, 20 GB
+Tamarin version the authors used: Tamarin 1.7.0 (git 2884fce8)
+
+Lean side
+---------
+trace properties

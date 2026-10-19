@@ -1,0 +1,49 @@
+tamarin/csf20-disputeResolution/mixvote_ShHh_RF
+===============================================
+
+The model file is mixvote_ShHh_RF.spthy in this directory.
+Theory: mixvote_ShHh_RF
+
+Paper
+-----
+David A. Basin, Sasa Radomirovic, Lara Schmid.
+Dispute Resolution in Voting.
+CSF, 2020, pages 1-16.
+DOI:  https://doi.org/10.1109/CSF49147.2020.00009
+DBLP: https://dblp.org/rec/conf/csfw/BasinRS20
+(Why this paper: README.)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32/examples/csf20-disputeResolution/mixvote_ShHh_RF.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32
+Ref:        tag 1.10.0 (lightweight tag)
+
+Files
+-----
+model: examples/csf20-disputeResolution/mixvote_ShHh_RF.spthy -> mixvote_ShHh_RF.spthy
+  sha256 dda0c3e18dc210b1f84a680b1083bf5602067f61b420d4fb52be99aeee11536e
+oracle: examples/csf20-disputeResolution/o_mixvote_ShHh_RF -> o_mixvote_ShHh_RF
+  sha256 825b0ad17484e98e22f00d4af075b68f5008b7f0ba15eb94f7b788d89a110a37
+
+License
+-------
+GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
+copies, mark any modifications, and keep the files under GPL-3.0.
+The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS --diff
+--heuristic=O --oraclename=o_mixvote_ShHh_RF --prove=<lemma> mixvote_ShHh_RF.spthy
+Where the flags come from: --diff: the model states observational equivalence; --heuristic=O
+--oraclename: the directory's README.
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: 1.5.1 (git 5c569d9f) (README)
+
+Lean side
+---------
+out of scope: observational equivalence (a diff model); Tamalean checks trace properties only

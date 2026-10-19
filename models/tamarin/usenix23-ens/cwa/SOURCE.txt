@@ -1,0 +1,54 @@
+tamarin/usenix23-ens/cwa
+========================
+
+The model file is cwa.spthy in this directory.
+Theory: CWA
+
+Paper
+-----
+Kevin Morio, Ilkan Esiyok, Dennis Jackson, Robert Künnemann.
+Automated Security Analysis of Exposure Notification Systems.
+USENIX Security Symposium, 2023, pages 6593-6610.
+URL:  https://www.usenix.org/conference/usenixsecurity23/presentation/morio
+DBLP: https://dblp.org/rec/conf/uss/MorioEJK23
+(Why this paper: README.)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32/examples/usenix23-ens/cwa.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32
+Ref:        tag 1.10.0 (lightweight tag)
+
+Files
+-----
+model: examples/usenix23-ens/cwa.spthy -> cwa.spthy
+  sha256 acd9eb583a56c7e6c80f731bb0c7cadffed78f237304fb4e5f2960a274ee9640
+oracle: examples/usenix23-ens/oracles/oracle-cwa -> oracles/oracle-cwa
+  sha256 d42cf4dc8517f2533653ae8cf44c496052a074cc1cc712f6400200aa48837639
+
+License
+-------
+MIT (examples/usenix23-ens/LICENSE) within the GPL-3.0 repository. MIT (directory LICENSE,
+Copyright (c) 2020-2022 Kevin Morio, Ilkan Esiyok, Dennis Jackson, Robert Künnemann): keep the
+copyright and permission notice; the repository is also GPL-3.0.
+The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--prove=<lemma> cwa.spthy
+Where the flags come from: the oracle is named in the theory file (no flag needed).
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: varies per directory (see models); Tamarin CI outputs at this
+tag (case-studies-regression/) were produced with Tamarin 1.9.0
+Times stated in the file: * Time is discretized in 10 minute intervals.; *   + rolling_period:
+Increments of 10 minutes describing how long a key is valid (default = 144); Only keep the last
+14 days of keys.; Once the test result is obtained, the keys of the last 14 days without today's
+key can be uploaded.
+
+Lean side
+---------
+trace properties

@@ -1,0 +1,53 @@
+tamarin/usenix23-ens/robert
+===========================
+
+The model file is robert.spthy in this directory.
+Theory: ROBERT
+
+Paper
+-----
+Kevin Morio, Ilkan Esiyok, Dennis Jackson, Robert Künnemann.
+Automated Security Analysis of Exposure Notification Systems.
+USENIX Security Symposium, 2023, pages 6593-6610.
+URL:  https://www.usenix.org/conference/usenixsecurity23/presentation/morio
+DBLP: https://dblp.org/rec/conf/uss/MorioEJK23
+(Why this paper: README.)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32/examples/usenix23-ens/robert.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32
+Ref:        tag 1.10.0 (lightweight tag)
+
+Files
+-----
+model: examples/usenix23-ens/robert.spthy -> robert.spthy
+  sha256 81cdba3b2c2a0cf971c622f59dc4a55d8b4fb5e9b1d57640b2386a84abf21d1e
+oracle: examples/usenix23-ens/oracles/oracle-robert -> oracles/oracle-robert
+  sha256 408b70ee2966923146bde34891371d9786c45b8da2fcf17c2a0582cef33ab704
+
+License
+-------
+MIT (examples/usenix23-ens/LICENSE) within the GPL-3.0 repository. MIT (directory LICENSE,
+Copyright (c) 2020-2022 Kevin Morio, Ilkan Esiyok, Dennis Jackson, Robert Künnemann): keep the
+copyright and permission notice; the repository is also GPL-3.0.
+The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--prove=<lemma> robert.spthy
+Where the flags come from: the oracle is named in the theory file (no flag needed).
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: varies per directory (see models); Tamarin CI outputs at this
+tag (case-studies-regression/) were produced with Tamarin 1.9.0
+Times stated in the file: Phone only keeps local proximity list for 14 days.; CASE: Compromise
+$1$ (or many) infected phones and, during the last 14 days\outsidef, place in proximity to all
+$n$ phones (\ref{at:robert-refl}, \ref{at:robert-window})
+
+Lean side
+---------
+trace properties

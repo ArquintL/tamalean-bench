@@ -1,0 +1,47 @@
+tamarin/csf17/iso-iec9798-modified
+==================================
+
+The model file is iso-iec9798-modified.spthy in this directory.
+Theory: ISO_IEC9798_3_3_Modified
+
+Paper
+-----
+Kevin Milner 0002, Cas Cremers, Jiangshan Yu, Mark Ryan 0001.
+Automatically Detecting the Misuse of Secrets: Foundations, Design Principles, and Applications.
+CSF, 2017, pages 203-216.
+DOI:  https://doi.org/10.1109/CSF.2017.21
+DBLP: https://dblp.org/rec/conf/csfw/MilnerCYR17
+(Why this paper: README.)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32/examples/csf17/iso-iec9798-modified.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32
+Ref:        tag 1.10.0 (lightweight tag)
+
+Files
+-----
+model: examples/csf17/iso-iec9798-modified.spthy -> iso-iec9798-modified.spthy
+  sha256 3a3d0fe7804c56243ce6cca720617aaf858c83d93cd949e4bd5d7a27760027b5
+
+License
+-------
+GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
+copies, mark any modifications, and keep the files under GPL-3.0.
+The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--prove=<lemma> iso-iec9798-modified.spthy
+Where the flags come from: no flags: the source gives none for this model.
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: varies per directory (see models); Tamarin CI outputs at this
+tag (case-studies-regression/) were produced with Tamarin 1.9.0
+
+Lean side
+---------
+trace properties

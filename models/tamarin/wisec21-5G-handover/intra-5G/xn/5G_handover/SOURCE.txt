@@ -1,0 +1,53 @@
+tamarin/wisec21-5G-handover/intra-5G/xn/5G_handover
+===================================================
+
+The model file is 5G_handover.spthy in this directory.
+Theory: 5G_xn_handover
+
+Paper
+-----
+Aleksi Peltonen, Ralf Sasse, David A. Basin.
+A comprehensive formal analysis of 5G handover.
+WISEC, 2021, pages 1-12.
+DOI:  https://doi.org/10.1145/3448300.3467823
+DBLP: https://dblp.org/rec/conf/wisec/PeltonenSB21
+(Why this paper: directory name (README does not name the paper).)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32/examples/wisec21-5G-handover/intra-5G/xn/5G_handover.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32
+Ref:        tag 1.10.0 (lightweight tag)
+
+Files
+-----
+model: examples/wisec21-5G-handover/intra-5G/xn/5G_handover.spthy -> 5G_handover.spthy
+  sha256 0000018ace5e9f4b6b93d1bfbdbd985437d2b9aeff9038704a2d97a65d5107ef
+oracle: examples/wisec21-5G-handover/intra-5G/xn/5G_handover.oracle -> 5G_handover.oracle
+  sha256 a702274a2349210a69442c3ac6a11118969cf27637099c63669eb2fe665794d1
+
+License
+-------
+GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
+copies, mark any modifications, and keep the files under GPL-3.0.
+The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--heuristic=o --oraclename=5G_handover.oracle --prove=<lemma> 5G_handover.spthy
+Where the flags come from: --heuristic=o --oraclename: the command the authors give.
+
+Measured for this benchmark: not run yet.
+
+Reported by the authors: approximately 30 min (1h 40 min with all flags) for all lemmas (README
+of wisec21-5G-handover; Xeon E5-2650 v4, 10 cores, 20 GB)
+Hardware the authors state: Intel Xeon E5-2650 v4 @ 2.20GHz, 10 cores, 20 GB (README)
+Tamarin version the authors used: 1.5.1 (git 57056945) (README)
+Times stated in the file: Proof: Automatic (~2 min (55 steps), +RTS -N10 -M20G -RTS); Proof:
+Automatic (~12 min (253 steps), +RTS -N10 -M20G -RTS)
+
+Lean side
+---------
+trace properties

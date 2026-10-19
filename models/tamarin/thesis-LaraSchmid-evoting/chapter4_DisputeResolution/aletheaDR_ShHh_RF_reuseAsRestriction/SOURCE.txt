@@ -1,0 +1,48 @@
+tamarin/thesis-LaraSchmid-evoting/chapter4_DisputeResolution/aletheaDR_ShHh_RF_reuseAsRestriction
+=================================================================================================
+
+The model file is aletheaDR_ShHh_RF_reuseAsRestriction.spthy in this directory.
+Theory: aletheaDR_ShHh_RF_reuseAsRestriction
+
+Paper
+-----
+Lara Schmid.
+Advancing the Formal Foundations for Voting Protocols.
+ETH Zurich, Zürich, Switzerland, 2020.
+DOI:  https://doi.org/10.3929/ETHZ-B-000418853
+DBLP: https://dblp.org/rec/phd/basesearch/Schmid20
+(Why this paper: README.)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32/examples/thesis-LaraSchmid-evoting/chapter4_DisputeResolution/aletheaDR_ShHh_RF_reuseAsRestriction.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32
+Ref:        tag 1.10.0 (lightweight tag)
+
+Files
+-----
+model:
+examples/thesis-LaraSchmid-evoting/chapter4_DisputeResolution/aletheaDR_ShHh_RF_reuseAsRestriction.spthy
+-> aletheaDR_ShHh_RF_reuseAsRestriction.spthy
+  sha256 7b8eaf756ff9475e8c4a89132d7819003e795f48afa88aa6d7498ebe7e015548
+
+License
+-------
+GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
+copies, mark any modifications, and keep the files under GPL-3.0.
+The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS --diff
+--prove=<lemma> aletheaDR_ShHh_RF_reuseAsRestriction.spthy
+Where the flags come from: --diff: the model states observational equivalence.
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: 1.5.1 (git 1b68093f) (README)
+
+Lean side
+---------
+out of scope: observational equivalence (a diff model); Tamalean checks trace properties only

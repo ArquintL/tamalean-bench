@@ -1,0 +1,57 @@
+tamarin/asiaccs20-eccDAA/SIGN/SP5_SP6_ObsEqui/SP5_Anonymity_SIGN_ObsEquiv_BSN
+=============================================================================
+
+The model file is SP5_Anonymity_SIGN_ObsEquiv_BSN.spthy in this directory.
+Theory: SP5_Anonymity_SIGN_ObsEqui_withBSN
+
+Paper
+-----
+Stephan Wesemeyer, Christopher J. P. Newton, Helen Treharne, Liqun Chen 0002, Ralf Sasse, Jorden
+Whitefield.
+Formal Analysis and Implementation of a TPM 2.0-based Direct Anonymous Attestation Scheme.
+AsiaCCS, 2020, pages 784-798.
+DOI:  https://doi.org/10.1145/3320269.3372197
+DBLP: https://dblp.org/rec/conf/ccs/WesemeyerNTCSW20
+(Why this paper: README.)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32/examples/asiaccs20-eccDAA/SIGN/SP5_SP6_ObsEqui/SP5_Anonymity_SIGN_ObsEquiv_BSN.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32
+Ref:        tag 1.10.0 (lightweight tag)
+
+Files
+-----
+model: examples/asiaccs20-eccDAA/SIGN/SP5_SP6_ObsEqui/SP5_Anonymity_SIGN_ObsEquiv_BSN.spthy ->
+SP5_Anonymity_SIGN_ObsEquiv_BSN.spthy
+  sha256 075b83f5182c91cd641178a0c3c49e8869a64d499f78438a70f802478cf1df1e
+oracle: examples/asiaccs20-eccDAA/SIGN/SP5_SP6_ObsEqui/ObsEquOracle.py -> ObsEquOracle.py
+  sha256 08f2d3063dd356ff483ee4a376a450eca7dee3747a6f0f18f110db637c7ffffc
+
+License
+-------
+GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
+copies, mark any modifications, and keep the files under GPL-3.0.
+The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS --diff
+--heuristic=O --oraclename=ObsEquOracle.py --prove=<lemma> SP5_Anonymity_SIGN_ObsEquiv_BSN.spthy
+Where the flags come from: --diff: the model states observational equivalence; --heuristic=O
+--oraclename: the command the authors give.
+
+Measured for this benchmark: not run yet.
+
+Reported by the authors: real 39m7.786s per the 'time' output in the file header (hardware: 2x
+Xeon E5-2667 v3, 378 GB, README)
+Hardware the authors state: 2x Intel Xeon E5-2667 v3 @ 3.20GHz (16 cores/32 vCPUs), 378 GB RAM
+(README); per-file 'time' output in each file header
+Tamarin version the authors used: varies per directory (see models); Tamarin CI outputs at this
+tag (case-studies-regression/) were produced with Tamarin 1.9.0
+Times stated in the file: real 39m7.786s
+
+Lean side
+---------
+out of scope: observational equivalence (a diff model); Tamalean checks trace properties only

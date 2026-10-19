@@ -1,0 +1,11 @@
+The AKMA+ model files
+=====================
+
+The GitHub repository https://github.com/AKMA-Plus/AKMA-Plus-Tamarin states no license.  The
+authors' Zenodo deposit of the same files (https://doi.org/10.5281/zenodo.14649847,
+AKMA-Plus-Tamarin.zip, byte-identical by sha256 to the pinned commit) is licensed under the
+Creative Commons Attribution 4.0 International license (CC BY 4.0),
+https://creativecommons.org/licenses/by/4.0/legalcode .
+
+Attribution: the files are the authors' Tamarin model of AKMA+, from the artifact of the paper
+listed in each SOURCE.txt; they are copied unchanged.

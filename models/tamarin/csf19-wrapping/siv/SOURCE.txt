@@ -1,0 +1,54 @@
+tamarin/csf19-wrapping/siv
+==========================
+
+The model file is siv.spthy in this directory.
+Theory: PKCS11_siv
+
+Paper
+-----
+Alexander Dax, Robert Künnemann, Sven Tangermann, Michael Backes 0001.
+How to Wrap it up - A Formally Verified Proposal for the use of Authenticated Wrapping in
+PKCS#11.
+CSF, 2019, pages 62-77.
+DOI:  https://doi.org/10.1109/CSF.2019.00012
+DBLP: https://dblp.org/rec/conf/csfw/DaxKT019
+(Why this paper: README.)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32/examples/csf19-wrapping/siv.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32
+Ref:        tag 1.10.0 (lightweight tag)
+
+Files
+-----
+model: examples/csf19-wrapping/siv.spthy -> siv.spthy
+  sha256 51ca69e480df7e19d0a07c888e167c2560637912462c4209a67bf4ce887dea78
+oracle: examples/csf19-wrapping/siv.spthy.oracle -> siv.spthy.oracle
+  sha256 e99a47ca43d33ac7e42424991f8dbaf2851d5e5faff5ef427e221938b4a2b9c4
+
+License
+-------
+GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
+copies, mark any modifications, and keep the files under GPL-3.0.
+The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--heuristic=O --oraclename=siv.spthy.oracle --prove=<lemma> siv.spthy
+Where the flags come from: --heuristic=O --oraclename: the command the authors give.
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: tested in 1.5.1 (README)
+Tamarin's own CI
+(case-studies-regression/csf19-wrapping/siv_analyzed-oracle-siv-wrapping.spthy): processing time
+75.51 s with Tamarin 1.9.0, flags --prove --stop-on-trace=dfs --heuristic=O
+--oraclename=examples/csf19-wrapping/siv.spthy.oracle, on Tamarin CI at tag 1.10.0: i5-10400, 12
+threads, 64 GB, +RTS -N3
+
+Lean side
+---------
+trace properties

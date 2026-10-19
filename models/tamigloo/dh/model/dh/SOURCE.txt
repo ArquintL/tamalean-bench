@@ -1,0 +1,48 @@
+tamigloo/dh/model/dh
+====================
+
+The model file is dh.spthy in this directory.
+Theory: Dh
+
+Paper
+-----
+Linard Arquint, Felix A. Wolf, Joseph Lallemand, Ralf Sasse, Christoph Sprenger 0001, Sven N.
+Wiesner, David A. Basin, Peter Müller 0001.
+Sound Verification of Security Protocols: From Design to Interoperable Implementations.
+SP, 2023, pages 1077-1093.
+DOI:  https://doi.org/10.1109/SP46215.2023.10179325
+DBLP: https://dblp.org/rec/conf/sp/ArquintWLSSWBM23
+(Why this paper: README (S&P'23 artifact).)
+
+Online source
+-------------
+File:       https://github.com/viperproject/protocol-verification-refinement/blob/99938516dfd3612fbb6ec25d43ea88d06822453e/dh/model/dh.spthy
+Repository: https://github.com/viperproject/protocol-verification-refinement
+Commit:     99938516dfd3612fbb6ec25d43ea88d06822453e
+Ref:        main (HEAD)
+
+Files
+-----
+model: dh/model/dh.spthy -> dh.spthy
+  sha256 ffd5bdb629daaed8b1ceaf5ea75d93cdb5fd3ce1dcf5d1338527011aac1ed0c1
+
+License
+-------
+MPL-2.0. MPL-2.0: redistribution allowed; keep the MPL-2.0 notice and keep the files (and
+modifications to them) under MPL-2.0.
+The files are copied here unchanged; the license text is in models/tamigloo/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--derivcheck-timeout=0 --prove=<lemma> dh.spthy
+Where the flags come from: --derivcheck-timeout=0: the authors' command.
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: READMEs: 1.6.0 known to work; CI at this commit uses the
+Tamarin 1.10.0 release (tamarin-docker/Dockerfile)
+
+Lean side
+---------
+trace properties

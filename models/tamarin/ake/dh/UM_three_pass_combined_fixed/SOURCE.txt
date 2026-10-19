@@ -1,0 +1,50 @@
+tamarin/ake/dh/UM_three_pass_combined_fixed
+===========================================
+
+The model file is UM_three_pass_combined_fixed.spthy in this directory.
+Theory: UM_three_pass_combined
+
+Paper
+-----
+Simon Meier, Benedikt Schmidt 0002, Cas Cremers, David A. Basin.
+The TAMARIN Prover for the Symbolic Analysis of Security Protocols.
+CAV, 2013, pages 696-701.
+DOI:  https://doi.org/10.1007/978-3-642-39799-8_48
+DBLP: https://dblp.org/rec/conf/cav/MeierSCB13
+(Why this paper: headers name modelers but no publication -> Tamarin tool paper cited instead.)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32/examples/ake/dh/UM_three_pass_combined_fixed.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32
+Ref:        tag 1.10.0 (lightweight tag)
+
+Files
+-----
+model: examples/ake/dh/UM_three_pass_combined_fixed.spthy -> UM_three_pass_combined_fixed.spthy
+  sha256 f0caf0bbd7fc58bc773242d8e84a376850c680ac582856144e154cff8f10191e
+
+License
+-------
+GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
+copies, mark any modifications, and keep the files under GPL-3.0.
+The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--prove=<lemma> UM_three_pass_combined_fixed.spthy
+Where the flags come from: no flags: the source gives none for this model.
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: varies per directory (see models); Tamarin CI outputs at this
+tag (case-studies-regression/) were produced with Tamarin 1.9.0
+Tamarin's own CI (case-studies-regression/ake/dh/UM_three_pass_combined_fixed_analyzed.spthy):
+processing time 18.33 s with Tamarin 1.9.0, flags --prove --stop-on-trace=dfs, on Tamarin CI at
+tag 1.10.0: i5-10400, 12 threads, 64 GB, +RTS -N3
+
+Lean side
+---------
+trace properties

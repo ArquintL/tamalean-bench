@@ -1,0 +1,48 @@
+tamarin/thesis-benedikt/running-examples/UM_one_pass_private
+============================================================
+
+The model file is UM_one_pass_private.spthy in this directory.
+Theory: UM_one_pass_private
+
+Paper
+-----
+Benedikt Schmidt 0002.
+Formal analysis of key exchange protocols and physical protocols.
+ETH Zurich, Zürich, Switzerland, 2012.
+DOI:  https://doi.org/10.3929/ETHZ-A-009898924
+DBLP: https://dblp.org/rec/phd/basesearch/Schmidt12
+(Why this paper: headers 'Source: Ph.D. Thesis'.)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32/examples/thesis-benedikt/running-examples/UM_one_pass_private.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32
+Ref:        tag 1.10.0 (lightweight tag)
+
+Files
+-----
+model: examples/thesis-benedikt/running-examples/UM_one_pass_private.spthy ->
+UM_one_pass_private.spthy
+  sha256 0c0e03183d8a0e2053d74bb2773e84427a3d6d0cd12ee6e6b9693502c293432d
+
+License
+-------
+GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
+copies, mark any modifications, and keep the files under GPL-3.0.
+The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--prove=<lemma> UM_one_pass_private.spthy
+Where the flags come from: no flags: the source gives none for this model.
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: varies per directory (see models); Tamarin CI outputs at this
+tag (case-studies-regression/) were produced with Tamarin 1.9.0
+
+Lean side
+---------
+trace properties

@@ -1,0 +1,39 @@
+/*
+ * Artifacts for Usenix 2025 paper "A Tale of Two Worlds, a Formal Story of WireGuard Hybridization"
+ */
+
+theory WireGuardWithFixPSK
+
+begin
+
+builtins: hashing, diffie-hellman
+
+functions: kdf1/1, kdf2/1, kdf3/1, aead/4, xaead/4, decrypt/3[destructor], xdecrypt/3[destructor], checkaead/4[destructor], checkxaead/4[destructor], mac/2, checkmac/3[destructor], paenc/3, padec/2[destructor], true/0
+equations: decrypt(k, n, aead(k, n, a, p)) = p
+equations: checkaead(k, n, a, aead(k, n, a, p)) = true
+equations: xdecrypt(k, n, xaead(k, n, a, p)) = p
+equations: checkxaead(k, n, a, xaead(k, n, a, p)) = true
+equations: checkmac(k, m, mac(k,m)) = true
+
+
+tactic: myHeuristic
+presort: s
+deprio:
+    regex "KU\( 'g'\^\(~x\.1"
+
+heuristic: {myHeuristic}
+
+
+let RevealLDH(ldh) =
+    event RevLDH('g'^ldh); out(ldh)
+
+let RevealPRE(ldhi, ldhr)=
+    event RevPre('g'^ldhi, 'g'^ldhr); out(('g'^ldhi)^ldhr)
+
+let RevealDHE(dhe) =
+    event RevDHE('g'^dhe); out(dhe)
+
+let RevealPSK(psk) =
+    event RevPsk(psk); out(psk)
+
+

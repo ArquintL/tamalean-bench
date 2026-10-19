@@ -1,0 +1,53 @@
+tamarin-dev/regression/trace/manual-variant-action-alignment
+============================================================
+
+The model file is manual-variant-action-alignment.spthy in this directory.
+Theory: ManualVariantActionAlignment
+
+Paper
+-----
+Simon Meier, Benedikt Schmidt 0002, Cas Cremers, David A. Basin.
+The TAMARIN Prover for the Symbolic Analysis of Security Protocols.
+CAV, 2013, pages 696-701.
+DOI:  https://doi.org/10.1007/978-3-642-39799-8_48
+DBLP: https://dblp.org/rec/conf/cav/MeierSCB13
+(Why this paper: regression tests, no paper -> Tamarin tool paper cited instead.)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/7e4e16e364dfa0d60092ce7f6f44109156e24fd7/examples/regression/trace/manual-variant-action-alignment.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     7e4e16e364dfa0d60092ce7f6f44109156e24fd7
+Ref:        branch develop (cabal version 1.13.0)
+
+Files
+-----
+model: examples/regression/trace/manual-variant-action-alignment.spthy ->
+manual-variant-action-alignment.spthy
+  sha256 8c5ea23ba3e948fd9f1125f6d0936e3400b51fe5a124518fa3d702f26501ea3c
+
+License
+-------
+GPL-3.0. GPL-3.0 (as for tag 1.10.0).
+The files are copied here unchanged; the license text is in models/tamarin-dev/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--prove=<lemma> manual-variant-action-alignment.spthy
+Where the flags come from: no flags: the source gives none for this model.
+
+Measured for this benchmark: not run yet.
+
+Tamarin's own CI
+(case-studies-regression/fast-tests/regression/trace/manual-variant-action-alignment_analyzed.spthy):
+processing time 0.15 s with Tamarin 1.13.0, flags --prove --stop-on-trace=dfs, on Tamarin CI on
+develop: 14-core Mac (hippo2.local), Tamarin 1.13.0
+Tamarin's own CI
+(case-studies-regression/regression/trace/manual-variant-action-alignment_analyzed.spthy):
+processing time 0.13 s with Tamarin 1.13.0, flags --prove --stop-on-trace=dfs, on Tamarin CI on
+develop: 14-core Mac (hippo2.local), Tamarin 1.13.0
+
+Lean side
+---------
+trace properties

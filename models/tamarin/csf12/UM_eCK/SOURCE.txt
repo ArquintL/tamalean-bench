@@ -1,0 +1,47 @@
+tamarin/csf12/UM_eCK
+====================
+
+The model file is UM_eCK.spthy in this directory.
+Theory: UM_eCK
+
+Paper
+-----
+Benedikt Schmidt 0002, Simon Meier, Cas Cremers, David A. Basin.
+Automated Analysis of Diffie-Hellman Protocols and Advanced Security Properties.
+CSF, 2012, pages 78-94.
+DOI:  https://doi.org/10.1109/CSF.2012.25
+DBLP: https://dblp.org/rec/conf/csfw/SchmidtMCB12
+(Why this paper: directory name and Makefile 'CSF'12 case studies'.)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32/examples/csf12/UM_eCK.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32
+Ref:        tag 1.10.0 (lightweight tag)
+
+Files
+-----
+model: examples/csf12/UM_eCK.spthy -> UM_eCK.spthy
+  sha256 012d52fe594e7f195826e1ec814fa7c623350d47f510af49f83e5d31aea706ae
+
+License
+-------
+GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
+copies, mark any modifications, and keep the files under GPL-3.0.
+The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--prove=<lemma> UM_eCK.spthy
+Where the flags come from: no flags: the source gives none for this model.
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: varies per directory (see models); Tamarin CI outputs at this
+tag (case-studies-regression/) were produced with Tamarin 1.9.0
+
+Lean side
+---------
+trace properties

@@ -1,0 +1,54 @@
+emv/emverify/models-n-proofs/contactless/Mastercard_SDA_OnlinePIN_Low
+=====================================================================
+
+The model file is not stored here (see License): scripts/fetch_models.py fetches it to
+cache/emv/emverify/models-n-proofs/contactless/Mastercard_SDA_OnlinePIN_Low/Mastercard_SDA_OnlinePIN_Low.spthy.
+Theory: Mastercard_SDA_OnlinePIN_Low
+
+Paper
+-----
+David A. Basin, Ralf Sasse, Jorge Toro-Pozo.
+The EMV Standard: Break, Fix, Verify.
+SP, 2021, pages 1766-1781.
+DOI:  https://doi.org/10.1109/SP40001.2021.00037
+DBLP: https://dblp.org/rec/conf/sp/BasinST21
+(Why this paper: README.)
+
+Online source
+-------------
+File:       https://github.com/EMVrace/EMVerify/blob/592200990f6738f41c540f9c619e11e932b0c6d5/models-n-proofs/contactless/Mastercard_SDA_OnlinePIN_Low.spthy
+Repository: https://github.com/EMVrace/EMVerify
+Commit:     592200990f6738f41c540f9c619e11e932b0c6d5
+Ref:        master (HEAD)
+
+Files
+-----
+model: models-n-proofs/contactless/Mastercard_SDA_OnlinePIN_Low.spthy ->
+Mastercard_SDA_OnlinePIN_Low.spthy
+  sha256 a7a585565d484394c8e1126f9fbc568c7507847118746be2f881363f0cf3358a
+oracle: Mastercard.oracle -> Mastercard.oracle
+  sha256 7174b21811d70162e4f79b4e692f23ce908703b0d2e54d42f0140b4ddbae247c
+
+License
+-------
+none stated. no license stated (no LICENSE file; README, file headers and the EMVrace website
+checked).
+The files are not copied into this repository; scripts/fetch_models.py fetches them at the
+pinned commit and checks their sha256.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--heuristic=O --oraclename=Mastercard.oracle --prove=<lemma> Mastercard_SDA_OnlinePIN_Low.spthy
+Where the flags come from: --heuristic=O --oraclename: the command the authors give.
+
+Measured for this benchmark: not run yet.
+
+Reported by the authors: 222.395555512s processing time in Mastercard_SDA_OnlinePIN_Low.proof
+(Tamarin 1.7.0 (git 2884fce8); 2x Xeon E5-2650 v4, 10 threads, 20 GB)
+Hardware the authors state: 2x Xeon E5-2650 v4, 10 threads, 20 GB
+Tamarin version the authors used: Tamarin 1.7.0 (git 2884fce8)
+
+Lean side
+---------
+trace properties

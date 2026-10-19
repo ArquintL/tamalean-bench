@@ -1,0 +1,47 @@
+tamarin/csf12/Artificial
+========================
+
+The model file is Artificial.spthy in this directory.
+Theory: Artificial
+
+Paper
+-----
+Benedikt Schmidt 0002, Simon Meier, Cas Cremers, David A. Basin.
+Automated Analysis of Diffie-Hellman Protocols and Advanced Security Properties.
+CSF, 2012, pages 78-94.
+DOI:  https://doi.org/10.1109/CSF.2012.25
+DBLP: https://dblp.org/rec/conf/csfw/SchmidtMCB12
+(Why this paper: directory name and Makefile 'CSF'12 case studies'.)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32/examples/csf12/Artificial.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32
+Ref:        tag 1.10.0 (lightweight tag)
+
+Files
+-----
+model: examples/csf12/Artificial.spthy -> Artificial.spthy
+  sha256 32a86881f7ef7c419eb70df3b306b302d1d00b57d73493af2ea401bba25e1a71
+
+License
+-------
+GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
+copies, mark any modifications, and keep the files under GPL-3.0.
+The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--stop-on-trace=NONE --prove=<lemma> Artificial.spthy
+Where the flags come from: --stop-on-trace=NONE: the authors' command.
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: varies per directory (see models); Tamarin CI outputs at this
+tag (case-studies-regression/) were produced with Tamarin 1.9.0
+
+Lean side
+---------
+trace properties

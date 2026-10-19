@@ -1,0 +1,50 @@
+one-for-all/aggregate_signature_models/Evaluation/Experiments/ValidationModels/LimitNumberOfSignatures_toTwo
+============================================================================================================
+
+The model file is LimitNumberOfSignatures_toTwo.spthy in this directory.
+Theory: AggregateSignature_RestrictionBased_LimitNumberOfSignaturesToTwo
+
+Paper
+-----
+Xenia Hofmeier, Andrea Raguso, Ralf Sasse, Dennis Jackson, David A. Basin.
+One For All: Formally Verifying Protocols which use Aggregate Signatures.
+CSF, 2025, pages 347-362.
+DOI:  https://doi.org/10.1109/CSF64896.2025.00027
+DBLP: https://dblp.org/rec/conf/csfw/HofmeierRSJB25
+(Why this paper: README of the Zenodo artifact.)
+
+Online source
+-------------
+Archive: https://zenodo.org/api/records/15357178/files/tamarin-aggregate-signatures.zip/content
+  (the repository's DOI: https://doi.org/10.5281/zenodo.15357178)
+File in the archive: tamarin-aggregate-signatures/aggregate_signature_models/Evaluation/Experiments/ValidationModels/LimitNumberOfSignatures_toTwo.spthy
+Archive sha256: 101a4756c17638c7e076ad76e7bfc69a6f4fdbba8dbe6da86ff0d0aeb36d7268
+
+Files
+-----
+model:
+aggregate_signature_models/Evaluation/Experiments/ValidationModels/LimitNumberOfSignatures_toTwo.spthy
+-> LimitNumberOfSignatures_toTwo.spthy
+  sha256 6072283fac6eb9a1a6d7cc9f4b21f25a7f26934909728f026cdce9df77b91f01
+
+License
+-------
+MIT. MIT (Copyright (c) 2025 Xenia Hofmeier, Andrea Raguso, Ralf Sasse, Dennis Jackson, David
+Basin): keep the copyright and permission notice.
+The files are copied here unchanged; the license text is in models/one-for-all/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--prove=<lemma> LimitNumberOfSignatures_toTwo.spthy
+Where the flags come from: no flags: the source gives none for this model.
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: aggregate_signature_models: Tamarin development version
+compiled 2021-03-05 (README); SANA models: 1.8.0 (f172d7f0), 1.9.0 (86014ad1) or 1.11.0
+(a6df687a, develop) per each folder's Notes.md
+
+Lean side
+---------
+trace properties

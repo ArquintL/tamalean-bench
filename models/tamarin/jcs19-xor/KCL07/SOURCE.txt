@@ -1,0 +1,47 @@
+tamarin/jcs19-xor/KCL07
+=======================
+
+The model file is KCL07.spthy in this directory.
+Theory: KCL07
+
+Paper
+-----
+Jannik Dreier, Lucca Hirschi, Sasa Radomirovic, Ralf Sasse.
+Verification of stateful cryptographic protocols with exclusive OR.
+J. Comput. Secur., 2020, volume 28, number 1, pages 1-34.
+DOI:  https://doi.org/10.3233/JCS-191358
+DBLP: https://dblp.org/rec/journals/jcs/DreierHRS20
+(Why this paper: README.)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32/examples/jcs19-xor/KCL07.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32
+Ref:        tag 1.10.0 (lightweight tag)
+
+Files
+-----
+model: examples/jcs19-xor/KCL07.spthy -> KCL07.spthy
+  sha256 4ec5959b8ae295b9fb217d631b6185268c588feace0a6941a8ae85b56dfbeef7
+
+License
+-------
+GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
+copies, mark any modifications, and keep the files under GPL-3.0.
+The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--prove=<lemma> KCL07.spthy
+Where the flags come from: no flags: the source gives none for this model.
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: varies per directory (see models); Tamarin CI outputs at this
+tag (case-studies-regression/) were produced with Tamarin 1.9.0
+
+Lean side
+---------
+trace properties

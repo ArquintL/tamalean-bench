@@ -1,0 +1,51 @@
+tamarin/csf18-alethea/alethea_votingphase_malS
+==============================================
+
+The model file is alethea_votingphase_malS.spthy in this directory.
+Theory: alethea_votingphase_malS
+
+Paper
+-----
+David A. Basin, Sasa Radomirovic, Lara Schmid.
+Alethea: A Provably Secure Random Sample Voting Protocol.
+CSF, 2018, pages 283-297.
+DOI:  https://doi.org/10.1109/CSF.2018.00028
+DBLP: https://dblp.org/rec/conf/csfw/BasinRS18
+(Why this paper: README.)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32/examples/csf18-alethea/alethea_votingphase_malS.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32
+Ref:        tag 1.10.0 (lightweight tag)
+
+Files
+-----
+model: examples/csf18-alethea/alethea_votingphase_malS.spthy -> alethea_votingphase_malS.spthy
+  sha256 9cabab94a2584aa1d55faa01ce98169f2813117e20e42b9b7a59205ea9a7d563
+oracle: examples/csf18-alethea/oracle_alethea_votingphase_malS ->
+oracle_alethea_votingphase_malS
+  sha256 7cdb691f741bb33e2e11692304e9cbcff03bda9546e53e7fc628d6ea5bb4a7da
+
+License
+-------
+GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
+copies, mark any modifications, and keep the files under GPL-3.0.
+The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--heuristic=o --oraclename=oracle_alethea_votingphase_malS --prove=<lemma>
+alethea_votingphase_malS.spthy
+Where the flags come from: --heuristic=o --oraclename: the command the authors give.
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: varies per directory (see models); Tamarin CI outputs at this
+tag (case-studies-regression/) were produced with Tamarin 1.9.0
+
+Lean side
+---------
+trace properties

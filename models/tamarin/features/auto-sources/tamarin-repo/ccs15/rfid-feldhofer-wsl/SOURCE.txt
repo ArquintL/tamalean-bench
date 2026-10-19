@@ -1,0 +1,59 @@
+tamarin/features/auto-sources/tamarin-repo/ccs15/rfid-feldhofer-wsl
+===================================================================
+
+The model file is rfid-feldhofer-wsl.spthy in this directory.
+Theory: RFID_Feldhofer
+
+Papers
+------
+Véronique Cortier, Stéphanie Delaune, Jannik Dreier.
+Automatic Generation of Sources Lemmas in Tamarin: Towards Automatic Proofs of Security
+Protocols.
+ESORICS (2), 2020, pages 3-22.
+DOI:  https://doi.org/10.1007/978-3-030-59013-0_1
+DBLP: https://dblp.org/rec/conf/esorics/CortierDD20
+
+David A. Basin, Jannik Dreier, Ralf Sasse.
+Automated Symbolic Proofs of Observational Equivalence.
+CCS, 2015, pages 1144-1155.
+DOI:  https://doi.org/10.1145/2810103.2813662
+DBLP: https://dblp.org/rec/conf/ccs/BasinDS15
+(Why this paper: README of features/auto-sources (refers to 'the paper' introducing
+--auto-sources; title not written in the files); copy of examples/ccs15 (headers 'Described in
+... [CCS'15]' and Makefile).)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32/examples/features/auto-sources/tamarin-repo/ccs15/rfid-feldhofer-wsl.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32
+Ref:        tag 1.10.0 (lightweight tag)
+
+Files
+-----
+model: examples/features/auto-sources/tamarin-repo/ccs15/rfid-feldhofer-wsl.spthy ->
+rfid-feldhofer-wsl.spthy
+  sha256 5b7991d26fcdd10d2d8bc3e746b1b7f5e2278389d40a7a0be9c81836623e3227
+
+License
+-------
+GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
+copies, mark any modifications, and keep the files under GPL-3.0.
+The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS --diff
+--auto-sources --prove=<lemma> rfid-feldhofer-wsl.spthy
+Where the flags come from: --diff: the model states observational equivalence; --auto-sources:
+the authors' command (README or Makefile).
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: varies per directory (see models); Tamarin CI outputs at this
+tag (case-studies-regression/) were produced with Tamarin 1.9.0
+Times stated in the file: // Observational equivalence takes under 2.6 seconds.
+
+Lean side
+---------
+out of scope: observational equivalence (a diff model); Tamalean checks trace properties only

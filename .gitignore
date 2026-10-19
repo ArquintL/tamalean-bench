@@ -7,3 +7,5 @@
 # committed.
 /proofs/
 __pycache__/
+# Local settings: the proof backup directory, local clones of the sources, a Python 2 interpreter.
+/bench.local.toml

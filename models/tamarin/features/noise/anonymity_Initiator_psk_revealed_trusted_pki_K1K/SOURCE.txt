@@ -1,0 +1,48 @@
+tamarin/features/noise/anonymity_Initiator_psk_revealed_trusted_pki_K1K
+=======================================================================
+
+The model file is anonymity_Initiator_psk_revealed_trusted_pki_K1K.spthy in this directory.
+Theory: anonymity_Initiator_psk_revealed_trusted_pki_K1K
+
+Paper
+-----
+Simon Meier, Benedikt Schmidt 0002, Cas Cremers, David A. Basin.
+The TAMARIN Prover for the Symbolic Analysis of Security Protocols.
+CAV, 2013, pages 696-701.
+DOI:  https://doi.org/10.1007/978-3-642-39799-8_48
+DBLP: https://dblp.org/rec/conf/cav/MeierSCB13
+(Why this paper: feature tests, no paper -> Tamarin tool paper cited instead.)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32/examples/features/noise/anonymity_Initiator_psk_revealed_trusted_pki_K1K.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32
+Ref:        tag 1.10.0 (lightweight tag)
+
+Files
+-----
+model: examples/features/noise/anonymity_Initiator_psk_revealed_trusted_pki_K1K.spthy ->
+anonymity_Initiator_psk_revealed_trusted_pki_K1K.spthy
+  sha256 4e1211c0f51ffab5951ba908ca75bb2eaa426e966fe7435c4f3ce05f3cd0cdf2
+
+License
+-------
+GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
+copies, mark any modifications, and keep the files under GPL-3.0.
+The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS --diff
+--prove=<lemma> anonymity_Initiator_psk_revealed_trusted_pki_K1K.spthy
+Where the flags come from: --diff: the model states observational equivalence.
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: varies per directory (see models); Tamarin CI outputs at this
+tag (case-studies-regression/) were produced with Tamarin 1.9.0
+
+Lean side
+---------
+out of scope: observational equivalence (a diff model); Tamalean checks trace properties only

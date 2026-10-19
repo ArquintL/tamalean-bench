@@ -1,0 +1,50 @@
+ble-tracking/_models/Samsung/location_tracking/Samsung_location_E2E_unlinkability
+=================================================================================
+
+The model file is not stored here (see License): scripts/fetch_models.py fetches it to
+cache/ble-tracking/_models/Samsung/location_tracking/Samsung_location_E2E_unlinkability/Samsung_location_E2E_unlinkability.spthy.
+Theory: Samsung_SmartTag
+
+Paper
+-----
+Xiaofeng Liu 0013, Chaoshun Zuo, Qinsheng Hou, Pengcheng Ren, Jianliang Wu 0002, Qingchuan Zhao,
+Shanqing Guo.
+A Thorough Security Analysis of BLE Proximity Tracking Protocols.
+USENIX Security Symposium, 2025, pages 5347-5364.
+URL:  https://www.usenix.org/conference/usenixsecurity25/presentation/liu-xiaofeng
+DBLP: https://dblp.org/rec/conf/uss/0013ZHR0ZG25
+(Why this paper: README and paper's repository link.)
+
+Online source
+-------------
+File:       https://github.com/xiaofeng-L/BLETracker/blob/0a24fe09140a4a30e3052c34a94ab80db1faccae/_models/Samsung/location_tracking/Samsung_location_E2E_unlinkability.spthy
+Repository: https://github.com/xiaofeng-L/BLETracker
+Commit:     0a24fe09140a4a30e3052c34a94ab80db1faccae
+Ref:        main (HEAD)
+
+Files
+-----
+model: _models/Samsung/location_tracking/Samsung_location_E2E_unlinkability.spthy ->
+Samsung_location_E2E_unlinkability.spthy
+  sha256 5be81d31ce328ec351f920bc66ae0135a28a59e3362d10e05c313f894e73e540
+
+License
+-------
+none stated. no license stated (no LICENSE file; README checked).
+The files are not copied into this repository; scripts/fetch_models.py fetches them at the
+pinned commit and checks their sha256.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--prove=<lemma> Samsung_location_E2E_unlinkability.spthy
+Where the flags come from: no flags: the source gives none for this model.
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: Tamarin from the robertkuennemann/sapicplusplatform Docker
+image (README); version not stated
+
+Lean side
+---------
+trace properties

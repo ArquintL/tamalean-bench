@@ -1,0 +1,52 @@
+tamarin/usenix23-ens/dp3t
+=========================
+
+The model file is dp3t.spthy in this directory.
+Theory: DP3T
+
+Paper
+-----
+Kevin Morio, Ilkan Esiyok, Dennis Jackson, Robert Künnemann.
+Automated Security Analysis of Exposure Notification Systems.
+USENIX Security Symposium, 2023, pages 6593-6610.
+URL:  https://www.usenix.org/conference/usenixsecurity23/presentation/morio
+DBLP: https://dblp.org/rec/conf/uss/MorioEJK23
+(Why this paper: README.)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32/examples/usenix23-ens/dp3t.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32
+Ref:        tag 1.10.0 (lightweight tag)
+
+Files
+-----
+model: examples/usenix23-ens/dp3t.spthy -> dp3t.spthy
+  sha256 910146da56e7272fe55eed8a7d17b7dbb6e5dbd6d30693263f7d265eebe9a9f9
+oracle: examples/usenix23-ens/oracles/oracle-dp3t -> oracles/oracle-dp3t
+  sha256 27164097d45b70fc1b32261f7b8f5581d78a284a3786ebcbd79a2d1864055f56
+
+License
+-------
+MIT (examples/usenix23-ens/LICENSE) within the GPL-3.0 repository. MIT (directory LICENSE,
+Copyright (c) 2020-2022 Kevin Morio, Ilkan Esiyok, Dennis Jackson, Robert Künnemann): keep the
+copyright and permission notice; the repository is also GPL-3.0.
+The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--prove=<lemma> dp3t.spthy
+Where the flags come from: the oracle is named in the theory file (no flag needed).
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: varies per directory (see models); Tamarin CI outputs at this
+tag (case-studies-regression/) were produced with Tamarin 1.9.0
+Times stated in the file: Only keep the last 14 days of keys.; * - Instead of providing the
+tester with all keys from the last 14 days, one key at a time is provided.
+
+Lean side
+---------
+trace properties

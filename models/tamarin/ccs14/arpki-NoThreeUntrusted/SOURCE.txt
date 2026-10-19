@@ -1,0 +1,53 @@
+tamarin/ccs14/arpki-NoThreeUntrusted
+====================================
+
+The model file is arpki-NoThreeUntrusted.spthy in this directory.
+Theory: AKIvfinalproofNoThreeUntrusted
+
+Paper
+-----
+David A. Basin, Cas Cremers, Tiffany Hyun-Jin Kim, Adrian Perrig, Ralf Sasse, Pawel
+Szalachowski.
+ARPKI: Attack Resilient Public-Key Infrastructure.
+CCS, 2014, pages 382-393.
+DOI:  https://doi.org/10.1145/2660267.2660298
+DBLP: https://dblp.org/rec/conf/ccs/BasinCKPSS14
+(Why this paper: README.)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32/examples/ccs14/arpki-NoThreeUntrusted.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32
+Ref:        tag 1.10.0 (lightweight tag)
+
+Files
+-----
+model: examples/ccs14/arpki-NoThreeUntrusted.spthy -> arpki-NoThreeUntrusted.spthy
+  sha256 bf2b20d9945781619c2ffec2457f2bc80d3411a4f5f81e1d9b378007f12bd2b7
+
+License
+-------
+GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
+copies, mark any modifications, and keep the files under GPL-3.0.
+The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--heuristic=S --prove=<lemma> arpki-NoThreeUntrusted.spthy
+Where the flags come from: --heuristic=S: README.
+
+Measured for this benchmark: not run yet.
+
+Reported by the authors: about 600 minutes single-core equivalent and 32 GB memory, with
+--heuristic=S (README examples/ccs14/README)
+Tamarin version the authors used: varies per directory (see models); Tamarin CI outputs at this
+tag (case-studies-regression/) were produced with Tamarin 1.9.0
+Times stated in the file: RS: The output of this rule is the proof that is used later, so this
+event needs to be here. Whether the actual recipient takes it and uses it in ILS_Reg_A2 or the
+intruder gets hold of it are separat
+
+Lean side
+---------
+trace properties

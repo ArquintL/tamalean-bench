@@ -1,0 +1,48 @@
+tamarin/thesis-LaraSchmid-evoting/chapter5_HumanErrors/AuthenticationProtocols/Soundproof_EA
+============================================================================================
+
+The model file is Soundproof_EA.spthy in this directory.
+Theory: Soundproof_EA
+
+Paper
+-----
+Lara Schmid.
+Advancing the Formal Foundations for Voting Protocols.
+ETH Zurich, Zürich, Switzerland, 2020.
+DOI:  https://doi.org/10.3929/ETHZ-B-000418853
+DBLP: https://dblp.org/rec/phd/basesearch/Schmid20
+(Why this paper: README.)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32/examples/thesis-LaraSchmid-evoting/chapter5_HumanErrors/AuthenticationProtocols/Soundproof_EA.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32
+Ref:        tag 1.10.0 (lightweight tag)
+
+Files
+-----
+model:
+examples/thesis-LaraSchmid-evoting/chapter5_HumanErrors/AuthenticationProtocols/Soundproof_EA.spthy
+-> Soundproof_EA.spthy
+  sha256 5ca389ed532cce8124f9953aeec617afd929bdadde796b2d4e8314180893d0e0
+
+License
+-------
+GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
+copies, mark any modifications, and keep the files under GPL-3.0.
+The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--prove=<lemma> Soundproof_EA.spthy
+Where the flags come from: no flags: the source gives none for this model.
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: 1.5.1 (git 1b68093f) (README)
+
+Lean side
+---------
+trace properties

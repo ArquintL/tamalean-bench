@@ -1,0 +1,53 @@
+tamarin-dev/features/derivation-checks/signatureDerivationTest
+==============================================================
+
+The model file is signatureDerivationTest.spthy in this directory.
+Theory: SignatureDerivationTests
+
+Paper
+-----
+Simon Meier, Benedikt Schmidt 0002, Cas Cremers, David A. Basin.
+The TAMARIN Prover for the Symbolic Analysis of Security Protocols.
+CAV, 2013, pages 696-701.
+DOI:  https://doi.org/10.1007/978-3-642-39799-8_48
+DBLP: https://dblp.org/rec/conf/cav/MeierSCB13
+(Why this paper: feature tests, no paper -> Tamarin tool paper cited instead.)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/7e4e16e364dfa0d60092ce7f6f44109156e24fd7/examples/features/derivation-checks/signatureDerivationTest.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     7e4e16e364dfa0d60092ce7f6f44109156e24fd7
+Ref:        branch develop (cabal version 1.13.0)
+
+Files
+-----
+model: examples/features/derivation-checks/signatureDerivationTest.spthy ->
+signatureDerivationTest.spthy
+  sha256 b4d0cd8d9e36ff0106ec43238769415cfb72ddce6e4cbe83a174c643587a5703
+
+License
+-------
+GPL-3.0. GPL-3.0 (as for tag 1.10.0).
+The files are copied here unchanged; the license text is in models/tamarin-dev/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--prove=<lemma> signatureDerivationTest.spthy
+Where the flags come from: no flags: the source gives none for this model.
+
+Measured for this benchmark: not run yet.
+
+Tamarin's own CI
+(case-studies-regression/features/derivation-checks/signatureDerivationTest_analyzed-derivcheck.spthy):
+processing time 0.11 s with Tamarin 1.13.0, flags -derivcheck, on Tamarin CI on develop: 14-core
+Mac (hippo2.local), Tamarin 1.13.0
+Tamarin's own CI
+(case-studies-regression/fast-tests/features/derivation-checks/signatureDerivationTest_analyzed-derivcheck.spthy):
+processing time 0.1 s with Tamarin 1.13.0, flags -derivcheck, on Tamarin CI on develop: 14-core
+Mac (hippo2.local), Tamarin 1.13.0
+
+Lean side
+---------
+trace properties

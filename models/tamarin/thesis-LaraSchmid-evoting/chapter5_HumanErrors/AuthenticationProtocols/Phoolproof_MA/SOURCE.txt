@@ -1,0 +1,52 @@
+tamarin/thesis-LaraSchmid-evoting/chapter5_HumanErrors/AuthenticationProtocols/Phoolproof_MA
+============================================================================================
+
+The model file is Phoolproof_MA.spthy in this directory.
+Theory: Phoolproof_MA
+
+Paper
+-----
+Lara Schmid.
+Advancing the Formal Foundations for Voting Protocols.
+ETH Zurich, Zürich, Switzerland, 2020.
+DOI:  https://doi.org/10.3929/ETHZ-B-000418853
+DBLP: https://dblp.org/rec/phd/basesearch/Schmid20
+(Why this paper: README.)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32/examples/thesis-LaraSchmid-evoting/chapter5_HumanErrors/AuthenticationProtocols/Phoolproof_MA.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32
+Ref:        tag 1.10.0 (lightweight tag)
+
+Files
+-----
+model:
+examples/thesis-LaraSchmid-evoting/chapter5_HumanErrors/AuthenticationProtocols/Phoolproof_MA.spthy
+-> Phoolproof_MA.spthy
+  sha256 a0bbb9001004be734017be0271a457f4fdb6f32c353a06557fd831666f3dfb1b
+oracle:
+examples/thesis-LaraSchmid-evoting/chapter5_HumanErrors/AuthenticationProtocols/o_Phoolproof_MA
+-> o_Phoolproof_MA
+  sha256 7c06adf43953e2739031fba8f21e70f1db81d9a81abec69dd747868147521587
+
+License
+-------
+GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
+copies, mark any modifications, and keep the files under GPL-3.0.
+The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--heuristic=O --oraclename=o_Phoolproof_MA --prove=<lemma> Phoolproof_MA.spthy
+Where the flags come from: --heuristic=O --oraclename: the directory's README.
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: 1.5.1 (git 1b68093f) (README)
+
+Lean side
+---------
+trace properties

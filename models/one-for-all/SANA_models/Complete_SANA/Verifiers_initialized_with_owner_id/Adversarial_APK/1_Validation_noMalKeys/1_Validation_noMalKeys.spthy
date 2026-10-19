@@ -1,0 +1,347 @@
+theory attest_validation_with_original_token_request
+begin
+
+builtins: signing, asymmetric-encryption, multiset
+
+// Aggregate Signature definition
+// ===============================
+
+functions: agg/1 // a multiset of pair of signatures and numbers
+functions: false/0 //for the correctness definition
+
+
+// PKI
+// =========
+// Follows the Tamarin Manual
+// ---------------------
+rule Register_pk:
+	[ Fr(~skA) ]
+	--[ RegisterHonestKey(pk(~skA))
+	  , Register($A) ]->
+	[ !Secret_Key($A, ~skA), !Public_Key($A, pk(~skA)), Out(pk(~skA)) ]
+
+rule Reveal_sk:
+	[ !Secret_Key(A, skA) ]
+	--[ Reveal(A) ]->
+	[ Out(skA) ]
+
+
+// Initialization of protocol participants
+rule Init_V:
+	[ Fr(~id), !Secret_Key(V, skV), !Public_Key(O, pkO), !PK_Role(pkO, 'O') ]
+	--[ Init(V), Init_V(), UniqueOwner(V, O), UniqueRole(pk(skV), 'V') ]->
+	[ St_V_1(~id, V, skV, O, pkO), !PK_Role(pk(skV), 'V') ]
+
+rule Init_O:
+	[ Fr(~id), !Secret_Key(O, skO) ]
+	--[ Init(O), Init_O(), UniqueRole(pk(skO), 'O') ]->
+	[ St_O_1(~id, O, skO), !PK_Role(pk(skO), 'O') ]
+
+rule Init_A:
+	[ Fr(~id)]
+	--[ Init($A), Init_A() ]->
+	[ St_A_1(~id, $A) ]
+
+rule Init_P:
+	[ Fr(~id), !Secret_Key(P, skP), !Public_Key(O, pkO), !PK_Role(pkO, 'O')]
+	--[ Init(P), Init_P(), UniqueOwner(P, O), UniqueRole(pk(skP), 'P') ]->
+	[ St_P_1(~id, P, skP, O, pkO), !PK_Role(pk(skP), 'P') ]
+
+
+// The original Token Request protocol
+rule V_tokenReq_send_nonce:
+	[ St_V_1(id, V, skV, O, pkO), Fr(~Nv) ]
+	-->
+	[ St_V_2(id, V, skV, O, pkO, ~Nv), Out(~Nv) ]
+
+rule O_tokenReq_respond_nonce:
+	[ St_O_1(id, O, skO), In(Nv), Fr(~No) ]
+	--[ Running_EA(O, $V, <'V', 'O', Nv, ~No>) ]->
+	[ St_O_2(id, O, skO, $V, Nv, ~No), Out(~No) ]
+
+rule V_tokenReq_sign_nonce:
+	[ St_V_2(id, V, skV, O, pkO, Nv), In(No) ]
+	--[Running_EA(V, O, <'O', 'V', Nv, No>)]->
+	[ St_V_3(id, V, skV, O, pkO, Nv, No), Out(sign(No, skV))]
+
+rule O_tokenReq_sign_nonce:
+	let
+		t = <'H', ~Nc, 't'>
+		s1 = sign(t, skO)
+		e = aenc(<t, s1>, pkV)
+		apk = pkP1 + pkP2
+	in
+	[ St_O_2(id, O, skO, V, Nv, No), Fr(~Nc), In(s),
+	  !Public_Key(V, pkV), !PK_Role(pkV, 'V'),
+	  !Public_Key(P1, pkP1), !Public_Key(P2, pkP2),
+	  !PK_Role(pkP1, 'P'), !PK_Role(pkP2, 'P') ]
+	--[ Eq(verify(s, No, pkV), true),
+		Neq(P1, P2),
+		Running_DOS(O, ~Nc), 
+		Commit_EA(O, V, <'O', 'V', Nv, No>),
+		Finish_O() ]->
+	[ St_O_3(id, O, skO, V, pkV, Nv, No), Out(<e, apk, sign(<Nv, apk>, skO)>), Out(~Nc) ]
+
+rule V_tokenReq_complete:
+	let
+		e = aenc(<<'H', Nc, 't'>, s1>, pk(skV))
+		t = <<'H', Nc, 't'>, s1>
+	in
+	[ St_V_3(id, V, skV, O, pkO, Nv, No), In(<e, apk, s>), 
+	  !Public_Key(O, pkO)]
+	--[ Eq(verify(s, <Nv, apk>, pkO), true),
+		Eq(verify(s1, <'H', Nc, 't'>, pkO), true),
+		Commit_EA(V, O, <'V', 'O', Nv, No>) ]->
+	[ St_V_4(id, V, skV, O, pkO, Nv, No, t, apk) ]
+
+
+// The Attestation subprotocol
+rule V_attest_send_challenge:
+	let 
+		challenge = <~N, t>
+	in
+	[ St_V_4(id, V, skV, O, pkO, Nv, No, t, apk), Fr(~N) ]
+	--[ UseNonce(~N) ]->
+	[ St_V_5(id, V, skV, O, challenge, apk), Out(challenge) ]
+
+rule A_attest_forward_challenge:
+	let
+		token_content = <'H', Nc, 't'>
+		challenge = <N, <token_content, s1>>
+	in
+	[ St_A_1(id, A), !Public_Key(V, pkV), In(challenge) ]
+	--[ Eq(verify(s1, token_content, pkV), true), 
+		UseOnce(A, Nc), UseNonce(N) ]->
+	[ St_A_2(id, A, challenge), Out(challenge) ]
+
+rule P_attest:
+	let
+		response = <~hi, N, Nc>
+	in
+	[ St_P_1(id, P, skP, O, pkO), In(<N, <<'H', Nc, 't'>, sc>>), Fr(~hi) ]
+	--[ Eq(verify(sc, <'H', Nc, 't'>, pkO), true),
+		Attest(P, ~hi, N), UseOnce(P, Nc), UseNonce(N),
+		Commit_DOS(P, O, Nc) ]->
+	[ Out(<response, sign(response, skP), pk(skP)>) ] // Adding the public key, so the aggregator does not need to check the signature.
+
+rule A_attest_aggregate_1:
+	[ St_A_2(id, A, challenge)
+	// , !Public_Key(P1, pk1)
+	, In(<att1, s1, pk1>) 
+	, Fr(~index1) ] 
+	-->
+	[ St_A_3(id, A, challenge, <s1, ~index1>, <att1, pk1, ~index1>) 
+	, Out(~index1) ]
+
+rule A_attest_aggregate_2:
+	[ St_A_3(id, A, challenge, signatures_and_indexes, messages_and_keys)
+	// , !Public_Key(P2, pk2)
+	, In(<att2, s2, pk2>) 
+	, Fr(~index2) ]
+	--[ Finish_A() ]->
+	[ Out(agg(signatures_and_indexes + <s2, ~index2>))
+	, Out(<att2, pk2, ~index2> + messages_and_keys) 
+	, Out(~index2) ]
+
+rule V_attest_receive_aggregation:
+	[ St_V_5(id, V, skV, O, challenge, apk), In(<aggregation, messages_and_keys>) ]
+	--[ LimitAgg(aggregation),
+		LimitMessagesAndKeys(messages_and_keys) ]->
+	[ St_V_6(id, V, skV, O, challenge, apk, aggregation, messages_and_keys) ]
+
+// check if both keys in aggregation are in apk 
+rule V_attest_lookup_key_1: 
+	let
+		m1 = <h1, N, Nc>
+		challenge = <N, <<'H', Nc, 't'>, s>>
+	in
+	[ St_V_6(id, V, skV, O, challenge, PK1 + rest_apk, aggregation, <m1, PK1, i1> + rest_messages_and_keys), !Public_Key(P1, PK1) ]
+	-->
+	[ St_V_7(id, V, skV, O, challenge, PK1 + rest_apk, rest_apk, aggregation, <m1, PK1, i1> + rest_messages_and_keys, rest_messages_and_keys, m1, PK1, P1) ]
+
+// check if both keys in aggregation are in apk 
+rule V_attest_lookup_key_2: 
+	let
+		m2 = <h2, N, Nc>
+		challenge = <N, <<'H', Nc, 't'>, s>>
+	in
+	[ St_V_7(id, V, skV, O, challenge, apk, PK2, aggregation, messages_and_keys, <m2, PK2, i2>, messages, keys, names), !Public_Key(P2, PK2) ]
+	-->
+	[ St_V_8(id, V, skV, O, challenge, apk, aggregation, messages_and_keys, <m2, messages>, <PK2, keys>, <P2, names>) ]
+
+rule V_attest_verify: 
+	[ St_V_8(id, V, skV, O, <N, t>, apk, aggregation, messages_and_keys, messages, keys, names) ]
+  --[ VerifyAgg(aggregation, messages_and_keys, true)
+	, Verified_Set(V, O, names, N)
+	, Finish_V(V) ]->
+	[ St_V_9(id, V, skV, O, <N, t>, apk, aggregation, messages_and_keys, messages, keys, names) ]
+
+// for lemmas: Verifier looks at messages and creates according action facts
+// Public key lookups only serve as name lookup for action facts!
+rule V_attest_look_at_msg:
+	let
+		hash = fst(m)
+	in
+	[ St_V_9(id, V, skV, O, <N, t>, apk, aggregation, <m, PK, i> + rest_messages_and_keys, messages, keys, names), !Public_Key(P, PK) ]
+	--[ Verified(V, O, P, hash, N) ]->
+	[]
+
+/*
+* Restrictions
+*/
+restriction equality:
+"All a b #i. Eq(a, b)@i ==> a = b"
+
+restriction non_equality:
+"All a b #i. Neq(a, b)@i ==> not (a = b)"
+
+restriction use_once:
+"All A n #i #j. UseOnce(A, n)@i & UseOnce(A, n)@j ==> #i = #j"
+
+restriction unique_owner:
+"All P O1 O2 #i #j. UniqueOwner(P, O1)@i & UniqueOwner(P, O2)@j ==> O1 = O2"
+
+restriction one_role_per_pk:
+"All PK R1 R2 #i #j. UniqueRole(PK, R1)@i & UniqueRole(PK, R2)@j ==> R1 = R2"
+
+//Restrictions to define the aggregation
+//--------------------------------------
+restriction Verification_Correctness_morePrecise: 
+  "All aggregation mAndPk #i. VerifyAgg(aggregation, mAndPk, false)@i
+    ==> ((Ex si nr thetaAgg mi ski thetaMPk.
+          VerifyAgg(agg(<si, nr>+thetaAgg), <mi, pk(ski), nr> + thetaMPk, false)@i
+	  & (not(si = sign(mi, ski)) | not(Ex #j. RegisterHonestKey(pk(ski))@j) ))
+        |(Ex si nr mi ski.
+          VerifyAgg(agg(<si, nr>), <mi, pk(ski), nr>, false)@i
+	& (not (si = sign(mi, ski)) | not(Ex #j. RegisterHonestKey(pk(ski))@j))))"
+
+restriction Verification_Secure:
+  "All si thetaAgg mi ski nr thetaMPk #i. 
+    VerifyAgg(agg(<si, nr>+thetaAgg), 
+         <mi, pk(ski), nr> + thetaMPk, true)@i 
+    ==> (not (Ex #j. RegisterHonestKey(pk(ski))@j)
+      | sign(mi, ski) = si)"
+
+restriction Consistency:
+  "All aggregation messagesAndKeys result1 result2 #t1 #t2.
+    VerifyAgg(aggregation, messagesAndKeys, result1)@t1 & VerifyAgg(aggregation, messagesAndKeys, result2)@t2
+  ==> result1 = result2"
+
+restriction OneSignaturePerMessageKeyPair:
+  "All aggregation mi ski nr thetaMPk #i. VerifyAgg(aggregation, <mi, pk(ski), nr> + thetaMPk, true)@i
+  ==> Ex si thetaAgg. VerifyAgg(agg(<si, nr>+thetaAgg), <mi, pk(ski), nr> + thetaMPk, true)@i"
+
+restriction OneMessageKeyPairPerSignature:
+  "All si thetaAgg nr messagesKeys #i. VerifyAgg(agg(<si, nr>+thetaAgg), messagesKeys, true)@i
+  ==> Ex mi ski thetaMPk. messagesKeys = <mi, pk(ski), nr> + thetaMPk" 
+
+//One Signature restrictions
+restriction Verification_Secure_OneSignature:
+  "All si mi ski nr #i. 
+    VerifyAgg(agg(<si, nr>), <mi, pk(ski), nr>, true)@i 
+      ==> (not (Ex #j. RegisterHonestKey(pk(ski))@j)
+        | sign(mi, ski) = si)"
+
+restriction OneSignaturePerMessageKeyPair_OneSignature:
+  "All aggregation mi ski nr #i. VerifyAgg(aggregation, <mi, pk(ski), nr>, true)@i
+  ==> Ex si. VerifyAgg(agg(<si, nr>), <mi, pk(ski), nr>, true)@i"
+
+restriction OneMessageKeyPairPerSignature_OneSignature:
+  "All si nr messagesKeys #i. VerifyAgg(agg(<si, nr>), messagesKeys, true)@i
+  ==> Ex mi ski. messagesKeys = <mi, pk(ski), nr>"
+
+//to ensure that the numbers are unique
+restriction NumbersSignatureUnique:
+  "not(Ex si sj nr theta messagesAndKeys #i.
+    VerifyAgg(agg(<si, nr>+<sj, nr>+theta), messagesAndKeys, true)@i)"
+
+restriction NumbersMessageUnique:
+  "not(Ex aggregation mi pki nr mj pkj theta #i.
+    VerifyAgg(aggregation, <mi, pki, nr>+<mj, pkj, nr>+theta, true)@i)"
+
+//case two signatures
+restriction NumbersSignatureUnique_TwoSignatures:
+  "not(Ex si sj nr messagesAndKeys #i.
+    VerifyAgg(agg(<si, nr>+<sj, nr>), messagesAndKeys, true)@i)"
+
+restriction NumbersMessageUnique_TwoSignatures:
+  "not(Ex aggregation mi pki nr mj pkj #i.
+    VerifyAgg(aggregation, <mi, pki, nr>+<mj, pkj, nr>, true)@i)"
+
+	//Restrictions to limit the number of signatures
+//----------------------------------------------
+//Restrict the number of signatures to get some lemmas to terminate
+//With this restriction, the proof holds only under the assumption of a limited number of signatures
+restriction limitNumberOf_Signatures_three:
+"All s1 s2 ind1 ind2 thetaAgg #i.
+  LimitAgg(agg(<s1, ind1>+<s2, ind2>+thetaAgg))@i
+==> Ex sLast indLast. thetaAgg = <sLast, indLast>"
+
+restriction limitNumberOf_Signatures_two:
+"All s1 ind1 thetaAgg #i.
+  LimitAgg(agg(<s1, ind1>+thetaAgg))@i
+==> Ex sLast indLast. thetaAgg = <sLast, indLast>"
+
+restriction limitNumberOf_MessagesAndPublicKeys_two:
+"All m1 pk1 ind1 theta #i. LimitMessagesAndKeys(<m1, pk1, ind1>+theta)@i
+==> Ex mLast pkLast indLast. theta = <mLast, pkLast, indLast>"
+/*
+* Sanity check to exclude basic modelling errors 
+* which prevent desired protocol executions
+*/
+lemma executable:
+exists-trace
+"Ex V #i #j. Finish_V(V)@i & Finish_A()@j &
+(not Ex X #j. Reveal(X)@j) & 
+(All a b #k #l. UseNonce(a)@k & UseNonce(b)@l ==> a = b) & 
+(All P #i #j. Init(P)@i & Init(P)@j ==> #i = #j) &
+(All #i #j. Init_V()@i & Init_V()@j ==> #i = #j) & 
+(All #i #j. Init_O()@i & Init_O()@j ==> #i = #j) & 
+(All #i #j. Init_A()@i & Init_A()@j ==> #i = #j) "
+
+/*
+* Lemmas formalizing the three properties which, according to the authors of SANA,
+* were the primary objectives during the design process
+*/
+lemma unforgeability_freshness:
+"All V O P hash N #i. (Verified(V, O, P, hash, N)@i &
+(not Ex #j. Reveal(P)@j) &
+(not Ex #j. Reveal(V)@j))
+	==> (Ex #k. Attest(P, hash, N)@k )"
+
+lemma unforgeability_freshness_honestOwner:
+"All V O P hash N #i. (Verified(V, O, P, hash, N)@i &
+(not Ex #j. Reveal(P)@j) &
+(not Ex #j. Reveal(V)@j) &
+(not Ex #j. Reveal(O)@j))
+	==> (Ex #k. Attest(P, hash, N)@k )"
+
+lemma completeness:
+"All V O P1 P2 N #i. (Verified_Set(V, O, <P1, P2>, N)@i &
+(not Ex #j. Reveal(P1)@j) &
+(not Ex #j. Reveal(P2)@j) &
+(not Ex #j. Reveal(V)@j))
+	 ==> (Ex h1 h2 #k #l. Attest(P1, h1, N)@k & Attest(P2, h2, N)@l)"
+
+lemma completeness_honestOwner:
+"All V O P1 P2 N #i. (Verified_Set(V, O, <P1, P2>, N)@i &
+(not Ex #j. Reveal(P1)@j) &
+(not Ex #j. Reveal(P2)@j) &
+(not Ex #j. Reveal(V)@j)  &
+(not Ex #j. Reveal(O)@j))
+	==> (Ex h1 h2 #k #l. Attest(P1, h1, N)@k & Attest(P2, h2, N)@l)"
+
+//Models the "Limiting DoS" property described by the authors of SANA 
+lemma prover_owner_agreement: 
+"All P O N #i. Commit_DOS(P, O, N)@i & (not Ex #j. Reveal(P)@j) 
+	==> (Ex #k. Running_DOS(O, N)@k)"
+
+// Same as above but with the additional assumption that the
+// owner is honest
+lemma prover_owner_agreement_owner_honest: 
+"All P O N #i. Commit_DOS(P, O, N)@i & 
+	(not Ex #j. Reveal(P)@j) & 
+	(not Ex #j. Reveal(O)@j) 
+	==> (Ex #k. Running_DOS(O, N)@k)"
+
+end

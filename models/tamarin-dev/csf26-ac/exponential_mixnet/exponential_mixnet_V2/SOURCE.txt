@@ -1,0 +1,54 @@
+tamarin-dev/csf26-ac/exponential_mixnet/exponential_mixnet_V2
+=============================================================
+
+The model file is exponential_mixnet_V2.spthy in this directory.
+Theory: exponentialMixnet
+
+Paper
+-----
+Jannik Dreier, Elise Klein 0002, Steve Kremer.
+Tamarin Unchained: Handling User-Defined AC Operators.
+CSF, 2026, pages 329-344.
+DOI:  https://doi.org/10.1109/CSF68417.2026.00022
+DBLP: https://dblp.org/rec/conf/csfw/DreierKK26
+(Why this paper: README of csf26-ac.)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/7e4e16e364dfa0d60092ce7f6f44109156e24fd7/examples/csf26-ac/exponential_mixnet/exponential_mixnet_V2.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     7e4e16e364dfa0d60092ce7f6f44109156e24fd7
+Ref:        branch develop (cabal version 1.13.0)
+
+Files
+-----
+model: examples/csf26-ac/exponential_mixnet/exponential_mixnet_V2.spthy ->
+exponential_mixnet_V2.spthy
+  sha256 299c5da1e8cd4c1c7281c077ee97bd57775f1b01b5f4311f84529615c16f6607
+
+License
+-------
+GPL-3.0. GPL-3.0 (as for tag 1.10.0).
+The files are copied here unchanged; the license text is in models/tamarin-dev/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS --diff
+--stop-on-trace=BFS --prove=<lemma> exponential_mixnet_V2.spthy
+Where the flags come from: --diff: the model states observational equivalence;
+--stop-on-trace=BFS: the authors' command.
+
+Measured for this benchmark: not run yet.
+
+Reported by the authors: files in fast/: under 15 minutes on a standard laptop with 32 GB RAM;
+toy voting system: 5-10 minutes (eligibility, exec), about 30 minutes for the sources lemma;
+exponential mixnet: attack in 3008 steps (BFS) in one or two minutes (README
+examples/csf26-ac/README.md)
+Tamarin's own CI
+(case-studies-regression/csf26-ac/exponential_mixnet/exponential_mixnet_V2_analyzed-diff-bfs.spthy):
+processing time 33.24 s with Tamarin 1.13.0, flags -diff-bfs, on Tamarin CI on develop: 14-core
+Mac (hippo2.local), Tamarin 1.13.0
+
+Lean side
+---------
+out of scope: observational equivalence (a diff model); Tamalean checks trace properties only

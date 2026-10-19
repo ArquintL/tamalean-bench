@@ -1,0 +1,52 @@
+emv/more-is-less/Visa_SquareOffline_PinPlasticAppleSamsung
+==========================================================
+
+The model file is not stored here (see License): scripts/fetch_models.py fetches it to
+cache/emv/more-is-less/Visa_SquareOffline_PinPlasticAppleSamsung/Visa_SquareOffline_PinPlasticAppleSamsung.spthy.
+Theory: Visa_SquareOffline_PinPlasticAppleSamsung
+
+Paper
+-----
+George Pavlides, Anna Clee, Ioana Boureanu, Tom Chothia.
+More is Less: Extra Features in Contactless Payments Break Security.
+USENIX Security Symposium, 2025, pages 7977-7996.
+URL:  https://www.usenix.org/conference/usenixsecurity25/presentation/pavlides
+DBLP: https://dblp.org/rec/conf/uss/PavlidesCBC25
+(Why this paper: README.)
+
+Online source
+-------------
+File:       https://gitlab.com/anonym_123/anon_payments/-/blob/b118c5afb57162ae910a68a4ae1f580bdd112e73/tamarin_models/Visa_SquareOffline_PinPlasticAppleSamsung.spthy
+Repository: https://gitlab.com/anonym_123/anon_payments
+Commit:     b118c5afb57162ae910a68a4ae1f580bdd112e73
+Ref:        main (HEAD)
+
+Files
+-----
+model: tamarin_models/Visa_SquareOffline_PinPlasticAppleSamsung.spthy ->
+Visa_SquareOffline_PinPlasticAppleSamsung.spthy
+  sha256 5fd5a3d9be3c17fc69e5fe78295a469553cfecc47ab9ca5c30b498cd6f90c8ed
+
+License
+-------
+none stated. no license stated (GitLab project license: none; README checked; artifact listed
+via Software Heritage).
+The files are not copied into this repository; scripts/fetch_models.py fetches them at the
+pinned commit and checks their sha256.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--derivcheck-timeout=20 --prove=<lemma> Visa_SquareOffline_PinPlasticAppleSamsung.spthy
+Where the flags come from: --derivcheck-timeout=20: the authors' command.
+
+Measured for this benchmark: not run yet.
+
+Reported by the authors: processing time: 2659.49s (comment in the file)
+Tamarin version the authors used: 1.6.1 (README)
+Times stated in the file: processing time: 2659.49s
+Processing time stated in the file: [2659.49] s
+
+Lean side
+---------
+trace properties

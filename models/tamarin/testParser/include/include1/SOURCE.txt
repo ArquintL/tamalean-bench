@@ -1,0 +1,54 @@
+tamarin/testParser/include/include1
+===================================
+
+The model file is include1.spthy in this directory.
+Theory: Yubikey
+
+Paper
+-----
+Simon Meier, Benedikt Schmidt 0002, Cas Cremers, David A. Basin.
+The TAMARIN Prover for the Symbolic Analysis of Security Protocols.
+CAV, 2013, pages 696-701.
+DOI:  https://doi.org/10.1007/978-3-642-39799-8_48
+DBLP: https://dblp.org/rec/conf/cav/MeierSCB13
+(Why this paper: parser tests, no paper -> Tamarin tool paper cited instead.)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32/examples/testParser/include/include1.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32
+Ref:        tag 1.10.0 (lightweight tag)
+
+Files
+-----
+model: examples/testParser/include/include1.spthy -> include1.spthy
+  sha256 133ffca8a0c531e64e7a29e90e0c722a229336e6a4744f32bb15a5bf51f0ecc5
+include: examples/testParser/include/include2.spthy -> include2.spthy
+  sha256 71f244d1dc697d2bf88260aa4aadae7c359ac9662d2e9c7b63b8ab9448b14d49
+include: examples/testParser/include/include/include3.spthy -> include/include3.spthy
+  sha256 7f1cce89fab9d780a23f9b4a8dd3646e2b21cd92ba110c3f8dfb31daf7959341
+include: examples/testParser/include/include/include/include4.spthy ->
+include/include/include4.spthy
+  sha256 7fa3840d547727cca07327979ac35a26849f9eaf45583cd3f57b3b65414462b4
+
+License
+-------
+GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
+copies, mark any modifications, and keep the files under GPL-3.0.
+The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--prove=<lemma> include1.spthy
+Where the flags come from: no flags: the source gives none for this model.
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: varies per directory (see models); Tamarin CI outputs at this
+tag (case-studies-regression/) were produced with Tamarin 1.9.0
+
+Lean side
+---------
+trace properties

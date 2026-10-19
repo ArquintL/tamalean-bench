@@ -1,0 +1,58 @@
+securedrop/securedrop
+=====================
+
+The model file is securedrop.spthy in this directory.
+Theory: SecureDrop
+
+Paper
+-----
+Giulio Berra, Felix Linker, Luca Maier, Cory Francis Myers, Kenneth G. Paterson, Rowen Shane,
+Shannon Veitch.
+The SecureDrop Protocol: End-to-End Encrypted Whistleblowing for All.
+IACR Cryptol. ePrint Arch., 2026, volume 2026, pages 1484.
+URL:  https://eprint.iacr.org/2026/1484
+DBLP: https://dblp.org/rec/journals/iacr/BerraLMMPSV26
+(Why this paper: README (paper not named; repository is the Tamarin part of the SecureDrop
+Protocol analysis) and ePrint 2026/1484 abstract.)
+
+Online source
+-------------
+File:       https://github.com/freedomofpress/securedrop-protocol-models/blob/4e828175b901af8d65780cb2f2e5364821f9e784/securedrop.spthy
+Repository: https://github.com/freedomofpress/securedrop-protocol-models
+Commit:     4e828175b901af8d65780cb2f2e5364821f9e784
+Ref:        tag v1.0.1 (= main HEAD)
+
+Files
+-----
+model: securedrop.spthy -> securedrop.spthy
+  sha256 c7714ecd40fb4df7024e291ca890b73fec2a5eb95a03f4c8c78e5f42cfff6fe3
+include: parts/apke.spthy -> parts/apke.spthy
+  sha256 5b86beed41ff2da27bc0e2d68ba43cad3872eba8b97075059bc0cbf41979bcb1
+include: parts/pke.spthy -> parts/pke.spthy
+  sha256 7bdc550cd1ef888eb60cf00d80cef140f8345c2811e17909f8ee2eb148a568b3
+include: parts/channel.spthy -> parts/channel.spthy
+  sha256 269776b0d95e5bdc1738dd9ece7873c6951f990d7956b09fc2fadb28c2656531
+oracle: oracle.py -> oracle.py
+  sha256 ea3344c965a6116d9d432100583664cdb19d1f0914735f8a75e311578ff4b4a3
+
+License
+-------
+MIT. MIT (Copyright (c) 2026 Felix Linker, Luca Maier): keep the copyright and permission
+notice.
+The files are copied here unchanged; the license text is in models/securedrop/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--derivcheck-timeout=0 --prove=<lemma> securedrop.spthy
+Where the flags come from: --derivcheck-timeout=0: the authors' command; the oracle is named in
+the theory file (no flag needed).
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: 1.12 with Maude 3.5 (README); not checked against the
+installed 1.10.0
+
+Lean side
+---------
+trace properties

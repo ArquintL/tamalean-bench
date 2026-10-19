@@ -1,0 +1,50 @@
+tamarin/eurosp19-eccDAA/ISOIEC_20008_2013_2_ECC_DAA
+===================================================
+
+The model file is ISOIEC_20008_2013_2_ECC_DAA.spthy in this directory.
+Theory: ISOIEC_20008_2013_2_ECC_DAA
+
+Paper
+-----
+Jorden Whitefield, Liqun Chen 0002, Ralf Sasse, Steve A. Schneider, Helen Treharne, Stephan
+Wesemeyer.
+A Symbolic Analysis of ECC-Based Direct Anonymous Attestation.
+EuroS&P, 2019, pages 127-141.
+DOI:  https://doi.org/10.1109/EUROSP.2019.00019
+DBLP: https://dblp.org/rec/conf/eurosp/WhitefieldCSSTW19
+(Why this paper: README.)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32/examples/eurosp19-eccDAA/ISOIEC_20008_2013_2_ECC_DAA.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32
+Ref:        tag 1.10.0 (lightweight tag)
+
+Files
+-----
+model: examples/eurosp19-eccDAA/ISOIEC_20008_2013_2_ECC_DAA.spthy ->
+ISOIEC_20008_2013_2_ECC_DAA.spthy
+  sha256 727ce900fde97d9d1bc5cdc5576d25498d66c589cda048c9af63645217e2939a
+
+License
+-------
+GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
+copies, mark any modifications, and keep the files under GPL-3.0.
+The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--prove=<lemma> ISOIEC_20008_2013_2_ECC_DAA.spthy
+Where the flags come from: no flags: the source gives none for this model.
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: git 44d5ecbc or later (README)
+Times stated in the file: *    steps i - n in section 6.5.2 second list.; σ1 and σ2 the linking
+process takes the following step:
+
+Lean side
+---------
+trace properties

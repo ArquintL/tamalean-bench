@@ -1,0 +1,395 @@
+theory AggregateSignature_AttackFindingModel_CollidingSignature
+
+//Theory Description:
+//==================
+/*
+we use functions and equations to define the aggregation
+
+We use the private function validAgg to model a valid aggregation.
+It contains the messages and public keys from the aggregated 
+signatures. Honest agents can create such aggregations. The 
+adversary has to use the aggregation oracle which is modeled
+by the rules Adv_Aggregate and Adv_Aggregate_BaseCase.
+
+The validation is modeled by the function verifyAgg, which takes 
+as input an aggregation, a list of messages and a list of keys.
+The validation is correct, if the messages and keys match those 
+inside the aggregation.
+
+The colliding signature attack is possible for up to two malicious
+signatures. The private function zeroAgg is used to model a 
+colliding signature aggregate and singleZeroAgg if the aggregate 
+contains only one malicious signature. The malicious signatures of
+the colliding signature aggregate validate for any messages, but
+the correct key.
+*/
+
+//Assumptions:
+//============
+/*
+- The public keys as aggregation input are omitted
+- No adversary capability was added
+- the aggregation is applied incrementally
+- The aggregating agents are implicitly checking the signatures
+  , they aggregate.
+
+- We assume, there are at most two zero splitting signatures inside 
+  A zerosplitting aggregation and it is the last one added. 
+*/
+
+
+begin
+
+builtins: signing, multiset
+
+functions: verifyAgg/3 //To validate a aggregation, input: aggregation, list of messages, list of public keys
+functions: validAgg/2 [private] //represents a valid aggregation, contains a list of messages and s list of public keys
+functions: zeroAgg/2 [private] //represents a aggregation through a zero splitting attack with valid signatures
+functions: singleZeroAgg/1 [private]
+
+
+equations: verifyAgg(validAgg(m, k), m, k) = true //true, if the aggregation contains the correct messages and public keys
+equations: verifyAgg(zeroAgg(validAgg(m, k), kZero), <mMalicious, m>, <kZero, k>) = true //to validate a zero splitting aggregate with one malicious key
+equations: verifyAgg(zeroAgg(validAgg(m, k), <kZero1, kZero2>), <mMalicious1, <mMalicious2, m>>, <kZero1, <kZero2, k>>) = true //to validate a zero splitting aggregate with two malicious keys. One could add equations to allow for more malicious keys.
+equations: verifyAgg(singleZeroAgg(kZero), mMalicious, kZero) = true
+
+
+// Public key infrastructure
+//==========================
+//from the Tamarin Manual
+rule Register_pk:
+  [ Fr(~ltkA) ]
+--[ RegisterHonestKey(pk(~ltkA))
+  , Register($A, ~ltkA) ]->
+  [ !Ltk($A, ~ltkA)
+  , !Pk($A, pk(~ltkA))
+  ,  Out(pk(~ltkA)) ]
+
+rule Reveal_ltk:
+  [ !Ltk(A, ltk) ]
+--[ LtkReveal(A) ]->
+  [ Out(ltk) ]
+
+//Malicious key registration
+//---------------------------
+rule Register_malicious_pk:
+  [ Fr(~ltkMalicious) ]
+--[ RegisterMaliciousKey(pk(~ltkMalicious))
+  , Register($A, ~ltkMalicious) 
+  , Malicious($A) ]->
+  [ !Ltk_malicious($A, ~ltkMalicious)
+  , !Pk($A, pk(~ltkMalicious))
+  , !Pk_malicious(pk(~ltkMalicious))
+  , Out(pk(~ltkMalicious)) ]
+
+rule Reveal_malicious_ltk:
+  [ !Ltk_malicious(A, ltkMalicious)]
+--[ MaliciousLtkReveal(A)
+  , LtkReveal(A) ]->
+  [ Out(ltkMalicious) ]
+
+
+//Adversary aggregation rules
+//===========================
+//Valid aggregation
+//-----------------
+rule Adv_Aggregate [no_derivcheck]:
+  [ In(<sign(m, sk), validAgg(messages, keys)>) ] 
+-->
+  [ Out(validAgg(<m, messages>, <pk(sk), keys>)) ]
+
+rule Adv_Aggregate_BaseCase [no_derivcheck]:
+  [ In(sign(m, sk)) ]
+-->
+  [ Out(validAgg(m, pk(sk))) ]
+
+//Colliding signature aggregation
+//--------------------------
+rule Adv_Colliding_Aggregate_one [no_derivcheck]:
+  [ In(<sign(m, skMalicious), validAggregation>)
+  , !Pk_malicious(pk(skMalicious)) ]
+-->
+  [ Out(zeroAgg(validAggregation, pk(skMalicious))) ]
+
+rule Adv_Colliding_Aggregate [no_derivcheck]:
+  [ In(<sign(m, skMalicious), zeroAgg(validAggregation, maliciousKeys)>)
+  , !Pk_malicious(pk(skMalicious)) ]
+-->
+  [ Out(zeroAgg(validAggregation, <pk(skMalicious), maliciousKeys>)) ]
+
+rule Adv_Colliding_Aggregate_noValidAgg [no_derivcheck]:
+  [ In(sign(m, skMalicious))
+  , !Pk_malicious(pk(skMalicious)) ]
+-->
+  [ Out(singleZeroAgg(pk(skMalicious))) ]
+
+
+/* Protocol 
+   ========
+- Weather Stations (Station_i) perform weather measurements.
+  They send the measurements and the signatures of those measurements 
+  to the Aggregator 
+- The Aggregator creates an aggregated signature of the received 
+  signatures and sends the aggregation and the messages to the 
+  Verifier
+- The Verifier looks up the keys and then validates the signature 
+  aggregation
+
+Station_1 -> Aggregator: m1, sign(m1, sk1), Station_1
+..
+Station_n -> Aggregator: mn, sign(mn, skn), Station_n
+Aggregator -> Verifier : (m1, ..., mn), (Station_1, ..., Station_n)
+                         , agg(sign(m1, sk1), ..., sign(mn, skn))
+Verifier: lookup keys then verify aggregation
+*/
+
+//Station
+//------
+rule Station_send: //A sends the measurement and its signature
+  [ !Ltk($Station, ~sk), Fr(~measurement)]
+--[ Sign($Station, ~measurement, ~sk)
+  , Running_weakAgreement($Station, $Verifier)
+  , Running_aliveness($Station)
+  , Running_aliveness_message($Station, ~measurement)
+  , Signed($Station, ~measurement) ]->
+  [ Out(<~measurement, $Station, sign(~measurement, ~sk)>) ]
+
+
+//Aggregator
+//-------
+//In this model, the Aggregator does the aggregation directly.
+//For the aggregation, the Aggregator has to check the signature
+//Thus this model is in this point different to the restriction based model.
+rule Aggregator_receives_first [no_derivcheck]:
+  [ In(<m1, $Station_1, sign(m1, sk)>)
+  , !Pk($Station_1, pk(sk)) 
+  , Fr(~id)]
+--[ AUTO_OUT_FACT_1_Aggregator_receives( validAgg(m1, pk(sk)), <m1, $Station_1>, ~id) ]->
+  [ Aggregator(validAgg(m1, pk(sk)), <m1, $Station_1>, ~id) ]
+
+rule Aggregator_receives [no_derivcheck]:
+  [ In(<mi, $Station_i, sign(mi, sk)>)
+  , Aggregator(validAgg(messages, keys), messagesAndNames, ~id)
+  , !Pk($Station_i, pk(sk)) ]
+--[ AUTO_IN_FACT_1_Aggregator_receives( validAgg(messages, keys), messagesAndNames, ~id)
+  , AUTO_OUT_FACT_1_Aggregator_receives( validAgg(<mi, messages>, <pk(sk), keys>), <mi, $Station_i> + messagesAndNames, ~id)
+  , Limit(messages) ]->
+  [ Aggregator(validAgg(<mi, messages>, <pk(sk), keys>), <mi, $Station_i> + messagesAndNames, ~id) ]
+
+rule Aggregator_sends:
+  [ Aggregator(aggregation, messagesAndNames, ~id) ]
+--[ AggregatorSends(aggregation, messagesAndNames) ]->
+  [ Out(<aggregation, messagesAndNames>) ]
+
+
+//Verifier
+//------
+rule Verifier_Receives_aggregation:
+  [ In(<aggregation, messagesAndNames>) ]
+-->
+  [ VerifierReceivedAggregation(aggregation, messagesAndNames) ] 
+
+//Lookup keys
+rule Verifier_LookupKey_last:
+  [ VerifierReceivedAggregation(aggregation, <mn, $Station_n>+restMessagesAndNames) 
+  , !Pk($Station_n, pkn) ]
+-->
+  [ VerifierLookupKey(aggregation, mn, pkn, restMessagesAndNames, <mn, $Station_n>+restMessagesAndNames) ]
+
+rule Verifier_LookupKey_singel:
+  [ VerifierReceivedAggregation(aggregation, <m1, $Station_1>) 
+  , !Pk($Station_1, pk1) ]
+-->
+  [ VerifierKeysLookedUp(aggregation, m1, pk1, <m1, $Station_1>) ]
+
+rule Verifier_LookupKey_i:
+  [ VerifierLookupKey(aggregation, messages, keys, <mi, $Station_i>+restMessagesAndNames, AllMessagesAndNames)
+  , !Pk($Station_i, pki) ]
+-->
+  [ VerifierLookupKey(aggregation, <mi, messages>, <pki, keys>, restMessagesAndNames, AllMessagesAndNames) ]
+
+rule Verifier_LookupKey_first:
+  [ VerifierLookupKey(aggregation, messages, keys, <m1, $Station_1>, AllMessagesAndNames)
+  , !Pk($Station_1, pk_1) ]
+-->
+  [ VerifierKeysLookedUp(aggregation, <m1, messages>, <pk_1, keys>, AllMessagesAndNames) ]
+
+//Verification
+rule Verifier_verifies:
+  [ VerifierKeysLookedUp(aggregation, messages, keys, AllMessagesAndNames) ] 
+--[ Correct(verifyAgg(aggregation, messages, keys), true)
+  , Limit(messages)
+  , Limit(keys)
+  , Finish()
+  , Done(aggregation, messages, keys)
+  , VerifierVerifies(aggregation, messages, keys, true) ]->
+  [ AggIsVerified(aggregation, messages, keys, 'Hurrrah', AllMessagesAndNames) ]
+
+//Look at messages for agreement lemmas
+rule Verifier_looksAtMessage:
+  [ AggIsVerified(aggregation, messages, keys, 'Hurrrah', <m, $Station>+restMessagesAndNames)
+  , !Pk($Station, pk) ]
+--[ Commit($Verifier, $Station)
+  , Commit_message($Verifier, $Station, m)
+  , ClaimSigned($Station, m)
+  , ClaimHonest($Station)
+  , ClaimHonest($Verifier)
+  , Limit(messages)
+  , Limit(keys) ]->
+  [ VerifierLookedAtMessage(aggregation, messages, keys, m, pk) ]
+
+rule Verifier_looksAtMessage_oneSignature:
+  [ AggIsVerified(aggregation, messages, keys, 'Hurrrah', <m, $Station>)
+  , !Pk($Station, pk) ]
+--[ Commit($Verifier, $Station)
+  , Commit_message($Verifier, $Station, m)
+  , ClaimSigned($Station, m)
+  , ClaimHonest($Station)
+  , ClaimHonest($Verifier)
+  , Limit(messages)
+  , Limit(keys) ]->
+  [ VerifierLookedAtMessage(aggregation, messages, keys, m, pk) ]
+
+
+//Restrictions:
+//=============
+restriction validationCorrect:
+  "All v b #i. Correct(v, b)@i ==> v = b"
+
+//Restrictions to limit the number of signatures
+//----------------------------------------------
+//Restrict the number of signatures to get some lemmas to terminate
+//With this restriction, the proof holds only under the assumption of a limited number of signatures
+restriction limitNumberOfSignatures_three:
+  "All m1 m2 mRest #i.
+    Limit(<m1, <m2, <mRest>>>)@i
+  ==> not(Ex ma mb. mRest = <ma, mb>)"
+
+restriction limitNumberOfSignatures_two:
+  "All m1 mRest #i.
+    Limit(<m1, <mRest>>)@i
+  ==> not(Ex ma mb. mRest = <ma, mb>)"
+
+
+//Lemmas
+//======
+
+//Trace exist lemmas to show valid traces
+//---------------------------------------
+lemma executable_oneSignature: //Proven fast
+ exists-trace
+  "Ex aggregate m pk #i.
+    Done(aggregate, m, pk)@i
+    & Ex #j. RegisterHonestKey(pk)@j"
+
+lemma executable_oneSignature_nice: //Proven fast
+ exists-trace
+  "Ex aggregate m pk #i.
+    Done(aggregate, m, pk)@i
+    & Ex #j. RegisterHonestKey(pk)@j
+    & Ex mAndN #k. AggregatorSends(aggregate, mAndN)@k
+    & (All agg2 mAndN2 #k2. AggregatorSends(agg2, mAndN2)@k2 ==> #k = #k2)
+  "
+  
+lemma executable_twoSignatures: //Proven fast
+ exists-trace
+  "Ex aggregate pk1 pk2 m1 m2 #i.
+    Done(aggregate, <m1, m2>, <pk1, pk2>)@i
+    & Ex #j1 #j2. RegisterHonestKey(pk1)@j1 & RegisterHonestKey(pk2)@j2
+  "
+
+lemma executable_twoSignatures_nice: //Proven fast
+ exists-trace
+  "Ex aggregate pk1 pk2 m1 m2 #i.
+    Done(aggregate, <m1, m2>, <pk1, pk2>)@i
+    & Ex #j1 #j2. RegisterHonestKey(pk1)@j1 & RegisterHonestKey(pk2)@j2
+    & Ex messagesAndNames #k. AggregatorSends(aggregate, messagesAndNames)@k
+    & (All agg2 messagesAndNames2 #k2. AggregatorSends(agg2, messagesAndNames2)@k2 ==> #k = #k2)
+  "
+
+//Authentication Lemmas
+//---------------------
+//Aliveness Lemma adapted form Tamarin Manual and FMSec lecture slides
+lemma aliveness: //Proven fast (about 20 to 30 seconds)
+  "All verifier station #i.Commit(verifier, station)@i
+  ==>  (Ex #j. Running_aliveness(station)@j)
+    | (Ex C #r. LtkReveal(C)@r & ClaimHonest(C)@i)
+  "
+
+lemma message_authentic: //Proven fast (about 20 t0 30 seconds)
+  "All verifier station message #i.Commit_message(verifier, station, message)@i
+  ==>  (Ex #j. Running_aliveness_message(station, message)@j)
+    | (Ex C #r. LtkReveal(C)@r & ClaimHonest(C)@i)
+  "
+
+//Aliveness Lemma adapted form Tamarin Manual and FMSec lecture slides
+lemma weak_agreement_falsified: //attack found fast
+  "All verifier station #i. Commit(verifier, station)@i
+  ==> (Ex #j. Running_weakAgreement(station, verifier) @j)
+    | (Ex C #r. LtkReveal(C)@r & ClaimHonest(C)@i)
+  "
+
+
+//Attack Lemmas
+//-------------
+lemma no_ZeroSplittingAttack: //attack found fast
+  "not(Ex agg ma mb k #i #j.
+    VerifierVerifies(agg, ma, k, true)@i
+    & VerifierVerifies(agg, mb, k, true)@j
+    & not (ma = mb))
+  "
+
+lemma no_RogueKeyAttack: //Proven fast
+  "not(Ex station m #i. (ClaimSigned(station, m)@i
+    & not(Ex #j. Signed(station, m)@j)
+    & not(Ex #k. LtkReveal(station)@k)))
+  "
+
+lemma show_ZeroSplittingAttack: //Proven fast
+ exists-trace
+  "Ex agg ma mb k #i #j.
+    VerifierVerifies(agg, ma, k, true)@i
+    & VerifierVerifies(agg, mb, k, true)@j
+    & not (ma = mb)
+    & Ex pk1 pk2. k = <pk1, pk2>
+    & Ex #n. RegisterHonestKey(pk2)@n
+    & not(pk1 = pk2)
+    & Ex ma1 ma2. ma = <ma1, ma2>
+    & Ex mb1 mb2. mb = <mb1, mb2>
+    & ma2 = mb2
+    & not(ma1 = mb1)
+    & not(ma1 = ma2)
+    & not(mb1 = mb2)
+    & not(ma1 = mb2)
+    & not(mb1 = ma2)
+  "
+
+lemma show_ZeroSplittingAttack_WorseCase: //Falsified fast
+ exists-trace
+  "Ex agg ma mb k #i #j.
+    VerifierVerifies(agg, ma, k, true)@i
+    & VerifierVerifies(agg, mb, k, true)@j
+    & not (ma = mb)
+    & Ex pk1 pk2. k = <pk1, pk2>
+    & Ex #n. RegisterHonestKey(pk2)@n
+    & not(pk1 = pk2)
+    & Ex ma1 ma2. ma = <ma1, ma2>
+    & Ex mb1 mb2. mb = <mb1, mb2>
+    & not(ma2 = mb2) //This line changed
+    & not(ma1 = mb1)
+    & not(ma1 = ma2)
+    & not(mb1 = mb2)
+    & not(ma1 = mb2)
+    & not(mb1 = ma2)
+  "
+
+  lemma manual_typing [sources]:
+  all-traces
+  "(⊤) ∧
+        (∀ m1 m2 m3 #i.
+          (AUTO_IN_FACT_1_Aggregator_receives( m1, m2, m3 ) @ #i) ⇒
+          (∃ #j.
+            (AUTO_OUT_FACT_1_Aggregator_receives( m1, m2, m3 ) @ #j) ∧
+            (#j < #i)))"
+
+end

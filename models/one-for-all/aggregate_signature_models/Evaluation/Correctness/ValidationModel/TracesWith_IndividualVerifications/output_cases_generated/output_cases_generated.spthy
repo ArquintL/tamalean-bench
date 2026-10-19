@@ -1,0 +1,992 @@
+theory testcases
+
+begin
+
+builtins: signing, multiset
+
+functions: agg/1 // a multiset of pair of signatures and numbers
+functions: false/0 //for the correctness definition
+
+// Public key infrastructure
+rule Register_pk:
+  [ Fr(~ltkA) ]
+--[ RegisterHonestKey(pk(~ltkA))
+  , Register($A, ~ltkA) ]->
+  [ !Ltk($A, ~ltkA)
+  , !Pk($A, pk(~ltkA))
+  ,  Out(pk(~ltkA)) ]
+// Valid
+rule OneValidSignature:
+  [ Fr(~m), !Ltk($A, ~sk) ]
+--[ VerifyAgg(agg(<sign(~m, ~sk), '1'>), <~m, pk(~sk), '1'>, true),
+    OneValidSignature() ]->
+  [ ]
+
+rule TwoValidSignatures:
+  [ Fr(~m1), Fr(~m2), !Ltk($A1, ~sk1), !Ltk($A2, ~sk2) ]
+--[ VerifyAgg(agg(<sign(~m1, ~sk1), '1'> + <sign(~m2, ~sk2), '2'>), <~m1, pk(~sk1), '1'> + <~m2, pk(~sk2), '2'>, true),
+    TwoValidSignatures() ]->
+  [ ]
+
+rule ThreeValidSignatures:
+  [ Fr(~m1), Fr(~m2), Fr(~m3), !Ltk($A1, ~sk1), !Ltk($A2, ~sk2), !Ltk($A3, ~sk3) ]
+--[ VerifyAgg(agg(<sign(~m1, ~sk1), '1'> + <sign(~m2, ~sk2), '2'> + <sign(~m3, ~sk3), '3'>),
+    <~m3, pk(~sk3), '3'> + <~m1, pk(~sk1), '1'> + <~m2, pk(~sk2), '2'>, true),
+    ThreeValidSignatures() ]->
+  [ ]
+
+rule ThreeValidSignatures_twiceTheSameMessage:
+  [ Fr(~m1), Fr(~m2), !Ltk($A1, ~sk1), !Ltk($A2, ~sk2), !Ltk($A3, ~sk3) ]
+--[ VerifyAgg(agg(<sign(~m1, ~sk1), '1'> + <sign(~m2, ~sk2), '2'> + <sign(~m2, ~sk3), '3'>),
+    <~m2, pk(~sk3), '3'> + <~m1, pk(~sk1), '1'> + <~m2, pk(~sk2), '2'>, true),
+    ThreeValidSignatures_twiceTheSameMessage() ]->
+  [ ]
+
+rule ThreeValidSignatures_twiceTheSameKey:
+  [ Fr(~m1), Fr(~m2), Fr(~m3), !Ltk($A1, ~sk1), !Ltk($A2, ~sk2) ]
+--[ VerifyAgg(agg(<sign(~m1, ~sk1), '1'> + <sign(~m2, ~sk2), '2'> + <sign(~m3, ~sk2), '3'>),
+    <~m3, pk(~sk2), '3'> + <~m1, pk(~sk1), '1'> + <~m2, pk(~sk2), '2'>, true),
+    ThreeValidSignatures_twiceTheSameKey() ]->
+  [ ]
+
+rule ThreeValidSignatures_twiceTheSameSignature:
+  [ Fr(~m1), Fr(~m2), !Ltk($A1, ~sk1), !Ltk($A2, ~sk2) ]
+--[ VerifyAgg(agg(<sign(~m1, ~sk1), '1'> + <sign(~m2, ~sk2), '2'> + <sign(~m2, ~sk2), '3'>),
+    <~m2, pk(~sk2), '3'> + <~m1, pk(~sk1), '1'> + <~m2, pk(~sk2), '2'>, true),
+    ThreeValidSignatures_twiceTheSameSignature() ]->
+  [ ]
+
+rule SixSignatures:
+  [ Fr(~m1), Fr(~m2), Fr(~m3), Fr(~m4), Fr(~m5), Fr(~m6),
+    !Ltk($A1, ~sk1), !Ltk($A2, ~sk2), !Ltk($A3, ~sk3), !Ltk($A4, ~sk4), !Ltk($A5, ~sk5), !Ltk($A6, ~sk6) ]
+--[ VerifyAgg(agg(<sign(~m1, ~sk1), '1'> + <sign(~m2, ~sk2), '2'> + <sign(~m3, ~sk3), '3'>
+                  + <sign(~m4, ~sk4), '4'> + <sign(~m5, ~sk5), '5'> + <sign(~m6, ~sk6), '6'>),
+    <~m3, pk(~sk3), '3'> + <~m1, pk(~sk1), '1'> + <~m2, pk(~sk2), '2'>
+    + <~m4, pk(~sk4), '4'> + <~m5, pk(~sk5), '5'> + <~m6, pk(~sk6), '6'>, true),
+    SixSignatures() ]->
+  [ ]
+
+// The following cases are treated as valid, althogh the numbers in the input are missing
+rule MissingNumber_correctSignature:
+  [ Fr(~m), !Ltk($A, ~sk) ]
+--[ VerifyAgg(agg(<sign(~m, ~sk)>), <~m, pk(~sk)>, true),
+    MissingNumber_correctSignature() ]->
+  [ ]
+
+rule MissingNumber_incorrectSignature:
+  [ Fr(~s), Fr(~m), !Ltk($A, ~sk) ]
+--[ VerifyAgg(agg(<~s>), <~m, pk(~sk)>, true),
+    MissingNumber_incorrectSignature() ]->
+  [ ]
+
+
+
+// Dublicate Valid
+// Valid
+rule OneValidSignature_false:
+  [ Fr(~m), !Ltk($A, ~sk) ]
+--[ VerifyAgg(agg(<sign(~m, ~sk), '1'>), <~m, pk(~sk), '1'>, false),
+    OneValidSignature_false() ]->
+  [ ]
+
+rule TwoValidSignatures_false:
+  [ Fr(~m1), Fr(~m2), !Ltk($A1, ~sk1), !Ltk($A2, ~sk2) ]
+--[ VerifyAgg(agg(<sign(~m1, ~sk1), '1'> + <sign(~m2, ~sk2), '2'>), <~m1, pk(~sk1), '1'> + <~m2, pk(~sk2), '2'>, false),
+    TwoValidSignatures_false() ]->
+  [ ]
+
+rule ThreeValidSignatures_false:
+  [ Fr(~m1), Fr(~m2), Fr(~m3), !Ltk($A1, ~sk1), !Ltk($A2, ~sk2), !Ltk($A3, ~sk3) ]
+--[ VerifyAgg(agg(<sign(~m1, ~sk1), '1'> + <sign(~m2, ~sk2), '2'> + <sign(~m3, ~sk3), '3'>),
+    <~m3, pk(~sk3), '3'> + <~m1, pk(~sk1), '1'> + <~m2, pk(~sk2), '2'>, false),
+    ThreeValidSignatures_false() ]->
+  [ ]
+
+rule ThreeValidSignatures_twiceTheSameMessage_false:
+  [ Fr(~m1), Fr(~m2), !Ltk($A1, ~sk1), !Ltk($A2, ~sk2), !Ltk($A3, ~sk3) ]
+--[ VerifyAgg(agg(<sign(~m1, ~sk1), '1'> + <sign(~m2, ~sk2), '2'> + <sign(~m2, ~sk3), '3'>),
+    <~m2, pk(~sk3), '3'> + <~m1, pk(~sk1), '1'> + <~m2, pk(~sk2), '2'>, false),
+    ThreeValidSignatures_twiceTheSameMessage_false() ]->
+  [ ]
+
+rule ThreeValidSignatures_twiceTheSameKey_false:
+  [ Fr(~m1), Fr(~m2), Fr(~m3), !Ltk($A1, ~sk1), !Ltk($A2, ~sk2) ]
+--[ VerifyAgg(agg(<sign(~m1, ~sk1), '1'> + <sign(~m2, ~sk2), '2'> + <sign(~m3, ~sk2), '3'>),
+    <~m3, pk(~sk2), '3'> + <~m1, pk(~sk1), '1'> + <~m2, pk(~sk2), '2'>, false),
+    ThreeValidSignatures_twiceTheSameKey_false() ]->
+  [ ]
+
+rule ThreeValidSignatures_twiceTheSameSignature_false:
+  [ Fr(~m1), Fr(~m2), !Ltk($A1, ~sk1), !Ltk($A2, ~sk2) ]
+--[ VerifyAgg(agg(<sign(~m1, ~sk1), '1'> + <sign(~m2, ~sk2), '2'> + <sign(~m2, ~sk2), '3'>),
+    <~m2, pk(~sk2), '3'> + <~m1, pk(~sk1), '1'> + <~m2, pk(~sk2), '2'>, false),
+    ThreeValidSignatures_twiceTheSameSignature_false() ]->
+  [ ]
+
+rule SixSignatures_false:
+  [ Fr(~m1), Fr(~m2), Fr(~m3), Fr(~m4), Fr(~m5), Fr(~m6),
+    !Ltk($A1, ~sk1), !Ltk($A2, ~sk2), !Ltk($A3, ~sk3), !Ltk($A4, ~sk4), !Ltk($A5, ~sk5), !Ltk($A6, ~sk6) ]
+--[ VerifyAgg(agg(<sign(~m1, ~sk1), '1'> + <sign(~m2, ~sk2), '2'> + <sign(~m3, ~sk3), '3'>
+                  + <sign(~m4, ~sk4), '4'> + <sign(~m5, ~sk5), '5'> + <sign(~m6, ~sk6), '6'>),
+    <~m3, pk(~sk3), '3'> + <~m1, pk(~sk1), '1'> + <~m2, pk(~sk2), '2'>
+    + <~m4, pk(~sk4), '4'> + <~m5, pk(~sk5), '5'> + <~m6, pk(~sk6), '6'>, false),
+    SixSignatures_false() ]->
+  [ ]
+
+// The following cases are treated as valid, althogh the numbers in the input are missing
+rule MissingNumber_correctSignature_false:
+  [ Fr(~m), !Ltk($A, ~sk) ]
+--[ VerifyAgg(agg(<sign(~m, ~sk)>), <~m, pk(~sk)>, false),
+    MissingNumber_correctSignature_false() ]->
+  [ ]
+
+rule MissingNumber_incorrectSignature_false:
+  [ Fr(~s), Fr(~m), !Ltk($A, ~sk) ]
+--[ VerifyAgg(agg(<~s>), <~m, pk(~sk)>, false),
+    MissingNumber_incorrectSignature_false() ]->
+  [ ]
+
+
+
+// Invalid
+rule OneValidSignature_WrongMessage:
+  [ Fr(~m1), Fr(~m2), !Ltk($A, ~sk) ]
+--[ VerifyAgg(agg(<sign(~m1, ~sk), '1'>), <~m2, pk(~sk), '1'>, true),
+    OneValidSignature_WrongMessage() ]->
+  [ ]
+
+rule OneValidSignature_WrongKey:
+  [ Fr(~m), !Ltk($A, ~sk1), !Ltk($A2, ~sk2) ]
+--[ VerifyAgg(agg(<sign(~m, ~sk1), '1'>), <~m, pk(~sk2), '1'>, true),
+    NotEqual($A, $A2),
+    OneValidSignature_WrongKey() ]->
+  [ ]
+
+rule OneValidSignature_WrongMessageAndKey:
+  [ Fr(~m1), Fr(~m2), !Ltk($A, ~sk1), !Ltk($A2, ~sk2) ]
+--[ VerifyAgg(agg(<sign(~m1, ~sk1), '1'>), <~m2, pk(~sk2), '1'>, true),
+    NotEqual($A, $A2),
+    OneValidSignature_WrongMessageAndKey() ]->
+  [ ]
+
+rule NoSignature:
+  [ Fr(~m), Fr(~s), !Ltk($A, ~sk) ]
+--[ VerifyAgg(agg(<~s, '1'>), <~m, pk(~sk), '1'>, true),
+    NoSignature() ]->
+  [ ]
+
+rule TwoValidSignatures_MessagesSwapped:
+  [ Fr(~m1), Fr(~m2), !Ltk($A1, ~sk1), !Ltk($A2, ~sk2) ]
+--[ VerifyAgg(agg(<sign(~m1, ~sk1), '1'> + <sign(~m2, ~sk2), '2'>), <~m2, pk(~sk1), '1'> + <~m1, pk(~sk2), '2'>, true),
+    TwoValidSignatures_MessagesSwapped() ]->
+  [ ]
+
+rule TwoValidSignatures_NumbersSwapped:
+  [ Fr(~m1), Fr(~m2), !Ltk($A1, ~sk1), !Ltk($A2, ~sk2) ]
+--[ VerifyAgg(agg(<sign(~m2, ~sk2), '1'> + <sign(~m1, ~sk1), '2'>), <~m1, pk(~sk1), '1'> + <~m2, pk(~sk2), '2'>, true),
+    TwoValidSignatures_NumbersSwapped() ]->
+  [ ]
+
+rule TwoValidSignatures_KeySwaped:
+  [ Fr(~m1), Fr(~m2), !Ltk($A1, ~sk1), !Ltk($A2, ~sk2) ]
+--[ VerifyAgg(agg(<sign(~m1, ~sk1), '1'> + <sign(~m2, ~sk2), '2'>), <~m1, pk(~sk2), '1'> + <~m2, pk(~sk1), '2'>, true),
+    NotEqual(~sk1, ~sk2),
+    TwoValidSignatures_KeySwaped() ]->
+  [ ]
+
+rule NotHonestKeys_NonMatchingKey_verifyingHonest:
+  [ Fr(~m), Fr(~sk1),  !Ltk($A, sk2) ]
+--[ VerifyAgg(agg(<sign(~m, ~sk1), '1'>), <~m, pk(sk2), '1'>, true),
+    NotHonestKeys_NonMatchingKey_verifyingHonest() ]->
+  [ ]
+
+
+// Dublicate Invalid
+// Invalid
+rule OneValidSignature_WrongMessage_false:
+  [ Fr(~m1), Fr(~m2), !Ltk($A, ~sk) ]
+--[ VerifyAgg(agg(<sign(~m1, ~sk), '1'>), <~m2, pk(~sk), '1'>, false),
+    OneValidSignature_WrongMessage_false() ]->
+  [ ]
+
+rule OneValidSignature_WrongKey_false:
+  [ Fr(~m), !Ltk($A, ~sk1), !Ltk($A2, ~sk2) ]
+--[ VerifyAgg(agg(<sign(~m, ~sk1), '1'>), <~m, pk(~sk2), '1'>, false),
+    NotEqual($A, $A2),
+    OneValidSignature_WrongKey_false() ]->
+  [ ]
+
+rule OneValidSignature_WrongMessageAndKey_false:
+  [ Fr(~m1), Fr(~m2), !Ltk($A, ~sk1), !Ltk($A2, ~sk2) ]
+--[ VerifyAgg(agg(<sign(~m1, ~sk1), '1'>), <~m2, pk(~sk2), '1'>, false),
+    NotEqual($A, $A2),
+    OneValidSignature_WrongMessageAndKey_false() ]->
+  [ ]
+
+rule NoSignature_false:
+  [ Fr(~m), Fr(~s), !Ltk($A, ~sk) ]
+--[ VerifyAgg(agg(<~s, '1'>), <~m, pk(~sk), '1'>, false),
+    NoSignature_false() ]->
+  [ ]
+
+rule TwoValidSignatures_MessagesSwapped_false:
+  [ Fr(~m1), Fr(~m2), !Ltk($A1, ~sk1), !Ltk($A2, ~sk2) ]
+--[ VerifyAgg(agg(<sign(~m1, ~sk1), '1'> + <sign(~m2, ~sk2), '2'>), <~m2, pk(~sk1), '1'> + <~m1, pk(~sk2), '2'>, false),
+    TwoValidSignatures_MessagesSwapped_false() ]->
+  [ ]
+
+rule TwoValidSignatures_NumbersSwapped_false:
+  [ Fr(~m1), Fr(~m2), !Ltk($A1, ~sk1), !Ltk($A2, ~sk2) ]
+--[ VerifyAgg(agg(<sign(~m2, ~sk2), '1'> + <sign(~m1, ~sk1), '2'>), <~m1, pk(~sk1), '1'> + <~m2, pk(~sk2), '2'>, false),
+    TwoValidSignatures_NumbersSwapped_false() ]->
+  [ ]
+
+rule TwoValidSignatures_KeySwaped_false:
+  [ Fr(~m1), Fr(~m2), !Ltk($A1, ~sk1), !Ltk($A2, ~sk2) ]
+--[ VerifyAgg(agg(<sign(~m1, ~sk1), '1'> + <sign(~m2, ~sk2), '2'>), <~m1, pk(~sk2), '1'> + <~m2, pk(~sk1), '2'>, false),
+    NotEqual(~sk1, ~sk2),
+    TwoValidSignatures_KeySwaped_false() ]->
+  [ ]
+
+rule NotHonestKeys_NonMatchingKey_verifyingHonest_false:
+  [ Fr(~m), Fr(~sk1),  !Ltk($A, sk2) ]
+--[ VerifyAgg(agg(<sign(~m, ~sk1), '1'>), <~m, pk(sk2), '1'>, false),
+    NotHonestKeys_NonMatchingKey_verifyingHonest_false() ]->
+  [ ]
+
+
+// Wrong Format
+rule TooManyMessages:
+  [ Fr(~m1), Fr(~m2), Fr(~m3), !Ltk($A1, ~sk1), !Ltk($A2, ~sk2), !Ltk($A3, ~sk3) ]
+--[ VerifyAgg(agg(<sign(~m1, ~sk1), '1'> + <sign(~m2, ~sk2), '2'>),
+      <~m1, pk(~sk1), '1'> + <~m2, pk(~sk2), '2'>  + <~m3, pk(~sk3), '3'>, true),
+    TooManyMessages() ]->
+  [ ]
+
+rule TooManySignatures:
+  [ Fr(~m1), Fr(~m2), Fr(~m3), !Ltk($A1, ~sk1), !Ltk($A2, ~sk2), !Ltk($A3, ~sk3) ]
+--[ VerifyAgg(agg(<sign(~m1, ~sk1), '1'> + <sign(~m2, ~sk2), '2'> + <sign(~m3, ~sk3), '3'>),
+      <~m1, pk(~sk1), '1'> + <~m2, pk(~sk2), '2'>, true),
+    TooManySignatures() ]->
+  [ ]
+
+rule OneValidSignature_WrongNumber:
+  [ Fr(~m1), !Ltk($A, ~sk1) ]
+--[ VerifyAgg(agg(<sign(~m1, ~sk1), '1'>), <~m1, pk(~sk1), '2'>, true),
+    OneValidSignature_WrongNumber() ]->
+  [ ]
+
+rule NoPublicKey:
+  [ Fr(~m), !Ltk($A, ~sk) ]
+--[ VerifyAgg(agg(<sign(~m, ~sk), '1'>), <~m, ~sk, '1'>, true),
+    NoPublicKey()]->
+  [ ]
+
+rule MissingKey:
+  [ Fr(~m), !Ltk($A, ~sk) ]
+--[ VerifyAgg(agg(<sign(~m, ~sk), '1'>), <~m, '1'>, true),
+    MissingKey() ]->
+  [ ]
+
+rule MissingAggFunction:
+  [ Fr(~m), !Ltk($A, ~sk) ]
+--[ VerifyAgg(<sign(~m, ~sk), '1'>, <~m, pk(~sk), '1'>, true),
+    MissingAggFunction() ]->
+  [ ]
+
+rule MissingMessage:
+  [ Fr(~m), !Ltk($A, ~sk) ]
+--[ VerifyAgg(agg(<sign(~m, ~sk), '1'>), <pk(~sk), '1'>, true),
+    MissingMessage() ]->
+  [ ]
+
+rule NotHonestKeys_NonMatchingNumbers:
+  [ Fr(~m), Fr(~sk) ]
+--[ VerifyAgg(agg(<sign(~m, ~sk), '1'>), <~m, pk(~sk), '2'>, true),
+    NotHonestKeys_NonMatchingNumbers() ]->
+  [ ]
+
+rule TooManyMessages_OneTwice_differentNr:
+  [ Fr(~m1), Fr(~m2), !Ltk($A1, ~sk1), !Ltk($A2, ~sk2) ]
+--[ VerifyAgg(agg(<sign(~m1, ~sk1), '1'> + <sign(~m2, ~sk2), '2'>),
+      <~m1, pk(~sk1), '1'> + <~m2, pk(~sk2), '2'>  + <~m2, pk(~sk2), '3'>, true),
+    TooManyMessages_OneTwice_differentNr() ]->
+  [ ]
+
+rule TooManySignatures_OneTwice_differentNr:
+  [ Fr(~m1), Fr(~m2), !Ltk($A1, ~sk1), !Ltk($A2, ~sk2) ]
+--[ VerifyAgg(agg(<sign(~m1, ~sk1), '1'> + <sign(~m2, ~sk2), '2'> + <sign(~m2, ~sk2), '3'>),
+      <~m1, pk(~sk1), '1'> + <~m2, pk(~sk2), '2'>, true),
+    TooManySignatures_OneTwice_differentNr() ]->
+  [ ]
+
+rule MissingNumber_InAgg:
+  [ Fr(~m), !Ltk($A, ~sk) ]
+--[ VerifyAgg(agg(<sign(~m, ~sk)>), <~m, pk(~sk), '1'>, true),
+    MissingNumber_InAgg() ]->
+  [ ]
+
+rule MissingNumber_InMessageKey:
+  [ Fr(~m), !Ltk($A, ~sk) ]
+--[ VerifyAgg(agg(<sign(~m, ~sk), '1'>), <~m, pk(~sk)>, true),
+    MissingNumber_InMessageKey() ]->
+  [ ]
+
+rule TooManyMessages_OneTwice_sameNr:
+  [ Fr(~m1), Fr(~m2), !Ltk($A1, ~sk1), !Ltk($A2, ~sk2) ]
+--[ VerifyAgg(agg(<sign(~m1, ~sk1), '1'> + <sign(~m2, ~sk2), '2'>),
+      <~m1, pk(~sk1), '1'> + <~m2, pk(~sk2), '2'>  + <~m2, pk(~sk2), '2'>, true),
+    TooManyMessages_OneTwice_sameNr() ]->
+  [ ]
+
+rule TooManySignatures_OneTwice_sameNr:
+  [ Fr(~m1), Fr(~m2), !Ltk($A1, ~sk1), !Ltk($A2, ~sk2) ]
+--[ VerifyAgg(agg(<sign(~m1, ~sk1), '1'> + <sign(~m2, ~sk2), '2'> + <sign(~m2, ~sk2), '2'>),
+      <~m1, pk(~sk1), '1'> + <~m2, pk(~sk2), '2'>, true),
+    TooManySignatures_OneTwice_sameNr() ]->
+  [ ]
+
+rule TwiceTheSameNrMessageAndKey:
+  [ Fr(~m), !Ltk($A, ~sk) ]
+--[ VerifyAgg(agg(<sign(~m, ~sk), '1'> + <sign(~m, ~sk), '1'>),
+      <~m, pk(~sk), '1'> + <~m, pk(~sk), '1'>, true),
+      TwiceTheSameNrMessageAndKey() ]->
+  [ ]
+
+// Dublicate Wrong Format
+// Wrong Format
+rule TooManyMessages_false:
+  [ Fr(~m1), Fr(~m2), Fr(~m3), !Ltk($A1, ~sk1), !Ltk($A2, ~sk2), !Ltk($A3, ~sk3) ]
+--[ VerifyAgg(agg(<sign(~m1, ~sk1), '1'> + <sign(~m2, ~sk2), '2'>),
+      <~m1, pk(~sk1), '1'> + <~m2, pk(~sk2), '2'>  + <~m3, pk(~sk3), '3'>, false),
+    TooManyMessages_false() ]->
+  [ ]
+
+rule TooManySignatures_false:
+  [ Fr(~m1), Fr(~m2), Fr(~m3), !Ltk($A1, ~sk1), !Ltk($A2, ~sk2), !Ltk($A3, ~sk3) ]
+--[ VerifyAgg(agg(<sign(~m1, ~sk1), '1'> + <sign(~m2, ~sk2), '2'> + <sign(~m3, ~sk3), '3'>),
+      <~m1, pk(~sk1), '1'> + <~m2, pk(~sk2), '2'>, false),
+    TooManySignatures_false() ]->
+  [ ]
+
+rule OneValidSignature_WrongNumber_false:
+  [ Fr(~m1), !Ltk($A, ~sk1) ]
+--[ VerifyAgg(agg(<sign(~m1, ~sk1), '1'>), <~m1, pk(~sk1), '2'>, false),
+    OneValidSignature_WrongNumber_false() ]->
+  [ ]
+
+rule NoPublicKey_false:
+  [ Fr(~m), !Ltk($A, ~sk) ]
+--[ VerifyAgg(agg(<sign(~m, ~sk), '1'>), <~m, ~sk, '1'>, false),
+    NoPublicKey_false() ]->
+  [ ]
+
+rule MissingKey_false:
+  [ Fr(~m), !Ltk($A, ~sk) ]
+--[ VerifyAgg(agg(<sign(~m, ~sk), '1'>), <~m, '1'>, false),
+    MissingKey_false() ]->
+  [ ]
+
+rule MissingAggFunction_false:
+  [ Fr(~m), !Ltk($A, ~sk) ]
+--[ VerifyAgg(<sign(~m, ~sk), '1'>, <~m, pk(~sk), '1'>, false),
+    MissingAggFunction_false() ]->
+  [ ]
+
+rule MissingMessage_false:
+  [ Fr(~m), !Ltk($A, ~sk) ]
+--[ VerifyAgg(agg(<sign(~m, ~sk), '1'>), <pk(~sk), '1'>, false),
+    MissingMessage_false() ]->
+  [ ]
+
+rule NotHonestKeys_NonMatchingNumbers_false:
+  [ Fr(~m), Fr(~sk) ]
+--[ VerifyAgg(agg(<sign(~m, ~sk), '1'>), <~m, pk(~sk), '2'>, false),
+    NotHonestKeys_NonMatchingNumbers_false() ]->
+  [ ]
+
+rule TooManyMessages_OneTwice_differentNr_false:
+  [ Fr(~m1), Fr(~m2), !Ltk($A1, ~sk1), !Ltk($A2, ~sk2) ]
+--[ VerifyAgg(agg(<sign(~m1, ~sk1), '1'> + <sign(~m2, ~sk2), '2'>),
+      <~m1, pk(~sk1), '1'> + <~m2, pk(~sk2), '2'>  + <~m2, pk(~sk2), '3'>, false),
+    TooManyMessages_OneTwice_differentNr_false() ]->
+  [ ]
+
+rule TooManySignatures_OneTwice_differentNr_false:
+  [ Fr(~m1), Fr(~m2), !Ltk($A1, ~sk1), !Ltk($A2, ~sk2) ]
+--[ VerifyAgg(agg(<sign(~m1, ~sk1), '1'> + <sign(~m2, ~sk2), '2'> + <sign(~m2, ~sk2), '3'>),
+      <~m1, pk(~sk1), '1'> + <~m2, pk(~sk2), '2'>, false),
+    TooManySignatures_OneTwice_differentNr_false() ]->
+  [ ]
+
+rule MissingNumber_InAgg_false:
+  [ Fr(~m), !Ltk($A, ~sk) ]
+--[ VerifyAgg(agg(<sign(~m, ~sk)>), <~m, pk(~sk), '1'>, false),
+    MissingNumber_InAgg_false() ]->
+  [ ]
+
+rule MissingNumber_InMessageKey_false:
+  [ Fr(~m), !Ltk($A, ~sk) ]
+--[ VerifyAgg(agg(<sign(~m, ~sk), '1'>), <~m, pk(~sk)>, false),
+    MissingNumber_InMessageKey_false() ]->
+  [ ]
+
+rule TooManyMessages_OneTwice_sameNr_false:
+  [ Fr(~m1), Fr(~m2), !Ltk($A1, ~sk1), !Ltk($A2, ~sk2) ]
+--[ VerifyAgg(agg(<sign(~m1, ~sk1), '1'> + <sign(~m2, ~sk2), '2'>),
+      <~m1, pk(~sk1), '1'> + <~m2, pk(~sk2), '2'>  + <~m2, pk(~sk2), '2'>, false),
+    TooManyMessages_OneTwice_sameNr_false() ]->
+  [ ]
+
+rule TooManySignatures_OneTwice_sameNr_false:
+  [ Fr(~m1), Fr(~m2), !Ltk($A1, ~sk1), !Ltk($A2, ~sk2) ]
+--[ VerifyAgg(agg(<sign(~m1, ~sk1), '1'> + <sign(~m2, ~sk2), '2'> + <sign(~m2, ~sk2), '2'>),
+      <~m1, pk(~sk1), '1'> + <~m2, pk(~sk2), '2'>, false),
+    TooManySignatures_OneTwice_sameNr_false() ]->
+  [ ]
+
+rule TwiceTheSameNrMessageAndKey_false:
+  [ Fr(~m), !Ltk($A, ~sk) ]
+--[ VerifyAgg(agg(<sign(~m, ~sk), '1'> + <sign(~m, ~sk), '1'>),
+      <~m, pk(~sk), '1'> + <~m, pk(~sk), '1'>, false),
+      TwiceTheSameNrMessageAndKey_false() ]->
+  [ ]
+
+// Not Honest Keys, correct format
+rule NotHonestKeys_IncorrectSignature:
+  [ Fr(~m), Fr(~sk), Fr(~sig) ]
+--[ VerifyAgg(agg(<~sig, '1'>), <~m, pk(~sk), '1'>, true),
+    NotHonestKeys_IncorrectSignature() ]->
+  [ ]
+
+rule NotHonestKeys_correctSignature:
+  [ Fr(~m), Fr(~sk) ]
+--[ VerifyAgg(agg(<sign(~m, ~sk), '1'>), <~m, pk(~sk), '1'>, true),
+    NotHonestKeys_correctSignature() ]->
+  [ ]
+
+rule NotHonestKeys_NonMatchingMessage:
+  [ Fr(~m1), Fr(~m2),  Fr(~sk) ]
+--[ VerifyAgg(agg(<sign(~m1, ~sk), '1'>), <~m2, pk(~sk), '1'>, true),
+    NotHonestKeys_NonMatchingMessage() ]->
+  [ ]
+
+rule NotHonestKeys_NonMatchingKey_BothNonHonest:
+  [ Fr(~m), Fr(~sk1),  Fr(~sk2) ]
+--[ VerifyAgg(agg(<sign(~m, ~sk1), '1'>), <~m, pk(~sk2), '1'>, true),
+   NotHonestKeys_NonMatchingKey_BothNonHonest() ]->
+  [ ]
+
+rule NotHonestKeys_NonMatchingKey_signingHonest:
+  [ Fr(~m), !Ltk($A, sk1),  Fr(~sk2) ]
+--[ VerifyAgg(agg(<sign(~m, sk1), '1'>), <~m, pk(~sk2), '1'>, true),
+   NotHonestKeys_NonMatchingKey_signingHonest() ]->
+  [ ]
+
+rule NotHonestKeys_DEO:
+  [ Fr(~m1), !Ltk($A, sk1),  Fr(~sk2), Fr(~m2) ]
+--[ VerifyAgg(agg(<sign(~m1, sk1), '1'>), <~m2, pk(~sk2), '1'>, true),
+   NotHonestKeys_DEO() ]->
+  [ ]
+
+//Multiple signatures
+rule NotHonestKeys_IncorrectSignature_MultipleSignaturesWithHonestKey:
+  [ Fr(~m2), !Ltk($A, sk2), Fr(~m1), Fr(~sk1), Fr(~sig) ]
+--[ VerifyAgg(agg(<~sig, '1'> + <sign(~m2, sk2), '2'>), <~m1, pk(~sk1), '1'>+<~m2, pk(sk2), '2'>, true),
+    NotHonestKeys_IncorrectSignature_MultipleSignaturesWithHonestKey() ]->
+  [ ]
+
+rule NotHonestKeys_correctSignature_MultipleSignaturesWithHonestKey:
+  [ Fr(~m2), !Ltk($A, sk2), Fr(~m1), Fr(~sk1) ]
+--[ VerifyAgg(agg(<sign(~m1, ~sk1), '1'> + <sign(~m2, sk2), '2'>), <~m1, pk(~sk1), '1'>+<~m2, pk(sk2), '2'>, true),
+    NotHonestKeys_correctSignature_MultipleSignaturesWithHonestKey() ]->
+  [ ]
+
+rule NotHonestKeys_NonMatchingMessage_MultipleSignaturesWithHonestKey:
+  [ Fr(~m2), !Ltk($A, sk2), Fr(~ma), Fr(~mb),  Fr(~sk1) ]
+--[ VerifyAgg(agg(<sign(~ma, ~sk1), '1'> + <sign(~m2, sk2), '2'>), <~mb, pk(~sk1), '1'>+<~m2, pk(sk2), '2'>, true),
+    NotHonestKeys_NonMatchingMessage_MultipleSignaturesWithHonestKey() ]->
+  [ ]
+
+rule NotHonestKeys_NonMatchingKey_BothNonHonest_MultipleSignaturesWithHonestKey:
+  [ Fr(~m2), !Ltk($A, sk2), Fr(~m1), Fr(~ska),  Fr(~skb) ]
+--[ VerifyAgg(agg(<sign(~m1, ~ska), '1'> + <sign(~m2, sk2), '2'>), <~m1, pk(~skb), '1'>+<~m2, pk(sk2), '2'>, true),
+   NotHonestKeys_NonMatchingKey_BothNonHonest_MultipleSignaturesWithHonestKey() ]->
+  [ ]
+
+rule NotHonestKeys_NonMatchingKey_signingHonest_MultipleSignaturesWithHonestKey:
+  [ Fr(~m2), !Ltk($A, sk2), Fr(~m1), !Ltk($A, ska),  Fr(~skb) ]
+--[ VerifyAgg(agg(<sign(~m1, ska), '1'> + <sign(~m2, sk2), '2'>), <~m1, pk(~skb), '1'>+<~m2, pk(sk2), '2'>, true),
+   NotHonestKeys_NonMatchingKey_signingHonest_MultipleSignaturesWithHonestKey() ]->
+  [ ]
+
+rule NotHonestKeys_DEO_MultipleSignaturesWithHonestKey:
+  [ Fr(~m2), !Ltk($A, sk2), Fr(~ma), !Ltk($A, ska),  Fr(~skb), Fr(~mb) ]
+--[ VerifyAgg(agg(<sign(~ma, ska), '1'> + <sign(~m2, sk2), '2'>), <~mb, pk(~skb), '1'>+<~m2, pk(sk2), '2'>, true),
+   NotHonestKeys_DEO_MultipleSignaturesWithHonestKey() ]->
+  [ ]
+
+
+
+// Dublicate Not Honest Keys
+// Not Honest Keys, correct format
+rule NotHonestKeys_IncorrectSignature_false:
+  [ Fr(~m), Fr(~sk), Fr(~sig) ]
+--[ VerifyAgg(agg(<~sig, '1'>), <~m, pk(~sk), '1'>, false),
+    NotHonestKeys_IncorrectSignature_false() ]->
+  [ ]
+
+rule NotHonestKeys_correctSignature_false:
+  [ Fr(~m), Fr(~sk) ]
+--[ VerifyAgg(agg(<sign(~m, ~sk), '1'>), <~m, pk(~sk), '1'>, false),
+    NotHonestKeys_correctSignature_false() ]->
+  [ ]
+
+rule NotHonestKeys_NonMatchingMessage_false:
+  [ Fr(~m1), Fr(~m2),  Fr(~sk) ]
+--[ VerifyAgg(agg(<sign(~m1, ~sk), '1'>), <~m2, pk(~sk), '1'>, false),
+    NotHonestKeys_NonMatchingMessage_false() ]->
+  [ ]
+
+rule NotHonestKeys_NonMatchingKey_BothNonHonest_false:
+  [ Fr(~m), Fr(~sk1),  Fr(~sk2) ]
+--[ VerifyAgg(agg(<sign(~m, ~sk1), '1'>), <~m, pk(~sk2), '1'>, false),
+   NotHonestKeys_NonMatchingKey_BothNonHonest_false() ]->
+  [ ]
+
+rule NotHonestKeys_NonMatchingKey_signingHonest_false:
+  [ Fr(~m), !Ltk($A, sk1),  Fr(~sk2) ]
+--[ VerifyAgg(agg(<sign(~m, sk1), '1'>), <~m, pk(~sk2), '1'>, false),
+   NotHonestKeys_NonMatchingKey_signingHonest_false() ]->
+  [ ]
+
+rule NotHonestKeys_DEO_false:
+  [ Fr(~m1), !Ltk($A, sk1),  Fr(~sk2), Fr(~m2) ]
+--[ VerifyAgg(agg(<sign(~m1, sk1), '1'>), <~m2, pk(~sk2), '1'>, false),
+   NotHonestKeys_DEO_false() ]->
+  [ ]
+
+//Multiple signatures
+rule NotHonestKeys_IncorrectSignature_MultipleSignaturesWithHonestKey_false:
+  [ Fr(~m2), !Ltk($A, sk2), Fr(~m1), Fr(~sk1), Fr(~sig) ]
+--[ VerifyAgg(agg(<~sig, '1'> + <sign(~m2, sk2), '2'>), <~m1, pk(~sk1), '1'>+<~m2, pk(sk2), '2'>, false),
+    NotHonestKeys_IncorrectSignature_MultipleSignaturesWithHonestKey_false() ]->
+  [ ]
+
+rule NotHonestKeys_correctSignature_MultipleSignaturesWithHonestKey_false:
+  [ Fr(~m2), !Ltk($A, sk2), Fr(~m1), Fr(~sk1) ]
+--[ VerifyAgg(agg(<sign(~m1, ~sk1), '1'> + <sign(~m2, sk2), '2'>), <~m1, pk(~sk1), '1'>+<~m2, pk(sk2), '2'>, false),
+    NotHonestKeys_correctSignature_MultipleSignaturesWithHonestKey_false() ]->
+  [ ]
+
+rule NotHonestKeys_NonMatchingMessage_MultipleSignaturesWithHonestKey_false:
+  [ Fr(~m2), !Ltk($A, sk2), Fr(~ma), Fr(~mb),  Fr(~sk1) ]
+--[ VerifyAgg(agg(<sign(~ma, ~sk1), '1'> + <sign(~m2, sk2), '2'>), <~mb, pk(~sk1), '1'>+<~m2, pk(sk2), '2'>, false),
+    NotHonestKeys_NonMatchingMessage_MultipleSignaturesWithHonestKey_false() ]->
+  [ ]
+
+rule NotHonestKeys_NonMatchingKey_BothNonHonest_MultipleSignaturesWithHonestKey_false:
+  [ Fr(~m2), !Ltk($A, sk2), Fr(~m1), Fr(~ska),  Fr(~skb) ]
+--[ VerifyAgg(agg(<sign(~m1, ~ska), '1'> + <sign(~m2, sk2), '2'>), <~m1, pk(~skb), '1'>+<~m2, pk(sk2), '2'>, false),
+   NotHonestKeys_NonMatchingKey_BothNonHonest_MultipleSignaturesWithHonestKey_false() ]->
+  [ ]
+
+rule NotHonestKeys_NonMatchingKey_signingHonest_MultipleSignaturesWithHonestKey_false:
+  [ Fr(~m2), !Ltk($A, sk2), Fr(~m1), !Ltk($A, ska),  Fr(~skb) ]
+--[ VerifyAgg(agg(<sign(~m1, ska), '1'> + <sign(~m2, sk2), '2'>), <~m1, pk(~skb), '1'>+<~m2, pk(sk2), '2'>, false),
+   NotHonestKeys_NonMatchingKey_signingHonest_MultipleSignaturesWithHonestKey_false() ]->
+  [ ]
+
+rule NotHonestKeys_DEO_MultipleSignaturesWithHonestKey_false:
+  [ Fr(~m2), !Ltk($A, sk2), Fr(~ma), !Ltk($A, ska),  Fr(~skb), Fr(~mb) ]
+--[ VerifyAgg(agg(<sign(~ma, ska), '1'> + <sign(~m2, sk2), '2'>), <~mb, pk(~skb), '1'>+<~m2, pk(sk2), '2'>, false),
+   NotHonestKeys_DEO_MultipleSignaturesWithHonestKey_false() ]->
+  [ ]
+
+
+
+//Restrictions:
+//=============
+
+//Restrictions to define the aggregation
+//--------------------------------------
+restriction Verification_Correctness_morePrecise: 
+  "All aggregation mAndPk #i. VerifyAgg(aggregation, mAndPk, false)@i
+    ==> ((Ex si nr thetaAgg mi ski thetaMPk.
+          VerifyAgg(agg(<si, nr>+thetaAgg), <mi, pk(ski), nr> + thetaMPk, false)@i
+	  & (not(si = sign(mi, ski)) | not(Ex #j. RegisterHonestKey(pk(ski))@j) ))
+        |(Ex si nr mi ski.
+          VerifyAgg(agg(<si, nr>), <mi, pk(ski), nr>, false)@i
+	& (not (si = sign(mi, ski)) | not(Ex #j. RegisterHonestKey(pk(ski))@j))))"
+
+restriction Verification_Secure:
+  "All si thetaAgg mi ski nr thetaMPk #i. 
+    VerifyAgg(agg(<si, nr>+thetaAgg), 
+         <mi, pk(ski), nr> + thetaMPk, true)@i 
+    ==> (not (Ex #j. RegisterHonestKey(pk(ski))@j)
+      | sign(mi, ski) = si)"
+
+restriction Consistency:
+  "All aggregation messagesAndKeys result1 result2 #t1 #t2.
+    VerifyAgg(aggregation, messagesAndKeys, result1)@t1 & VerifyAgg(aggregation, messagesAndKeys, result2)@t2
+  ==> result1 = result2"
+
+restriction OneSignaturePerMessageKeyPair:
+  "All aggregation mi ski nr thetaMPk #i. VerifyAgg(aggregation, <mi, pk(ski), nr> + thetaMPk, true)@i
+  ==> Ex si thetaAgg. VerifyAgg(agg(<si, nr>+thetaAgg), <mi, pk(ski), nr> + thetaMPk, true)@i"
+
+restriction OneMessageKeyPairPerSignature:
+  "All si thetaAgg nr messagesKeys #i. VerifyAgg(agg(<si, nr>+thetaAgg), messagesKeys, true)@i
+  ==> Ex mi ski thetaMPk. messagesKeys = <mi, pk(ski), nr> + thetaMPk" 
+
+//One Signature restrictions
+restriction Verification_Secure_OneSignature:
+  "All si mi ski nr #i. 
+    VerifyAgg(agg(<si, nr>), <mi, pk(ski), nr>, true)@i 
+      ==> (not (Ex #j. RegisterHonestKey(pk(ski))@j)
+        | sign(mi, ski) = si)"
+
+restriction OneSignaturePerMessageKeyPair_OneSignature:
+  "All aggregation mi ski nr #i. VerifyAgg(aggregation, <mi, pk(ski), nr>, true)@i
+  ==> Ex si. VerifyAgg(agg(<si, nr>), <mi, pk(ski), nr>, true)@i"
+
+restriction OneMessageKeyPairPerSignature_OneSignature:
+  "All si nr messagesKeys #i. VerifyAgg(agg(<si, nr>), messagesKeys, true)@i
+  ==> Ex mi ski. messagesKeys = <mi, pk(ski), nr>"
+
+//to ensure that the numbers are unique
+restriction NumbersSignatureUnique:
+  "not(Ex si sj nr theta messagesAndKeys #i.
+    VerifyAgg(agg(<si, nr>+<sj, nr>+theta), messagesAndKeys, true)@i)"
+
+restriction NumbersMessageUnique:
+  "not(Ex aggregation mi pki nr mj pkj theta #i.
+    VerifyAgg(aggregation, <mi, pki, nr>+<mj, pkj, nr>+theta, true)@i)"
+
+//case two signatures
+restriction NumbersSignatureUnique_TwoSignatures:
+  "not(Ex si sj nr messagesAndKeys #i.
+    VerifyAgg(agg(<si, nr>+<sj, nr>), messagesAndKeys, true)@i)"
+
+restriction NumbersMessageUnique_TwoSignatures:
+  "not(Ex aggregation mi pki nr mj pkj #i.
+    VerifyAgg(aggregation, <mi, pki, nr>+<mj, pkj, nr>, true)@i)"
+//Restriction for the cases
+ restriction NotEqual: 
+  "All a b #i. NotEqual(a, b)@i ==> not (a = b)"
+//Lemmas
+//Valid Aggregations with result = true
+lemma OneValidSignature:
+ exists-trace
+  "Ex #i. OneValidSignature()@i"
+
+lemma TwoValidSignatures:
+ exists-trace
+  "Ex #i. TwoValidSignatures()@i"
+
+lemma ThreeValidSignatures:
+ exists-trace
+  "Ex #i. ThreeValidSignatures()@i"
+
+lemma ThreeValidSignatures_twiceTheSameMessage:
+ exists-trace
+  "Ex #i. ThreeValidSignatures_twiceTheSameMessage()@i"
+
+lemma ThreeValidSignatures_twiceTheSameKey:
+ exists-trace
+  "Ex #i. ThreeValidSignatures_twiceTheSameKey()@i"
+
+lemma ThreeValidSignatures_twiceTheSameSignature:
+ exists-trace
+  "Ex #i. ThreeValidSignatures_twiceTheSameSignature()@i"
+
+lemma SixSignatures:
+ exists-trace
+  "Ex #i. SixSignatures()@i"
+
+lemma MissingNumber_correctSignature:
+ exists-trace
+  "Ex #i. MissingNumber_correctSignature()@i"
+
+lemma MissingNumber_incorrectSignature:
+ exists-trace
+  "Ex #i. MissingNumber_incorrectSignature()@i"
+
+//Valid Aggregations with result = false
+lemma OneValidSignature_false:
+  "not (Ex #i. OneValidSignature_false()@i)"
+
+lemma TwoValidSignatures_false:
+  "not (Ex #i. TwoValidSignatures_false()@i)"
+
+lemma ThreeValidSignatures_false:
+  "not (Ex #i. ThreeValidSignatures_false()@i)"
+
+lemma ThreeValidSignatures_twiceTheSameMessage_false:
+  "not (Ex #i. ThreeValidSignatures_twiceTheSameMessage_false()@i)"
+
+lemma ThreeValidSignatures_twiceTheSameKey_false:
+  "not (Ex #i. ThreeValidSignatures_twiceTheSameKey_false()@i)"
+
+lemma ThreeValidSignatures_twiceTheSameSignature_false:
+  "not (Ex #i. ThreeValidSignatures_twiceTheSameSignature_false()@i)"
+
+lemma SixSignatures_false:
+  "not (Ex #i. SixSignatures_false()@i)"
+
+lemma MissingNumber_correctSignature_false:
+  "not (Ex #i. MissingNumber_correctSignature_false()@i)"
+
+lemma MissingNumber_incorrectSignature_false:
+  "not (Ex #i. MissingNumber_incorrectSignature_false()@i)"
+
+//Invalid Aggregations with result = true
+lemma OneValidSignature_WrongMessage:
+  "not (Ex #i. OneValidSignature_WrongMessage()@i)"
+
+lemma OneValidSignature_WrongKey:
+  "not (Ex #i. OneValidSignature_WrongKey()@i)"
+
+lemma OneValidSignature_WrongMessageAndKey:
+  "not (Ex #i. OneValidSignature_WrongMessageAndKey()@i)"
+
+lemma NoSignature:
+  "not (Ex #i. NoSignature()@i)"
+
+lemma TwoValidSignatures_MessagesSwapped:
+  "not (Ex #i. TwoValidSignatures_MessagesSwapped()@i)"
+
+lemma TwoValidSignatures_NumbersSwapped:
+  "not (Ex #i. TwoValidSignatures_NumbersSwapped()@i)"
+
+lemma TwoValidSignatures_KeySwaped:
+  "not (Ex #i. TwoValidSignatures_KeySwaped()@i)"
+
+lemma NotHonestKeys_NonMatchingKey_verifyingHonest:
+  "not (Ex #i. NotHonestKeys_NonMatchingKey_verifyingHonest()@i)"
+
+//Invalid Aggregations with result = false
+lemma OneValidSignature_WrongMessage_false:
+ exists-trace
+  "Ex #i. OneValidSignature_WrongMessage_false()@i"
+
+lemma OneValidSignature_WrongKey_false:
+ exists-trace
+  "Ex #i. OneValidSignature_WrongKey_false()@i"
+
+lemma OneValidSignature_WrongMessageAndKey_false:
+ exists-trace
+  "Ex #i. OneValidSignature_WrongMessageAndKey_false()@i"
+
+lemma NoSignature_false:
+ exists-trace
+  "Ex #i. NoSignature_false()@i"
+
+lemma TwoValidSignatures_MessagesSwapped_false:
+ exists-trace
+  "Ex #i. TwoValidSignatures_MessagesSwapped_false()@i"
+
+lemma TwoValidSignatures_NumbersSwapped_false:
+ exists-trace
+  "Ex #i. TwoValidSignatures_NumbersSwapped_false()@i"
+
+lemma TwoValidSignatures_KeySwaped_false:
+ exists-trace
+  "Ex #i. TwoValidSignatures_KeySwaped_false()@i"
+
+lemma NotHonestKeys_NonMatchingKey_verifyingHonest_false:
+ exists-trace
+  "Ex #i. NotHonestKeys_NonMatchingKey_verifyingHonest_false()@i"
+
+//Wrong Format with result = true
+lemma TooManyMessages:
+  "not (Ex #i. TooManyMessages()@i)"
+
+lemma TooManySignatures:
+  "not (Ex #i. TooManySignatures()@i)"
+
+lemma OneValidSignature_WrongNumber:
+  "not (Ex #i. OneValidSignature_WrongNumber()@i)"
+
+lemma NoPublicKey:
+  "not (Ex #i. NoPublicKey()@i)"
+
+lemma MissingKey:
+  "not (Ex #i. MissingKey()@i)"
+
+lemma MissingAggFunction:
+  "not (Ex #i. MissingAggFunction()@i)"
+
+lemma MissingMessage:
+  "not (Ex #i. MissingMessage()@i)"
+
+lemma NotHonestKeys_NonMatchingNumbers:
+  "not (Ex #i. NotHonestKeys_NonMatchingNumbers()@i)"
+
+lemma TooManyMessages_OneTwice_differentNr:
+  "not (Ex #i. TooManyMessages_OneTwice_differentNr()@i)"
+
+lemma TooManySignatures_OneTwice_differentNr:
+  "not (Ex #i. TooManySignatures_OneTwice_differentNr()@i)"
+
+lemma MissingNumber_InAgg:
+  "not (Ex #i. MissingNumber_InAgg()@i)"
+
+lemma MissingNumber_InMessageKey:
+  "not (Ex #i. MissingNumber_InMessageKey()@i)"
+
+lemma TooManyMessages_OneTwice_sameNr:
+  "not (Ex #i. TooManyMessages_OneTwice_sameNr()@i)"
+
+lemma TooManySignatures_OneTwice_sameNr:
+  "not (Ex #i. TooManySignatures_OneTwice_sameNr()@i)"
+
+lemma TwiceTheSameNrMessageAndKey:
+  "not (Ex #i. TwiceTheSameNrMessageAndKey()@i)"
+
+//Wrong Format with result = false
+lemma TooManyMessages_false:
+  "not (Ex #i. TooManyMessages_false()@i)"
+
+lemma TooManySignatures_false:
+  "not (Ex #i. TooManySignatures_false()@i)"
+
+lemma OneValidSignature_WrongNumber_false:
+  "not (Ex #i. OneValidSignature_WrongNumber_false()@i)"
+
+lemma NoPublicKey_false:
+  "not (Ex #i. NoPublicKey_false()@i)"
+
+lemma MissingKey_false:
+  "not (Ex #i. MissingKey_false()@i)"
+
+lemma MissingAggFunction_false:
+  "not (Ex #i. MissingAggFunction_false()@i)"
+
+lemma MissingMessage_false:
+  "not (Ex #i. MissingMessage_false()@i)"
+
+lemma NotHonestKeys_NonMatchingNumbers_false:
+  "not (Ex #i. NotHonestKeys_NonMatchingNumbers_false()@i)"
+
+lemma TooManyMessages_OneTwice_differentNr_false:
+  "not (Ex #i. TooManyMessages_OneTwice_differentNr_false()@i)"
+
+lemma TooManySignatures_OneTwice_differentNr_false:
+  "not (Ex #i. TooManySignatures_OneTwice_differentNr_false()@i)"
+
+lemma MissingNumber_InAgg_false:
+  "not (Ex #i. MissingNumber_InAgg_false()@i)"
+
+lemma MissingNumber_InMessageKey_false:
+  "not (Ex #i. MissingNumber_InMessageKey_false()@i)"
+
+lemma TooManyMessages_OneTwice_sameNr_false:
+  "not (Ex #i. TooManyMessages_OneTwice_sameNr_false()@i)"
+
+lemma TooManySignatures_OneTwice_sameNr_false:
+  "not (Ex #i. TooManySignatures_OneTwice_sameNr_false()@i)"
+
+lemma TwiceTheSameNrMessageAndKey_false:
+  "not (Ex #i. TwiceTheSameNrMessageAndKey_false()@i)"
+
+//Not Honest keys with result = true
+lemma NotHonestKeys_IncorrectSignature:
+ exists-trace
+  "Ex #i. NotHonestKeys_IncorrectSignature()@i"
+
+lemma NotHonestKeys_correctSignature:
+ exists-trace
+  "Ex #i. NotHonestKeys_correctSignature()@i"
+
+lemma NotHonestKeys_NonMatchingMessage:
+ exists-trace
+  "Ex #i. NotHonestKeys_NonMatchingMessage()@i"
+
+lemma NotHonestKeys_NonMatchingKey_BothNonHonest:
+ exists-trace
+  "Ex #i. NotHonestKeys_NonMatchingKey_BothNonHonest()@i"
+
+lemma NotHonestKeys_NonMatchingKey_signingHonest:
+ exists-trace
+  "Ex #i. NotHonestKeys_NonMatchingKey_signingHonest()@i"
+
+lemma NotHonestKeys_DEO:
+ exists-trace
+  "Ex #i. NotHonestKeys_DEO()@i"
+
+lemma NotHonestKeys_IncorrectSignature_MultipleSignaturesWithHonestKey:
+ exists-trace
+  "Ex #i. NotHonestKeys_IncorrectSignature_MultipleSignaturesWithHonestKey()@i"
+
+lemma NotHonestKeys_correctSignature_MultipleSignaturesWithHonestKey:
+ exists-trace
+  "Ex #i. NotHonestKeys_correctSignature_MultipleSignaturesWithHonestKey()@i"
+
+lemma NotHonestKeys_NonMatchingMessage_MultipleSignaturesWithHonestKey:
+ exists-trace
+  "Ex #i. NotHonestKeys_NonMatchingMessage_MultipleSignaturesWithHonestKey()@i"
+
+lemma NotHonestKeys_NonMatchingKey_BothNonHonest_MultipleSignaturesWithHonestKey:
+ exists-trace
+  "Ex #i. NotHonestKeys_NonMatchingKey_BothNonHonest_MultipleSignaturesWithHonestKey()@i"
+
+lemma NotHonestKeys_NonMatchingKey_signingHonest_MultipleSignaturesWithHonestKey:
+ exists-trace
+  "Ex #i. NotHonestKeys_NonMatchingKey_signingHonest_MultipleSignaturesWithHonestKey()@i"
+
+lemma NotHonestKeys_DEO_MultipleSignaturesWithHonestKey:
+ exists-trace
+  "Ex #i. NotHonestKeys_DEO_MultipleSignaturesWithHonestKey()@i"
+
+//Not Honest keys with result = false
+lemma NotHonestKeys_IncorrectSignature_false:
+ exists-trace
+  "Ex #i. NotHonestKeys_IncorrectSignature_false()@i"
+
+lemma NotHonestKeys_correctSignature_false:
+ exists-trace
+  "Ex #i. NotHonestKeys_correctSignature_false()@i"
+
+lemma NotHonestKeys_NonMatchingMessage_false:
+ exists-trace
+  "Ex #i. NotHonestKeys_NonMatchingMessage_false()@i"
+
+lemma NotHonestKeys_NonMatchingKey_BothNonHonest_false:
+ exists-trace
+  "Ex #i. NotHonestKeys_NonMatchingKey_BothNonHonest_false()@i"
+
+lemma NotHonestKeys_NonMatchingKey_signingHonest_false:
+ exists-trace
+  "Ex #i. NotHonestKeys_NonMatchingKey_signingHonest_false()@i"
+
+lemma NotHonestKeys_DEO_false:
+ exists-trace
+  "Ex #i. NotHonestKeys_DEO_false()@i"
+
+lemma NotHonestKeys_IncorrectSignature_MultipleSignaturesWithHonestKey_false:
+ exists-trace
+  "Ex #i. NotHonestKeys_IncorrectSignature_MultipleSignaturesWithHonestKey_false()@i"
+
+lemma NotHonestKeys_correctSignature_MultipleSignaturesWithHonestKey_false:
+ exists-trace
+  "Ex #i. NotHonestKeys_correctSignature_MultipleSignaturesWithHonestKey_false()@i"
+
+lemma NotHonestKeys_NonMatchingMessage_MultipleSignaturesWithHonestKey_false:
+ exists-trace
+  "Ex #i. NotHonestKeys_NonMatchingMessage_MultipleSignaturesWithHonestKey_false()@i"
+
+lemma NotHonestKeys_NonMatchingKey_BothNonHonest_MultipleSignaturesWithHonestKey_false:
+ exists-trace
+  "Ex #i. NotHonestKeys_NonMatchingKey_BothNonHonest_MultipleSignaturesWithHonestKey_false()@i"
+
+lemma NotHonestKeys_NonMatchingKey_signingHonest_MultipleSignaturesWithHonestKey_false:
+ exists-trace
+  "Ex #i. NotHonestKeys_NonMatchingKey_signingHonest_MultipleSignaturesWithHonestKey_false()@i"
+
+lemma NotHonestKeys_DEO_MultipleSignaturesWithHonestKey_false:
+ exists-trace
+  "Ex #i. NotHonestKeys_DEO_MultipleSignaturesWithHonestKey_false()@i"
+
+
+ end

@@ -1,0 +1,48 @@
+tamarin/idbased/BP_IBS_3
+========================
+
+The model file is BP_IBS_3.spthy in this directory.
+Theory: BP_IBS_3
+
+Paper
+-----
+David A. Basin, Lucca Hirschi, Ralf Sasse.
+Symbolic Analysis of Identity-Based Protocols.
+Foundations of Security, Protocols, and Equational Reasoning, 2019, pages 112-134.
+DOI:  https://doi.org/10.1007/978-3-030-19052-1_9
+DBLP: https://dblp.org/rec/conf/birthday/BasinHS19
+(Why this paper: README.)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32/examples/idbased/BP_IBS_3.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32
+Ref:        tag 1.10.0 (lightweight tag)
+
+Files
+-----
+model: examples/idbased/BP_IBS_3.spthy -> BP_IBS_3.spthy
+  sha256 1cedf5a12f55366554bb3ac972b9e2ccc31bad002b5df9af426101852af447b6
+oracle: examples/idbased/oracle_BP_IBS -> oracle_BP_IBS
+  sha256 2ea3d78620668f184bccf7702d0c20bd095e32715b1b06a97ce69d67607bae65
+
+License
+-------
+GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
+copies, mark any modifications, and keep the files under GPL-3.0.
+The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--heuristic=O --oraclename=oracle_BP_IBS --prove=<lemma> BP_IBS_3.spthy
+Where the flags come from: --heuristic=O --oraclename: the directory's README.
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: 1.5.0 (develop@0df3d09f) (README)
+
+Lean side
+---------
+trace properties

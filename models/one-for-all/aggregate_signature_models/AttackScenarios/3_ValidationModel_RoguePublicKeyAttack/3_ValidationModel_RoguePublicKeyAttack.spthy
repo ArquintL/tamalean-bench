@@ -1,0 +1,451 @@
+theory AggregateSignature_ValidationModel_WithRoguePublicKeyAttack
+
+//Theory Description:
+//==================
+/*
+Restriction based version, with one verification rule and no 
+additional adversary capabilities.
+
+The aggregation is done with the public function agg, which 
+takes a multiset of signatures as input. Each agent in possession
+of signatures, can use the function to aggregate them. 
+To validate an aggregation, we add the action fact VerifyAgg 
+with a aggregation and a multiset of pairs of messages and public 
+keys and the expected result (true or false). Restrictions ensure
+that only correct VerifyAgg facts are allowed in the traces.
+
+To match the signatures and the pairs of messages and public keys
+we use a index, represented by a fresh value.
+
+Additional adversary capabilities:
+----------------------------------
+The adversary can register a rogue key for a target message and 
+public key. The rogue secret key is represented by the private 
+function rogueSk. In the registration process, the adversary only
+learns the public key. The adversary can perform a rogue key attack
+with the help of attack oracle rules. The adversary provides the 
+rogue public key and gets a rogue aggregate signature for the target
+message and public key. Note that the rogue secret key is only used
+internally for modeling the aggregate and that the adversary is
+never in possession of the rogue secret key.
+*/
+
+//Assumptions:
+//============
+/*
+- The public keys as aggregation input are omitted
+- The aggregation is done in one step (no incremental aggregation)
+*/
+
+
+begin
+
+builtins: signing, multiset
+
+functions: agg/1 // a multiset of pair of signatures and numbers
+functions: false/0 //for the correctness definition
+functions: rogueSk/1 [private] //a rogue secret key for a target public key.
+  
+
+// Public key infrastructure
+//==========================
+//from the Tamarin Manual
+rule Register_pk:
+  [ Fr(~ltkA) ]
+--[ RegisterHonestKey(pk(~ltkA))
+  , Register($A, ~ltkA) ]->
+  [ !Ltk($A, ~ltkA)
+  , !Pk($A, pk(~ltkA))
+  ,  Out(pk(~ltkA)) ]
+
+rule Reveal_ltk:
+  [ !Ltk(A, ltk) ]
+--[ LtkReveal(A) ]->
+  [ Out(ltk) ]
+
+//Rogue key registration
+//---------------------------
+rule Register_RogueKey:
+  let pkRogue = pk(rogueSk(pkTarget))
+  in
+  [ In(pkTarget) ]
+--[ RegisterRogueKey($Adversary, pkRogue)
+  , Register($Adversary, pkRogue)
+  , Rogue($Adversary) ]->
+  [ !Pk($Adversary, pkRogue)
+  , Out(pkRogue) ]
+
+
+// Rogue public key attack oracle
+//===============================
+rule Adv_RogueKey_Aggregation [no_derivcheck]:
+  let skRogue = rogueSk(pk(skTarget))
+      pkRogue = pk(skRogue)
+  in
+  [ In(<m, pkRogue>)
+  , Fr(~index_target)
+  , Fr(~index_rogue)
+  , !Pk($Target,  pk(skTarget)) ]
+--[ RogueKeyAggregation(m, pk(skTarget), $Target) ]->
+  [ Out(agg(<sign(m, skTarget), ~index_target> + <sign(m, skRogue), ~index_rogue>))
+  , Out( ~index_target), Out(~index_rogue) ]
+
+rule Adv_RogueKey_Aggregation_addToAggregate [no_derivcheck]:
+  let skRogue = rogueSk(pk(skTarget))
+      pkRogue = pk(skRogue)
+  in
+  [ In(<m, pkRogue, agg(signatures)>)
+  , Fr(~index_target)
+  , Fr(~index_rogue)
+  , !Pk($Target,  pk(skTarget)) ]
+--[ RogueKeyAggregation(m, pk(skTarget), $Target) ]->
+  [ Out(agg(<sign(m, skTarget), ~index_target> + <sign(m, skRogue), ~index_rogue> + signatures))
+  , Out( ~index_target), Out(~index_rogue) ]
+
+//With those two rules, arbitrary many rogue aggregations can be added to arbitrary large aggregations.
+
+/* Protocol 
+   ========
+- Weather Stations (Station_i) perform weather measurements.
+  They send the measurements and the signatures of those measurements 
+  to the Aggregator 
+- The Aggregator creates an aggregated signature of the received 
+  signatures and sends the aggregation and the messages to the 
+  Verifier
+- The Verifier looks up the keys and then validates the signature 
+  aggregation
+
+Station_1 -> Aggregator: m1, sign(m1, sk1), Station_1
+..
+Station_n -> Aggregator: mn, sign(mn, skn), Station_n
+Aggregator -> Verifier : (m1, ..., mn), (Station_1, ..., Station_n)
+                         , agg(sign(m1, sk1), ..., sign(mn, skn))
+Verifier: lookup keys then verify aggregation
+*/
+
+//Station
+//------
+rule Station_send: //A sends the measurement and its signature
+  [ !Ltk($Station, ~sk), Fr(~measurement)]
+--[ Sign($Station, ~measurement, ~sk)
+  , Running_weakAgreement($Station, $Verifier)
+  , Running_aliveness($Station)
+  , Running_aliveness_message($Station, ~measurement)
+  , Signed($Station, ~measurement) ]->
+  [ Out(<~measurement, $Station, sign(~measurement, ~sk)>) ]
+
+
+//Aggregator
+//-------
+//the aggregation can be done by the adversary
+//the following aggregator role should illustrate the expected behavior of an honest aggregator
+rule Aggregator_receives_first:
+  [ In(<m1, $Station_1, s1>)
+  , Fr(~index_1) ]
+--[ AggregatorFirst()
+  , AggregatorReceives(s1)
+  , AggregatorRightMessage(s1, m1)
+  , AggregatorRightName(s1, $Station_1) ]->
+  [ Aggregator(<s1, ~index_1>, <m1, $Station_1, ~index_1> )
+  , Out(~index_1) ]
+  
+rule Aggregator_receives:
+  [ In(<mi, $Station_i, si>)
+  , Fr(~index_i)
+  , Aggregator(signatures, messagesAndNames) ]
+--[ AggregatorReceives(si)
+  , AggregatorRightMessage(si, mi)
+  , AggregatorRightName(si, $Station_i) ]->
+  [ Aggregator(<si, ~index_i> + signatures, <mi, $Station_i, ~index_i>+messagesAndNames)
+  , Out(~index_i) ]
+  
+rule Aggregator_sends:
+  [ Aggregator(signatures, messagesAndNames) ]
+-->
+  [ Out(<agg(signatures), messagesAndNames>) ]
+
+
+//Verifier
+//------
+rule Verifier_Receives_aggregation:
+  [ In(<aggregation, messagesAndNames>) ]
+-->
+  [ VerifierReceivedAggregation(aggregation, messagesAndNames) ] 
+
+//Lookup keys
+rule Verifier_LookupKey_first:
+  [ VerifierReceivedAggregation(aggregation, <m1, $Station_1, index_1>+restMessagesAndNames) 
+  , !Pk($Station_1, pk1) ]
+--[ VerifierLooksupKey(pk1) ]->
+  [ VerifierLookupKey(<m1, pk1, index_1>, aggregation, restMessagesAndNames) ]
+
+rule Verifier_LookupKey_singel:
+  [ VerifierReceivedAggregation(aggregation, <m1, $Station_1, index_1>) 
+  , !Pk($Station_1, pk1) ]
+--[ VerifierLooksupKey(pk1) ]->
+  [ VerifierKeysLookedUp(<m1, pk1, index_1>, aggregation) ]
+
+rule Verifier_LookupKey_i:
+  [ VerifierLookupKey(messagesAndKeys, aggregation
+      , <mi, $Station_i, index_i>+restMessagesAndNames)
+  , !Pk($Station_i, pki) ]
+--[ VerifierLooksupKey(pki) ]->
+  [ VerifierLookupKey(<mi, pki, index_i>+messagesAndKeys, aggregation, restMessagesAndNames) ]
+
+rule Verifier_LookupKey_last:
+  [ VerifierLookupKey(messagesAndKeys, aggregation, <m_n, $Station_n, index_n>)
+  , !Pk($Station_n, pk_n) ]
+--[ VerifierLooksupKey(pk_n) ]->
+  [ VerifierKeysLookedUp(<m_n, pk_n, index_n>+messagesAndKeys, aggregation) ]
+
+//Verification
+rule Verifier_verifies:
+  [ VerifierKeysLookedUp(messagesAndKeys, aggregation) ] 
+--[ VerifyAgg(aggregation, messagesAndKeys, true)
+  , Done(aggregation, messagesAndKeys)
+  , LimitAgg(aggregation)
+  , LimitMessagesAndKeys(messagesAndKeys) ]->
+  [ AggIsVerified(aggregation, messagesAndKeys, 'Hurrrah') ]
+
+//Look at a single message for agreement lemmas
+rule Verifier_looksAtMessage:
+  [ AggIsVerified(aggregation, <m, pk, ind>+messagesAndKeys, 'Hurrrah')
+  , !Pk($Station, pk) ]
+--[ Commit($Verifier, $Station)
+  , Commit_message($Verifier, $Station, m)
+  , ClaimSigned($Station, m)
+  , ClaimHonest($Station)
+  , ClaimHonest($Verifier) ]->
+  [ VerifierDidKeyLookup($Verifier, $Station) ]
+
+rule Verifier_looksAtMessage_oneSignature:
+  [ AggIsVerified(aggregation, <m, pk, ind>, 'Hurrrah')
+  , !Pk($Station, pk) ]
+--[ Commit($Verifier, $Station)
+  , Commit_message($Verifier, $Station, m)
+  , ClaimSigned($Station, m)
+  , ClaimHonest($Station)
+  , ClaimHonest($Verifier) ]->
+  [ VerifierDidKeyLookup($Verifier, $Station) ]
+
+
+//Restrictions:
+//=============
+
+//Restrictions to define the aggregation
+//--------------------------------------
+restriction Verification_Correctness_morePrecise: 
+  "All aggregation mAndPk #i. VerifyAgg(aggregation, mAndPk, false)@i
+    ==> ((Ex si nr thetaAgg mi ski thetaMPk.
+          VerifyAgg(agg(<si, nr>+thetaAgg), <mi, pk(ski), nr> + thetaMPk, false)@i
+	  & (not(si = sign(mi, ski)) | not(Ex #j. RegisterHonestKey(pk(ski))@j) ))
+        |(Ex si nr mi ski.
+          VerifyAgg(agg(<si, nr>), <mi, pk(ski), nr>, false)@i
+	& (not (si = sign(mi, ski)) | not(Ex #j. RegisterHonestKey(pk(ski))@j))))"
+
+restriction Verification_Secure:
+  "All si thetaAgg mi ski nr thetaMPk #i. 
+    VerifyAgg(agg(<si, nr>+thetaAgg), 
+         <mi, pk(ski), nr> + thetaMPk, true)@i 
+    ==> (not (Ex #j. RegisterHonestKey(pk(ski))@j)
+      | sign(mi, ski) = si)"
+
+restriction Consistency:
+  "All aggregation messagesAndKeys result1 result2 #t1 #t2.
+    VerifyAgg(aggregation, messagesAndKeys, result1)@t1 & VerifyAgg(aggregation, messagesAndKeys, result2)@t2
+  ==> result1 = result2"
+
+restriction OneSignaturePerMessageKeyPair:
+  "All aggregation mi ski nr thetaMPk #i. VerifyAgg(aggregation, <mi, pk(ski), nr> + thetaMPk, true)@i
+  ==> Ex si thetaAgg. VerifyAgg(agg(<si, nr>+thetaAgg), <mi, pk(ski), nr> + thetaMPk, true)@i"
+
+restriction OneMessageKeyPairPerSignature:
+  "All si thetaAgg nr messagesKeys #i. VerifyAgg(agg(<si, nr>+thetaAgg), messagesKeys, true)@i
+  ==> Ex mi ski thetaMPk. messagesKeys = <mi, pk(ski), nr> + thetaMPk" 
+
+//One Signature restrictions
+restriction Verification_Secure_OneSignature:
+  "All si mi ski nr #i. 
+    VerifyAgg(agg(<si, nr>), <mi, pk(ski), nr>, true)@i 
+      ==> (not (Ex #j. RegisterHonestKey(pk(ski))@j)
+        | sign(mi, ski) = si)"
+
+restriction OneSignaturePerMessageKeyPair_OneSignature:
+  "All aggregation mi ski nr #i. VerifyAgg(aggregation, <mi, pk(ski), nr>, true)@i
+  ==> Ex si. VerifyAgg(agg(<si, nr>), <mi, pk(ski), nr>, true)@i"
+
+restriction OneMessageKeyPairPerSignature_OneSignature:
+  "All si nr messagesKeys #i. VerifyAgg(agg(<si, nr>), messagesKeys, true)@i
+  ==> Ex mi ski. messagesKeys = <mi, pk(ski), nr>"
+
+//to ensure that the numbers are unique
+restriction NumbersSignatureUnique:
+  "not(Ex si sj nr theta messagesAndKeys #i.
+    VerifyAgg(agg(<si, nr>+<sj, nr>+theta), messagesAndKeys, true)@i)"
+
+restriction NumbersMessageUnique:
+  "not(Ex aggregation mi pki nr mj pkj theta #i.
+    VerifyAgg(aggregation, <mi, pki, nr>+<mj, pkj, nr>+theta, true)@i)"
+
+//case two signatures
+restriction NumbersSignatureUnique_TwoSignatures:
+  "not(Ex si sj nr messagesAndKeys #i.
+    VerifyAgg(agg(<si, nr>+<sj, nr>), messagesAndKeys, true)@i)"
+
+restriction NumbersMessageUnique_TwoSignatures:
+  "not(Ex aggregation mi pki nr mj pkj #i.
+    VerifyAgg(aggregation, <mi, pki, nr>+<mj, pkj, nr>, true)@i)"
+
+
+//Restrictions to limit the number of signatures
+//----------------------------------------------
+//Restrict the number of signatures to get some lemmas to terminate
+//With this restriction, the proof holds only under the assumption of a limited number of signatures
+restriction limitNumberOf_Signatures_three:
+  "All s1 s2 ind1 ind2 thetaAgg #i.
+    LimitAgg(agg(<s1, ind1>+<s2, ind2>+thetaAgg))@i
+  ==> Ex sLast indLast. thetaAgg = <sLast, indLast>"
+
+restriction limitNumberOf_MessagesAndPublicKeys_three:
+  "All m1 pk1 ind1 m2 pk2 ind2 theta #i.
+    LimitMessagesAndKeys(<m1, pk1, ind1>+<m2, pk2, ind2>+theta)@i
+  ==> Ex mLast pkLast indLast. theta = <mLast, pkLast, indLast>"
+
+
+restriction limitNumberOf_Signatures_two:
+  "All s1 ind1 thetaAgg #i.
+    LimitAgg(agg(<s1, ind1>+thetaAgg))@i
+  ==> Ex sLast indLast. thetaAgg = <sLast, indLast>"
+
+restriction limitNumberOf_MessagesAndPublicKeys_two:
+  "All m1 pk1 ind1 theta #i. LimitMessagesAndKeys(<m1, pk1, ind1>+theta)@i
+  ==> Ex mLast pkLast indLast. theta = <mLast, pkLast, indLast>"
+
+
+//Lemmas
+//======
+
+//Trace exist lemmas to show valid traces
+//---------------------------------------
+lemma executable_oneSignature: //Proven fast
+ exists-trace
+  "Ex s ind m pk #i.
+    Done(agg(<s, ind>), <m, pk, ind>)@i
+    & Ex #j. RegisterHonestKey(pk)@j"
+    
+lemma executable_twoSignatures: //Proven fast
+ exists-trace
+  "Ex s1 s2 ind1 ind2 pk1 pk2 m1 m2 #i.
+    Done(agg(<s1, ind1> + <s2, ind2>), <m1, pk1, ind1>+<m2, pk2, ind2>)@i
+    & Ex #j1 #j2. RegisterHonestKey(pk1)@j1 & RegisterHonestKey(pk2)@j2"
+    
+lemma executable_twoSignatures_nice: //Proven fast (less than a minute)
+ exists-trace
+  "Ex s1 s2 ind1 ind2 pk1 pk2 m1 m2 #i.
+    Done(agg(<s1, ind1> + <s2, ind2>), <m1, pk1, ind1>+<m2, pk2, ind2>)@i
+    & Ex #j1 #j2. RegisterHonestKey(pk1)@j1 & RegisterHonestKey(pk2)@j2
+    & Ex #k1 #k2. AggregatorReceives(s1)@k1 & AggregatorReceives(s2)@k2
+    & not (Ex #k3 s3. AggregatorReceives(s3)@k3 & not (#k3 = #k2 | #k3 = #k1))
+    & not (s1 = s2)
+    & All s m #o. AggregatorRightMessage(s, m)@o ==> (Ex sk. s = sign(m, sk))
+    & All s name #p. AggregatorRightName(s, name)@p
+      ==> (Ex ltk #q. Register(name, ltk)@q & Ex m. s = sign(m, ltk))"
+
+lemma executable_twoSignatures_No_Aggregator: //Proven fast
+ exists-trace
+  "Ex s1 s2 ind1 ind2 m1 m2 pk1 pk2 #i.
+    Done(agg(<s1, ind1> + <s2, ind2>), <m1, pk1, ind1>+<m2, pk2, ind2>)@i
+    & Ex #j #k. RegisterHonestKey(pk1)@j & RegisterHonestKey(pk2)@k
+    & not (Ex #j. AggregatorFirst()@j)"
+
+//Authentication Lemmas
+//---------------------
+//Aliveness Lemma adapted form Tamarin Manual and FMSec lecture slides
+lemma aliveness_falsified: //Falsified fast
+  "All verifier station #i.Commit(verifier, station)@i
+  ==> ((Ex #j. Running_aliveness(station)@j)
+    | (Ex C #r. LtkReveal(C)@r & ClaimHonest(C)@i)
+    | (Ex C #r. Rogue(C)@r & ClaimHonest(C)@i))
+  "
+
+lemma message_authentic_falsified: //Falsified fast
+  "All verifier station message #i.Commit_message(verifier, station, message)@i
+  ==> ((Ex #j. Running_aliveness_message(station, message)@j)
+    | (Ex C #r. LtkReveal(C)@r & ClaimHonest(C)@i)
+    | (Ex C #r. Rogue(C)@r & ClaimHonest(C)@i))
+  "
+
+//Weak agreement adapted form Tamarin Manual and FMSec lecture slides
+lemma weak_agreement_falsified: //Falsified fast
+  "All verifier station #i. Commit(verifier, station)@i
+  ==> ((Ex #j. Running_weakAgreement(station, verifier) @j)
+    | (Ex C #r. LtkReveal(C)@r & ClaimHonest(C)@i)
+    | (Ex C #r. Rogue(C)@r & ClaimHonest(C)@i))
+  "
+
+//Attack Lemmas
+//-------------
+lemma no_ZerosplittingAttack: //Disproven in about two minutes (The rogue key is also a non honest key and so the attack works the same as for the zerosplitting models)
+  "not(Ex agg mAndKA mAndKB #i #j.
+    VerifyAgg(agg, mAndKA, true)@i
+    & VerifyAgg(agg, mAndKB, true)@j
+    & not(mAndKA = mAndKB))
+  "
+
+lemma no_RogueKeyAttack_falsified: //Disproven fast
+  "not(Ex station m #i. (ClaimSigned(station, m)@i
+    & not(Ex #j. Signed(station, m)@j)
+    & not(Ex #k. LtkReveal(station)@k)) & not(Ex #k. Rogue(station)@k))
+  "
+  
+lemma Show_RogueKeyAttack: //Proven fast
+ exists-trace
+  "Ex station m #i. (ClaimSigned(station, m)@i
+    & not(Ex #j. Signed(station, m)@j)
+    & not(Ex #k. LtkReveal(station)@k)
+    & not(Ex #k. Rogue(station)@k)
+    & (All agent1 agent2 pk1 pk2 #a #b. (RegisterRogueKey(agent1, pk1)@a
+      & RegisterRogueKey(agent2, pk2)@b
+      ==> #a = #b))
+    & (All pk1 pk2 #a #b. (RegisterHonestKey(pk1)@a
+      & RegisterHonestKey(pk2)@b
+      ==> #a = #b))
+    & (All pk1 pk2 #l #m. VerifierLooksupKey(pk1)@l & VerifierLooksupKey(pk2)@m
+      ==> (not(pk2 = pk1) | #l = #m))
+    & not(Ex #h. AggregatorFirst()@h))
+  "
+
+lemma showZeroSplitting: //Proof with oracle takes about one minute
+ exists-trace 
+  "Ex agg mAndKA #i. VerifyAgg(agg, mAndKA, true)@i
+    & Ex mAndKB #j. VerifyAgg(agg, mAndKB, true)@j
+    & not (mAndKA = mAndKB)
+    & Ex s1 s2 ind1 ind2. agg = agg(<s1, ind1> + <s2, ind2>)
+    & Ex m1 ma2 pk1 pk2. mAndKA = <m1, pk1, ind1>+<ma2, pk2, ind2>
+    & Ex m1 mb2. mAndKB = <m1, pk1, ind1>+<mb2, pk2, ind2>
+    & Ex m1 sk1. s1 = sign(m1, sk1)
+    & Ex m2 sk2. s2 = sign(m2, sk2)
+    & Ex #k. RegisterHonestKey(pk1)@k
+    & pk(sk1) = pk1
+    & pk(sk2) = pk2
+    & not(pk1 = pk2)
+  "
+lemma showZeroSplitting_WorseCase_falsified://Disproof with oracle takes about 20 seconds 
+ exists-trace 
+  "Ex aggregation messagesAndKeys #i. VerifyAgg(aggregation, messagesAndKeys, true)@i
+    & Ex otherMessagesAndKeys #j. VerifyAgg(aggregation, otherMessagesAndKeys, true)@j
+    & not (messagesAndKeys = otherMessagesAndKeys)
+    & Ex s1 s2 ind1 ind2. aggregation = agg(<s1, ind1> + <s2, ind2>)
+    & Ex m1 m2 pk1 pk2. messagesAndKeys = <m1, pk1, ind1>+<m2, pk2, ind2>
+    & Ex m1o m2o. otherMessagesAndKeys = <m1o, pk1, ind1>+<m2o, pk2, ind2>
+    & Ex ms1 sk1. s1 = sign(ms1, sk1)
+    & Ex ms2 sk2. s2 = sign(ms2, sk2)
+    & pk(sk1) = pk1
+    & pk(sk2) = pk2
+    & Ex #k a. RegisterRogueKey(a, pk2)@k
+    & Ex #n. RegisterHonestKey(pk1)@n
+    & not(pk1 = pk2)
+    & not(ms1 = m1) //This condition can not be met.
+  "
+
+end

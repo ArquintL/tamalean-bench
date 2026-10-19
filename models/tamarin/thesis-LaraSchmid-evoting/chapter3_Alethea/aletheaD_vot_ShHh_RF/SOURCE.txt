@@ -1,0 +1,51 @@
+tamarin/thesis-LaraSchmid-evoting/chapter3_Alethea/aletheaD_vot_ShHh_RF
+=======================================================================
+
+The model file is aletheaD_vot_ShHh_RF.spthy in this directory.
+Theory: aletheaD_vot_ShHh_RF
+
+Paper
+-----
+Lara Schmid.
+Advancing the Formal Foundations for Voting Protocols.
+ETH Zurich, Zürich, Switzerland, 2020.
+DOI:  https://doi.org/10.3929/ETHZ-B-000418853
+DBLP: https://dblp.org/rec/phd/basesearch/Schmid20
+(Why this paper: README.)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32/examples/thesis-LaraSchmid-evoting/chapter3_Alethea/aletheaD_vot_ShHh_RF.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32
+Ref:        tag 1.10.0 (lightweight tag)
+
+Files
+-----
+model: examples/thesis-LaraSchmid-evoting/chapter3_Alethea/aletheaD_vot_ShHh_RF.spthy ->
+aletheaD_vot_ShHh_RF.spthy
+  sha256 ea17a2949aab41bbeb5708e040a04368796e8f9afa553f2918617c8a9a754e00
+oracle: examples/thesis-LaraSchmid-evoting/chapter3_Alethea/o_aletheaD_vot_ShHh_RF ->
+o_aletheaD_vot_ShHh_RF
+  sha256 c69e3de2cc1fdbaf5e48f9573533be9d02246a967f15e7fa7dfe5dd98db1b2d4
+
+License
+-------
+GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
+copies, mark any modifications, and keep the files under GPL-3.0.
+The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS --diff
+--heuristic=O --oraclename=o_aletheaD_vot_ShHh_RF --prove=<lemma> aletheaD_vot_ShHh_RF.spthy
+Where the flags come from: --diff: the model states observational equivalence; --heuristic=O
+--oraclename: the directory's README.
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: 1.5.1 (git 1b68093f) (README)
+
+Lean side
+---------
+out of scope: observational equivalence (a diff model); Tamalean checks trace properties only

@@ -1,0 +1,52 @@
+tamigloo/wireguard/model/wireguard
+==================================
+
+The model file is wireguard.spthy in this directory.
+Theory: WireGuard
+
+Paper
+-----
+Linard Arquint, Felix A. Wolf, Joseph Lallemand, Ralf Sasse, Christoph Sprenger 0001, Sven N.
+Wiesner, David A. Basin, Peter Müller 0001.
+Sound Verification of Security Protocols: From Design to Interoperable Implementations.
+SP, 2023, pages 1077-1093.
+DOI:  https://doi.org/10.1109/SP46215.2023.10179325
+DBLP: https://dblp.org/rec/conf/sp/ArquintWLSSWBM23
+(Why this paper: README (S&P'23 artifact).)
+
+Online source
+-------------
+File:       https://github.com/viperproject/protocol-verification-refinement/blob/99938516dfd3612fbb6ec25d43ea88d06822453e/wireguard/model/wireguard.spthy
+Repository: https://github.com/viperproject/protocol-verification-refinement
+Commit:     99938516dfd3612fbb6ec25d43ea88d06822453e
+Ref:        main (HEAD)
+
+Files
+-----
+model: wireguard/model/wireguard.spthy -> wireguard.spthy
+  sha256 2198e84ac13d32d8b3bcdd695a4c3cd068ccaca164fc0d57b144548d3268de36
+oracle: wireguard/model/wireguard.oracle -> wireguard.oracle
+  sha256 098bf1ff09f9ca399f3ff512d11ef8f038fc6598cfcf32933efec64ddf023540
+
+License
+-------
+MPL-2.0. MPL-2.0: redistribution allowed; keep the MPL-2.0 notice and keep the files (and
+modifications to them) under MPL-2.0.
+The files are copied here unchanged; the license text is in models/tamigloo/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--derivcheck-timeout=0 --heuristic=O --oraclename=wireguard.oracle --prove=<lemma>
+wireguard.spthy
+Where the flags come from: --derivcheck-timeout=0: the authors' command; --heuristic=O
+--oraclename: the command the authors give.
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: READMEs: 1.6.0 known to work; CI at this commit uses the
+Tamarin 1.10.0 release (tamarin-docker/Dockerfile)
+
+Lean side
+---------
+trace properties

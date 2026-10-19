@@ -1,0 +1,50 @@
+emv/auth-failure/Contactless
+============================
+
+The model file is not stored here (see License): scripts/fetch_models.py fetches it to
+cache/emv/auth-failure/Contactless/Contactless.spthy.
+Theory: Contactless
+
+Paper
+-----
+David A. Basin, Patrick Schaller, Jorge Toro-Pozo.
+Inducing Authentication Failures to Bypass Credit Card PINs.
+USENIX Security Symposium, 2023, pages 3065-3079.
+URL:  https://www.usenix.org/conference/usenixsecurity23/presentation/basin
+DBLP: https://dblp.org/rec/conf/uss/BasinST23
+(Why this paper: README.)
+
+Online source
+-------------
+File:       https://github.com/EMVrace/auth-failure-attack/blob/98505edb202bfa149ae695a4f4e63516f6e9f742/Contactless.spthy
+Repository: https://github.com/EMVrace/auth-failure-attack
+Commit:     98505edb202bfa149ae695a4f4e63516f6e9f742
+Ref:        main (HEAD)
+
+Files
+-----
+model: Contactless.spthy -> Contactless.spthy
+  sha256 a56a1b3038a90454d98e828eca1c0e41b2f094d99da22ae3bddde3b981c7b32c
+oracle: EMVrace/EMVerify: Mastercard.oracle -> Mastercard.oracle
+  sha256 7174b21811d70162e4f79b4e692f23ce908703b0d2e54d42f0140b4ddbae247c
+
+License
+-------
+none stated. no license stated (no LICENSE file; README checked).
+The files are not copied into this repository; scripts/fetch_models.py fetches them at the
+pinned commit and checks their sha256.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--heuristic=O --oraclename=Mastercard.oracle --prove=<lemma> Contactless.spthy
+Where the flags come from: --heuristic=O --oraclename: README: EMVerify's Makefile with
+kernel=Mastercard (--heuristic=O --oraclename=Mastercard.oracle, from EMVerify).
+
+Measured for this benchmark: not run yet.
+
+The authors report no time for this model.
+
+Lean side
+---------
+trace properties

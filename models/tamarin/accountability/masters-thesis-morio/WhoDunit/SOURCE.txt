@@ -1,0 +1,48 @@
+tamarin/accountability/masters-thesis-morio/WhoDunit
+====================================================
+
+The model file is WhoDunit.spthy in this directory.
+Theory: WhoDunit
+
+Paper
+-----
+Robert Künnemann, Ilkan Esiyok, Michael Backes 0001.
+Automated Verification of Accountability in Security Protocols.
+CSF, 2019, pages 397-413.
+DOI:  https://doi.org/10.1109/CSF.2019.00034
+DBLP: https://dblp.org/rec/conf/csfw/KunnemannE019
+(Why this paper: README (thesis by Kevin Morio, no DBLP record looked up; models ported from
+Künnemann et al. CSF'19).)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32/examples/accountability/masters-thesis-morio/WhoDunit.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32
+Ref:        tag 1.10.0 (lightweight tag)
+
+Files
+-----
+model: examples/accountability/masters-thesis-morio/WhoDunit.spthy -> WhoDunit.spthy
+  sha256 e6e12eee8c8843f30fa46bca3c74567b93f3a033627b45cf0216e014ed2fc7bb
+
+License
+-------
+GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
+copies, mark any modifications, and keep the files under GPL-3.0.
+The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--prove=<lemma> WhoDunit.spthy
+Where the flags come from: no flags: the source gives none for this model.
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: varies per directory (see models); Tamarin CI outputs at this
+tag (case-studies-regression/) were produced with Tamarin 1.9.0
+
+Lean side
+---------
+trace properties

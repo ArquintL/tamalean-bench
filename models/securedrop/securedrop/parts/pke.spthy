@@ -1,0 +1,20 @@
+// Restriction-based model of encryption
+functions: PKE_Enc/2, PKE_Dec_Adversary/2
+
+// This rule is for the adversary, honest clients will use restrictions as per below
+equations: PKE_Dec_Adversary(PKE_Enc(pk(skR), m), skR) = m
+
+rule PKE_MessageSpaceAdversary:
+  [ In(m) ] --[ AdversaryActivity() ]-> [ !PKE_MessageSpace(m) ]
+
+restriction PKE_Consistency:
+  "All ct skR pt1 pt2 #t1 #t2.
+          PKE_Dec(ct, skR, pt1) @ #t1
+        & PKE_Dec(ct, skR, pt2) @ #t2
+    ==> pt1 = pt2"
+
+restriction PKE_Correctness:
+  "All pt skR mDec #t1 #t2.
+          PKE_Dec(PKE_Enc(pk(skR), pt), skR, mDec) @ #t1
+        & Honest(pk(skR)) @ #t2
+    ==> mDec = pt"

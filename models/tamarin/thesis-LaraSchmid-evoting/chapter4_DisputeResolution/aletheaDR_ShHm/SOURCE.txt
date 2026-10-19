@@ -1,0 +1,50 @@
+tamarin/thesis-LaraSchmid-evoting/chapter4_DisputeResolution/aletheaDR_ShHm
+===========================================================================
+
+The model file is aletheaDR_ShHm.spthy in this directory.
+Theory: aletheaDR_ShHm
+
+Paper
+-----
+Lara Schmid.
+Advancing the Formal Foundations for Voting Protocols.
+ETH Zurich, Zürich, Switzerland, 2020.
+DOI:  https://doi.org/10.3929/ETHZ-B-000418853
+DBLP: https://dblp.org/rec/phd/basesearch/Schmid20
+(Why this paper: README.)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32/examples/thesis-LaraSchmid-evoting/chapter4_DisputeResolution/aletheaDR_ShHm.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32
+Ref:        tag 1.10.0 (lightweight tag)
+
+Files
+-----
+model: examples/thesis-LaraSchmid-evoting/chapter4_DisputeResolution/aletheaDR_ShHm.spthy ->
+aletheaDR_ShHm.spthy
+  sha256 44b82b9e13a35ea08fbf9a9d86f6c324575763cf9fb6f79d61f37c15ac51bac7
+oracle: examples/thesis-LaraSchmid-evoting/chapter4_DisputeResolution/o_aletheaDR_ShHm ->
+o_aletheaDR_ShHm
+  sha256 54bae92f6e876e3aa0e18a3b9b2ad2043b9245ff738bdfa397462f1f8edc71b2
+
+License
+-------
+GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
+copies, mark any modifications, and keep the files under GPL-3.0.
+The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--heuristic=O --oraclename=o_aletheaDR_ShHm --prove=<lemma> aletheaDR_ShHm.spthy
+Where the flags come from: --heuristic=O --oraclename: the directory's README.
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: 1.5.1 (git 1b68093f) (README)
+
+Lean side
+---------
+trace properties

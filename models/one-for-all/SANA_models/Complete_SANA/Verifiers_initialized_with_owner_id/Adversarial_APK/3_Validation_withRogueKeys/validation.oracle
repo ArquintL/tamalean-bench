@@ -1,0 +1,73 @@
+#!/usr/bin/python3
+
+import sys
+
+MAX_RANK = 40
+l = [[] for i in range (0, MAX_RANK) ]
+lemma = sys.argv[1]
+
+for line in sys.stdin.readlines():
+  (num, goal) = line.split(": ",1)
+    
+  if lemma == "executable":
+    if 'VerifyAgg' in goal: l[2].append(num)
+    elif 'St_V_8' in goal: l[0].append(num)
+    elif goal.startswith("!KU( agg(("): l[3].append(num)
+    elif goal.startswith("!KU( sign("): l[4].append(num)
+    elif goal.startswith("!KU( ~sk"): l[0].append(num)
+    elif goal.startswith("!KU( ~ltkMalicious"): l[2].append(num)
+    else: l[9].append(num)
+  elif lemma == "unforgeability_freshness":
+    if goal.startswith("!KU( sign(<hash"): l[0].append(num)
+    elif goal.startswith("!Public_Key( P, pk(~skA.2)"): l[1].append(num)
+    elif goal.startswith("!KU( aenc("): l[2].append(num)
+    elif "RegisterHonestKey" in goal: l[1].append(num)
+    elif goal.startswith("!KU( pk(~skA.2)"): l[10].append(num)
+    elif goal.startswith("!KU( ~sk"): l[0].append(num)
+    elif goal.startswith("!KU( agg("): l[6].append(num)
+    else: l[9].append(num)
+
+  elif lemma == "unforgeability_freshness_honestOwner":
+    if goal.startswith("!KU( sign(<hash"): l[2].append(num)
+    elif goal.startswith("!Public_Key( P"): l[1].append(num)
+    elif goal.startswith("VerifyAgg"): l[1].append(num)
+    elif goal.startswith("!KU( sign"): l[4].append(num)
+    elif goal.startswith("!KU( aenc("): l[5].append(num)
+    elif goal.startswith("!KU( pk(~skA.2)"): l[10].append(num)
+    elif goal.startswith("!KU( ~sk"): l[0].append(num)
+    elif goal.startswith("!KU( agg("): l[3].append(num)
+    elif "RegisterHonestKey" in goal and "sign" in goal: l[1].append(num)
+    elif "RegisterHonestKey" in goal: l[6].append(num)
+    else: l[9].append(num)
+
+  elif lemma == "completeness_honestOwner":
+    if goal.startswith("!KU( sign(<hash"): l[2].append(num)
+    elif goal.startswith("!Public_Key( P"): l[1].append(num)
+    elif goal.startswith("VerifyAgg"): l[1].append(num)
+    elif goal.startswith("!KU( sign"): l[4].append(num)
+    elif goal.startswith("!KU( aenc("): l[5].append(num)
+    elif goal.startswith("!KU( pk(~skA.2)"): l[10].append(num)
+    elif goal.startswith("!KU( ~sk"): l[0].append(num)
+    elif goal.startswith("!KU( agg("): l[3].append(num)
+    elif "RegisterHonestKey" in goal and "sign" in goal: l[1].append(num)
+    elif "RegisterHonestKey" in goal: l[6].append(num)
+    else: l[9].append(num)
+  elif lemma == "prover_owner_agreement":
+    if goal.startswith("!KU( ~sk"): l[0].append(num)
+    elif goal.startswith("!KU( aenc"): l[1].append(num)
+    else: l[9].append(num)
+  elif lemma == "prover_owner_agreement_owner_honest":
+    if goal.startswith("!KU( aenc"): l[1].append(num)
+    else: l[9].append(num)
+  elif lemma == "AUTO_typing":
+    if "AUTO" in goal: l[1].append(num)
+    if goal.startswith("!KU( aenc"): l[2].append(num)
+    else: l[9].append(num)
+    
+  else:
+    exit(0)
+
+
+for rank in l:
+  for num in rank:
+    print (num)

@@ -1,0 +1,48 @@
+diodon/dh/model/protocol-model
+==============================
+
+The model file is protocol-model.spthy in this directory.
+Theory: Dh
+
+Paper
+-----
+Linard Arquint, Samarth Kishor, Jason R. Koenig, Joey Dodds, Daniel Kroening, Peter Müller 0001.
+The Secrets Must Not Flow: Scaling Security Verification to Large Codebases.
+SP, 2026, pages 1822.
+DOI:  https://doi.org/10.1109/SP63933.2026.00026
+DBLP: https://dblp.org/rec/conf/sp/ArquintKKDKM26
+(Why this paper: README and CITATION.cff.)
+
+Online source
+-------------
+File:       https://github.com/viperproject/diodon-artifact/blob/26aa61eaedc227d4e04da6641b9f5c068125bc0e/dh/model/protocol-model.spthy
+Repository: https://github.com/viperproject/diodon-artifact
+Commit:     26aa61eaedc227d4e04da6641b9f5c068125bc0e
+Ref:        main (HEAD)
+
+Files
+-----
+model: dh/model/protocol-model.spthy -> protocol-model.spthy
+  sha256 6b02e853a0e736296cbc897cd6b06d49363b253374432a04caa54cf05325e04a
+
+License
+-------
+Apache-2.0. Apache-2.0: redistribution allowed; include the license text, keep notices, state
+changes.
+The files are copied here unchanged; the license text is in models/diodon/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--derivcheck-timeout=0 --prove=<lemma> protocol-model.spthy
+Where the flags come from: --derivcheck-timeout=0: the authors' command.
+
+Measured for this benchmark: not run yet.
+
+Reported by the authors: 'This might take about 5s' in the Docker image (claims/claim5/run.sh);
+paper times measured natively on an Apple M3 Pro (README)
+Tamarin version the authors used: 1.10.0 known to work (dh/model/README.md)
+
+Lean side
+---------
+trace properties

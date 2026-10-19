@@ -1,0 +1,48 @@
+tamarin/sapic/export/ExistingSapicModels/AC_sid_with_attack
+===========================================================
+
+The model file is AC_sid_with_attack.spthy in this directory.
+Theory: AC_sid
+
+Paper
+-----
+Vincent Cheval, Charlie Jacomme, Steve Kremer, Robert Künnemann.
+SAPIC+: protocol verifiers of the world, unite!
+USENIX Security Symposium, 2022, pages 3935-3952.
+URL:  https://www.usenix.org/conference/usenixsecurity22/presentation/cheval
+DBLP: https://dblp.org/rec/conf/uss/ChevalJKK22
+(Why this paper: README ('Case-Studies from the paper'; export feature of SAPIC+).)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32/examples/sapic/export/ExistingSapicModels/AC_sid_with_attack.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32
+Ref:        tag 1.10.0 (lightweight tag)
+
+Files
+-----
+model: examples/sapic/export/ExistingSapicModels/AC_sid_with_attack.spthy ->
+AC_sid_with_attack.spthy
+  sha256 982b94eea0651dcb6d23039d2ee92db5a27161f98e3c8b0edd76dcba8c1a295f
+
+License
+-------
+GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
+copies, mark any modifications, and keep the files under GPL-3.0.
+The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--prove=<lemma> AC_sid_with_attack.spthy
+Where the flags come from: no flags: the source gives none for this model.
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: varies per directory (see models); Tamarin CI outputs at this
+tag (case-studies-regression/) were produced with Tamarin 1.9.0
+
+Lean side
+---------
+trace properties

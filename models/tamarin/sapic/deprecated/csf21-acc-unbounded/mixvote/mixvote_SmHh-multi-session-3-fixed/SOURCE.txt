@@ -1,0 +1,49 @@
+tamarin/sapic/deprecated/csf21-acc-unbounded/mixvote/mixvote_SmHh-multi-session-3-fixed
+=======================================================================================
+
+The model file is mixvote_SmHh-multi-session-3-fixed.spthy in this directory.
+Theory: mixvote_SmHh_acc_multi3
+
+Paper
+-----
+Kevin Morio, Robert Künnemann.
+Verifying Accountability for Unbounded Sets of Participants.
+CSF, 2021, pages 1-16.
+DOI:  https://doi.org/10.1109/CSF51468.2021.00032
+DBLP: https://dblp.org/rec/conf/csfw/MorioK21
+(Why this paper: README.)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32/examples/sapic/deprecated/csf21-acc-unbounded/mixvote/mixvote_SmHh-multi-session-3-fixed.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32
+Ref:        tag 1.10.0 (lightweight tag)
+
+Files
+-----
+model:
+examples/sapic/deprecated/csf21-acc-unbounded/mixvote/mixvote_SmHh-multi-session-3-fixed.spthy
+-> mixvote_SmHh-multi-session-3-fixed.spthy
+  sha256 70ab98e05f36a3accec25db96c4ba3ea66f59d67cbb4cea2a96281595b58a2e4
+
+License
+-------
+GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
+copies, mark any modifications, and keep the files under GPL-3.0.
+The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--prove=<lemma> mixvote_SmHh-multi-session-3-fixed.spthy
+Where the flags come from: no flags: the source gives none for this model.
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: varies per directory (see models); Tamarin CI outputs at this
+tag (case-studies-regression/) were produced with Tamarin 1.9.0
+
+Lean side
+---------
+trace properties

@@ -1,0 +1,90 @@
+#!/usr/bin/env python
+
+from __future__ import print_function
+import sys
+
+lines = sys.stdin.readlines()
+
+l0 = []
+l1 = []
+l2 = []
+l3 = []
+l4 = []
+l5 = []
+l100 = []
+l101 = []
+lemma = sys.argv[1]
+
+for line in lines:
+  num = line.split(':')[0]
+
+  if lemma == "mutual_authentication_UE_AAnF_other_direction":
+      if "sign(Sign_Mac_Value" in line or "!KU( senc(" in line:
+        l3.append(num)
+      elif "^" in line:
+        l4.append(num)
+      elif "!KU( ~SUPI" in line:
+        l1.append(num)
+      elif "!KU( " in line:
+        l2.append(num)
+      else:
+        l0.append(num)
+  elif lemma == "Forward_Secrecy":
+      if "!KU( ~R )" in line:
+        l0.append(num)
+      elif "KDF_AKMA(KDF_AUSF(" in line:
+        l1.append(num)
+      elif "!KU( ~SUPI" in line:
+        l2.append(num)
+      elif "!KU( ~K )" in line:
+        l3.append(num)
+      elif "!KU( KDF_AUSF(" in line:
+        l4.append(num)
+      else:
+        l5.append(num)
+  elif lemma == "secure_K_AF_prime":  
+      if "!KU( f(" in line or "!KU( senc(" in line or "!KU( sign(Sign_Mac_Value" in line or ("!KU( x" in line and "^" in line):
+        l100.append(num)
+      elif "!KU( ~R )" in line:
+        l0.append(num)
+      elif "KDF_AKMA(KDF_AUSF(" in line:
+        l1.append(num)
+      elif "!KU( ~SUPI" in line:
+        l2.append(num)
+      elif "!KU( KDF_AUSF(" in line:
+        l3.append(num)
+      elif "!KU( ~K )" in line or "!AF_Ltk( ~id_AF" in line:
+        l4.append(num)
+      else:
+        l5.append(num)
+  elif "AUTO_typing" in lemma:
+    if "contradiction" in line:
+      l0.append(num)
+    elif "AUTO_OUT_TERM" in line and "AAnF_Send_K_AF___VARIANT" in line:
+      l1.append(num)
+    elif "!KU( senc(<" in line and "KDF_AKMA(KDF_AUSF(" in line:
+      l2.append(num)
+    else:
+      l5.append(num)
+  elif lemma == "Protocol_executable_without_Reprimary":
+      if "!KU( ~R" in line:
+        l0.append(num)
+      elif "!KU( ~SUPI" in line:
+        l1.append(num)
+      elif "!KU( ~K" in line:
+        l2.append(num)
+      elif ("RcvS( ~cid" in line and "KDF_A_TID(KDF_AUSF(~K" in line) or "!KU( KDF_A_TID(KDF_AUSF(~K" in line:
+        l3.append(num)
+      elif "UE_Auth( ~SUPI" in line or "AUSF( ~SUPI" in line or "AUSF_KEY( ~SUPI" in line or "UE_Auth_KEY( ~SUPI" in line or "AAnF_KEY( ~id_HN" in line or "UE_KEY( ~tid" in line or "KDF_AF(KDF_AKMA(KDF_AUSF(" in line or "!KU( ~id_HN" in line:
+        l4.append(num)
+      elif "!AF_Pk( ~id_AF" in line:
+        l5.append(num)
+      else:
+        l100.append(num)
+  else:
+    exit(0)
+
+ranked = l0 + l1 + l2 + l3 + l4 + l5 + l100 + l101
+
+for i in ranked:
+  print(i)

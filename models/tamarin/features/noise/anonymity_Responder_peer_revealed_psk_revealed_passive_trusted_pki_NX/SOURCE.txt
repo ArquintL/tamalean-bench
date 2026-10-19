@@ -1,0 +1,50 @@
+tamarin/features/noise/anonymity_Responder_peer_revealed_psk_revealed_passive_trusted_pki_NX
+============================================================================================
+
+The model file is anonymity_Responder_peer_revealed_psk_revealed_passive_trusted_pki_NX.spthy in
+this directory.
+Theory: anonymity_Responder_peer_revealed_psk_revealed_passive_trusted_pki_NX
+
+Paper
+-----
+Simon Meier, Benedikt Schmidt 0002, Cas Cremers, David A. Basin.
+The TAMARIN Prover for the Symbolic Analysis of Security Protocols.
+CAV, 2013, pages 696-701.
+DOI:  https://doi.org/10.1007/978-3-642-39799-8_48
+DBLP: https://dblp.org/rec/conf/cav/MeierSCB13
+(Why this paper: feature tests, no paper -> Tamarin tool paper cited instead.)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32/examples/features/noise/anonymity_Responder_peer_revealed_psk_revealed_passive_trusted_pki_NX.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32
+Ref:        tag 1.10.0 (lightweight tag)
+
+Files
+-----
+model:
+examples/features/noise/anonymity_Responder_peer_revealed_psk_revealed_passive_trusted_pki_NX.spthy
+-> anonymity_Responder_peer_revealed_psk_revealed_passive_trusted_pki_NX.spthy
+  sha256 8c2ab2c106adcc0b9ab00bf137858c23b80f5b464d1de1a6f00ee2ab5ec54c5f
+
+License
+-------
+GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
+copies, mark any modifications, and keep the files under GPL-3.0.
+The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS --diff
+--prove=<lemma> anonymity_Responder_peer_revealed_psk_revealed_passive_trusted_pki_NX.spthy
+Where the flags come from: --diff: the model states observational equivalence.
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: varies per directory (see models); Tamarin CI outputs at this
+tag (case-studies-regression/) were produced with Tamarin 1.9.0
+
+Lean side
+---------
+out of scope: observational equivalence (a diff model); Tamalean checks trace properties only

@@ -1,0 +1,47 @@
+tamarin/sp14/STR_signed
+=======================
+
+The model file is STR_signed.spthy in this directory.
+Theory: STR_signed
+
+Paper
+-----
+Benedikt Schmidt 0002, Ralf Sasse, Cas Cremers, David A. Basin.
+Automated Verification of Group Key Agreement Protocols.
+IEEE Symposium on Security and Privacy, 2014, pages 179-194.
+DOI:  https://doi.org/10.1109/SP.2014.19
+DBLP: https://dblp.org/rec/conf/sp/SchmidtSCB14
+(Why this paper: directory name.)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32/examples/sp14/STR_signed.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32
+Ref:        tag 1.10.0 (lightweight tag)
+
+Files
+-----
+model: examples/sp14/STR_signed.spthy -> STR_signed.spthy
+  sha256 f86f0ec6d5c053d51f272038152c6614dfb5c7276f210f3faf57fedc73808807
+
+License
+-------
+GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
+copies, mark any modifications, and keep the files under GPL-3.0.
+The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--prove=<lemma> STR_signed.spthy
+Where the flags come from: no flags: the source gives none for this model.
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: varies per directory (see models); Tamarin CI outputs at this
+tag (case-studies-regression/) were produced with Tamarin 1.9.0
+
+Lean side
+---------
+trace properties

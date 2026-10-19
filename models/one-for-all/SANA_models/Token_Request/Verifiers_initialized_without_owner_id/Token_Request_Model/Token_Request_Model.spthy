@@ -1,0 +1,141 @@
+// This theory contains the Token Request protocol of SANA. 
+// It was isolated allow for better analysis
+
+theory Token_Request
+begin
+
+builtins: signing, asymmetric-encryption, multiset
+
+// PKI
+rule Register_pk:
+	[ Fr(~skA) ]
+	--[ Register($A) ]->
+	[ !Secret_Key($A, ~skA), !Public_Key($A, pk(~skA)), Out(pk(~skA)) ]
+
+rule Reveal_sk:
+	[ !Secret_Key(A, skA) ]
+	--[ Reveal(A) ]->
+	[ Out(skA) ]
+
+// Init
+rule Init_V:
+	[ Fr(~id), !Secret_Key(V, skV) ]
+	--[ Init_V(V), UniqueRole(pk(skV), 'V') ]->
+	[ St_V_1(~id, V, skV), !PK_Role(pk(skV), 'V') ]
+
+rule Init_O:
+	[ Fr(~id), !Secret_Key(O, skO) ]
+	--[ Init_O(O), UniqueRole(pk(skO), 'O') ]->
+	[ St_O_1(~id, O, skO), !PK_Role(pk(skO), 'O') ]
+
+
+// tokenReq
+rule V_tokenReq_send_nonce:
+	[ St_V_1(id, V, skV), Fr(~Nv) ]
+	-->
+	[ St_V_2(id, V, skV, ~Nv), Out(~Nv) ]
+
+rule O_tokenReq_respond_nonce:
+	[ St_O_1(id, O, skO), In(Nv), Fr(~No) ]
+	--[ Running_EA(O, $V, <'V', 'O', Nv, ~No>) ]->
+	[ St_O_2(id, O, skO, $V, Nv, ~No), Out(~No) ]
+
+rule V_tokenReq_sign_nonce:
+	[ St_V_2(id, V, skV, Nv), In(No) ]
+	--[Running_EA(V, $O, <'O', 'V', Nv, No>)]->
+	[ St_V_3(id, V, skV, $O, Nv, No), Out(sign(No, skV))]
+
+rule O_tokenReq_sign_nonce:
+	let
+		t = <'H', ~Nc, 't'>
+		s1 = sign(t, skO)
+		e = aenc(<t, s1>, pkV)
+		apk = $PK1 + $PK2
+	in
+	[ St_O_2(id, O, skO, V, Nv, No), Fr(~Nc), In(s),
+	  !Public_Key(V, pkV), !PK_Role(pkV, 'V') ]
+	--[ Eq(verify(s, No, pkV), true),
+		Running_DOS(O, ~Nc), 
+		Running_T(O, V, <t, s1>),
+		Commit_EA(O, V, <'O', 'V', Nv, No>),
+		Secret_T(O, V, <t, s1>),
+		Finish_O() ]->
+	[ St_O_3(id, O, skO, V, pkV, Nv, No), Out(<e, apk, sign(<Nv, apk>, skO)>) ]
+
+rule V_tokenReq_complete:
+	let
+		e = aenc(<<'H', Nc, 't'>, s1>, pk(skV))
+		t = <<'H', Nc, 't'>, s1>
+	in
+	[ St_V_3(id, V, skV, O, Nv, No), In(<e, apk, s>),
+		!Public_Key(O, pkO)]
+	--[ Eq(verify(s, <Nv, apk>, pkO), true),
+		Eq(verify(s1, <'H', Nc, 't'>, pkO), true),
+		Commit_T(V, O, t),
+		Commit_EA(V, O, <'V', 'O', Nv, No>), Finish_V() ]->
+	[ St_V_4(id, V, skV, O, pkO, Nv, No, t, apk) ]
+
+restriction equality:
+"All a b #i. Eq(a, b)@i ==> a = b"
+
+restriction one_role_per_pk:
+"All PK R1 R2 #i #j. UniqueRole(PK, R1)@i & UniqueRole(PK, R2)@j ==> R1 = R2"
+
+lemma executable:
+exists-trace
+"Ex #i #j. Finish_V()@i & Finish_O()@j &
+(not Ex X #k. Reveal(X)@k) &
+(All V1 V2 #k #l. Init_V(V1)@k & Init_V(V2)@l ==> #k = #l) &
+(All O1 O2 #k #l. Init_O(O1)@k & Init_O(O2)@l ==> #k = #l)"
+
+lemma owner_verifier_inj_agreement: // injective agreement from owner's perspective.
+"All A B d #i. Commit_EA(A, B, <'O', 'V', d>)@i &
+(not Ex #j. Reveal(A)@j) &
+(not Ex #j. Reveal(B)@j) 
+	==> (Ex #j. Running_EA(B, A, <'O', 'V', d>)@j & 
+	not (Ex A2 B2 #k. Commit_EA(A2, B2, <'O', 'V', d>)@k & not (#i = #k)))"
+
+lemma verifier_owner_inj_agreement: // injective agreement from verifiers's perspective.
+"All A B d #i. Commit_EA(A, B, <'V', 'O', d>)@i &
+(not Ex #j. Reveal(A)@j) &
+(not Ex #j. Reveal(B)@j) 
+	==> (Ex #j. Running_EA(B, A, <'V', 'O', d>)@j & 
+	not (Ex A2 B2 #k. Commit_EA(A2, B2, <'V', 'O', d>)@k & not (#i = #k)))"
+
+lemma owner_verifier_non_inj_agreement: // non-injective agreement from verifiers's perspective.
+"All A B d #i. Commit_EA(A, B, <'O', 'V', d>)@i &
+(not Ex #j. Reveal(A)@j) &
+(not Ex #j. Reveal(B)@j) 
+	==> (Ex #j. Running_EA(B, A, <'O', 'V', d>)@j)"
+
+lemma verifier_owner_non_inj_agreement: // non-injective agreement from verifiers's perspective.
+"All A B d #i. Commit_EA(A, B, <'V', 'O', d>)@i &
+(not Ex #j. Reveal(A)@j) &
+(not Ex #j. Reveal(B)@j) 
+	==> (Ex #j. Running_EA(B, A, <'V', 'O', d>)@j)"
+
+lemma owner_verifier_weak_agreement: // weak agreement from verifiers's perspective.
+"All A B d #i. Commit_EA(A, B, <'O', 'V', d>)@i &
+(not Ex #j. Reveal(A)@j) &
+(not Ex #j. Reveal(B)@j) 
+	==> (Ex d2 #j. Running_EA(B, A, <'O', 'V', d2>)@j)"
+
+lemma verifier_owner_weak_agreement: // weak agreement from verifiers's perspective.
+"All A B d #i. Commit_EA(A, B, <'V', 'O', d>)@i &
+(not Ex #j. Reveal(A)@j) &
+(not Ex #j. Reveal(B)@j) &
+(All #k #l #r V1 V2 V3. Init_V(V1)@k & Init_V(V2)@l & Init_V(V3)@r ==> #k = #l | #k = #r | #l = #r)
+	==> (Ex d2 #j. Running_EA(B, A, <'V', 'O', d2>)@j)"
+
+lemma owner_verifier_aliveness: // aliveness from verifiers's perspective.
+"All A B d #i. Commit_EA(A, B, <'O', 'V', d>)@i &
+(not Ex #j. Reveal(A)@j) &
+(not Ex #j. Reveal(B)@j) 
+	==> (Ex A2 d2 #j. Running_EA(B, A2, <'O', 'V', d2>)@j)"
+
+lemma verifier_owner_aliveness: // aliveness from verifiers's perspective.
+"All A B d #i. Commit_EA(A, B, <'V', 'O', d>)@i &
+(not Ex #j. Reveal(A)@j) &
+(not Ex #j. Reveal(B)@j) 
+	==> (Ex A2 d2 #j. Running_EA(B, A2, <'V', 'O', d2>)@j)"
+end

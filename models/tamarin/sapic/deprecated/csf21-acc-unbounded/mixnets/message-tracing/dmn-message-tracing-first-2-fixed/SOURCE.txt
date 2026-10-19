@@ -1,0 +1,55 @@
+tamarin/sapic/deprecated/csf21-acc-unbounded/mixnets/message-tracing/dmn-message-tracing-first-2-fixed
+======================================================================================================
+
+The model file is dmn-message-tracing-first-2-fixed.spthy in this directory.
+Theory: DMNMessageTracingFirst2Fixed
+
+Paper
+-----
+Kevin Morio, Robert Künnemann.
+Verifying Accountability for Unbounded Sets of Participants.
+CSF, 2021, pages 1-16.
+DOI:  https://doi.org/10.1109/CSF51468.2021.00032
+DBLP: https://dblp.org/rec/conf/csfw/MorioK21
+(Why this paper: README.)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32/examples/sapic/deprecated/csf21-acc-unbounded/mixnets/message-tracing/dmn-message-tracing-first-2-fixed.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32
+Ref:        tag 1.10.0 (lightweight tag)
+
+Files
+-----
+model:
+examples/sapic/deprecated/csf21-acc-unbounded/mixnets/message-tracing/dmn-message-tracing-first-2-fixed.spthy
+-> dmn-message-tracing-first-2-fixed.spthy
+  sha256 776aa5a8d640bac5e9111b45595d56b5f28a89b8805d6448386a73bb06259b8c
+oracle:
+examples/sapic/deprecated/csf21-acc-unbounded/mixnets/message-tracing/oracle-dmn-message-tracing
+-> oracle-dmn-message-tracing
+  sha256 119ddb5c2aa3b1f3b36bbc968d1d1996c2ae67e5f87793a62bca164840edd94a
+
+License
+-------
+GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
+copies, mark any modifications, and keep the files under GPL-3.0.
+The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--stop-on-trace=seqdfs --heuristic=o --oraclename=oracle-dmn-message-tracing --prove=<lemma>
+dmn-message-tracing-first-2-fixed.spthy
+Where the flags come from: --stop-on-trace=seqdfs: the authors' command; --heuristic=o
+--oraclename: the command the authors give.
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: varies per directory (see models); Tamarin CI outputs at this
+tag (case-studies-regression/) were produced with Tamarin 1.9.0
+
+Lean side
+---------
+trace properties

@@ -1,0 +1,47 @@
+tamarin/sp14/STR
+================
+
+The model file is STR.spthy in this directory.
+Theory: STR
+
+Paper
+-----
+Benedikt Schmidt 0002, Ralf Sasse, Cas Cremers, David A. Basin.
+Automated Verification of Group Key Agreement Protocols.
+IEEE Symposium on Security and Privacy, 2014, pages 179-194.
+DOI:  https://doi.org/10.1109/SP.2014.19
+DBLP: https://dblp.org/rec/conf/sp/SchmidtSCB14
+(Why this paper: directory name.)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32/examples/sp14/STR.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32
+Ref:        tag 1.10.0 (lightweight tag)
+
+Files
+-----
+model: examples/sp14/STR.spthy -> STR.spthy
+  sha256 102638f3b4c05549cf253aac83b9259754520333edfbfbe23e8de19214bb2140
+
+License
+-------
+GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
+copies, mark any modifications, and keep the files under GPL-3.0.
+The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS -Dsecure
+--prove=<lemma> STR.spthy
+Where the flags come from: -Dsecure: examples/sp14/run.sh (its first configuration).
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: varies per directory (see models); Tamarin CI outputs at this
+tag (case-studies-regression/) were produced with Tamarin 1.9.0
+
+Lean side
+---------
+trace properties

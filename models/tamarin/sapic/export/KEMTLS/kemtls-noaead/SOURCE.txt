@@ -1,0 +1,48 @@
+tamarin/sapic/export/KEMTLS/kemtls-noaead
+=========================================
+
+The model file is kemtls-noaead.spthy in this directory.
+Theory: KEMTLS
+
+Paper
+-----
+Vincent Cheval, Charlie Jacomme, Steve Kremer, Robert Künnemann.
+SAPIC+: protocol verifiers of the world, unite!
+USENIX Security Symposium, 2022, pages 3935-3952.
+URL:  https://www.usenix.org/conference/usenixsecurity22/presentation/cheval
+DBLP: https://dblp.org/rec/conf/uss/ChevalJKK22
+(Why this paper: README ('Case-Studies from the paper'; export feature of SAPIC+).)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32/examples/sapic/export/KEMTLS/kemtls-noaead.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32
+Ref:        tag 1.10.0 (lightweight tag)
+
+Files
+-----
+model: examples/sapic/export/KEMTLS/kemtls-noaead.spthy -> kemtls-noaead.spthy
+  sha256 f16d5358e375df4eb8bf35fa0d525a6d87c0bc1996f46c32d6d49a27d268c602
+
+License
+-------
+GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
+copies, mark any modifications, and keep the files under GPL-3.0.
+The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--prove=<lemma> kemtls-noaead.spthy
+Where the flags come from: no flags: the source gives none for this model.
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: varies per directory (see models); Tamarin CI outputs at this
+tag (case-studies-regression/) were produced with Tamarin 1.9.0
+Times stated in the file: Tamarin : everything in 17 minutes on 64 core server
+
+Lean side
+---------
+trace properties

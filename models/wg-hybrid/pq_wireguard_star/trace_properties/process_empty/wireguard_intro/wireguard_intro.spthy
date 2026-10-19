@@ -1,0 +1,35 @@
+/*
+ * Artifacts for Usenix 2025 paper "A Tale of Two Worlds, a Formal Story of WireGuard Hybridization"
+ */
+
+theory PQWireGuardStar
+
+begin
+
+builtins: hashing, dest-asymmetric-encryption, dest-pairing
+
+functions: kdf1/1, kdf2/1, kdf3/1, aead/4, xaead/4, decrypt/3, xdecrypt/3[destructor], checkaead/4[destructor], checkxaead/4[destructor], mac/2, checkmac/3[destructor], true/0
+equations: decrypt(k, n, aead(k, n, a, p)) = p
+equations: checkaead(k, n, a, aead(k, n, a, p)) = true
+equations: xdecrypt(k, n, xaead(k, n, a, p)) = p
+equations: checkxaead(k, n, a, xaead(k, n, a, p)) = true
+equations: checkmac(k, m, mac(k,m)) = true
+
+let RevealKEMLtk(kemltkr) =
+    event RevKEMLtk(pk(kemltkr)); out(kemltkr)
+
+let RevealKEMEki(kemeki) =
+    event RevKEMEki(pk(kemeki)); out(kemeki)
+
+let RevealRe(re) =
+    event RevRe(re); out(re)
+
+let RevealRa(ra) =
+    event RevRa(ra); out(ra)
+
+let RevealRb(rb) =
+    event RevRb(rb); out(rb)
+
+let RevealPsk(psk) =
+    event RevPsk(psk); out(psk)
+

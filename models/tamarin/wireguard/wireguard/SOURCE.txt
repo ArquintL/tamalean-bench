@@ -1,0 +1,52 @@
+tamarin/wireguard/wireguard
+===========================
+
+The model file is wireguard.spthy in this directory.
+Theory: WireGuard
+
+Paper
+-----
+DBLP has no record of this work (searched: sparql.dblp.org: titles containing 'formal
+verification of the wireguard protocol'; sparql.dblp.org: titles containing 'wireguard' (39
+hits, none by Donenfeld & Milner on formal verification)).
+What its own source states (www.wireguard.com (not DBLP)):
+  Authors: Jason Donenfeld, Kevin Milner
+  Title: Formal Verification of the WireGuard Protocol
+  Date: PDF CreationDate 2018-06-07
+  Status: 'a draft work in progress' (https://www.wireguard.com/formal-verification/)
+  URL: https://www.wireguard.com/papers/wireguard-formal-verification.pdf
+(Why this paper: header names modelers Kevin Milner & Jason Donenfeld (2017); the report title
+is not written in the file.)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32/examples/wireguard/wireguard.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32
+Ref:        tag 1.10.0 (lightweight tag)
+
+Files
+-----
+model: examples/wireguard/wireguard.spthy -> wireguard.spthy
+  sha256 2ad04d3be90a89cabcd01cd4170c9e97cebfa4f4fac210c9856f3bd5f57f2034
+
+License
+-------
+GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
+copies, mark any modifications, and keep the files under GPL-3.0.
+The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--prove=<lemma> wireguard.spthy
+Where the flags come from: no flags: the source gives none for this model.
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: varies per directory (see models); Tamarin CI outputs at this
+tag (case-studies-regression/) were produced with Tamarin 1.9.0
+
+Lean side
+---------
+trace properties

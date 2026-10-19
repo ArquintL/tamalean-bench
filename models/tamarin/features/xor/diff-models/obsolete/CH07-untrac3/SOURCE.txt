@@ -1,0 +1,50 @@
+tamarin/features/xor/diff-models/obsolete/CH07-untrac3
+======================================================
+
+The model file is CH07-untrac3.spthy in this directory.
+Theory: CH07_untrac3
+
+Paper
+-----
+Jannik Dreier, Lucca Hirschi, Sasa Radomirovic, Ralf Sasse.
+Automated Unbounded Verification of Stateful Cryptographic Protocols with Exclusive OR.
+CSF, 2018, pages 359-373.
+DOI:  https://doi.org/10.1109/CSF.2018.00033
+DBLP: https://dblp.org/rec/conf/csfw/DreierHRS18
+(Why this paper: README of features/xor: obsolete versions of the csf18-xor models.)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32/examples/features/xor/diff-models/obsolete/CH07-untrac3.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32
+Ref:        tag 1.10.0 (lightweight tag)
+
+Files
+-----
+model: examples/features/xor/diff-models/obsolete/CH07-untrac3.spthy -> CH07-untrac3.spthy
+  sha256 83f98ae0282215ca87ed6b5d7bb98df4b2c469cbffee0af9cf734ddf7096bd41
+
+License
+-------
+GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
+copies, mark any modifications, and keep the files under GPL-3.0.
+The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS --diff
+--prove=<lemma> CH07-untrac3.spthy
+Where the flags come from: --diff: the model states observational equivalence.
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: varies per directory (see models); Tamarin CI outputs at this
+tag (case-studies-regression/) were produced with Tamarin 1.9.0
+Times stated in the file: FINDS PROOF AUTOMATICALLY, about 240 minutes (2017-11-01,
+aa65be43cd4965ffa1c51a991d9139e98ec1662e); // FINDS PROOF AUTOMATICALLY, about 240 minutes
+(2017-11-01, aa65be43cd4965ffa1c51a991d9139e98ec1662e)
+
+Lean side
+---------
+out of scope: observational equivalence (a diff model); Tamalean checks trace properties only

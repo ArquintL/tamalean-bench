@@ -1,0 +1,49 @@
+tamarin/jcs19-xor/diff-models/CH07-UK1
+======================================
+
+The model file is CH07-UK1.spthy in this directory.
+Theory: CH07_UK1
+
+Paper
+-----
+Jannik Dreier, Lucca Hirschi, Sasa Radomirovic, Ralf Sasse.
+Verification of stateful cryptographic protocols with exclusive OR.
+J. Comput. Secur., 2020, volume 28, number 1, pages 1-34.
+DOI:  https://doi.org/10.3233/JCS-191358
+DBLP: https://dblp.org/rec/journals/jcs/DreierHRS20
+(Why this paper: README.)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32/examples/jcs19-xor/diff-models/CH07-UK1.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32
+Ref:        tag 1.10.0 (lightweight tag)
+
+Files
+-----
+model: examples/jcs19-xor/diff-models/CH07-UK1.spthy -> CH07-UK1.spthy
+  sha256 3513cd2fe9da4a3a2309ae749e6bc7ef6cb074185c3e6eeeb226046b24f25b28
+
+License
+-------
+GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
+copies, mark any modifications, and keep the files under GPL-3.0.
+The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS --diff
+--prove=<lemma> CH07-UK1.spthy
+Where the flags come from: --diff: the model states observational equivalence.
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: varies per directory (see models); Tamarin CI outputs at this
+tag (case-studies-regression/) were produced with Tamarin 1.9.0
+Times stated in the file: Observational Equivalence: PROVEN automatically, <=10 minutes; //
+Observational Equivalence: PROVEN automatically, <=10 minutes
+
+Lean side
+---------
+out of scope: observational equivalence (a diff model); Tamalean checks trace properties only

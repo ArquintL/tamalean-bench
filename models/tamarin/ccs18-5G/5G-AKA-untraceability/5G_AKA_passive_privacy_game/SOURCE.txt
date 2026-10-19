@@ -1,0 +1,52 @@
+tamarin/ccs18-5G/5G-AKA-untraceability/5G_AKA_passive_privacy_game
+==================================================================
+
+The model file is 5G_AKA_passive_privacy_game.spthy in this directory.
+Theory: 5G_AKA_passive_privacy_game
+
+Paper
+-----
+David A. Basin, Jannik Dreier, Lucca Hirschi, Sasa Radomirovic, Ralf Sasse, Vincent Stettler.
+A Formal Analysis of 5G Authentication.
+CCS, 2018, pages 1383-1396.
+DOI:  https://doi.org/10.1145/3243734.3243846
+DBLP: https://dblp.org/rec/conf/ccs/BasinDHRSS18
+(Why this paper: directory name and README (paper title not written in the files).)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32/examples/ccs18-5G/5G-AKA-untraceability/5G_AKA_passive_privacy_game.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32
+Ref:        tag 1.10.0 (lightweight tag)
+
+Files
+-----
+model: examples/ccs18-5G/5G-AKA-untraceability/5G_AKA_passive_privacy_game.spthy ->
+5G_AKA_passive_privacy_game.spthy
+  sha256 c01902e21a1003d4b1fa2a06aab9cf4a3e90dce4f8075f6fa2729e7db5cb7a5c
+oracle: examples/ccs18-5G/5G-AKA-untraceability/5G_AKA_passive_privacy_game.oracle ->
+5G_AKA_passive_privacy_game.oracle
+  sha256 e2c9482e3def3e270d41eaf7b14eafccbb8764b9c098767ee6599ac57b28e1a0
+
+License
+-------
+GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
+copies, mark any modifications, and keep the files under GPL-3.0.
+The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS --diff
+--heuristic=O --oraclename=5G_AKA_passive_privacy_game.oracle --prove=<lemma>
+5G_AKA_passive_privacy_game.spthy
+Where the flags come from: --diff: the model states observational equivalence; --heuristic=O
+--oraclename: the command the authors give.
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: 1.4.0 (README)
+
+Lean side
+---------
+out of scope: observational equivalence (a diff model); Tamalean checks trace properties only

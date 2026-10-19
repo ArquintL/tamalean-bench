@@ -1,0 +1,56 @@
+one-for-all/SANA_models/Complete_SANA/Verifiers_initialized_with_owner_id/Adversarial_APK/3_Validation_withRogueKeys
+====================================================================================================================
+
+The model file is 3_Validation_withRogueKeys.spthy in this directory.
+Theory: attest_validation_with_original_token_request
+
+Paper
+-----
+Xenia Hofmeier, Andrea Raguso, Ralf Sasse, Dennis Jackson, David A. Basin.
+One For All: Formally Verifying Protocols which use Aggregate Signatures.
+CSF, 2025, pages 347-362.
+DOI:  https://doi.org/10.1109/CSF64896.2025.00027
+DBLP: https://dblp.org/rec/conf/csfw/HofmeierRSJB25
+(Why this paper: README of the Zenodo artifact.)
+
+Online source
+-------------
+Archive: https://zenodo.org/api/records/15357178/files/tamarin-aggregate-signatures.zip/content
+  (the repository's DOI: https://doi.org/10.5281/zenodo.15357178)
+File in the archive: tamarin-aggregate-signatures/SANA_models/Complete_SANA/Verifiers_initialized_with_owner_id/Adversarial_APK/3_Validation_withRogueKeys.spthy
+Archive sha256: 101a4756c17638c7e076ad76e7bfc69a6f4fdbba8dbe6da86ff0d0aeb36d7268
+
+Files
+-----
+model:
+SANA_models/Complete_SANA/Verifiers_initialized_with_owner_id/Adversarial_APK/3_Validation_withRogueKeys.spthy
+-> 3_Validation_withRogueKeys.spthy
+  sha256 ab505a02e2a0fcc23211325f7849d17cb19a49bcd90c44d758a85988713ca7f0
+oracle:
+SANA_models/Complete_SANA/Verifiers_initialized_with_owner_id/Adversarial_APK/validation.oracle
+-> validation.oracle
+  sha256 289b6ce3d5ed7d69941d4e6c1c1a2bd8bb070c74b45895959e7d255d2e553711
+
+License
+-------
+MIT. MIT (Copyright (c) 2025 Xenia Hofmeier, Andrea Raguso, Ralf Sasse, Dennis Jackson, David
+Basin): keep the copyright and permission notice.
+The files are copied here unchanged; the license text is in models/one-for-all/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--auto-sources --heuristic=O --oraclename=validation.oracle --prove=<lemma>
+3_Validation_withRogueKeys.spthy
+Where the flags come from: --auto-sources: the authors' command (README or Makefile);
+--heuristic=O --oraclename: the command the authors give.
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: aggregate_signature_models: Tamarin development version
+compiled 2021-03-05 (README); SANA models: 1.8.0 (f172d7f0), 1.9.0 (86014ad1) or 1.11.0
+(a6df687a, develop) per each folder's Notes.md
+
+Lean side
+---------
+trace properties

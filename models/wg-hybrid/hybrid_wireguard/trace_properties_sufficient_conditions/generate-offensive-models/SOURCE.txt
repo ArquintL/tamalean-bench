@@ -1,0 +1,49 @@
+wg-hybrid/hybrid_wireguard/trace_properties_sufficient_conditions/generate-offensive-models
+===========================================================================================
+
+The model file is generate-offensive-models.spthy in this directory.
+Theory: HybridWireGuard
+
+Paper
+-----
+Pascal Lafourcade 0001, Dhekra Mahmoud, Sylvain Ruhault, Abdul Rahman Taleb.
+A Tale of Two Worlds, a Formal Story of WireGuard Hybridization.
+USENIX Security Symposium, 2025, pages 4937-4956.
+URL:  https://www.usenix.org/conference/usenixsecurity25/presentation/lafourcade
+DBLP: https://dblp.org/rec/conf/uss/0001MRT25
+(Why this paper: README.)
+
+Online source
+-------------
+Archive: https://zenodo.org/api/records/16736982/files/artifacts-usenix-2025-wireguard-hybridization.zip/content
+  (the repository's DOI: https://doi.org/10.5281/zenodo.15551056)
+File in the archive: artifacts-usenix-2025-wireguard-hybridization/artifacts_evaluation/hybrid_wireguard/trace_properties_sufficient_conditions/generate-offensive-models.spthy
+Archive sha256: 7ccd000f2c785aa83318bceea5218742c57a2c40eb8c37b98488752f1e2273e7
+
+Files
+-----
+model:
+artifacts_evaluation/hybrid_wireguard/trace_properties_sufficient_conditions/generate-offensive-models.spthy
+-> generate-offensive-models.spthy
+  sha256 56a749af8d033edf860b1a37c5ca224fc8f20c939ad75a699c016c7e0650cb33
+
+License
+-------
+GPL-3.0 (README); Zenodo metadata says CC-BY-4.0. README states GNU GPL v3 and the Zenodo record
+states CC-BY-4.0; both allow redistribution (keep license text/attribution).
+The files are copied here unchanged; the license text is in models/wg-hybrid/README.md,
+models/wg-hybrid/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--prove=<lemma> generate-offensive-models.spthy
+Where the flags come from: no flags: the source gives none for this model.
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: 1.10.0 with Maude 3.5 (artifacts_evaluation/README.md)
+
+Lean side
+---------
+trace properties

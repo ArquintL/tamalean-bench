@@ -1,0 +1,48 @@
+tamarin/csf23-subterms/YellowDiffTest
+=====================================
+
+The model file is YellowDiffTest.spthy in this directory.
+Theory: YellowDiffTest
+
+Paper
+-----
+Cas Cremers, Charlie Jacomme, Philip Lukert.
+Subterm-Based Proof Techniques for Improving the Automation and Scope of Security Protocol
+Analysis.
+CSF, 2023, pages 200-213.
+DOI:  https://doi.org/10.1109/CSF57540.2023.00001
+DBLP: https://dblp.org/rec/conf/csfw/CremersJL23
+(Why this paper: directory name only (no README).)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32/examples/csf23-subterms/YellowDiffTest.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32
+Ref:        tag 1.10.0 (lightweight tag)
+
+Files
+-----
+model: examples/csf23-subterms/YellowDiffTest.spthy -> YellowDiffTest.spthy
+  sha256 ec4206df5ebc828fca19943ed3bdeee75d84fd184d2a11646e7d93add4ca660c
+
+License
+-------
+GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
+copies, mark any modifications, and keep the files under GPL-3.0.
+The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS --diff
+--prove=<lemma> YellowDiffTest.spthy
+Where the flags come from: --diff: the model states observational equivalence.
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: varies per directory (see models); Tamarin CI outputs at this
+tag (case-studies-regression/) were produced with Tamarin 1.9.0
+
+Lean side
+---------
+out of scope: observational equivalence (a diff model); Tamalean checks trace properties only

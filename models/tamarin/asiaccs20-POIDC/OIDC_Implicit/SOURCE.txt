@@ -1,0 +1,49 @@
+tamarin/asiaccs20-POIDC/OIDC_Implicit
+=====================================
+
+The model file is OIDC_Implicit.spthy in this directory.
+Theory: OIDC_Implicit
+
+Paper
+-----
+Sven Hammann, Ralf Sasse, David A. Basin.
+Privacy-Preserving OpenID Connect.
+AsiaCCS, 2020, pages 277-289.
+DOI:  https://doi.org/10.1145/3320269.3384724
+DBLP: https://dblp.org/rec/conf/ccs/HammannSB20
+(Why this paper: README.)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32/examples/asiaccs20-POIDC/OIDC_Implicit.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32
+Ref:        tag 1.10.0 (lightweight tag)
+
+Files
+-----
+model: examples/asiaccs20-POIDC/OIDC_Implicit.spthy -> OIDC_Implicit.spthy
+  sha256 45085477025fe7f797567e3c4f56700049592f89ea38348b70f274e0d8d881c0
+
+License
+-------
+GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
+copies, mark any modifications, and keep the files under GPL-3.0.
+The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--prove=<lemma> OIDC_Implicit.spthy
+Where the flags come from: no flags: the source gives none for this model.
+
+Measured for this benchmark: not run yet.
+
+Hardware the authors state: 2x Intel Xeon E5-2650 v4 @ 2.2 GHz, 256 GB RAM, 10 cores used
+(README)
+Tamarin version the authors used: 1.4.1 (git d2e1c573)
+Times stated in the file: Runtime < 1min using 10 threads
+
+Lean side
+---------
+trace properties

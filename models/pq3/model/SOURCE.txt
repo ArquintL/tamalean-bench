@@ -1,0 +1,53 @@
+pq3/model
+=========
+
+The model file is model.spthy in this directory.
+Theory: iMessagePQ3
+
+Paper
+-----
+Felix Linker, Ralf Sasse, David A. Basin.
+A Formal Analysis of Apple's iMessage PQ3 Protocol.
+USENIX Security Symposium, 2025, pages 5015-5034.
+URL:  https://www.usenix.org/conference/usenixsecurity25/presentation/linker
+DBLP: https://dblp.org/rec/conf/uss/LinkerSB25
+(Why this paper: README.)
+
+Online source
+-------------
+File:       https://github.com/tamarin-pq3/tamarin-pq3/blob/a33afa6f959b46683400416002415b154eb6f973/model.spthy
+Repository: https://github.com/tamarin-pq3/tamarin-pq3
+Commit:     a33afa6f959b46683400416002415b154eb6f973
+Ref:        main (HEAD); tags usenix-submission a97dccc9, usenix-revision 884b7d88,
+sp-submission cb161d48
+
+Files
+-----
+model: model.spthy -> model.spthy
+  sha256 c446d4f182db6d716f4424613d00aa570821eabc0cf7af5a21ee8ec003705cb7
+oracle: oracle.py -> oracle.py
+  sha256 82f0b01176c9e17ca68f731413fafce1072a39daca20e9d488eed2ef5f82346b
+
+License
+-------
+MIT. MIT (Copyright (c) 2025 Felix Linker, Ralf Sasse, David Basin): keep the copyright and
+permission notice.
+The files are copied here unchanged; the license text is in models/pq3/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--derivcheck-timeout=0 --prove=<lemma> model.spthy
+Where the flags come from: --derivcheck-timeout=0: the authors' command; the oracle is named in
+the theory file (no flag needed).
+
+Measured for this benchmark: not run yet.
+
+Reported by the authors: prove-auto.sh: 8h, 10 GB; prove-expensive.sh: 8h, 100 GB (README;
+elsewhere the README says the expensive lemma took around 1-2 days)
+Hardware the authors state: Ubuntu 24.04, 252 GB, 2x Intel Xeon E5-2650 v4 (48 threads) (README)
+Tamarin version the authors used: 1.8.0 with Maude 3.1 and 3.2.1 (README)
+
+Lean side
+---------
+trace properties

@@ -1,0 +1,49 @@
+tamarin/features/xor/diff-models/CH07-UK2
+=========================================
+
+The model file is CH07-UK2.spthy in this directory.
+Theory: CH07_untrac_weak
+
+Paper
+-----
+Jannik Dreier, Lucca Hirschi, Sasa Radomirovic, Ralf Sasse.
+Automated Unbounded Verification of Stateful Cryptographic Protocols with Exclusive OR.
+CSF, 2018, pages 359-373.
+DOI:  https://doi.org/10.1109/CSF.2018.00033
+DBLP: https://dblp.org/rec/conf/csfw/DreierHRS18
+(Why this paper: README of features/xor: obsolete versions of the csf18-xor models.)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32/examples/features/xor/diff-models/CH07-UK2.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32
+Ref:        tag 1.10.0 (lightweight tag)
+
+Files
+-----
+model: examples/features/xor/diff-models/CH07-UK2.spthy -> CH07-UK2.spthy
+  sha256 d4281c033ea18d76efde3fa2fe6ca9d2b2df65243f92d64dcf941bbb57915cea
+
+License
+-------
+GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
+copies, mark any modifications, and keep the files under GPL-3.0.
+The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS --diff
+--prove=<lemma> CH07-UK2.spthy
+Where the flags come from: --diff: the model states observational equivalence.
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: varies per directory (see models); Tamarin CI outputs at this
+tag (case-studies-regression/) were produced with Tamarin 1.9.0
+Times stated in the file: Observational Equivalence: PROVEN automatically, <=10 minutes; //
+Observational Equivalence: PROVEN automatically, <=10 minutes
+
+Lean side
+---------
+out of scope: observational equivalence (a diff model); Tamalean checks trace properties only

@@ -1,0 +1,845 @@
+theory iMessagePQ3
+begin
+
+/**
+
+Color semantics:
+
+- Yellow (#FDFD96)      Key setup/distribution
+- Red (#FF6961)         Adversary activity
+- Light blue (#B4D9EF)  Public key ratchet / session start
+- Dark blue (#6495ED)   Non-deterministic branching before public key ratchet
+- Orange (#FF7F50)      Symmetric ratchet
+
+ */
+
+heuristic: O "./oracle.py"
+
+restriction Eq:
+  "All a b #t. Eq(a, b) @ #t ==> a = b"
+
+restriction Neq:
+  "All a b #t. Neq(a, b) @ #t ==> not (a = b)"
+
+restriction OnlyOnce:
+  "All t #a #b. OnlyOnce(t) @ #a & OnlyOnce(t) @ #b ==> #a = #b"
+
+builtins: signing, symmetric-encryption, diffie-hellman, natural-numbers
+
+// KDFs and hash functions
+functions:  hkdf/2,   // intended use: hkdf(entropy, <info, salt>) or hkdf(entropy, salt) or hkdf(entropy, info)
+            suffix/1, // intended use: extract messageKey from chainKey
+            prefix/1,
+            concat/2,
+            h/1
+
+equations: concat(prefix(x), suffix(x)) = x
+
+// KEM
+functions: pqpk/1, encap/2, decap/2
+equations: decap(encap(k, pqpk(sk)), sk) = k
+
+// Handling of branches
+functions: default/2, Just/1, None/0, unjust/1
+equations: default(Just(v), t) = v, default(None, v) = v, unjust(Just(t)) = t
+
+// PQ Attacker
+rule PQAttackerStart[color=#FF6961]:
+  [] --[ PQAttack(), SomeCompromise() ]-> [ !PQAttacker() ]
+
+rule PQAttacker[color=#FF6961]:
+  [ !PQAttacker(), !NonPQSecKey(k) ] --> [ Out(k) ]
+
+restriction PQAttacker:
+  "All #compr #t. PQAttack() @ #compr & PrePQAttack() @ #t ==> #t < #compr"
+
+// Key Registration and Querying
+
+// A user generates keys and uploads them to the IDS.
+rule UserKeyGen[color=#FDFD96]:
+  let idPk = pk(~idKey)
+      ecdhPk = 'g'^~preKey
+      kemPk = pqpk(~kemPreKey)
+      sig = sign(<'nf_reg', kemPk, ecdhPk>, ~idKey)
+  in
+  [ Fr(~idKey), Fr(~preKey), Fr(~kemPreKey) ]
+  --[ PrePQAttack()
+    , OnlyOnce(<'setup', $A>)
+    , ECDHPreKeyGen($A, 'g'^~preKey)
+    , KemPreKeyGen($A, pqpk(~kemPreKey)) ]->
+  [ !IdentityKey($A, ~idKey)
+  , !ECDHPreKey($A, ~preKey)
+  , !KemPreKey($A, ~kemPreKey)
+  , Out(idPk), Out(ecdhPk), Out(kemPk), Out(sig)
+  , !IDSIdentityData($A, idPk)
+  , !IDSClientData($A, ecdhPk, kemPk, sig)
+  , !NonPQSecKey(~idKey)
+  , !NonPQSecKey(~preKey) ]
+
+rule IdentityKeyLeak[color=#FF6961]:
+  [ !IdentityKey($A, ~idKey) ]
+  --[ SomeCompromise()
+    , RevealIdentityKey($A) ]->
+  [ Out(~idKey) ]
+
+rule ECDHPreKeyLeak[color=#FF6961]:
+  [ !ECDHPreKey($A, ~preKey) ]
+  --[ SomeCompromise()
+    , RevealECDHPreKey($A, 'g'^~preKey) ]->
+  [ Out(~preKey) ]
+
+rule ECDHKeyLeak[color=#FF6961]:
+  [ !ECDHKey(~id, $A, ~ecdhSk) ]
+  --[ SomeCompromise()
+    , RevealECDHKey(~id, $A, 'g'^~ecdhSk) ]->
+  [ Out(~ecdhSk) ]
+
+rule KemPreKeyLeak[color=#FF6961]:
+  [ !KemPreKey($A, ~sk) ]
+  --[ SomeCompromise()
+    , RevealKemPreKey($A, pqpk(~sk)) ]->
+  [ Out(~sk) ]
+
+rule KemKeyLeak[color=#FF6961]:
+  [ !KemKey($A, ~kemKey) ]
+  --[ SomeCompromise()
+    , RevealKemKey($A, pqpk(~kemKey)) ]->
+  [ Out(~kemKey) ]
+
+rule RootKeyLeak[color=#FF6961]:
+  [ !RootKey(~id, i, $A, kemSS, rk) ]
+  --[ SomeCompromise()
+    , RevealRootKey($A, kemSS, rk) ]->
+    [ Out(rk) ]
+
+rule ChainKeyLeak[color=#FF6961]:
+  [ !ChainKey(~id, i, $A, ck) ]
+  --[ SomeCompromise()
+    , RevealChainKey($A, ck) ]->
+  [ Out(ck) ]
+
+lemma Auto_ChainKeySources[sources]:
+" All p t #x.
+        RevealChainKey(p, t) @ #x
+    ==> ( (Ex t1 t2. t = hkdf(t1, t2) & t2 = 'chain_key')
+        | (Ex t1 t2 t3. t = suffix(hkdf(hkdf(t1, t2), t3))))"
+
+rule MessageKeyLeak[color=#FF6961]:
+  [ !MessageKey(~id, i, $A, mk) ]
+  --[ SomeCompromise()
+    , RevealMessageKey($A, mk) ]->
+  [ Out(mk) ]
+
+rule QueryIDS[color=#FDFD96]:
+  [ !IDSIdentityData($A, idPk)
+  , !IDSClientData($A, prePk, kemPrePk, preKeySig) ]
+  --[ PrePQAttack()
+    , Eq(verify(preKeySig, <'nf_reg', kemPrePk, prePk>, idPk), true) ]->
+  [ IDSQuery($A, idPk, prePk, kemPrePk, preKeySig) ]
+
+/* ---- GENERAL DOCUMENTATION ---- */
+
+// Documentation on how session state is modelled.
+/**
+    Session(
+      // Session ID per participant.
+      ~id,
+      // Message index; index of the message that was sent/received last.
+      %i,
+      // Role that participant $Me is currently operating in: 'S' for sender,
+      // 'R' for receiver.
+      role,
+      // The participant that has this session state.
+      $Me,
+      // The last generated ECDH private key of $Me. Will be initialized with
+      // the pre-key from the IDS data (when initially receiver) or a fresh
+      // value (when initially sender), and updated on each public key ratchet.
+      // ratchet.
+      ~ecdhSk,
+      // The KEM secret key of $Me.
+      ~kemSk,
+      // The participant that $Me has a session with.
+      $Them,
+      // $Them's ID public key. Will be retrieved from the IDS data facts.
+      theirIdPk,
+      // $Them's last ECDH public key, analgous to ~ecdhSk.
+      theirEcdhPk,
+      // $Them's last KEM public key (of type maybe)
+      maybeTheirKemPk,
+      // $Them's new KEM public key. $Them might have included this key
+      // when they last performed the public key ratchet becoming a sender. We
+      // need to keep this key until $Me becomes sender again and will include a
+      // fresh KEM shared secret.
+      maybeTheirNewKemPk,
+      // The current KEM SS
+      kemSS,
+      // The KEM public key that was used to encapsulate the current KEM SS
+      encapPk,
+      // The root key that will be used in the next public key ratchet.
+      rootKey,
+      // The symmetric ratchet's chain key.
+      chainKey
+    )
+ */
+
+rule SessionStartAsASender[color=#B4D9EF]:
+  let dst             = <$Me, pk(~idKey), $Them, theirIdPk>
+      ecdhSS          = theirEcdhPk^~ecdhSk
+      kemPublicKey    = pqpk(~kemSk)
+      kemEncap        = encap(~kemSS, theirKemPk)
+      rkCK            = hkdf(hkdf(hkdf(ecdhSS, '0'), ~kemSS), dst)
+      chainKey        = suffix(rkCK)
+      preKeyHash      = h(<theirEcdhPk, theirKemPk, preKeySig>)
+      msgKey          = hkdf(chainKey, 'msg_key')
+      msgKeyIndicator = hkdf(msgKey, 'msg_key_ind')
+      nextChainKey    = hkdf(chainKey, 'chain_key')
+      ciphertext      = senc(~msg, msgKey)
+      body            = <'msg_sig', ciphertext, $AD, msgKeyIndicator, 'g'^~ecdhSk, %1, dst, None, Just(kemEncap), Just(preKeyHash)>
+      signature       = sign(body, ~idKey)
+  in
+  [ Fr(~id)
+  , !IdentityKey($Me, ~idKey)
+  , !KemPreKey($Me, ~kemSk)
+  , IDSQuery($Them, theirIdPk, theirEcdhPk, theirKemPk, preKeySig)
+  , Fr(~msg), Fr(~ecdhSk), Fr(~kemSS) ]
+  --[ PrePQAttack()
+    , SessionInfo(~id, %1, $Me, $Them)
+    , IdentityKeyQueried(~id, $Them, theirIdPk)
+    , SessionStart(theirIdPk)
+    , PublicKeyRatchet(theirIdPk, 'g'^~ecdhSk, theirEcdhPk, ecdhSS, pqpk(~kemSk), Just(theirKemPk), None, ~kemSS, theirKemPk, prefix(rkCK))
+    , PKRatchet()
+    , ToSender()
+    , MessageSent(~id, %1, $Me, $Them, ~msg, $AD)
+    , SessionSecrets('g'^~ecdhSk, theirEcdhPk, ~kemSS, theirKemPk, prefix(rkCK), chainKey, msgKey)
+    , KeysUsed(theirIdPk, 'g'^~ecdhSk, theirEcdhPk, ecdhSS, pqpk(~kemSk), Just(theirKemPk), None, ~kemSS, theirKemPk, prefix(rkCK), chainKey, msgKey)
+    , ECDHKeyGen(~id, $Me, $Them, 'g'^~ecdhSk)
+    , NewKemSS(~id, $Me, $Them, ~kemSS, theirKemPk)
+    , NewKemPublicKey(~id, $Me, $Them, Just(theirKemPk)) ]->
+  [ Out(<ciphertext, $AD, signature, 'g'^~ecdhSk, %1, msgKeyIndicator, None, Just(kemEncap), Just(preKeyHash)>)
+  , Session(~id, %1, 'S', $Me, ~ecdhSk, ~kemSk, $Them, theirIdPk, theirEcdhPk, Just(theirKemPk), None /* maybeTheirNewKemPk */, ~kemSS, theirKemPk, prefix(rkCK), nextChainKey)
+  , Out('g'^~ecdhSk)
+  , !NonPQSecKey(~ecdhSk)
+  , !RootKey(~id, %1, $Me, ~kemSS, prefix(rkCK))
+  , !ChainKey(~id, %1, $Me, chainKey)
+  , !MessageKey(~id, %1, $Me, msgKey)
+  , !ECDHKey(~id, $Me, ~ecdhSk) ]
+
+rule SendSymmetricRatchet[color=#FF7F50]:
+  let dst = <$Me, pk(~idKey), $Them, theirIdPk>
+      msgKey = hkdf(chainKey, 'msg_key')
+      msgKeyIndicator = hkdf(msgKey, 'msg_key_ind')
+      nextChainKey = hkdf(chainKey, 'chain_key')
+      ciphertext = senc(~msg, msgKey)
+      body = <'msg_sig', ciphertext, $AD, msgKeyIndicator, 'g'^~ecdhSk, %i %+ %1, dst, None /* maybeMyNewKemPk */, None /* maybeKemEncap */, None /* maybePreKeyHash */>
+      signature = sign(body, ~idKey)
+  in
+  [ !IdentityKey($Me, ~idKey)
+  , Fr(~msg)
+  , Session(~id, %i, 'S', $Me, ~ecdhSk, ~kemSk, $Them, theirIdPk, theirEcdhPk, maybeTheirKemPk, maybeTheirNewKemPk, kemSS, encapPk, rootKey, chainKey) ]
+  --[ PrePQAttack()
+    , SessionInfo(~id, %i %+ %1, $Me, $Them)
+    , MessageSent(~id, %i %+ %1, $Me, $Them, ~msg, $AD)
+    , SessionSecrets('g'^~ecdhSk, theirEcdhPk, kemSS, encapPk, rootKey, chainKey, msgKey)
+    , SymmetricRatchet()
+    , KeysUsed(theirIdPk, 'g'^~ecdhSk, theirEcdhPk, theirEcdhPk^~ecdhSk, pqpk(~kemSk), maybeTheirKemPk, maybeTheirNewKemPk, kemSS, encapPk, rootKey, chainKey, msgKey) ]->
+  [ Out(<ciphertext, $AD, signature, 'g'^~ecdhSk, %i %+ %1, msgKeyIndicator, None /* maybeMyNewKemPk */, None /* maybeKemEncap */, None /* maybePreKeyHash */>)
+  , Session(~id, %i %+ %1, 'S', $Me, ~ecdhSk, ~kemSk, $Them, theirIdPk, theirEcdhPk, maybeTheirKemPk, maybeTheirNewKemPk, kemSS, encapPk, rootKey, nextChainKey)
+  , !ChainKey(~id, %i %+ %1, $Me, chainKey)
+  , !MessageKey(~id, %i %+ %1, $Me, msgKey) ]
+
+rule ReceiverStart[color=#B4D9EF]:
+  let dst           = <$Them, theirIdPk, $Me, pk(~idKey)>
+      kemSS         = decap(kemEncap, ~kemSk)
+      ecdhSS        = theirEcdhPk^~ecdhSk
+      rkCK          = hkdf(hkdf(hkdf(ecdhSS, '0'), kemSS), dst)
+      chainKey      = suffix(rkCK)
+      msgKey        = hkdf(chainKey, 'msg_key')
+      nextChainKey  = hkdf(chainKey, 'chain_key')
+      // We pattern match the new KEM PK to None because the spec does not
+      // foresee including a new KEM key in the first message.
+      body          = <'msg_sig', ciphertext, $AD, msgKeyIndicator, theirEcdhPk, %1, dst, None /* maybeTheirNewKemPk */, Just(kemEncap), Just(preKeyHash)>
+  in
+  [ Fr(~id)
+  , In(<ciphertext, $AD, signature, theirEcdhPk, %1, msgKeyIndicator, None, Just(kemEncap), Just(preKeyHash)>)
+  , !IdentityKey($Me, ~idKey)
+  , !ECDHPreKey($Me, ~ecdhSk)
+  , !KemPreKey($Me, ~kemSk)
+  , IDSQuery($Them, theirIdPk, sprePk, skemPrePk, preKeySig) ]
+  --[ PrePQAttack()
+    , Neq(theirEcdhPk, DH_neutral)
+    , Neq(theirEcdhPk, 'g')
+    , Neq(kemSS, '0')
+    , Eq(verify(signature, body, theirIdPk), true)
+    , Eq(preKeyHash, h(<'g'^~ecdhSk, pqpk(~kemSk), sign(<'nf_reg', pqpk(~kemSk), 'g'^~ecdhSk>, ~idKey)>))
+    , Eq(msgKeyIndicator, hkdf(msgKey, 'msg_key_ind'))
+    , SessionInfo(~id, %1, $Me, $Them)
+    , IdentityKeyQueried(~id, $Them, theirIdPk)
+    , SessionStart(theirIdPk)
+    , PublicKeyRatchet(theirIdPk, 'g'^~ecdhSk, theirEcdhPk, ecdhSS, pqpk(~kemSk), None, None, kemSS, pqpk(~kemSk), prefix(rkCK))
+    , PKRatchet()
+    , ToReceiver()
+    , MessageReceived(~id, %1, $Them, $Me, sdec(ciphertext, msgKey), $AD)
+    , SessionSecrets('g'^~ecdhSk, theirEcdhPk, kemSS, pqpk(~kemSk), prefix(rkCK), chainKey, msgKey)
+    , DecapKemSS(~id, $Me, $Them, kemSS, pqpk(~kemSk))
+    , KeysUsed(theirIdPk, 'g'^~ecdhSk, theirEcdhPk, ecdhSS, pqpk(~kemSk), None, None, kemSS, pqpk(~kemSk), prefix(rkCK), chainKey, msgKey) ]->
+  [ Session(~id, %1, 'R', $Me, ~ecdhSk, ~kemSk, $Them, theirIdPk, theirEcdhPk, None, None, kemSS, pqpk(~kemSk), prefix(rkCK), nextChainKey)
+  , !RootKey(~id, %1, $Me, kemSS, prefix(rkCK))
+  , !ChainKey(~id, %1, $Me, chainKey)
+  , !MessageKey(~id, %1, $Me, msgKey) ]
+
+rule ReceiveSymmetricRatchet[color=#FF7F50]:
+  let dst = <$Them, theirIdPk, $Me, pk(~idKey)>
+      msgKey = hkdf(chainKey, 'msg_key')
+      nextChainKey = hkdf(chainKey, 'chain_key')
+      body = <'msg_sig', ciphertext, $AD, msgKeyIndicator, theirEcdhPk, %i %+ %1, dst, None, None, None>
+  in
+  [ !IdentityKey($Me, ~idKey)
+  , Session(~id, %i, 'R', $Me, ~ecdhSk, ~kemSk, $Them, theirIdPk, theirEcdhPk, maybeTheirKemPk, maybeTheirNewKemPk, kemSS, encapPk, rootKey, chainKey)
+  , In(<ciphertext, $AD, signature, theirEcdhPk, %i %+ %1, msgKeyIndicator, None, None, None>) ]
+  --[ PrePQAttack()
+    , Neq(theirEcdhPk, DH_neutral)
+    , Neq(theirEcdhPk, 'g')
+    , Eq(msgKeyIndicator, hkdf(msgKey, 'msg_key_ind'))
+    , Eq(verify(signature, body, theirIdPk), true)
+    , SessionInfo(~id, %i %+ %1, $Me, $Them)
+    , MessageReceived(~id, %i %+ %1, $Them, $Me, sdec(ciphertext, msgKey), $AD)
+    , SessionSecrets('g'^~ecdhSk, theirEcdhPk, kemSS, encapPk, rootKey, chainKey, msgKey)
+    , SymmetricRatchet()
+    , KeysUsed(theirIdPk, 'g'^~ecdhSk, theirEcdhPk, theirEcdhPk^~ecdhSk, pqpk(~kemSk), maybeTheirKemPk, maybeTheirNewKemPk, kemSS, encapPk, rootKey, chainKey, msgKey) ]->
+  [ Session(~id, %i %+ %1, 'R', $Me, ~ecdhSk, ~kemSk, $Them, theirIdPk, theirEcdhPk, maybeTheirKemPk, maybeTheirNewKemPk, kemSS, encapPk, rootKey, nextChainKey)
+  , !ChainKey(~id, %i %+ %1, $Me, chainKey)
+  , !MessageKey(~id, %i %+ %1, $Me, msgKey) ]
+
+// Direction change / public key ratchet
+
+// Non-deterministically decide whether to generate and include a new KEM SK as
+// sender.
+// Branch 1: Sample and send new KEM SK.
+rule SomeFreshKemSk[color=#6495ED]:
+  [ Fr(~newKemSk) ]
+  --[ PrePQAttack() ]->
+  [ NewKemKey($Me, $Them, Just(~newKemSk), Just(pqpk(~newKemSk)))
+  , !KemKey($Me, ~newKemSk) ]
+
+// Branch 2: Do not sample and send new KEM SK.
+rule NoFreshKemSk[color=#6495ED]:
+  [] --[ PrePQAttack() ]-> [ NewKemKey($Me, $Them, None, None) ]
+
+// This and the next rule perform the public key ratchet as the new sender and
+// generate a new KEM SS. They model that participant $Me (in the receiver role)
+// now wants to send a message and (via pattern matching) whether during the
+// last receiving phase the participant $Me received a new KEM public key from
+// their peer ($Them).
+// Branch 1: Sample new KEM SS.
+rule PublicKeyRatchetNewSenderSomeNewKemSS[color=#B4D9EF]:
+  let dst = <$Me, pk(~idKey), $Them, theirIdPk>
+      ecdhSS          = theirEcdhPk^~ecdhSk
+      kemEncap        = encap(~kemSS, theirKemPk)
+      rkCK            = hkdf(hkdf(hkdf(ecdhSS, rootKey), ~kemSS), dst)
+      chainKey        = suffix(rkCK)
+      msgKey          = hkdf(chainKey, 'msg_key')
+      msgKeyIndicator = hkdf(msgKey, 'msg_key_ind')
+      nextChainKey    = hkdf(chainKey, 'chain_key')
+      ciphertext      = senc(~msg, msgKey)
+      body            = <'msg_sig', ciphertext, $AD, msgKeyIndicator, 'g'^~ecdhSk, %i %+ %1, dst, maybeMyNewKemPk, Just(kemEncap), None>
+      signature       = sign(body, ~idKey)
+  in
+  [ Fr(~ecdhSk), Fr(~kemSS), Fr(~msg)
+  , !IdentityKey($Me, ~idKey)
+  , Session(~id, %i, 'R', $Me, discard0 /* ~ecdhSk */, ~oldKemSk, $Them, theirIdPk, theirEcdhPk, discard1 /* maybeTheirKemPk */, Just(theirKemPk), discard2 /* oldKemSS */, discard3 /* encapPk */, rootKey, discard4 /* chainKey */)
+  , NewKemKey($Me, $Them, maybeNewKemSk, maybeMyNewKemPk) ]
+  --[ PrePQAttack()
+    , SessionInfo(~id, %i %+ %1, $Me, $Them)
+    , PublicKeyRatchet(theirIdPk, 'g'^~ecdhSk, theirEcdhPk, ecdhSS, default(maybeMyNewKemPk, pqpk(~oldKemSk)), Just(theirKemPk), None, ~kemSS, theirKemPk, prefix(rkCK))
+    , PKRatchet()
+    , ToSender()
+    , MessageSent(~id, %i %+ %1, $Me, $Them, ~msg, $AD)
+    , SessionSecrets('g'^~ecdhSk, theirEcdhPk, ~kemSS, theirKemPk, prefix(rkCK), chainKey, msgKey)
+    , KeysUsed(theirIdPk, 'g'^~ecdhSk, theirEcdhPk, ecdhSS, default(maybeMyNewKemPk, pqpk(~oldKemSk)), Just(theirKemPk), None, ~kemSS, theirKemPk, prefix(rkCK), chainKey, msgKey)
+    , ECDHKeyGen(~id, $Me, $Them, 'g'^~ecdhSk)
+    , KemKeyGen(~id, $Me, $Them, maybeMyNewKemPk)
+    , NewKemSS(~id, $Me, $Them, ~kemSS, theirKemPk)
+    , PublicKeyRatchetNewSender(~id, %i %+ %1, $Me, $Them, rkCK) ]->
+  // The symmetric ratchet rule will send the message
+  [ Out(<ciphertext, $AD, signature, 'g'^~ecdhSk, %i %+ %1, msgKeyIndicator, maybeMyNewKemPk, Just(kemEncap), None /* maybePreKeyHash */>)
+  , Session(~id, %i %+ %1, 'S', $Me, ~ecdhSk, default(maybeNewKemSk, ~oldKemSk), $Them, theirIdPk, theirEcdhPk, Just(theirKemPk), None /* maybeTheirNewKemPk */, ~kemSS, theirKemPk /* encapPk */, prefix(rkCK), nextChainKey)
+  , Out('g'^~ecdhSk)
+  , !NonPQSecKey(~ecdhSk)
+  , !RootKey(~id, %i %+ %1, $Me, ~kemSS, prefix(rkCK))
+  , !ChainKey(~id, %i %+ %1, $Me, chainKey)
+  , !MessageKey(~id, %i %+ %1, $Me, msgKey)
+  , !ECDHKey(~id, $Me, ~ecdhSk) ]
+
+// Branch 2: Do not sample new KEM SS.
+rule PublicKeyRatchetNewSenderNoNewKemSS[color=#B4D9EF]:
+  let dst = <$Me, pk(~idKey), $Them, theirIdPk>
+      ecdhSS          = theirEcdhPk^~ecdhSk
+      rkCK            = hkdf(hkdf(hkdf(ecdhSS, rootKey), '0'), dst)
+      chainKey        = suffix(rkCK)
+      msgKey          = hkdf(chainKey, 'msg_key')
+      msgKeyIndicator = hkdf(msgKey, 'msg_key_ind')
+      nextChainKey    = hkdf(chainKey, 'chain_key')
+      ciphertext      = senc(~msg, msgKey)
+      body            = <'msg_sig', ciphertext, $AD, msgKeyIndicator, 'g'^~ecdhSk, %i %+ %1, dst, maybeMyNewKemPk, None /* maybeKemEncap */, None>
+      signature       = sign(body, ~idKey)
+  in
+  [ Fr(~ecdhSk), Fr(~msg)
+  , !IdentityKey($Me, ~idKey)
+  , Session(~id, %i, 'R', $Me, discard0 /* ~ecdhSk */, ~oldKemSk, $Them, theirIdPk, theirEcdhPk, maybeTheirKemPk, None /* maybeTheirNewKemPk */, kemSS, encapPk, rootKey, discard1 /* chainKey */)
+  , NewKemKey($Me, $Them, maybeNewKemSk, maybeMyNewKemPk) ]
+  --[ PrePQAttack()
+    , SessionInfo(~id, %i %+ %1, $Me, $Them)
+    , PublicKeyRatchet(theirIdPk, 'g'^~ecdhSk, theirEcdhPk, ecdhSS, default(maybeMyNewKemPk, pqpk(~oldKemSk)), maybeTheirKemPk, None, kemSS, encapPk, prefix(rkCK))
+    , PKRatchet()
+    , ToSender()
+    , MessageSent(~id, %i %+ %1, $Me, $Them, ~msg, $AD)
+    , SessionSecrets('g'^~ecdhSk, theirEcdhPk, kemSS, encapPk, prefix(rkCK), chainKey, msgKey)
+    , KeysUsed(theirIdPk, 'g'^~ecdhSk, theirEcdhPk, ecdhSS, default(maybeMyNewKemPk, pqpk(~oldKemSk)), maybeTheirKemPk, None, kemSS, encapPk, prefix(rkCK), chainKey, msgKey)
+    , ECDHKeyGen(~id, $Me, $Them, 'g'^~ecdhSk)
+    , KemKeyGen(~id, $Me, $Them, maybeMyNewKemPk)
+    , PublicKeyRatchetNewSender(~id, %i %+ %1, $Me, $Them, rkCK) ]->
+  // The symmetric ratchet rule will send the message
+  [ Out(<ciphertext, $AD, signature, 'g'^~ecdhSk, %i %+ %1, msgKeyIndicator, maybeMyNewKemPk, None /* maybeKemEncap */, None /* maybePreKeyHash */>)
+  , Session(~id, %i %+ %1, 'S', $Me, ~ecdhSk, default(maybeNewKemSk, ~oldKemSk), $Them, theirIdPk, theirEcdhPk, maybeTheirKemPk, None /* maybeTheirNewKemPk */, kemSS, encapPk, prefix(rkCK), nextChainKey)
+  , Out('g'^~ecdhSk)
+  , !NonPQSecKey(~ecdhSk)
+  , !RootKey(~id, %i %+ %1, $Me, kemSS, prefix(rkCK))
+  , !ChainKey(~id, %i %+ %1, $Me, chainKey)
+  , !MessageKey(~id, %i %+ %1, $Me, msgKey)
+  , !ECDHKey(~id, $Me, ~ecdhSk) ]
+
+// This and the next two rules model that participant $Me (in the sender role)
+// receives a message, which indicates to them that directions changed and makes
+// them perform the public key ratchet.
+// Branch 1: No new KEM SS.
+rule PublicKeyRatchetNewReceiverNoNewKemSS[color=#B4D9EF]:
+  let dst = <$Them, theirIdPk, $Me, pk(~idKey)>
+      ecdhSS = theirEcdhPk^~ecdhSk
+      rkCK = hkdf(hkdf(hkdf(ecdhSS, rootKey), '0'), dst)
+      chainKey = suffix(rkCK)
+      msgKey = hkdf(chainKey, 'msg_key')
+      nextChainKey = hkdf(chainKey, 'chain_key')
+      body = <'msg_sig', ciphertext, $AD, msgKeyIndicator, theirEcdhPk, %i %+ %1, dst, maybeTheirNewKemPk, None, None>
+  in
+  [ !IdentityKey($Me, ~idKey)
+  , Session(~id, %i, 'S', $Me, ~ecdhSk, ~kemSk, $Them, theirIdPk, discard1 /* theirEcdhPk */, maybeTheirKemPk, None /* maybeTheirNewKemPk */, kemSS, encapPk, rootKey, discard2 /* chainKey */)
+  , In(<ciphertext, $AD, signature, theirEcdhPk, %i %+ %1, msgKeyIndicator, maybeTheirNewKemPk, None /* maybeKemSS */, None /* maybePreKeyHash */>) ]
+  --[ PrePQAttack()
+    , Neq(theirEcdhPk, DH_neutral)
+    , Neq(theirEcdhPk, 'g')
+    , Eq(verify(signature, body, theirIdPk), true)
+    , Eq(msgKeyIndicator, hkdf(msgKey, 'msg_key_ind'))
+    , SessionInfo(~id, %i %+ %1, $Me, $Them)
+    , PublicKeyRatchet(theirIdPk, 'g'^~ecdhSk, theirEcdhPk, ecdhSS, pqpk(~kemSk), maybeTheirKemPk, maybeTheirNewKemPk, kemSS, encapPk, prefix(rkCK))
+    , PKRatchet()
+    , ToReceiver()
+    , NewKemPublicKey(~id, $Me, $Them, maybeTheirNewKemPk)
+    , MessageReceived(~id, %i %+ %1, $Them, $Me, sdec(ciphertext, msgKey), $AD)
+    , SessionSecrets('g'^~ecdhSk, theirEcdhPk, kemSS, encapPk, prefix(rkCK), chainKey, msgKey)
+    , KeysUsed(theirIdPk, 'g'^~ecdhSk, theirEcdhPk, ecdhSS, pqpk(~kemSk), maybeTheirKemPk, maybeTheirNewKemPk, kemSS, encapPk, prefix(rkCK), chainKey, msgKey)
+    , PublicKeyRatchetNewReceiver(~id, %i %+ %1, $Them, $Me, rkCK) ]->
+  [ Session(~id, %i %+ %1, 'R', $Me, ~ecdhSk, ~kemSk, $Them, theirIdPk, theirEcdhPk, maybeTheirKemPk, maybeTheirNewKemPk, kemSS, encapPk, prefix(rkCK), nextChainKey)
+  , !RootKey(~id, %i %+ %1, $Me, kemSS, prefix(rkCK))
+  , !ChainKey(~id, %i %+ %1, $Me, chainKey)
+  , !MessageKey(~id, %i %+ %1, $Me, msgKey) ]
+
+rule PublicKeyRatchetNewReceiverWithSomeNewKemSS[color=#B4D9EF]:
+  let dst = <$Them, theirIdPk, $Me, pk(~idKey)>
+      ecdhSS = theirEcdhPk^~ecdhSk
+      decap = decap(kemEncap, ~kemSk)
+      rkCK = hkdf(hkdf(hkdf(ecdhSS, rootKey), decap), dst)
+      chainKey = suffix(rkCK)
+      msgKey = hkdf(chainKey, 'msg_key')
+      nextChainKey = hkdf(chainKey, 'chain_key')
+      body = <'msg_sig', ciphertext, $AD, msgKeyIndicator, theirEcdhPk, %i %+ %1, dst, maybeTheirNewKemPk, Just(kemEncap), None>
+  in
+  [ !IdentityKey($Me, ~idKey)
+  , Session(~id, %i, 'S', $Me, ~ecdhSk, ~kemSk, $Them, theirIdPk, discard1 /* theirEcdhPk */, maybeTheirKemPk, None /* maybeTheirNewKemPk */, discard2 /* oldKemSS */, discard3 /* encapPk */, rootKey, discard4 /* chainKey */)
+  , In(<ciphertext, $AD, signature, theirEcdhPk, %i %+ %1, msgKeyIndicator, maybeTheirNewKemPk, Just(kemEncap), None>) ]
+  --[ PrePQAttack()
+    , Neq(theirEcdhPk, DH_neutral)
+    , Neq(theirEcdhPk, 'g')
+    , Neq(decap, '0')
+    , Eq(verify(signature, body, theirIdPk), true)
+    , Eq(msgKeyIndicator, hkdf(msgKey, 'msg_key_ind'))
+    , SessionInfo(~id, %i %+ %1, $Me, $Them)
+    , PublicKeyRatchet(theirIdPk, 'g'^~ecdhSk, theirEcdhPk, ecdhSS, pqpk(~kemSk), maybeTheirKemPk, maybeTheirNewKemPk, decap, pqpk(~kemSk), prefix(rkCK))
+    , PKRatchet()
+    , ToReceiver()
+    , NewKemPublicKey(~id, $Me, $Them, maybeTheirNewKemPk)
+    , MessageReceived(~id, %i %+ %1, $Them, $Me, sdec(ciphertext, msgKey), $AD)
+    , SessionSecrets('g'^~ecdhSk, theirEcdhPk, decap, pqpk(~kemSk), prefix(rkCK), chainKey, msgKey)
+    , KeysUsed(theirIdPk, 'g'^~ecdhSk, theirEcdhPk, ecdhSS, pqpk(~kemSk), maybeTheirKemPk, maybeTheirNewKemPk, decap, pqpk(~kemSk), prefix(rkCK), chainKey, msgKey)
+    , PublicKeyRatchetNewReceiver(~id, %i %+ %1, $Them, $Me, rkCK)
+    , DecapKemSS(~id, $Me, $Them, decap, pqpk(~kemSk)) ]->
+  [ Session(~id, %i %+ %1, 'R', $Me, ~ecdhSk, ~kemSk, $Them, theirIdPk, theirEcdhPk, maybeTheirKemPk, maybeTheirNewKemPk, decap, pqpk(~kemSk), prefix(rkCK), nextChainKey)
+  , !RootKey(~id, %i %+ %1, $Me, decap, prefix(rkCK))
+  , !ChainKey(~id, %i %+ %1, $Me, chainKey)
+  , !MessageKey(~id, %i %+ %1, $Me, msgKey) ]
+
+// Provable (manually). When solving for the first signature (following the
+// oracle), continue in case PublicKeyRatchetNewSenderSomeNewKemSS_case_3. Then,
+// when almost at the end, make sure to avoid the loop in the
+// SendSymmetricRatchet case.
+lemma ExecutabilityPublicKeyRatchetSomeNewKEMSS:
+  exists-trace
+  "Ex id i s r rk m ad #t.
+      PublicKeyRatchetNewReceiver(id, i, s, r, rk) @ #t
+    & (Ex decap pk. DecapKemSS(id, r, s, decap, pk) @ #t)
+    & MessageReceived(id, i, s, r, m, ad) @ #t
+    & (not Ex #x. SomeCompromise() @ #x)"
+
+// Provable (manually). Avoid the loop in the SendSymmetriccRatchet case at the
+// very end.
+lemma ExecutabilityPublicKeyRatchetNoNewKEMSS:
+  exists-trace
+  "Ex id i s r rk m ad #t.
+      PublicKeyRatchetNewReceiver(id, i, s, r, rk) @ #t
+    & (not Ex a b c d e. DecapKemSS(a, b, c, d, e) @ #t)
+    & MessageReceived(id, i, s, r, m, ad) @ #t
+    & (not Ex #x. SomeCompromise() @ #x)"
+
+lemma Auto_SessionStart[reuse,use_induction]:
+  "All id li me them theirIdPk a b c d e f g h i j k #t.
+        ( SessionInfo(id, li, me, them) @ #t
+        & KeysUsed(theirIdPk, a, b, c, d, e, f, g, h, i, j, k) @ #t)
+    ==> (Ex #x. SessionStart(theirIdPk) @ #x
+          & SessionInfo(id, %1, me, them) @ #x)"
+
+lemma Auto_SessionStartUnique[reuse]:
+  "All id a1 a2 b1 b2 #t1 #t2.
+        ( SessionInfo(id, %1, a1, b1) @ #t1
+        & SessionInfo(id, %1, a2, b2) @ #t2)
+    ==> #t1 = #t2"
+
+lemma Auto_ECDHSkOrigin[reuse,use_induction]:
+  "All id li me them myPk a b c d e f g h i j k #t.
+        ( SessionInfo(id, li, me, them) @ #t
+        & KeysUsed(a, myPk, b, c, d, e, f, g, h, i, j, k) @ #t)
+    ==> ( (Ex #x. ECDHKeyGen(id, me, them, myPk) @ #x & (#x < #t | #x = #t))
+        | (Ex #x. ECDHPreKeyGen(me, myPk) @ #x & #x < #t))"
+
+lemma Auto_RootKeyConnectionSend[reuse,use_induction]:
+  "All id i me them m ad theirIdPk myPk theirPk maybeNewKemPk ecdhSS myKemPk maybeTheirKemPk kemSS encapPk rk ck mk #t.
+        ( MessageSent(id, i, me, them, m, ad) @ #t
+        & SymmetricRatchet() @ #t
+        & KeysUsed(theirIdPk, myPk, theirPk, ecdhSS, maybeNewKemPk, myKemPk, maybeTheirKemPk, kemSS, encapPk, rk, ck, mk) @ #t)
+    ==> (Ex i2 #x.
+            SessionInfo(id, i2, me, them) @ #x
+          & PublicKeyRatchet(theirIdPk, myPk, theirPk, ecdhSS, maybeNewKemPk, myKemPk, maybeTheirKemPk, kemSS, encapPk, rk) @ #x
+          & ToSender() @ #x
+          & #x < #t
+          & i2 << i)"
+
+lemma Auto_RootKeyConnectionReceive[reuse,use_induction]:
+  "All id i me them m ad theirIdPk myPk theirPk ecdhSS myKemPk maybeTheirKemPk maybeNewKemPk kemSS encapPk rk ck mk #t.
+        ( MessageReceived(id, i, them, me, m, ad) @ #t
+        & SymmetricRatchet() @ #t
+        & KeysUsed(theirIdPk, myPk, theirPk, ecdhSS, myKemPk, maybeTheirKemPk, maybeNewKemPk, kemSS, encapPk, rk, ck, mk) @ #t)
+    ==> (Ex i2 #x.
+            SessionInfo(id, i2, me, them) @ #x
+          & PublicKeyRatchet(theirIdPk, myPk, theirPk, ecdhSS, myKemPk, maybeTheirKemPk, maybeNewKemPk, kemSS, encapPk, rk) @ #x
+          & ToReceiver() @ #x
+          & #x < #t
+          & i2 << i)"
+
+lemma Auto_RootKeyMonotonicity[reuse,use_induction]:
+  "All id li1 li2 me1 me2 them1 them2 a1 a2 b1 b2 c1 c2 d1 d2 e1 e2 f1 f2 g1 g2 h1 h2 i1 i2 rk1 rk2 j1 j2 k1 k2 #t1 #t2.
+        ( SessionInfo(id, li1, me1, them1) @ #t1
+        & KeysUsed(a1, b1, c1, d1, e1, f1, g1, h1, i1, rk1, j1, k1) @ #t1
+        & SessionInfo(id, li2, me2, them2) @ #t2
+        & KeysUsed(a2, b2, c2, d2, e2, f2, g2, h2, i2, rk2, j2, k2) @ #t2
+        & #t1 < #t2)
+    ==> (rk1 << rk2 | rk1 = rk2)"
+
+lemma Auto_ChainKeyMonotonicity[reuse,use_induction,hide_lemma=Auto_SessionStart,hide_lemma=Auto_SessionStartUnique,
+  hide_lemma=Auto_RootKeyConnectionSend,hide_lemma=Auto_ECDHSkOrigin,hide_lemma=Auto_RootKeyConnectionReceive,
+  hide_lemma=Auto_RootKeyMonotonicity]:
+  "All rkCK ck a b c d e f g h i j #t.
+        (KeysUsed(a, b, c, d, e, f, g, h, i, prefix(rkCK), ck, j) @ #t)
+    ==> (rkCK << ck)"
+
+lemma Auto_RootKeyConnectionInjectivity[reuse,use_induction,hide_lemma=Auto_RootKeyConnectionSend,
+  hide_lemma=Auto_RootKeyConnectionReceive,hide_lemma=Auto_ChainKeyMonotonicity]:
+  "All id i1 i2 me them theirIdPk myPk theirPk ecdhSS myKemPk maybeTheirKemPk maybeNewKemPk kemSS encapPk rk #t1 #t2.
+        ( SessionInfo(id, i1, me, them) @ #t1
+        & PublicKeyRatchet(theirIdPk, myPk, theirPk, ecdhSS, myKemPk, maybeTheirKemPk, maybeNewKemPk, kemSS, encapPk, rk) @ #t1
+        & SessionInfo(id, i2, me, them) @ #t2
+        & PublicKeyRatchet(theirIdPk, myPk, theirPk, ecdhSS, myKemPk, maybeTheirKemPk, maybeNewKemPk, kemSS, encapPk, rk) @ #t2)
+    ==> (#t1 = #t2)"
+
+lemma Auto_MkCkRelation[reuse,use_induction]:
+  "All a1 b1 c1 d1 e1 f1 g1 h1 i1 j1 a2 b2 c2 d2 e2 f2 g2 h2 i2 j2 ck1 ck2 mk #t1 #t2.
+        ( KeysUsed(a1, b1, c1, d1, e1, f1, g1, h1, i1, j1, ck1, mk) @ #t1
+        & KeysUsed(a2, b2, c2, d2, e2, f2, g2, h2, i2, j2, ck2, mk) @ #t2)
+    ==> ck1 = ck2"
+
+lemma Auto_CkRkRelation[reuse,use_induction]:
+  "All a1 b1 c1 d1 e1 f1 g1 h1 i1 j1 a2 b2 c2 d2 e2 f2 g2 h2 i2 j2 rk1 rk2 ck #t1 #t2.
+        ( KeysUsed(a1, b1, c1, d1, e1, f1, g1, h1, i1, rk1, ck, j1) @ #t1
+        & KeysUsed(a2, b2, c2, d2, e2, f2, g2, h2, i2, rk2, ck, j2) @ #t2)
+    ==> rk1 = rk2"
+
+lemma ECDHSSCompromise[reuse]:
+  "All id i me them m ad theirIdPk myPk theirPk ecdhSS myKemPk maybeTheirKemPk maybeNewKemPk kemSS encapPk rk ck mk #t1 #t2.
+        ( MessageSent(id, i, me, them, m, ad) @ #t1
+        & KeysUsed(theirIdPk, myPk, theirPk, ecdhSS, myKemPk, maybeTheirKemPk, maybeNewKemPk, kemSS, encapPk, rk, ck, mk) @ #t1
+        & KU(ecdhSS) @ #t2 )
+    ==> ( (Ex #x. RevealECDHPreKey(them, theirPk) @ #x)
+        | (Ex #x. RevealECDHKey(id, me, myPk) @ #x)
+        | (Ex id2 #x. RevealECDHKey(id2, them, theirPk) @ #x)
+        | (Ex #x. RevealIdentityKey(them) @ #x & #x < #t1)
+        | (Ex #x. PQAttack() @ #x))"
+
+lemma Auto_MyKemKeyOrigin[reuse,use_induction,hide_lemma=ECDHSSCompromise,
+  hide_lemma=Auto_SessionStart,hide_lemma=Auto_ECDHSkOrigin]:
+  "All id i me them theirIdPk myPk theirPk ecdhSS myKemPk maybeTheirKemPk maybeNewKemPk kemSS encapPk rk ck mk #t.
+        ( SessionInfo(id, i, me, them) @ #t
+        & KeysUsed(theirIdPk, myPk, theirPk, ecdhSS, myKemPk, maybeTheirKemPk, maybeNewKemPk, kemSS, encapPk, rk, ck, mk) @ #t
+        & not KemKeyGen(id, me, them, Just(myKemPk)) @ #t)
+    ==> ( (Ex #x. KemKeyGen(id, me, them, Just(myKemPk)) @ #x & #x < #t)
+        | (Ex #x. KemPreKeyGen(me, myKemPk) @ #x & #x < #t))"
+
+lemma Auto_MaybeNewKemKeyOrigin[reuse,use_induction,hide_lemma=ECDHSSCompromise,
+  hide_lemma=Auto_SessionStart,hide_lemma=Auto_ECDHSkOrigin,hide_lemma=Auto_MyKemKeyOrigin]:
+  "All id i me them theirIdPk myPk theirPk ecdhSS myKemPk maybeTheirKemPk newKemPk kemSS encapPk rk ck mk #t.
+        ( SessionInfo(id, i, me, them) @ #t
+        & KeysUsed(theirIdPk, myPk, theirPk, ecdhSS, myKemPk, maybeTheirKemPk, Just(newKemPk), kemSS, encapPk, rk, ck, mk) @ #t
+        & not NewKemPublicKey(id, me, them, Just(newKemPk)) @ #t)
+    ==> (Ex #x. NewKemPublicKey(id, me, them, Just(newKemPk)) @ #x & #x < #t)"
+
+lemma Auto_TheirKemKeyOrigin[reuse,use_induction,hide_lemma=ECDHSSCompromise,
+  hide_lemma=Auto_SessionStart,hide_lemma=Auto_ECDHSkOrigin,hide_lemma=Auto_MyKemKeyOrigin]:
+  "All id i me them theirIdPk myPk theirPk ecdhSS myKemPk theirKemPk maybeNewKemPk kemSS encapPk rk ck mk #t.
+        ( SessionInfo(id, i, me, them) @ #t
+        & KeysUsed(theirIdPk, myPk, theirPk, ecdhSS, myKemPk, Just(theirKemPk), maybeNewKemPk, kemSS, encapPk, rk, ck, mk) @ #t
+        & not NewKemPublicKey(id, me, them, Just(theirKemPk)) @ #t)
+    ==> (Ex #x. NewKemPublicKey(id, me, them, Just(theirKemPk)) @ #x & #x < #t)"
+
+lemma Auto_KemSSOrigin[reuse,use_induction,hide_lemma=ECDHSSCompromise,
+  hide_lemma=Auto_SessionStart,hide_lemma=Auto_ECDHSkOrigin,hide_lemma=Auto_MyKemKeyOrigin,
+  hide_lemma=Auto_MaybeNewKemKeyOrigin,hide_lemma=Auto_TheirKemKeyOrigin]:
+  "All id i me them theirIdPk myPk theirPk ecdhSS myKemPk maybeTheirKemPk maybeNewKemPk kemSS encapPk rk ck mk #t.
+        ( SessionInfo(id, i, me, them) @ #t
+        & KeysUsed(theirIdPk, myPk, theirPk, ecdhSS, myKemPk, maybeTheirKemPk, maybeNewKemPk, kemSS, encapPk, rk, ck, mk) @ #t
+        & not NewKemSS(id, me, them, kemSS, encapPk) @ #t
+        & not DecapKemSS(id, me, them, kemSS, encapPk) @ #t)
+    ==> ( (Ex #x. NewKemSS(id, me, them, kemSS, encapPk) @ #x & #x < #t)
+        | (Ex #x. DecapKemSS(id, me, them, kemSS, encapPk) @ #x & #x < #t))"
+
+lemma Auto_KemKeyOriginEncap[reuse,hide_lemma=ECDHSSCompromise,hide_lemma=Auto_SessionStart,
+  hide_lemma=Auto_ECDHSkOrigin,hide_lemma=Auto_KemSSOrigin]:
+  "All id i me them theirIdPk myPk theirPk ecdhSS myKemPk maybeTheirKemPk maybeNewKemPk kemSS encapPk rk ck mk #t.
+        ( SessionInfo(id, i, me, them) @ #t
+        & KeysUsed(theirIdPk, myPk, theirPk, ecdhSS, myKemPk, maybeTheirKemPk, maybeNewKemPk, kemSS, encapPk, rk, ck, mk) @ #t
+        & NewKemSS(id, me, them, kemSS, encapPk) @ #t
+        & not NewKemPublicKey(id, me, them, Just(encapPk)) @ #t)
+    ==> (Ex #x. NewKemPublicKey(id, me, them, Just(encapPk)) @ #x & #x < #t)"
+
+lemma Auto_KemKeyOriginDecap[reuse,hide_lemma=ECDHSSCompromise,hide_lemma=Auto_SessionStart,
+  hide_lemma=Auto_ECDHSkOrigin,hide_lemma=Auto_KemSSOrigin]:
+  "All id i me them theirIdPk myPk theirPk ecdhSS myKemPk maybeTheirKemPk maybeNewKemPk kemSS encapPk rk ck mk #t.
+        ( SessionInfo(id, i, me, them) @ #t
+        & KeysUsed(theirIdPk, myPk, theirPk, ecdhSS, myKemPk, maybeTheirKemPk, maybeNewKemPk, kemSS, encapPk, rk, ck, mk) @ #t
+        & DecapKemSS(id, me, them, kemSS, encapPk) @ #t)
+    ==> ( (Ex #x. KemKeyGen(id, me, them, Just(encapPk)) @ #x & #x < #t)
+        | (Ex #x. KemPreKeyGen(me, encapPk) @ #x & #x < #t))"
+
+// Provable (manually). One must instantiate the PublicKeyRatchet facts manually
+// in branches related to the session start and symmetric ratchet. In these
+// branches, first solve for a public key ratchet and then for the Session fact
+// in the premise of the new public key ratchet step.
+lemma RkFixesKEMSS[reuse,use_induction,hide_lemma=ECDHSSCompromise,
+  hide_lemma=Auto_SessionStart,hide_lemma=Auto_ECDHSkOrigin]:
+  "All rk kemSS1 kemSS2 a1 b1 c1 d1 e1 f1 g1 h1 i1 j1 a2 b2 c2 d2 e2 f2 g2 h2 i2
+    j2 id1 li1 me1 them1 id2 li2 me2 them2 #t1 #t2.
+        ( SessionInfo(id1, li1, me1, them1) @ #t1
+        & KeysUsed(a1, b1, c1, d1, e1, f1, g1, kemSS1, h1, rk, i1, j1) @ #t1
+        & SessionInfo(id2, li2, me2, them2) @ #t2
+        & KeysUsed(a2, b2, c2, d2, e2, f2, g2, kemSS2, h2, rk, i2, j2) @ #t2)
+    ==> (kemSS1 = kemSS2)"
+
+lemma Auto_RkFixesEcdhSS[reuse,use_induction,hide_lemma=Auto_MyKemKeyOrigin,hide_lemma=Auto_MaybeNewKemKeyOrigin,
+  hide_lemma=Auto_TheirKemKeyOrigin,hide_lemma=Auto_KemSSOrigin,hide_lemma=Auto_KemKeyOriginEncap,
+  hide_lemma=Auto_KemKeyOriginDecap,hide_lemma=RkFixesKEMSS,hide_lemma=ECDHSSCompromise]:
+  "All rk ecdhSS1 ecdhSS2 a1 b1 c1 d1 e1 f1 g1 h1 i1 j1 a2 b2 c2 d2 e2 f2 g2 h2 i2
+    j2 id1 li1 me1 them1 id2 li2 me2 them2 #t1 #t2.
+        ( SessionInfo(id1, li1, me1, them1) @ #t1
+        & KeysUsed(a1, b1, c1, ecdhSS1, d1, e1, f1, g1, h1, rk, i1, j1) @ #t1
+        & SessionInfo(id2, li2, me2, them2) @ #t2
+        & KeysUsed(a2, b2, c2, ecdhSS2, d2, e2, f2, g2, h2, rk, i2, j2) @ #t2)
+    ==> (ecdhSS1 = ecdhSS2)"
+
+// Provable (manually). Sometimes, the oracle does not pick out the right
+// signatures to solve for, and we cannot prioritize the application of the
+// lemma Auto_KemKeyOriginDecap as this can lead to infinite looping, i.e., must be
+// done manually. This is especially prevalent in branches where one must solve
+// for DecapKemSS.
+lemma KemSSCompromise[reuse,hide_lemma=ECDHSSCompromise,hide_lemma=Auto_ECDHSkOrigin,
+  hide_lemma=Auto_MyKemKeyOrigin,hide_lemma=Auto_MaybeNewKemKeyOrigin,hide_lemma=Auto_TheirKemKeyOrigin]:
+  "All id i me them theirIdPk myPk theirPk ecdhSS myKemPk maybeTheirKemPk maybeNewKemPk kemSS encapPk rk ck mk #t1 #t2.
+        ( SessionInfo(id, i, me, them) @ #t1
+        & KeysUsed(theirIdPk, myPk, theirPk, ecdhSS, myKemPk, maybeTheirKemPk, maybeNewKemPk, kemSS, encapPk, rk, ck, mk) @ #t1
+        & KU(kemSS) @ #t2)
+    ==> ( (Ex #x. RevealKemKey(me, encapPk) @ #x)
+        | (Ex #x. RevealKemKey(them, encapPk) @ #x)
+        | (Ex #x. RevealKemPreKey(me, encapPk) @ #x)
+        | (Ex #x. RevealKemPreKey(them, encapPk) @ #x)
+        | (Ex #x. RevealIdentityKey(them) @ #x & #x < #t1))"
+
+// Provable (manually). Be careful in cases of the symmetric ratchet.
+lemma CkCompromise[reuse,use_induction,hide_lemma=Auto_ECDHSkOrigin,hide_lemma=Auto_MyKemKeyOrigin,
+  hide_lemma=Auto_MaybeNewKemKeyOrigin,hide_lemma=Auto_TheirKemKeyOrigin,hide_lemma=KemKeyOrigin,
+  hide_lemma=Auto_KemSSOrigin,hide_lemma=ECDHSSCompromise]:
+  "All id li me them theirIdPk myPk theirPk ecdhSS myKemPk maybeTheirKemPk maybeNewKemPk kemSS encapPk rk ck mk #t1 #t2.
+        ( SessionInfo(id, li, me, them) @ #t1
+        & KeysUsed(theirIdPk, myPk, theirPk, ecdhSS, myKemPk, maybeTheirKemPk, maybeNewKemPk, kemSS, encapPk, rk, ck, mk) @ #t1
+        & KU(ck) @ #t2)
+    ==> ( (Ex ckC #x. RevealChainKey(me, ckC) @ #x
+            & (ckC << ck | ckC = ck))
+        | (Ex ckC #x. RevealChainKey(them, ckC) @ #x
+            & (ckC << ck | ckC = ck))
+        | (Ex rkCK #x. rk = prefix(rkCK) & !KU(rkCK) @ #x))"
+
+lemma Auto_RkFormat[reuse,use_induction]:
+  "All rk a b c d e f g h i k l #t.
+        KeysUsed(a, b, c, d, e, f, g, h, i, rk, k, l) @ #t
+    ==> Ex t. rk = prefix(t)"
+
+lemma Auto_RkSecretCompromiseECDH[reuse,hide_lemma=CkCompromise,hide_lemma=Auto_SessionStart,
+  hide_lemma=Auto_ECDHSkOrigin,hide_lemma=Auto_MyKemKeyOrigin,hide_lemma=Auto_MaybeNewKemKeyOrigin,
+  hide_lemma=Auto_TheirKemKeyOrigin,hide_lemma=Auto_KemSSOrigin,hide_lemma=Auto_KemKeyOriginEncap,
+  hide_lemma=Auto_KemKeyOriginDecap,hide_lemma=KemSSCompromise,hide_lemma=ECDHSSCompromise]:
+  "All id li me them theirIdPk myEcdhPk theirEcdhPk ecdhSS myKemPk maybeTheirKemPk maybeNewKemPk kemSS encapPk rkCK ck mk #t1 #t2.
+        ( SessionInfo(id, li, me, them) @ #t1
+        & KeysUsed(theirIdPk, myEcdhPk, theirEcdhPk, ecdhSS, myKemPk, maybeTheirKemPk, maybeNewKemPk, kemSS, encapPk, prefix(rkCK), ck, mk) @ #t1
+        & KU(rkCK) @ #t2)
+    ==> ( (Ex #x. RevealChainKey(me, suffix(rkCK)) @ #x)
+        | (Ex #x. RevealChainKey(them, suffix(rkCK)) @ #x)
+        | (Ex #x. !KU(ecdhSS) @ #x))"
+
+lemma Expensive_Auto_RkSecretCompromiseKemSS[reuse,use_induction,hide_lemma=Auto_SessionStart,hide_lemma=Auto_SessionStartUnique,
+  hide_lemma=Auto_ECDHSkOrigin,hide_lemma=ECDHSSCompromise,hide_lemma=Auto_MyKemKeyOrigin,
+  hide_lemma=Auto_MaybeNewKemKeyOrigin,hide_lemma=Auto_TheirKemKeyOrigin,hide_lemma=Auto_KemSSOrigin,
+  hide_lemma=Auto_KemKeyOriginEncap,hide_lemma=Auto_KemKeyOriginDecap,hide_lemma=Auto_RkFixesEcdhSS,
+  hide_lemma=CkCompromise,hide_lemma=Auto_RkSecretCompromiseECDH]:
+  "All id li me them theirIdPk myEcdhPk theirEcdhPk ecdhSS myKemPk maybeTheirKemPk maybeNewKemPk kemSS encapPk rkCK ck mk #t1 #t2.
+        ( SessionInfo(id, li, me, them) @ #t1
+        & KeysUsed(theirIdPk, myEcdhPk, theirEcdhPk, ecdhSS, myKemPk, maybeTheirKemPk, maybeNewKemPk, kemSS, encapPk, prefix(rkCK), ck, mk) @ #t1
+        & KU(rkCK) @ #t2)
+    ==> ( (Ex #x. !KU(kemSS) @ #x)
+        | (Ex rk #x. RevealRootKey(me, kemSS, rk) @ #x & rk << prefix(rkCK))
+        | (Ex rk #x. RevealRootKey(them, kemSS, rk) @ #x & rk << prefix(rkCK))
+        | ( (Ex ckC #x. RevealChainKey(me, ckC) @ #x & ckC = suffix(rkCK))
+          & ( (Ex rk #x. RevealRootKey(me, kemSS, rk) @ #x & rk = prefix(rkCK))
+            | (Ex rk #x. RevealRootKey(them, kemSS, rk) @ #x & rk = prefix(rkCK))))
+        | ( (Ex ckC #x. RevealChainKey(them, ckC) @ #x & ckC = suffix(rkCK))
+          & ( (Ex rk #x. RevealRootKey(me, kemSS, rk) @ #x & rk = prefix(rkCK))
+            | (Ex rk #x. RevealRootKey(them, kemSS, rk) @ #x & rk = prefix(rkCK)))))"
+
+// NOTE: The conjuncts on RevealRootKey abive are not needed for secrecy, but to
+// make the lemma provable by induction. When applying the IH, there will be
+// five cases (one for each disjunct). Cases 1-3 (instantiating KU(kemSS) and
+// RevealRootKey twice) will result in a contradiction immediately. Cases 4-5
+// (RevealChainKey twice) will not result in a contradiction, though, because
+// the reveal chain key will not equal suffix(rkCK) for the already instantiated
+// rule at timepoint #t1. However, in this case, the adversary must also access
+// a previous root key (expressed by the two respective conjuncts in the chain
+// key case). When using Auto_RootKeyMonotonicity, we know that this root key
+// must be a subterm of prefix(rkCK) and thus, we can derive a contradiction
+// to the disjuncts 2-3.
+
+// NOTE: This lemma is very close the Auto_ChainKeyMonotonicity, but I need this form
+// for Auto_MkCompromise. I decided to add it here instead of changing the
+// original one so that I don't need to reprove everything above.
+lemma Auto_ChainKeyMonotonicity2[reuse,use_induction,hide_lemma=Auto_SessionStart,hide_lemma=Auto_SessionStartUnique,
+  hide_lemma=Auto_RootKeyConnectionSend,hide_lemma=Auto_ECDHSkOrigin,hide_lemma=Auto_RootKeyConnectionReceive,
+  hide_lemma=Auto_RootKeyMonotonicity,hide_lemma=ECDHSSCompromise]:
+  "All rkCK ck a b c d e f g h i j #t.
+        (KeysUsed(a, b, c, d, e, f, g, h, i, prefix(rkCK), ck, j) @ #t)
+    ==> (suffix(rkCK) << ck | suffix(rkCK) = ck)"
+
+lemma Auto_MkCompromise[reuse,use_induction,hide_lemma=Auto_SessionStart,hide_lemma=Auto_SessionStartUnique,
+  hide_lemma=Auto_ECDHSkOrigin,hide_lemma=ECDHSSCompromise,hide_lemma=Auto_MyKemKeyOrigin,
+  hide_lemma=Auto_MaybeNewKemKeyOrigin,hide_lemma=Auto_TheirKemKeyOrigin,hide_lemma=Auto_KemSSOrigin,
+  hide_lemma=Auto_KemKeyOriginEncap,hide_lemma=Auto_KemKeyOriginDecap,hide_lemma=KemSSCompromise,
+  hide_lemma=CkCompromise,hide_lemma=Auto_RkSecretCompromiseECDH,hide_lemma=Expensive_Auto_RkSecretCompromiseKemSS]:
+  "All id sentI me them myEcdhPk theirEcdhPk kemSS encapPk rk chainKey msgKey #t1 #t2.
+        ( SessionInfo(id, sentI, me, them) @ #t1
+        & SessionSecrets(myEcdhPk, theirEcdhPk, kemSS, encapPk, rk, chainKey, msgKey) @ #t1
+        & !KU(msgKey) @ #t2)
+    ==> ( (Ex #x. !KU(chainKey) @ #x)
+        | (Ex #x. RevealMessageKey(me, msgKey) @ #x)
+        | (Ex #x. RevealMessageKey(them, msgKey) @ #x))"
+
+lemma Auto_Secrecy[hide_lemma=Auto_SessionStart,hide_lemma=Auto_SessionStartUnique,hide_lemma=Auto_ECDHSkOrigin,
+  hide_lemma=Auto_RootKeyConnectionSend,hide_lemma=Auto_RootKeyConnectionReceive,hide_lemma=Auto_MyKemKeyOrigin,
+  hide_lemma=Auto_MaybeNewKemKeyOrigin,hide_lemma=Auto_TheirKemKeyOrigin,hide_lemma=Auto_KemSSOrigin,
+  hide_lemma=Auto_KemKeyOriginEncap,hide_lemma=Auto_KemKeyOriginDecap]:
+  "All id sentI me them msg ad myEcdhPk theirEcdhPk kemSS encapPk rk chainKey msgKey #t.
+          // Whenever a message is sent...
+        ( MessageSent(id, sentI, me, them, msg, ad) @ #t
+        & SessionSecrets(myEcdhPk, theirEcdhPk, kemSS, encapPk, rk, chainKey, msgKey) @ #t)
+          // ...it remains confidential...
+    ==>   (not Ex #x. K(msg) @ #x)
+        | (Ex #x. RevealMessageKey(me, msgKey) @ #x)
+        | (Ex #x. RevealMessageKey(them, msgKey) @ #x)
+        | (Ex ckC #x. RevealChainKey(me, ckC) @ #x
+            & (ckC << chainKey | ckC = chainKey))
+        | (Ex ckC #x. RevealChainKey(them, ckC) @ #x
+            & (ckC << chainKey | ckC = chainKey))
+          // ...OR one of the long-term identity keys were compromised
+        | (Ex #x. RevealIdentityKey(them) @ #x & #x < #t)
+          // ...OR one ECDH key AND the KEM SS was compromised
+        | ( ( (Ex #x. PQAttack() @ #x)
+              // One ECDH key was compromised means that either the peer's ECDH
+              // pre-key was compromised...
+            | (Ex #x. RevealECDHPreKey(them, theirEcdhPk) @ #x)
+              // ...OR one of the ECDH keys that were used in the latest public key
+              // ratchet was compromised.
+            | (Ex #x. RevealECDHKey(id, me, myEcdhPk) @ #x)
+            | (Ex id2 #x. RevealECDHKey(id2, them, theirEcdhPk) @ #x))
+          & // The KEM SS being compromised means that the recently used KEM
+            // encapsulation key was compromised...
+            ( (Ex #x. RevealKemKey(me, encapPk) @ #x)
+            | (Ex #x. RevealKemKey(them, encapPk) @ #x)
+              // ...OR the initial recipient's KEM pre key was compromised.
+            | (Ex #x. RevealKemPreKey(me, encapPk) @ #x)
+            | (Ex #x. RevealKemPreKey(them, encapPk) @ #x)
+            | (Ex rkC #x. RevealRootKey(me, kemSS, rkC) @ #x & rkC << rk)
+            | (Ex rkC #x. RevealRootKey(them, kemSS, rkC) @ #x & rkC << rk)))"
+
+/* AUTHENTICATION BELOW */
+
+lemma Auto_NoninjectiveAgreement[hide_lemma=Auto_SessionStartUnique,hide_lemma=Auto_ECDHSkOrigin,
+  hide_lemma=Auto_RootKeyConnectionSend,hide_lemma=Auto_RootKeyConnectionReceive,hide_lemma=Auto_RootKeyMonotonicity,
+  hide_lemma=Auto_ChainKeyMonotonicity,hide_lemma=Auto_RootKeyConnectionInjectivity,hide_lemma=Auto_MkCkRelation,
+  hide_lemma=Auto_CkRkRelation,hide_lemma=ECDHSSCompromise,hide_lemma=Auto_MyKemKeyOrigin,
+  hide_lemma=Auto_MaybeNewKemKeyOrigin,hide_lemma=Auto_TheirKemKeyOrigin,hide_lemma=Auto_KemSSOrigin,
+  hide_lemma=Auto_KemKeyOriginEncap,hide_lemma=Auto_KemKeyOriginDecap,hide_lemma=KemSSCompromise,
+  hide_lemma=CkCompromise,hide_lemma=Auto_Secrecy,hide_lemma=RkFixesKEMSS,hide_lemma=Auto_RkFixesEcdhSS,
+  hide_lemma=Auto_RkFormat,hide_lemma=Auto_RkSecretCompromiseECDH,hide_lemma=Expensive_Auto_RkSecretCompromiseKemSS,
+  hide_lemma=Auto_ChainKeyMonotonicity2,hide_lemma=Auto_MkCompromise]:
+  "All id i s r m ad #t.
+        MessageReceived(id, i, s, r, m, ad) @ #t
+    ==>   (Ex id_ #x. MessageSent(id_, i, s, r, m, ad) @ #x & #x < #t)
+        | (Ex #x. RevealIdentityKey(s) @ #x & #x < #t)"
+
+lemma Auto_InjectiveMessageReceived[hide_lemma=ECDHSSCompromise,
+  hide_lemma=Auto_MyKemKeyOrigin,hide_lemma=Auto_MaybeNewKemKeyOrigin,hide_lemma=Auto_TheirKemKeyOrigin,
+  hide_lemma=Auto_KemSSOrigin,hide_lemma=Auto_KemKeyOriginEncap,hide_lemma=Auto_KemKeyOriginDecap,
+  hide_lemma=KemSSCompromise,hide_lemma=CkCompromise,hide_lemma=Auto_Secrecy,hide_lemma=RkFixesKEMSS,hide_lemma=Auto_RkFixesEcdhSS,
+  hide_lemma=Auto_RkFormat,hide_lemma=Auto_RkSecretCompromiseECDH,hide_lemma=Expensive_Auto_RkSecretCompromiseKemSS,
+  hide_lemma=Auto_ChainKeyMonotonicity2,hide_lemma=Auto_MkCompromise]:
+  "All id1 id2 i1 i2 s1 s2 r1 r2 m ad rEcdhPk1 sEcdhPk1 kemSS1 encapPk1 rk1 chainKey1
+      msgKey1 rEcdhPk2 sEcdhPk2 kemSS2 encapPk2 rk2 chainKey2 msgKey2 #t1 #t2.
+        ( MessageReceived(id1, i1, s1, r1, m, ad) @ #t1
+        & SessionSecrets(rEcdhPk1, sEcdhPk1, kemSS1, encapPk1, rk1, chainKey1, msgKey1) @ #t1
+        & MessageReceived(id2, i2, s2, r2, m, ad) @ #t2
+        & SessionSecrets(rEcdhPk2, sEcdhPk2, kemSS2, encapPk2, rk2, chainKey2, msgKey2) @ #t2)
+    ==> ( (#t1 = #t2)
+        | (rEcdhPk1 = rEcdhPk2 & msgKey1 = msgKey2 & s1 = s2 & r1 = r2 & Ex #x. ECDHPreKeyGen(r1, rEcdhPk1) @ #x)
+        | (Ex #x. RevealIdentityKey(s1) @ #x & #x < #t1)
+        | (Ex #x. RevealIdentityKey(s2) @ #x & #x < #t2))"
+
+end

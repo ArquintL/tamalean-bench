@@ -1,0 +1,309 @@
+theory testcases
+
+begin
+
+builtins: signing, multiset
+
+functions: agg/1 // a multiset of pair of signatures and numbers
+functions: false/0 //for the correctness definition
+
+// Public key infrastructure
+rule Register_pk:
+  [ Fr(~ltkA) ]
+--[ RegisterHonestKey(pk(~ltkA))
+  , Register($A, ~ltkA) ]->
+  [ !Ltk($A, ~ltkA)
+  , !Pk($A, pk(~ltkA))
+  ,  Out(pk(~ltkA)) ]
+//Testcases
+
+rule TwiceTheSameCorrectAgg_sameResult_HonestPk_1:
+  [ Fr(~m), !Ltk($A, ~sk) ]
+--[ VerifyAgg(agg(<sign(~m, ~sk), '1'>), <~m, pk(~sk), '1'>, true) ]-> 
+  [ TwiceTheSameCorrectAgg_sameResult_HonestPk_1(~m, ~sk) ]
+
+rule TwiceTheSameCorrectAgg_sameResult_HonestPk_2:
+  [ TwiceTheSameCorrectAgg_sameResult_HonestPk_1(~m, ~sk) ]
+--[ VerifyAgg(agg(<sign(~m, ~sk), '1'>), <~m, pk(~sk), '1'>, true),
+    TwiceTheSameCorrectAgg_sameResult_HonestPk() ]-> 
+  [ ]
+
+lemma TwiceTheSameCorrectAgg_sameResult_HonestPk:
+ exists-trace
+  "Ex #i. TwiceTheSameCorrectAgg_sameResult_HonestPk()@i"
+
+
+rule TwiceTheSameCorrectAgg_differentResult_HonestPk_1:
+  [ Fr(~m), !Ltk($A, ~sk) ]
+--[ VerifyAgg(agg(<sign(~m, ~sk), '1'>), <~m, pk(~sk), '1'>, true) ]-> 
+  [ TwiceTheSameCorrectAgg_differentResult_HonestPk_1(~m, ~sk) ]
+
+rule TwiceTheSameCorrectAgg_differentResult_HonestPk_2:
+  [ TwiceTheSameCorrectAgg_differentResult_HonestPk_1(~m, ~sk) ]
+--[ VerifyAgg(agg(<sign(~m, ~sk), '1'>), <~m, pk(~sk), '1'>, false),
+    TwiceTheSameCorrectAgg_differentResult_HonestPk() ]-> 
+  [ ]
+
+lemma TwiceTheSameCorrectAgg_differentResult_HonestPk:
+  "not (Ex #i. TwiceTheSameCorrectAgg_differentResult_HonestPk()@i)"
+
+
+rule TwiceTheSameCorrectAgg_sameResult_NonHonestPk_1:
+  [ Fr(~m), Fr(~sk) ]
+--[ VerifyAgg(agg(<sign(~m, ~sk), '1'>), <~m, pk(~sk), '1'>, true) ]-> 
+  [ TwiceTheSameCorrectAgg_sameResult_NonHonestPk_1(~m, ~sk) ]
+
+rule TwiceTheSameCorrectAgg_sameResult_NonHonestPk_2:
+  [ TwiceTheSameCorrectAgg_sameResult_NonHonestPk_1(~m, ~sk) ]
+--[ VerifyAgg(agg(<sign(~m, ~sk), '1'>), <~m, pk(~sk), '1'>, true),
+    TwiceTheSameCorrectAgg_sameResult_NonHonestPk() ]-> 
+  [ ]
+
+lemma TwiceTheSameCorrectAgg_sameResult_NonHonestPk:
+ exists-trace
+  "Ex #i. TwiceTheSameCorrectAgg_sameResult_NonHonestPk()@i"
+
+
+rule TwiceTheSameCorrectAgg_differentResult_NonHonestPk_1:
+  [ Fr(~m), Fr(~sk) ]
+--[ VerifyAgg(agg(<sign(~m, ~sk), '1'>), <~m, pk(~sk), '1'>, true) ]-> 
+  [ TwiceTheSameCorrectAgg_differentResult_NonHonestPk_1(~m, ~sk) ]
+
+rule TwiceTheSameCorrectAgg_differentResult_NonHonestPk_2:
+  [ TwiceTheSameCorrectAgg_differentResult_NonHonestPk_1(~m, ~sk) ]
+--[ VerifyAgg(agg(<sign(~m, ~sk), '1'>), <~m, pk(~sk), '1'>, false),
+    TwiceTheSameCorrectAgg_differentResult_NonHonestPk() ]-> 
+  [ ]
+
+lemma TwiceTheSameCorrectAgg_differentResult_NonHonestPk:
+  "not (Ex #i. TwiceTheSameCorrectAgg_differentResult_NonHonestPk()@i)"
+
+
+
+
+
+rule TwiceTheSameIncorrectAgg_sameResult_HonestPk_1:
+  [ Fr(~m), Fr(~n), !Ltk($A, ~sk), Fr(~n) ]
+--[ VerifyAgg(agg(<sign(~m, ~sk), '1'>), <~n, pk(~sk), '1'>, true) ]-> 
+  [ TwiceTheSameIncorrectAgg_sameResult_HonestPk_1(~m, ~sk, ~n) ]
+
+rule TwiceTheSameIncorrectAgg_sameResult_HonestPk_2:
+  [ TwiceTheSameIncorrectAgg_sameResult_HonestPk_1(~m, ~sk, ~n) ]
+--[ VerifyAgg(agg(<sign(~m, ~sk), '1'>), <~n, pk(~sk), '1'>, true),
+    TwiceTheSameIncorrectAgg_sameResult_HonestPk() ]-> 
+  [ ]
+
+lemma TwiceTheSameIncorrectAgg_sameResult_HonestPk:
+  "not (Ex #i. TwiceTheSameIncorrectAgg_sameResult_HonestPk()@i)"
+
+
+rule TwiceTheSameIncorrectAgg_differentResult_HonestPk_1:
+  [ Fr(~m), !Ltk($A, ~sk), Fr(~n) ]
+--[ VerifyAgg(agg(<sign(~m, ~sk), '1'>), <~n, pk(~sk), '1'>, true) ]-> 
+  [ TwiceTheSameIncorrectAgg_differentResult_HonestPk_1(~m, ~sk, ~n) ]
+
+rule TwiceTheSameIncorrectAgg_differentResult_HonestPk_2:
+  [ TwiceTheSameIncorrectAgg_differentResult_HonestPk_1(~m, ~sk, ~n) ]
+--[ VerifyAgg(agg(<sign(~m, ~sk), '1'>), <~n, pk(~sk), '1'>, false),
+    TwiceTheSameIncorrectAgg_differentResult_HonestPk() ]-> 
+  [ ]
+
+lemma TwiceTheSameIncorrectAgg_differentResult_HonestPk:
+  "not (Ex #i. TwiceTheSameIncorrectAgg_differentResult_HonestPk()@i)"
+
+
+rule TwiceTheSameIncorrectAgg_sameResult_NonHonestPk_1:
+  [ Fr(~m), Fr(~sk), Fr(~n) ]
+--[ VerifyAgg(agg(<sign(~m, ~sk), '1'>), <~n, pk(~sk), '1'>, true) ]-> 
+  [ TwiceTheSameIncorrectAgg_sameResult_NonHonestPk_1(~m, ~sk, ~n) ]
+
+rule TwiceTheSameIncorrectAgg_sameResult_NonHonestPk_2:
+  [ TwiceTheSameIncorrectAgg_sameResult_NonHonestPk_1(~m, ~sk, ~n) ]
+--[ VerifyAgg(agg(<sign(~m, ~sk), '1'>), <~n, pk(~sk), '1'>, true),
+    TwiceTheSameIncorrectAgg_sameResult_NonHonestPk() ]-> 
+  [ ]
+
+lemma TwiceTheSameIncorrectAgg_sameResult_NonHonestPk:
+ exists-trace
+  "Ex #i. TwiceTheSameIncorrectAgg_sameResult_NonHonestPk()@i"
+
+
+rule TwiceTheSameIncorrectAgg_differentResult_NonHonestPk_1:
+  [ Fr(~m), Fr(~sk), Fr(~n) ]
+--[ VerifyAgg(agg(<sign(~m, ~sk), '1'>), <~n, pk(~sk), '1'>, true) ]-> 
+  [ TwiceTheSameIncorrectAgg_differentResult_NonHonestPk_1(~m, ~sk, ~n) ]
+
+rule TwiceTheSameIncorrectAgg_differentResult_NonHonestPk_2:
+  [ TwiceTheSameIncorrectAgg_differentResult_NonHonestPk_1(~m, ~sk, ~n) ]
+--[ VerifyAgg(agg(<sign(~m, ~sk), '1'>), <~n, pk(~sk), '1'>, false),
+    TwiceTheSameIncorrectAgg_differentResult_NonHonestPk() ]-> 
+  [ ]
+
+lemma TwiceTheSameIncorrectAgg_differentResult_NonHonestPk:
+  "not (Ex #i. TwiceTheSameIncorrectAgg_differentResult_NonHonestPk()@i)"
+
+
+
+
+rule DifferentMessage_sameResultTrue_HonestPk_1:
+  [ Fr(~m), !Ltk($A, ~sk), Fr(~n) ]
+--[ VerifyAgg(agg(<sign(~m, ~sk), '1'>), <~m, pk(~sk), '1'>, true) ]-> 
+  [ DifferentMessage_sameResultTrue_HonestPk_1(~m, ~sk, ~n) ]
+
+rule DifferentMessage_sameResultTrue_HonestPk_2:
+  [ DifferentMessage_sameResultTrue_HonestPk_1(~m, ~sk, ~n) ]
+--[ VerifyAgg(agg(<sign(~n, ~sk), '1'>), <~n, pk(~sk), '1'>, true),
+    DifferentMessage_sameResultTrue_HonestPk() ]-> 
+  [ ]
+
+lemma DifferentMessage_sameResultTrue_HonestPk:
+ exists-trace
+  "Ex #i. DifferentMessage_sameResultTrue_HonestPk()@i"
+
+
+rule DifferentMessage_sameResultFalse_HonestPk_1:
+  [ Fr(~m), !Ltk($A, ~sk), Fr(~n) ]
+--[ VerifyAgg(agg(<sign(~m, ~sk), '1'>), <~m, pk(~sk), '1'>, false) ]-> 
+  [ DifferentMessage_sameResultFalse_HonestPk_1(~m, ~sk, ~n) ]
+
+rule DifferentMessage_sameResultFalse_HonestPk_2:
+  [ DifferentMessage_sameResultTrue_HonestPk_1(~m, ~sk, ~n) ]
+--[ VerifyAgg(agg(<sign(~n, ~sk), '1'>), <~n, pk(~sk), '1'>, false),
+    DifferentMessage_sameResultFalse_HonestPk() ]-> 
+  [ ]
+
+lemma DifferentMessage_sameResultFalse_HonestPk:
+  "not (Ex #i. DifferentMessage_sameResultFalse_HonestPk()@i)"
+
+
+rule DifferentMessage_differentResult_HonestPk_1:
+  [ Fr(~m), !Ltk($A, ~sk), Fr(~n) ]
+--[ VerifyAgg(agg(<sign(~m, ~sk), '1'>), <~m, pk(~sk), '1'>, false) ]-> 
+  [ DifferentMessage_differentResult_HonestPk_1(~m, ~sk, ~n) ]
+
+rule DifferentMessage_differentResult_HonestPk_2:
+  [ DifferentMessage_differentResult_HonestPk_1(~m, ~sk, ~n) ]
+--[ VerifyAgg(agg(<sign(~n, ~sk), '1'>), <~n, pk(~sk), '1'>, true),
+    DifferentMessage_differentResult_HonestPk() ]-> 
+  [ ]
+
+lemma DifferentMessage_differentResult_HonestPk:
+  "not (Ex #i. DifferentMessage_differentResult_HonestPk()@i)"
+
+
+
+rule DifferentMessage_sameResultTrue_NonHonestPk_1:
+  [ Fr(~m), Fr(~sk), Fr(~n) ]
+--[ VerifyAgg(agg(<sign(~m, ~sk), '1'>), <~m, pk(~sk), '1'>, true) ]-> 
+  [ DifferentMessage_sameResultTrue_NonHonestPk_1(~m, ~sk, ~n) ]
+
+rule DifferentMessage_sameResultTrue_NonHonestPk_2:
+  [ DifferentMessage_sameResultTrue_NonHonestPk_1(~m, ~sk, ~n) ]
+--[ VerifyAgg(agg(<sign(~n, ~sk), '1'>), <~n, pk(~sk), '1'>, true),
+    DifferentMessage_sameResultTrue_NonHonestPk() ]-> 
+  [ ]
+
+lemma DifferentMessage_sameResultTrue_NonHonestPk:
+ exists-trace
+  "Ex #i. DifferentMessage_sameResultTrue_NonHonestPk()@i"
+
+
+rule DifferentMessage_sameResultFalse_NonHonestPk_1:
+  [ Fr(~m), Fr(~sk), Fr(~n) ]
+--[ VerifyAgg(agg(<sign(~m, ~sk), '1'>), <~m, pk(~sk), '1'>, false) ]-> 
+  [ DifferentMessage_sameResultFalse_NonHonestPk_1(~m, ~sk, ~n) ]
+
+rule DifferentMessage_sameResultFalse_NonHonestPk_2:
+  [ DifferentMessage_sameResultTrue_NonHonestPk_1(~m, ~sk, ~n) ]
+--[ VerifyAgg(agg(<sign(~n, ~sk), '1'>), <~n, pk(~sk), '1'>, false),
+    DifferentMessage_sameResultFalse_NonHonestPk() ]-> 
+  [ ]
+
+lemma DifferentMessage_sameResultFalse_NonHonestPk:
+ exists-trace
+  "Ex #i. DifferentMessage_sameResultFalse_NonHonestPk()@i"
+
+
+rule DifferentMessage_differentResult_NonHonestPk_1:
+  [ Fr(~m), Fr(~sk), Fr(~n) ]
+--[ VerifyAgg(agg(<sign(~m, ~sk), '1'>), <~m, pk(~sk), '1'>, false) ]-> 
+  [ DifferentMessage_differentResult_NonHonestPk_1(~m, ~sk, ~n) ]
+
+rule DifferentMessage_differentResult_NonHonestPk_2:
+  [ DifferentMessage_differentResult_NonHonestPk_1(~m, ~sk, ~n) ]
+--[ VerifyAgg(agg(<sign(~n, ~sk), '1'>), <~n, pk(~sk), '1'>, true),
+    DifferentMessage_differentResult_NonHonestPk() ]-> 
+  [ ]
+
+lemma DifferentMessage_differentResult_NonHonestPk:
+ exists-trace
+  "Ex #i. DifferentMessage_differentResult_NonHonestPk()@i"
+
+//Restrictions:
+//=============
+
+//Restrictions to define the aggregation
+//--------------------------------------
+restriction Verification_Correctness_morePrecise: 
+  "All aggregation mAndPk #i. VerifyAgg(aggregation, mAndPk, false)@i
+    ==> ((Ex si nr thetaAgg mi ski thetaMPk.
+          VerifyAgg(agg(<si, nr>+thetaAgg), <mi, pk(ski), nr> + thetaMPk, false)@i
+	  & (not(si = sign(mi, ski)) | not(Ex #j. RegisterHonestKey(pk(ski))@j) ))
+        |(Ex si nr mi ski.
+          VerifyAgg(agg(<si, nr>), <mi, pk(ski), nr>, false)@i
+	& (not (si = sign(mi, ski)) | not(Ex #j. RegisterHonestKey(pk(ski))@j))))"
+
+restriction Verification_Secure:
+  "All si thetaAgg mi ski nr thetaMPk #i. 
+    VerifyAgg(agg(<si, nr>+thetaAgg), 
+         <mi, pk(ski), nr> + thetaMPk, true)@i 
+    ==> (not (Ex #j. RegisterHonestKey(pk(ski))@j)
+      | sign(mi, ski) = si)"
+
+restriction Consistency:
+  "All aggregation messagesAndKeys result1 result2 #t1 #t2.
+    VerifyAgg(aggregation, messagesAndKeys, result1)@t1 & VerifyAgg(aggregation, messagesAndKeys, result2)@t2
+  ==> result1 = result2"
+
+restriction OneSignaturePerMessageKeyPair:
+  "All aggregation mi ski nr thetaMPk #i. VerifyAgg(aggregation, <mi, pk(ski), nr> + thetaMPk, true)@i
+  ==> Ex si thetaAgg. VerifyAgg(agg(<si, nr>+thetaAgg), <mi, pk(ski), nr> + thetaMPk, true)@i"
+
+restriction OneMessageKeyPairPerSignature:
+  "All si thetaAgg nr messagesKeys #i. VerifyAgg(agg(<si, nr>+thetaAgg), messagesKeys, true)@i
+  ==> Ex mi ski thetaMPk. messagesKeys = <mi, pk(ski), nr> + thetaMPk" 
+
+//One Signature restrictions
+restriction Verification_Secure_OneSignature:
+  "All si mi ski nr #i. 
+    VerifyAgg(agg(<si, nr>), <mi, pk(ski), nr>, true)@i 
+      ==> (not (Ex #j. RegisterHonestKey(pk(ski))@j)
+        | sign(mi, ski) = si)"
+
+restriction OneSignaturePerMessageKeyPair_OneSignature:
+  "All aggregation mi ski nr #i. VerifyAgg(aggregation, <mi, pk(ski), nr>, true)@i
+  ==> Ex si. VerifyAgg(agg(<si, nr>), <mi, pk(ski), nr>, true)@i"
+
+restriction OneMessageKeyPairPerSignature_OneSignature:
+  "All si nr messagesKeys #i. VerifyAgg(agg(<si, nr>), messagesKeys, true)@i
+  ==> Ex mi ski. messagesKeys = <mi, pk(ski), nr>"
+
+//to ensure that the numbers are unique
+restriction NumbersSignatureUnique:
+  "not(Ex si sj nr theta messagesAndKeys #i.
+    VerifyAgg(agg(<si, nr>+<sj, nr>+theta), messagesAndKeys, true)@i)"
+
+restriction NumbersMessageUnique:
+  "not(Ex aggregation mi pki nr mj pkj theta #i.
+    VerifyAgg(aggregation, <mi, pki, nr>+<mj, pkj, nr>+theta, true)@i)"
+
+//case two signatures
+restriction NumbersSignatureUnique_TwoSignatures:
+  "not(Ex si sj nr messagesAndKeys #i.
+    VerifyAgg(agg(<si, nr>+<sj, nr>), messagesAndKeys, true)@i)"
+
+restriction NumbersMessageUnique_TwoSignatures:
+  "not(Ex aggregation mi pki nr mj pkj #i.
+    VerifyAgg(aggregation, <mi, pki, nr>+<mj, pkj, nr>, true)@i)"
+
+ end

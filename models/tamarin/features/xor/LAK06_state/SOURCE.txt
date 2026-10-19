@@ -1,0 +1,49 @@
+tamarin/features/xor/LAK06_state
+================================
+
+The model file is LAK06_state.spthy in this directory.
+Theory: LAK06_state
+
+Paper
+-----
+Jannik Dreier, Lucca Hirschi, Sasa Radomirovic, Ralf Sasse.
+Automated Unbounded Verification of Stateful Cryptographic Protocols with Exclusive OR.
+CSF, 2018, pages 359-373.
+DOI:  https://doi.org/10.1109/CSF.2018.00033
+DBLP: https://dblp.org/rec/conf/csfw/DreierHRS18
+(Why this paper: README of features/xor: obsolete versions of the csf18-xor models.)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32/examples/features/xor/LAK06_state.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32
+Ref:        tag 1.10.0 (lightweight tag)
+
+Files
+-----
+model: examples/features/xor/LAK06_state.spthy -> LAK06_state.spthy
+  sha256 7730cbf8c724291f838071dc114c757f6ea2631f0ebba5fffa2577a0b944dd73
+oracle: examples/features/xor/LAK06_state.oracle -> LAK06_state.oracle
+  sha256 21affcd714a61cee86e9085a05938cdb0cd8095e5162b8468a1b0ab65ed633d5
+
+License
+-------
+GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
+copies, mark any modifications, and keep the files under GPL-3.0.
+The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--heuristic=O --oraclename=LAK06_state.oracle --prove=<lemma> LAK06_state.spthy
+Where the flags come from: --heuristic=O --oraclename: the directory's README.
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: varies per directory (see models); Tamarin CI outputs at this
+tag (case-studies-regression/) were produced with Tamarin 1.9.0
+
+Lean side
+---------
+trace properties

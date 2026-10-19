@@ -1,0 +1,54 @@
+tamarin/accountability/csf21-acc-unbounded/mixnets/message-tracing/dmn-message-tracing-first-1
+==============================================================================================
+
+The model file is dmn-message-tracing-first-1.spthy in this directory.
+Theory: DMNMessageTracingFirst1
+
+Paper
+-----
+Kevin Morio, Robert Künnemann.
+Verifying Accountability for Unbounded Sets of Participants.
+CSF, 2021, pages 1-16.
+DOI:  https://doi.org/10.1109/CSF51468.2021.00032
+DBLP: https://dblp.org/rec/conf/csfw/MorioK21
+(Why this paper: README of accountability/csf21-acc-unbounded.)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32/examples/accountability/csf21-acc-unbounded/mixnets/message-tracing/dmn-message-tracing-first-1.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32
+Ref:        tag 1.10.0 (lightweight tag)
+
+Files
+-----
+model:
+examples/accountability/csf21-acc-unbounded/mixnets/message-tracing/dmn-message-tracing-first-1.spthy
+-> dmn-message-tracing-first-1.spthy
+  sha256 6892fab84301f1f648844c5c3ea90ac836f018053322b54217a3d4b3a42f9514
+oracle:
+examples/accountability/csf21-acc-unbounded/mixnets/message-tracing/oracle-dmn-message-tracing
+-> oracle-dmn-message-tracing
+  sha256 f67dbb9c0091646d2c4ed574d7354c12c1d3d1cbd2e87a0b5924434c5ba80934
+
+License
+-------
+GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
+copies, mark any modifications, and keep the files under GPL-3.0.
+The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--stop-on-trace=seqdfs --prove=<lemma> dmn-message-tracing-first-1.spthy
+Where the flags come from: --stop-on-trace=seqdfs: the authors' command; the oracle is named in
+the theory file (no flag needed).
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: varies per directory (see models); Tamarin CI outputs at this
+tag (case-studies-regression/) were produced with Tamarin 1.9.0
+
+Lean side
+---------
+trace properties

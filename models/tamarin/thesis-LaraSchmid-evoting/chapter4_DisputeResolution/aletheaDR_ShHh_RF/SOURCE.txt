@@ -1,0 +1,51 @@
+tamarin/thesis-LaraSchmid-evoting/chapter4_DisputeResolution/aletheaDR_ShHh_RF
+==============================================================================
+
+The model file is aletheaDR_ShHh_RF.spthy in this directory.
+Theory: aletheaDR_ShHh_RF
+
+Paper
+-----
+Lara Schmid.
+Advancing the Formal Foundations for Voting Protocols.
+ETH Zurich, Zürich, Switzerland, 2020.
+DOI:  https://doi.org/10.3929/ETHZ-B-000418853
+DBLP: https://dblp.org/rec/phd/basesearch/Schmid20
+(Why this paper: README.)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32/examples/thesis-LaraSchmid-evoting/chapter4_DisputeResolution/aletheaDR_ShHh_RF.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32
+Ref:        tag 1.10.0 (lightweight tag)
+
+Files
+-----
+model: examples/thesis-LaraSchmid-evoting/chapter4_DisputeResolution/aletheaDR_ShHh_RF.spthy ->
+aletheaDR_ShHh_RF.spthy
+  sha256 d75268d69eafd1ca73daf89ee0ac94097eb40eb64ced9f781112d2ea2bfe9c06
+oracle: examples/thesis-LaraSchmid-evoting/chapter4_DisputeResolution/o_aletheaDR_ShHh_RF ->
+o_aletheaDR_ShHh_RF
+  sha256 53b0c5efe11280fe5768cebbcdffe564e66d76884cb43dcd7b38b448bb789024
+
+License
+-------
+GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
+copies, mark any modifications, and keep the files under GPL-3.0.
+The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS --diff
+--heuristic=O --oraclename=o_aletheaDR_ShHh_RF --prove=<lemma> aletheaDR_ShHh_RF.spthy
+Where the flags come from: --diff: the model states observational equivalence; --heuristic=O
+--oraclename: the directory's README.
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: 1.5.1 (git 1b68093f) (README)
+
+Lean side
+---------
+out of scope: observational equivalence (a diff model); Tamalean checks trace properties only

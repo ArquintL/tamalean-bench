@@ -1,0 +1,57 @@
+tamarin/related_work/TPM_DKRS_CSF11/TPM_Exclusive_Secrets
+=========================================================
+
+The model file is TPM_Exclusive_Secrets.spthy in this directory.
+Theory: TPM_Exclusive_Secrets
+
+Paper
+-----
+Simon Meier, Benedikt Schmidt 0002, Cas Cremers, David A. Basin.
+The TAMARIN Prover for the Symbolic Analysis of Security Protocols.
+CAV, 2013, pages 696-701.
+DOI:  https://doi.org/10.1007/978-3-642-39799-8_48
+DBLP: https://dblp.org/rec/conf/cav/MeierSCB13
+(Why this paper: headers cite the original related-work paper, not a Tamarin publication ->
+Tamarin tool paper cited instead.)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32/examples/related_work/TPM_DKRS_CSF11/TPM_Exclusive_Secrets.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32
+Ref:        tag 1.10.0 (lightweight tag)
+
+Files
+-----
+model: examples/related_work/TPM_DKRS_CSF11/TPM_Exclusive_Secrets.spthy ->
+TPM_Exclusive_Secrets.spthy
+  sha256 fa5d82ea2d582f71eb1b826c06d51d3295b3b8a97a7ad11145cc9db3eef4737f
+
+License
+-------
+GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
+copies, mark any modifications, and keep the files under GPL-3.0.
+The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--prove=<lemma> TPM_Exclusive_Secrets.spthy
+Where the flags come from: no flags: the source gives none for this model.
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: varies per directory (see models); Tamarin CI outputs at this
+tag (case-studies-regression/) were produced with Tamarin 1.9.0
+Tamarin's own CI
+(case-studies-regression/related_work/TPM_DKRS_CSF11/TPM_Exclusive_Secrets_analyzed.spthy):
+processing time 1.26 s with Tamarin 1.9.0, flags --prove --stop-on-trace=dfs, on Tamarin CI at
+tag 1.10.0: i5-10400, 12 threads, 64 GB, +RTS -N3
+Tamarin's own CI
+(case-studies-regression/fast-tests/related_work/TPM_DKRS_CSF11/TPM_Exclusive_Secrets_analyzed.spthy):
+processing time 1.31 s with Tamarin 1.9.0, flags --prove --stop-on-trace=dfs, on Tamarin CI at
+tag 1.10.0: i5-10400, 12 threads, 64 GB, +RTS -N3
+
+Lean side
+---------
+trace properties

@@ -1,0 +1,55 @@
+one-for-all/aggregate_signature_models/AttackScenarios/3_ValidationModel_RoguePublicKeyAttack
+=============================================================================================
+
+The model file is 3_ValidationModel_RoguePublicKeyAttack.spthy in this directory.
+Theory: AggregateSignature_ValidationModel_WithRoguePublicKeyAttack
+
+Paper
+-----
+Xenia Hofmeier, Andrea Raguso, Ralf Sasse, Dennis Jackson, David A. Basin.
+One For All: Formally Verifying Protocols which use Aggregate Signatures.
+CSF, 2025, pages 347-362.
+DOI:  https://doi.org/10.1109/CSF64896.2025.00027
+DBLP: https://dblp.org/rec/conf/csfw/HofmeierRSJB25
+(Why this paper: README of the Zenodo artifact.)
+
+Online source
+-------------
+Archive: https://zenodo.org/api/records/15357178/files/tamarin-aggregate-signatures.zip/content
+  (the repository's DOI: https://doi.org/10.5281/zenodo.15357178)
+File in the archive: tamarin-aggregate-signatures/aggregate_signature_models/AttackScenarios/3_ValidationModel_RoguePublicKeyAttack.spthy
+Archive sha256: 101a4756c17638c7e076ad76e7bfc69a6f4fdbba8dbe6da86ff0d0aeb36d7268
+
+Files
+-----
+model: aggregate_signature_models/AttackScenarios/3_ValidationModel_RoguePublicKeyAttack.spthy
+-> 3_ValidationModel_RoguePublicKeyAttack.spthy
+  sha256 3049d8bc70ab7c52ffb175f70c9f204a7a86437d4aab80bb0eb46842040e275e
+oracle: aggregate_signature_models/AttackScenarios/3_ValidationModel_RoguePublicKeyAttack.oracle
+-> 3_ValidationModel_RoguePublicKeyAttack.oracle
+  sha256 5567eecaa949513b9814d38225cfcdebecfd3e181ab6beee8cb79a550397cff4
+
+License
+-------
+MIT. MIT (Copyright (c) 2025 Xenia Hofmeier, Andrea Raguso, Ralf Sasse, Dennis Jackson, David
+Basin): keep the copyright and permission notice.
+The files are copied here unchanged; the license text is in models/one-for-all/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--heuristic=O --oraclename=3_ValidationModel_RoguePublicKeyAttack.oracle --prove=<lemma>
+3_ValidationModel_RoguePublicKeyAttack.spthy
+Where the flags come from: --heuristic=O --oraclename: the directory's README.
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: aggregate_signature_models: Tamarin development version
+compiled 2021-03-05 (README); SANA models: 1.8.0 (f172d7f0), 1.9.0 (86014ad1) or 1.11.0
+(a6df687a, develop) per each folder's Notes.md
+Times stated in the file: Disproof with oracle takes about 20 seconds; lemma
+showZeroSplitting_WorseCase_falsified://Disproof with oracle takes about 20 seconds
+
+Lean side
+---------
+trace properties

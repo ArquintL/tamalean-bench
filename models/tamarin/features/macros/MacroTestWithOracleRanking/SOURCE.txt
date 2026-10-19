@@ -1,0 +1,54 @@
+tamarin/features/macros/MacroTestWithOracleRanking
+==================================================
+
+The model file is macros/MacroTestWithOracleRanking.spthy in this directory.
+Theory: OracleRanking
+
+Paper
+-----
+Simon Meier, Benedikt Schmidt 0002, Cas Cremers, David A. Basin.
+The TAMARIN Prover for the Symbolic Analysis of Security Protocols.
+CAV, 2013, pages 696-701.
+DOI:  https://doi.org/10.1007/978-3-642-39799-8_48
+DBLP: https://dblp.org/rec/conf/cav/MeierSCB13
+(Why this paper: feature tests, no paper -> Tamarin tool paper cited instead.)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32/examples/features/macros/MacroTestWithOracleRanking.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32
+Ref:        tag 1.10.0 (lightweight tag)
+
+Files
+-----
+model: examples/features/macros/MacroTestWithOracleRanking.spthy ->
+macros/MacroTestWithOracleRanking.spthy
+  sha256 46a130611e88bf4dc7d46e2a93fab998124acc7fde61e037ee33a54a82f51d24
+oracle: examples/features/heuristic/oracle-default -> heuristic/oracle-default
+  sha256 8f0ad8937ad1440efdee2e67f8f5232b95b9bd7c31711070b1adcecd8046f905
+oracle: examples/features/heuristic/oracle-2 -> heuristic/oracle-2
+  sha256 054901e6812f9e95cee96f0aa651f2cd4f377f6a29fd4830e5b4244d151ac6fb
+oracle: examples/features/heuristic/oracle-1 -> heuristic/oracle-1
+  sha256 9f8cefe44fca20c3a7ed3a235ead43523e66e65a4c7c71fd1012566c9208ad0d
+
+License
+-------
+GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
+copies, mark any modifications, and keep the files under GPL-3.0.
+The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--prove=<lemma> MacroTestWithOracleRanking.spthy
+Where the flags come from: the oracle is named in the theory file (no flag needed).
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: varies per directory (see models); Tamarin CI outputs at this
+tag (case-studies-regression/) were produced with Tamarin 1.9.0
+
+Lean side
+---------
+trace properties

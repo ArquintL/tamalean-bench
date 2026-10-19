@@ -1,0 +1,49 @@
+tamarin/related_work/SAPIC_K_POST15/pkcs11-templates
+====================================================
+
+The model file is pkcs11-templates.spthy in this directory.
+Theory: PKCS11TemplatePolicy
+
+Paper
+-----
+Robert Künnemann.
+Automated Backward Analysis of PKCS#11 v2.20.
+POST, 2015, pages 219-238.
+DOI:  https://doi.org/10.1007/978-3-662-46666-7_12
+DBLP: https://dblp.org/rec/conf/post/Kunnemann15
+(Why this paper: directory name (K_POST15) and README.)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32/examples/related_work/SAPIC_K_POST15/pkcs11-templates.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32
+Ref:        tag 1.10.0 (lightweight tag)
+
+Files
+-----
+model: examples/related_work/SAPIC_K_POST15/pkcs11-templates.spthy -> pkcs11-templates.spthy
+  sha256 77e3934f05ead42d48230ff482d5cd568b3067072b066c87fa0aa7f079d229bc
+
+License
+-------
+GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
+copies, mark any modifications, and keep the files under GPL-3.0.
+The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS
+--heuristic=P --prove=<lemma> pkcs11-templates.spthy
+Where the flags come from: --heuristic=P: README.
+
+Measured for this benchmark: not run yet.
+
+Reported by the authors: about half an hour and 12 GB RAM (README
+examples/related_work/SAPIC_K_POST15/README)
+Tamarin version the authors used: varies per directory (see models); Tamarin CI outputs at this
+tag (case-studies-regression/) were produced with Tamarin 1.9.0
+
+Lean side
+---------
+trace properties

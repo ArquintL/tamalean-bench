@@ -1,0 +1,50 @@
+tamarin/jcs19-xor/OTYT06
+========================
+
+The model file is OTYT06.spthy in this directory.
+Theory: OTYT06
+
+Paper
+-----
+Jannik Dreier, Lucca Hirschi, Sasa Radomirovic, Ralf Sasse.
+Verification of stateful cryptographic protocols with exclusive OR.
+J. Comput. Secur., 2020, volume 28, number 1, pages 1-34.
+DOI:  https://doi.org/10.3233/JCS-191358
+DBLP: https://dblp.org/rec/journals/jcs/DreierHRS20
+(Why this paper: README.)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32/examples/jcs19-xor/OTYT06.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32
+Ref:        tag 1.10.0 (lightweight tag)
+
+Files
+-----
+model: examples/jcs19-xor/OTYT06.spthy -> OTYT06.spthy
+  sha256 cf3695d3c2d6cfa2536aecdfcb03f44208dd0e72544b88636ca07502bd180fdf
+oracle: examples/jcs19-xor/OTYT06.oracle -> OTYT06.oracle
+  sha256 6e30acc23ca5fdc1016fbd343fb30bf3d2aea4ee89ed637c25c2ba3911f81089
+
+License
+-------
+GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
+copies, mark any modifications, and keep the files under GPL-3.0.
+The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS --bound=12
+--stop-on-trace=BFS --heuristic=O --oraclename=OTYT06.oracle --prove=<lemma> OTYT06.spthy
+Where the flags come from: --bound=12: the authors' command; --stop-on-trace=BFS: the authors'
+command; --heuristic=O --oraclename: the command the authors give.
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: varies per directory (see models); Tamarin CI outputs at this
+tag (case-studies-regression/) were produced with Tamarin 1.9.0
+
+Lean side
+---------
+trace properties

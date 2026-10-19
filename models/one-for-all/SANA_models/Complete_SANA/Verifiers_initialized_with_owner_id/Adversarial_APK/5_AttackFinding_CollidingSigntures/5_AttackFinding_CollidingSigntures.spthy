@@ -1,0 +1,352 @@
+theory attest_attack_finding_with_original_token_request
+begin
+
+builtins: signing, asymmetric-encryption, multiset
+
+// Aggregate Signature definition
+// ===============================
+
+functions: verifyAgg/3 //To validate a aggregation, input: aggregation, list of messages, list of public keys
+functions: validAgg/2 [private] //represents a valid aggregation, contains a list of messages and s list of public keys
+functions: zeroAgg/2 [private] //represents a aggregation throug a zero splitting attack with valid signatures
+functions: singleZeroAgg/1 [private]
+
+equations: verifyAgg(validAgg(m, k), m, k) = true //true, if the aggregation contains the correct messages and public keys
+equations: verifyAgg(zeroAgg(validAgg(m, k), kZero), <mMalicious, m>, <kZero, k>) = true //to validate a zero splitting aggregate with one malicious key
+equations: verifyAgg(zeroAgg(validAgg(m, k), <kZero1, kZero2>), <mMalicious1, <mMalicious2, m>>, <kZero1, <kZero2, k>>) = true //to validate a zero splitting aggregate with two malicious keys. One could add equations to allow for more malicious keys.
+equations: verifyAgg(singleZeroAgg(kZero), mMalicious, kZero) = true
+
+// Adversary aggregation rules
+// ===========================
+// Valid aggregation
+// -----------------
+rule Adv_Aggregate [no_derivcheck]:
+  [ In(<sign(m, sk), validAgg(messages, keys)>) ] 
+--[ Adv_Aggregate() ]->
+  [ Out(validAgg(<m, messages>, <pk(sk), keys>)) ]
+
+rule Adv_Aggregate_BaseCase [no_derivcheck]:
+  [ In(sign(m, sk)) ]
+--[ Adv_Aggregate() ]->
+  [ Out(validAgg(m, pk(sk))) ]
+
+//Colliding signature aggregation
+//--------------------------
+rule Adv_Colliding_Aggregate_one [no_derivcheck]:
+  [ In(<sign(m, skMalicious), validAggregation>)
+  , !Pk_malicious(pk(skMalicious)) ]
+-->
+  [ Out(zeroAgg(validAggregation, pk(skMalicious))) ]
+
+rule Adv_Colliding_Aggregate [no_derivcheck]:
+  [ In(<sign(m, skMalicious), zeroAgg(validAggregation, maliciousKeys)>)
+  , !Pk_malicious(pk(skMalicious)) ]
+-->
+  [ Out(zeroAgg(validAggregation, <pk(skMalicious), maliciousKeys>)) ]
+
+rule Adv_Colliding_Aggregate_noValidAgg [no_derivcheck]:
+  [ In(sign(m, skMalicious))
+  , !Pk_malicious(pk(skMalicious)) ]
+-->
+  [ Out(singleZeroAgg(pk(skMalicious))) ]
+
+
+// PKI
+// =========
+// Follows the Tamarin Manual
+// ---------------------
+rule Register_pk:
+  [ Fr(~skA) ]
+--[ Register($A, ~skA) ]->
+  [ !Secret_Key($A, ~skA)
+  , !Public_Key($A, pk(~skA))
+  , Out(pk(~skA)) ]
+
+rule Reveal_sk:
+  [ !Secret_Key(A, skA) ]
+--[ Reveal(A) ]->
+  [ Out(skA) ]
+
+//Malicious key registraction
+//---------------------------
+rule Register_malicious_pk:
+  [ Fr(~ltkMalicious) ]
+--[ RegisterMaliciousKey(pk(~ltkMalicious))
+  , Register($A, ~ltkMalicious) 
+  , Malicious($A) ]->
+  [ !Ltk_malicious($A, ~ltkMalicious)
+  , !Public_Key($A, pk(~ltkMalicious))
+  , !Pk_malicious(pk(~ltkMalicious))
+  , Out(pk(~ltkMalicious)) ]
+
+rule Reveal_malicious_ltk:
+  [ !Ltk_malicious(A, ltkMalicious)]
+--[ MaliciousLtkReveal(A)
+  , Reveal(A) ]->
+  [ Out(ltkMalicious) ]
+
+// Additional adversary capabiltiy: The adversary can register the malicious keys to roles. This enables that the owner may add these malicious keys to the apk.
+rule Register_role_for_malicioue_keys_V:
+  [ !Ltk_malicious(A, ltkMalicious) ]
+--[ UniqueRole(pk(ltkMalicious), 'V') ]-> // should we restrict this or not?
+  [ !PK_Role(pk(ltkMalicious), 'V')]
+
+rule Register_role_for_malicioue_keys_P:
+  [ !Ltk_malicious(A, ltkMalicious) ]
+--[ UniqueRole(pk(ltkMalicious), 'P') ]-> // should we restrict this or not?
+  [ !PK_Role(pk(ltkMalicious), 'P')]
+  
+// Enabling the adversary to pretend to be the owner is probably not realistic.
+
+
+// Initialization of protocol participants
+rule Init_V:
+	[ Fr(~id), !Secret_Key(V, skV), !Public_Key(O, pkO), !PK_Role(pkO, 'O') ]
+	--[ Init(V), Init_V(), UniqueOwner(V, O), UniqueRole(pk(skV), 'V') ]->
+	[ St_V_1(~id, V, skV, O, pkO), !PK_Role(pk(skV), 'V') ]
+
+rule Init_O:
+	[ Fr(~id), !Secret_Key(O, skO) ]
+	--[ Init(O), Init_O(), UniqueRole(pk(skO), 'O') ]->
+	[ St_O_1(~id, O, skO), !PK_Role(pk(skO), 'O') ]
+
+rule Init_A:
+	[ Fr(~id)]
+	--[ Init($A), Init_A() ]->
+	[ St_A_1(~id, $A) ]
+
+rule Init_P:
+	[ Fr(~id), !Secret_Key(P, skP), !Public_Key(O, pkO), !PK_Role(pkO, 'O')]
+	--[ Init(P), Init_P(), UniqueOwner(P, O), UniqueRole(pk(skP), 'P') ]->
+	[ St_P_1(~id, P, skP, O, pkO), !PK_Role(pk(skP), 'P') ]
+
+
+// The original Token Request protocol
+rule V_tokenReq_send_nonce:
+	[ St_V_1(id, V, skV, O, pkO), Fr(~Nv) ]
+	-->
+	[ St_V_2(id, V, skV, O, pkO, ~Nv), Out(~Nv) ]
+
+rule O_tokenReq_respond_nonce:
+	[ St_O_1(id, O, skO), In(Nv), Fr(~No) ]
+	--[ Running_EA(O, $V, <'V', 'O', Nv, ~No>) ]->
+	[ St_O_2(id, O, skO, $V, Nv, ~No), Out(~No) ]
+
+rule V_tokenReq_sign_nonce:
+	[ St_V_2(id, V, skV, O, pkO, Nv), In(No) ]
+	--[Running_EA(V, O, <'O', 'V', Nv, No>)]->
+	[ St_V_3(id, V, skV, O, pkO, Nv, No), Out(sign(No, skV))]
+
+rule O_tokenReq_sign_nonce:
+	let
+		t = <'H', ~Nc, 't'>
+		s1 = sign(t, skO)
+		e = aenc(<t, s1>, pkV)
+		apk = pkP1 + pkP2
+	in
+	[ St_O_2(id, O, skO, V, Nv, No), Fr(~Nc), In(s),
+	  !Public_Key(V, pkV), !PK_Role(pkV, 'V'),
+	  !Public_Key(P1, pkP1), !Public_Key(P2, pkP2),
+	  !PK_Role(pkP1, 'P'), !PK_Role(pkP2, 'P') ]
+	--[ Eq(verify(s, No, pkV), true),
+		Neq(P1, P2),
+		Running_DOS(O, ~Nc), 
+		Commit_EA(O, V, <'O', 'V', Nv, No>),
+		Finish_O() ]->
+	[ St_O_3(id, O, skO, V, pkV, Nv, No), Out(<e, apk, sign(<Nv, apk>, skO)>), Out(~Nc) ]
+
+rule V_tokenReq_complete:
+	let
+		e = aenc(<<'H', Nc, 't'>, s1>, pk(skV))
+		t = <<'H', Nc, 't'>, s1>
+	in
+	[ St_V_3(id, V, skV, O, pkO, Nv, No), In(<e, apk, s>), 
+	  !Public_Key(O, pkO)]
+	--[ Eq(verify(s, <Nv, apk>, pkO), true),
+		Eq(verify(s1, <'H', Nc, 't'>, pkO), true),
+		Commit_EA(V, O, <'V', 'O', Nv, No>) ]->
+	[ St_V_4(id, V, skV, O, pkO, Nv, No, t, apk) ]
+
+
+// The Attestation subprotocol
+rule V_attest_send_challenge:
+	let 
+		challenge = <~N, t>
+	in
+	[ St_V_4(id, V, skV, O, pkO, Nv, No, t, apk), Fr(~N) ]
+	--[ UseNonce(~N) ]->
+	[ St_V_5(id, V, skV, O, challenge, apk), Out(challenge) ]
+
+rule A_attest_forward_challenge:
+	let
+		token_content = <'H', Nc, 't'>
+		challenge = <N, <token_content, s1>>
+	in
+	[ St_A_1(id, A), !Public_Key(V, pkV), In(challenge) ]
+	--[ Eq(verify(s1, token_content, pkV), true), 
+		UseOnce(A, Nc), UseNonce(N) ]->
+	[ St_A_2(id, A, challenge), Out(challenge) ]
+
+rule P_attest:
+	let
+		response = <~hi, N, Nc>
+	in
+	[ St_P_1(id, P, skP, O, pkO), In(<N, <<'H', Nc, 't'>, sc>>), Fr(~hi) ]
+	--[ Eq(verify(sc, <'H', Nc, 't'>, pkO), true),
+		Attest(P, ~hi, N), UseOnce(P, Nc), UseNonce(N),
+		Commit_DOS(P, O, Nc) ]->
+	[ Out(<response, sign(response, skP)>) ]
+
+rule A_attest_aggregate_1:
+	let
+		att1 = <h1, rec_N, rec_Nc>
+	in
+	[ St_A_2(id, A, challenge), !Public_Key(P1, pk(skP1)), In(<att1, sign(att1, skP1)>)]
+	-->
+	[ St_A_3(id, A, challenge, validAgg(att1, pk(skP1)), <att1, pk(skP1)>) ]
+
+rule A_attest_aggregate_2:
+	let 
+		att2 = <h2, rec_N, rec_Nc>
+	in
+	[ St_A_3(id, A, challenge, validAgg(msgs, ks), messages_and_keys), 
+	  !Public_Key(P2, pk(skP2)), 
+	  In(<att2, sign(att2, skP2)>) ]
+	--[ Finish_A() ]->
+	[ Out(validAgg(<att2, msgs>, <pk(skP2), ks>)), Out(<att2, pk(skP2)> + messages_and_keys) ]
+
+rule V_attest_receive_aggregation:
+	[ St_V_5(id, V, skV, O, challenge, apk), In(<aggregation, messages_and_keys>) ]
+	-->
+	[ St_V_6(id, V, skV, O, challenge, apk, aggregation, messages_and_keys) ]
+
+// check if both keys in aggregation are in apk 
+rule V_attest_lookup_key_1: 
+	let
+		m1 = <h1, N, Nc>
+		challenge = <N, <<'H', Nc, 't'>, s>>
+	in
+	[ St_V_6(id, V, skV, O, challenge, PK1 + rest_apk, aggregation, <m1, PK1> + rest_messages_and_keys), !Public_Key(P1, PK1) ]
+	-->
+	[ St_V_7(id, V, skV, O, challenge, PK1 + rest_apk, rest_apk, aggregation, <m1, PK1> + rest_messages_and_keys, rest_messages_and_keys, m1, PK1, P1) ]
+
+// check if both keys in aggregation are in apk 
+rule V_attest_lookup_key_2: 
+	let
+		m2 = <h2, N, Nc>
+		challenge = <N, <<'H', Nc, 't'>, s>>
+	in
+	[ St_V_7(id, V, skV, O, challenge, apk, PK2, aggregation, messages_and_keys, <m2, PK2>, messages, keys, names), !Public_Key(P2, PK2) ]
+	-->
+	[ St_V_8(id, V, skV, O, challenge, apk, aggregation, messages_and_keys, <m2, messages>, <PK2, keys>, <P2, names>) ]
+
+rule V_attest_verify: 
+	[ St_V_8(id, V, skV, O, <N, t>, apk, aggregation, messages_and_keys, messages, keys, names) ]
+	--[ Eq(verifyAgg(aggregation, messages, keys), true),
+		Verified_Set(V, O, names, N),
+		Finish_V(V) ]->
+	[ St_V_9(id, V, skV, O, <N, t>, apk, aggregation, messages_and_keys, messages, keys, names) ]
+
+// for lemmas: Verifier looks at messages and creates according action facts
+// Public key lookups only serve as name lookup for action facts!
+rule V_attest_look_at_msg:
+	let
+		hash = fst(m)
+	in
+	[ St_V_9(id, V, skV, O, <N, t>, apk, aggregation, <m, PK> + rest_messages_and_keys, messages, keys, names), !Public_Key(P, PK) ]
+	--[ Verified(V, O, P, hash, N) ]->
+	[]
+
+/*
+* Restrictions
+*/
+restriction equality:
+"All a b #i. Eq(a, b)@i ==> a = b"
+
+restriction non_equality:
+"All a b #i. Neq(a, b)@i ==> not (a = b)"
+
+restriction use_once:
+"All A n #i #j. UseOnce(A, n)@i & UseOnce(A, n)@j ==> #i = #j"
+
+restriction unique_owner:
+"All P O1 O2 #i #j. UniqueOwner(P, O1)@i & UniqueOwner(P, O2)@j ==> O1 = O2"
+
+restriction one_role_per_pk:
+"All PK R1 R2 #i #j. UniqueRole(PK, R1)@i & UniqueRole(PK, R2)@j ==> R1 = R2"
+
+/*
+* Sanity check to exclude basic modelling errors 
+* which prevent desired protocol executions
+*/
+lemma executable:
+exists-trace
+"Ex V #i #j. Finish_V(V)@i & Finish_A()@j &
+(not Ex X #j. Reveal(X)@j) & 
+(not Ex X #j. Malicious(X)@j) &
+(All a b #k #l. UseNonce(a)@k & UseNonce(b)@l ==> a = b) & 
+(All P #i #j. Init(P)@i & Init(P)@j ==> #i = #j) &
+(All #i #j. Init_V()@i & Init_V()@j ==> #i = #j) & 
+(All #i #j. Init_O()@i & Init_O()@j ==> #i = #j) & 
+(All #i #j. Init_A()@i & Init_A()@j ==> #i = #j) &
+(not Ex #j. Adv_Aggregate()@j)"
+
+/*
+* Lemmas formalizing the three properties which, according to the authors of SANA,
+* were the primary objectives during the design process
+*/
+lemma unforgeability_freshness:
+"All V O P hash N #i. (Verified(V, O, P, hash, N)@i &
+(not Ex #j. Reveal(P)@j) &
+(not Ex #j. Reveal(V)@j) & 
+(not Ex #j. Malicious(P)@j) & 
+(not Ex #j. Malicious(V)@j)) 
+	==> (Ex #k. Attest(P, hash, N)@k )"
+
+lemma unforgeability_freshness_honestOwner:
+"All V O P hash N #i. (Verified(V, O, P, hash, N)@i &
+(not Ex #j. Reveal(P)@j) &
+(not Ex #j. Reveal(V)@j) &
+(not Ex #j. Reveal(O)@j) &
+(not Ex #j. Malicious(P)@j) & 
+(not Ex #j. Malicious(V)@j))
+	==> (Ex #k. Attest(P, hash, N)@k )"
+
+lemma completeness:
+"All V O P1 P2 N #i. (Verified_Set(V, O, <P1, P2>, N)@i &
+(not Ex #j. Reveal(P1)@j) &
+(not Ex #j. Reveal(P2)@j) &
+(not Ex #j. Reveal(V)@j) &
+(not Ex #j. Malicious(P1)@j) & 
+(not Ex #j. Malicious(P2)@j) & 
+(not Ex #j. Malicious(V)@j))
+	 ==> (Ex h1 h2 #k #l. Attest(P1, h1, N)@k & Attest(P2, h2, N)@l)"
+
+lemma completeness_honestOwner:
+"All V O P1 P2 N #i. (Verified_Set(V, O, <P1, P2>, N)@i &
+(not Ex #j. Reveal(P1)@j) &
+(not Ex #j. Reveal(P2)@j) &
+(not Ex #j. Reveal(V)@j)  &
+(not Ex #j. Reveal(O)@j)  &
+(not Ex #j. Malicious(P1)@j) & 
+(not Ex #j. Malicious(P2)@j) & 
+(not Ex #j. Malicious(V)@j))
+	==> (Ex h1 h2 #k #l. Attest(P1, h1, N)@k & Attest(P2, h2, N)@l)"
+
+//Models the "Limiting DoS" property described by the authors of SANA 
+lemma prover_owner_agreement: 
+"All P O N #i. Commit_DOS(P, O, N)@i & 
+	(not Ex #j. Reveal(P)@j) &
+	(not Ex #j. Malicious(P)@j)
+	==> (Ex #k. Running_DOS(O, N)@k)"
+
+// Same as above but with the additional assumption that the
+// owner is honest
+lemma prover_owner_agreement_owner_honest: 
+"All P O N #i. Commit_DOS(P, O, N)@i & 
+	(not Ex #j. Reveal(P)@j) & 
+	(not Ex #j. Reveal(O)@j) & 
+	(not Ex #j. Malicious(P)@j)
+	==> (Ex #k. Running_DOS(O, N)@k)"
+
+end

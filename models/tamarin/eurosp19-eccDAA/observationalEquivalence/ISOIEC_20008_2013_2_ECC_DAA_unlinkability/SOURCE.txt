@@ -1,0 +1,55 @@
+tamarin/eurosp19-eccDAA/observationalEquivalence/ISOIEC_20008_2013_2_ECC_DAA_unlinkability
+==========================================================================================
+
+The model file is ISOIEC_20008_2013_2_ECC_DAA.unlinkability.spthy in this directory.
+Theory: ISOIEC_20008_2013_2_ECC_DAA_UNLINKABILITY
+
+Paper
+-----
+Jorden Whitefield, Liqun Chen 0002, Ralf Sasse, Steve A. Schneider, Helen Treharne, Stephan
+Wesemeyer.
+A Symbolic Analysis of ECC-Based Direct Anonymous Attestation.
+EuroS&P, 2019, pages 127-141.
+DOI:  https://doi.org/10.1109/EUROSP.2019.00019
+DBLP: https://dblp.org/rec/conf/eurosp/WhitefieldCSSTW19
+(Why this paper: README.)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32/examples/eurosp19-eccDAA/observationalEquivalence/ISOIEC_20008_2013_2_ECC_DAA.unlinkability.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32
+Ref:        tag 1.10.0 (lightweight tag)
+
+Files
+-----
+model:
+examples/eurosp19-eccDAA/observationalEquivalence/ISOIEC_20008_2013_2_ECC_DAA.unlinkability.spthy
+-> ISOIEC_20008_2013_2_ECC_DAA.unlinkability.spthy
+  sha256 bf708c2644df330540b959be7fc66d12cc5a8a9bc12eae68705a58d9741b6bfb
+oracle:
+examples/eurosp19-eccDAA/observationalEquivalence/ISOIEC_20008_2013_2_ECC_DAA.unlinkability.oracle
+-> ISOIEC_20008_2013_2_ECC_DAA.unlinkability.oracle
+  sha256 fa33877666b899421173bd10d5f32cbfe8da30c3030a4b77bc9dedb4e06957c2
+
+License
+-------
+GPL-3.0. GPL-3.0: redistribution allowed; keep the GPL-3.0 text and copyright notices with the
+copies, mark any modifications, and keep the files under GPL-3.0.
+The files are copied here unchanged; the license text is in models/tamarin/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS --diff
+--heuristic=o --oraclename=ISOIEC_20008_2013_2_ECC_DAA.unlinkability.oracle --prove=<lemma>
+ISOIEC_20008_2013_2_ECC_DAA.unlinkability.spthy
+Where the flags come from: --diff: the model states observational equivalence; --heuristic=o
+--oraclename: the command the authors give.
+
+Measured for this benchmark: not run yet.
+
+Tamarin version the authors used: git 44d5ecbc or later (README)
+
+Lean side
+---------
+out of scope: observational equivalence (a diff model); Tamalean checks trace properties only

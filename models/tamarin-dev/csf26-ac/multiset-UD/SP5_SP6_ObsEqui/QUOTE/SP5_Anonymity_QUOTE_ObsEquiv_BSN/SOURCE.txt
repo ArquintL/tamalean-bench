@@ -1,0 +1,50 @@
+tamarin-dev/csf26-ac/multiset-UD/SP5_SP6_ObsEqui/QUOTE/SP5_Anonymity_QUOTE_ObsEquiv_BSN
+=======================================================================================
+
+The model file is SP5_Anonymity_QUOTE_ObsEquiv_BSN.spthy in this directory.
+Theory: SP5_Anonymity_QUOTE_ObsEqui_withBSN
+
+Paper
+-----
+Jannik Dreier, Elise Klein 0002, Steve Kremer.
+Tamarin Unchained: Handling User-Defined AC Operators.
+CSF, 2026, pages 329-344.
+DOI:  https://doi.org/10.1109/CSF68417.2026.00022
+DBLP: https://dblp.org/rec/conf/csfw/DreierKK26
+(Why this paper: README of csf26-ac.)
+
+Online source
+-------------
+File:       https://github.com/tamarin-prover/tamarin-prover/blob/7e4e16e364dfa0d60092ce7f6f44109156e24fd7/examples/csf26-ac/multiset-UD/SP5_SP6_ObsEqui/QUOTE/SP5_Anonymity_QUOTE_ObsEquiv_BSN.spthy
+Repository: https://github.com/tamarin-prover/tamarin-prover
+Commit:     7e4e16e364dfa0d60092ce7f6f44109156e24fd7
+Ref:        branch develop (cabal version 1.13.0)
+
+Files
+-----
+model:
+examples/csf26-ac/multiset-UD/SP5_SP6_ObsEqui/QUOTE/SP5_Anonymity_QUOTE_ObsEquiv_BSN.spthy ->
+SP5_Anonymity_QUOTE_ObsEquiv_BSN.spthy
+  sha256 ee1bb82906595bcaf9a2783b882dcc6d6cff9812429a32f448b049bd84545202
+
+License
+-------
+GPL-3.0. GPL-3.0 (as for tag 1.10.0).
+The files are copied here unchanged; the license text is in models/tamarin-dev/LICENSE.
+
+Tamarin
+-------
+Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4 -RTS --diff
+--prove=<lemma> SP5_Anonymity_QUOTE_ObsEquiv_BSN.spthy
+Where the flags come from: --diff: the model states observational equivalence.
+
+Measured for this benchmark: not run yet.
+
+Reported by the authors: files in fast/: under 15 minutes on a standard laptop with 32 GB RAM;
+toy voting system: 5-10 minutes (eligibility, exec), about 30 minutes for the sources lemma;
+exponential mixnet: attack in 3008 steps (BFS) in one or two minutes (README
+examples/csf26-ac/README.md)
+
+Lean side
+---------
+out of scope: observational equivalence (a diff model); Tamalean checks trace properties only
