@@ -9,9 +9,9 @@ the benchmark.
 ## What is in it
 
 - `models/<id>/` holds each model as its authors published it, with its oracle where it has one,
-  and a `SOURCE.txt` that documents it: the paper it belongs to, with a BibTeX entry to cite it;
-  the link to the online source; the commit or version; the license; and how long Tamarin takes on
-  it. `models/manifest.toml` lists all of them, and
+  and a `SOURCE.txt` that documents it: the paper it belongs to (authors, title, venue, year and
+  DOI, as its DBLP record gives them, with the link to that record); the link to the online
+  source; the commit or version; the license; and how long Tamarin takes on it. `models/manifest.toml` lists all of them, and
   `scripts/fetch_models.py` fetches them again from the pinned commits to check the copies.
 - `scripts/` runs Tamarin on the models, extracts its proofs, and generates and runs the Lean side.
   The proofs Tamarin finds are stored under `proofs/`, which is not committed: run the scripts to
