@@ -13,10 +13,10 @@ reader's models of those builtins refer to, and its tactics.
 * `bench_certify "lemma" Theory.Lemmas.lemma` states the lemma and proves it with `certify`
   (`example : Theory.Lemmas.lemma := by certify`).
 
-Each prints one line `BENCH <kind> <json>` on standard output as soon as it is done (and
-`bench_certify` one line `BENCH start <json>` before it starts), with the outcome, the first
-error and the time in milliseconds; `scripts/run_lean.py` reads them, and stops a lemma that
-runs past its time limit.  The errors themselves are reported as usual.
+Each writes one line `BENCH <kind> <json>` as soon as it is done (and one line `BENCH start
+<json>` before it starts), with the outcome, the first error and the time in milliseconds, to
+the file `BENCH_EVENTS` names; `scripts/run_lean.py` reads them as they come, and stops a lemma
+that runs past its time limit.  The errors themselves are reported as usual.
 
 The option `bench.only` (`lake lean Bench/….lean -- -Dbench.only=a,b`) restricts
 `bench_certify` to the lemmas it lists, so that the runner can resume a model after a lemma it
@@ -32,10 +32,17 @@ register_option bench.only : String := {
   descr := "a comma-separated list of the lemmas `bench_certify` runs (every lemma when empty)"
 }
 
-/-- One machine-readable line on standard output, flushed at once. -/
+/-- One machine-readable line, appended at once to the file the environment variable
+`BENCH_EVENTS` names (Lake passes a module's output on only when the module is done, so the
+runner reads this file instead), and printed on standard output. -/
 def emit (kind : String) (j : Json) : IO Unit := do
+  let line := s!"BENCH {kind} {j.compress}"
+  if let some path ← IO.getEnv "BENCH_EVENTS" then
+    let h ← IO.FS.Handle.mk path .append
+    h.putStrLn line
+    h.flush
   let out ← IO.getStdout
-  out.putStrLn s!"BENCH {kind} {j.compress}"
+  out.putStrLn line
   out.flush
 
 /-- Elaborate `cmd`, and return the time it took and the texts of the errors and of the other
@@ -58,6 +65,7 @@ syntax (name := benchModel) "bench_model " str : command
 
 elab_rules : command
   | `(bench_model $p:str) => do
+      emit "reading" <| Json.mkObj [("path", toJson p.getString)]
       let (ms, errs, _) ← timedElab (← `(command| tamarin_theory_file $p))
       emit "reader" <| Json.mkObj <|
         [("ok", toJson errs.isEmpty), ("ms", toJson ms)] ++

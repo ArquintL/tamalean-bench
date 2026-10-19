@@ -34,7 +34,6 @@ import datetime as dt
 import json
 import os
 import re
-import selectors
 import shlex
 import signal
 import subprocess
@@ -108,34 +107,60 @@ def rejection_reason(err):
 LOCK = os.environ.get("BENCH_LOCK", "")  # e.g. "zsh /path/to/lakelock.sh": one slot per module
 
 
-def run_module(module, only, limit_lemma, limit_left, log_path, startup_limit=3600.0):
-    """Run `lake lean module` and stream its BENCH lines.  The model's clock starts when the
-    module starts reading the model (the reader's line, less the reader's own time), so that
-    waiting for the build lock or loading the imports is not counted.  Returns (events, the
-    lemma stopped at its limit or None, the lemma running when the model limit was reached or
-    None, exit code, tail of the output, wall time on the model's clock)."""
+def run_module(module, only, limit_lemma, limit_left, log_path, events_path,
+               startup_limit=3600.0):
+    """Run `lake lean module` and follow the lines the harness appends to `events_path` (Lake
+    passes a module's output on only at its end).  The model's clock starts when the module
+    starts reading the model, so that waiting for the build lock or loading the imports is not
+    counted; reading the model counts against the model limit, each lemma against the lemma
+    limit.  Returns (events, the lemma stopped at its limit or None, the lemma (or "the reader")
+    running when the model limit was reached or None, exit code, tail of the output, wall time on
+    the model's clock)."""
     cmd = [LAKE, "lean", str(module.relative_to(benchlib.ROOT))]
     if only is not None:
         cmd += ["--", f"-Dbench.only={','.join(only)}"]
     if LOCK:
         cmd = shlex.split(LOCK) + cmd
+    if events_path.exists():
+        events_path.unlink()
+    env = dict(os.environ, BENCH_EVENTS=str(events_path))
     t_start = time.monotonic()
-    p = subprocess.Popen(cmd, cwd=benchlib.ROOT, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
-                         start_new_session=True)
-    sel = selectors.DefaultSelector()
-    sel.register(p.stdout, selectors.EVENT_READ)
-    events, buf, tail = [], b"", []
-    current, started = None, None
-    stopped, model_out = None, False
-    t0 = None  # the model's clock
     with open(log_path, "ab") as logf:
+        p = subprocess.Popen(cmd, cwd=benchlib.ROOT, stdout=logf, stderr=subprocess.STDOUT,
+                             start_new_session=True, env=env)
+        events, seen = [], 0
+        current, started = None, None
+        stopped, model_out = None, False
+        t0 = None  # the model's clock
         while True:
+            done = p.poll() is not None
+            if events_path.exists():
+                lines = events_path.read_text(encoding="utf-8", errors="replace").splitlines()
+                for s in lines[seen:]:
+                    if not s.startswith("BENCH "):
+                        continue
+                    _, kind, js = s.split(" ", 2)
+                    ev = {k: scrub(v) for k, v in json.loads(js).items()}
+                    ev["kind"] = kind
+                    events.append(ev)
+                    if kind == "reading" and t0 is None:
+                        t0 = time.monotonic()
+                        current, started = "the reader", t0
+                    elif kind == "reader":
+                        current = None
+                    elif kind == "start":
+                        current, started = ev["name"], time.monotonic()
+                    elif kind == "lemma":
+                        current = None
+                seen = len(lines)
+            if done:
+                break
             now = time.monotonic()
             if current and now - started > limit_lemma:
                 stopped = current
             if t0 is not None and now - t0 > limit_left:
                 model_out = True
-            if t0 is None and now - t_start > startup_limit + limit_left:
+            if t0 is None and now - t_start > startup_limit:
                 model_out = True
             if stopped or model_out:
                 try:
@@ -144,33 +169,9 @@ def run_module(module, only, limit_lemma, limit_left, log_path, startup_limit=36
                     pass
                 p.wait()
                 break
-            ready = sel.select(timeout=1.0)
-            if ready:
-                chunk = os.read(p.stdout.fileno(), 65536)
-                if not chunk:
-                    p.wait()
-                    break
-                logf.write(chunk)
-                buf += chunk
-                while b"\n" in buf:
-                    line, buf = buf.split(b"\n", 1)
-                    s = line.decode("utf-8", "replace")
-                    tail.append(s)
-                    tail = tail[-200:]
-                    if s.startswith("BENCH "):
-                        _, kind, js = s.split(" ", 2)
-                        ev = {k: scrub(v) for k, v in json.loads(js).items()}
-                        ev["kind"] = kind
-                        if t0 is None:
-                            t0 = time.monotonic() - (ev.get("ms", 0) / 1000 if kind == "reader" else 0)
-                        events.append(ev)
-                        if kind == "start":
-                            current, started = ev["name"], time.monotonic()
-                        elif kind == "lemma":
-                            current = None
-            elif p.poll() is not None:
-                break
+            time.sleep(0.5)
     end = time.monotonic()
+    tail = log_path.read_text(encoding="utf-8", errors="replace").splitlines()[-200:]
     wall = end - (t0 if t0 is not None else t_start)
     return events, stopped, (current if model_out else None), p.returncode, tail, wall
 
@@ -185,6 +186,7 @@ def run_model(s, x, a, host):
     logdir = benchlib.RUNS / "lean"
     logdir.mkdir(parents=True, exist_ok=True)
     log_path = logdir / (benchlib.id_to_filename(mid) + ".log")
+    events_path = logdir / (benchlib.id_to_filename(mid) + ".events")
     if log_path.exists():
         log_path.unlink()
     result = {"id": mid, "tool": "tamalean", "setting": "no guidance",
@@ -200,11 +202,11 @@ def run_model(s, x, a, host):
     first = True
     total = 0.0
     while True:
-        only = None if first else remaining
+        only = (["-"] if a.reader_only else None) if first else remaining
         if not first and not remaining:
             break
         events, stopped, model_cut, rc, tail, wall = run_module(
-            module, only, a.lemma_limit, budget, log_path)
+            module, only, a.lemma_limit, budget, log_path, events_path)
         budget -= wall
         total += wall
         for ev in events:
@@ -230,14 +232,20 @@ def run_model(s, x, a, host):
             result["reader"] = {"ok": False, "error": scrub("\n".join(tail[-30:])[-3000:]),
                                 "reason": "the module did not run (see error)"}
         first = False
-        if stopped:
+        if stopped == "the reader":
+            result["reader"] = {"ok": False, "reason": "reading the model reached the lemma limit",
+                                "error": f"reading the model took more than {a.lemma_limit} s"}
+        elif stopped:
             done[stopped] = {"name": stopped, "outcome": "timeout",
                              "ms": int(a.lemma_limit * 1000)}
-        if model_cut:
+        if model_cut == "the reader":
+            result["reader"] = {"ok": False, "reason": "the reader did not finish within the model limit",
+                                "error": f"reading the model took more than {a.model_limit} s"}
+        elif model_cut:
             done[model_cut] = {"name": model_cut, "outcome": "timeout", "ms": None,
                                "message": "the model limit was reached during this lemma"}
         remaining = [l for l in remaining if l not in done]
-        if not result["reader"].get("ok"):
+        if not result["reader"].get("ok") or a.reader_only:
             break
         if not stopped or budget < 1:
             break
@@ -248,7 +256,8 @@ def run_model(s, x, a, host):
             result["lemmas"].append({"name": l, "outcome": "rejected"})
         else:
             result["lemmas"].append({"name": l, "outcome": "not run",
-                                     "message": "the model limit was reached first"
+                                     "message": "only the reader ran" if a.reader_only else
+                                     "the model limit was reached first"
                                      if budget < 1 else "the module stopped before this lemma"})
     result["total_wall_s"] = round(total, 2)
     benchlib.write_json(benchlib.results_path("tamalean", mid), result)
@@ -259,6 +268,50 @@ def run_model(s, x, a, host):
         else ", ".join(f"{v} {k}" for k, v in sorted(c.items())) or "no lemmas"
     print(f"[{dt.datetime.now().strftime('%H:%M:%S')}] {mid}: {status} ({total:.1f} s)", flush=True)
     return result
+
+
+def retime_model(s, x, a):
+    """Run again, to time them alone on the machine, the lemmas of an accepted model that ended
+    within their limits, and record their new times (and outcomes)."""
+    mid = x["id"]
+    r = benchlib.load_result("tamalean", mid)
+    if not r or not r.get("reader", {}).get("ok"):
+        return None
+    names = [l["name"] for l in r["lemmas"]
+             if l.get("outcome") in ("proved", "attack found", "no trace", "no verdict")]
+    module = gen_lean.module_path(mid)
+    logdir = benchlib.RUNS / "lean"
+    logdir.mkdir(parents=True, exist_ok=True)
+    log_path = logdir / (benchlib.id_to_filename(mid) + ".retime.log")
+    events_path = logdir / (benchlib.id_to_filename(mid) + ".retime.events")
+    if log_path.exists():
+        log_path.unlink()
+    events, stopped, model_cut, rc, tail, wall = run_module(
+        module, names or ["-"], a.lemma_limit, a.model_limit, log_path, events_path)
+    by = {l["name"]: l for l in r["lemmas"]}
+    for ev in events:
+        if ev["kind"] == "reader" and ev.get("ok"):
+            r["reader"]["ms"] = ev["ms"]
+            r["reader"]["measured_alone"] = a.measured_alone
+        elif ev["kind"] == "lemma" and ev["name"] in by and not ev.get("missing"):
+            l = by[ev["name"]]
+            l["ms"] = ev["ms"]
+            if ev["ok"]:
+                l["outcome"] = "proved"
+                l.pop("message", None)
+            else:
+                l["outcome"], l["message"] = classify_error(ev.get("error", ""))
+            l["measured_alone"] = a.measured_alone
+    if stopped and stopped in by:
+        by[stopped].update(outcome="timeout", ms=int(a.lemma_limit * 1000),
+                           measured_alone=a.measured_alone)
+    r["measured_alone"] = a.measured_alone and all(
+        l.get("measured_alone") for l in r["lemmas"] if l["outcome"] != "timeout")
+    r["retimed"] = dt.date.today().isoformat()
+    benchlib.write_json(benchlib.results_path("tamalean", mid), r)
+    print(f"[{dt.datetime.now().strftime('%H:%M:%S')}] {mid}: retimed {len(names)} lemmas "
+          f"({wall:.1f} s)", flush=True)
+    return r
 
 
 def reclassify():
@@ -292,6 +345,11 @@ def main():
     ap.add_argument("--measured-alone", action="store_true",
                     help="record that the run had the machine to itself (an exclusive lock)")
     ap.add_argument("--no-build", action="store_true", help="do not build Bench.Harness first")
+    ap.add_argument("--reader-only", action="store_true",
+                    help="only read each model (no certify): the reader's verdict, quickly")
+    ap.add_argument("--retime", action="store_true",
+                    help="run again the lemmas of accepted models that ended within their limits, "
+                         "to time them (start it with an exclusive lock and --measured-alone)")
     ap.add_argument("--reclassify", action="store_true",
                     help="recompute the outcomes and rejection reasons of the results from their "
                          "stored messages, and run nothing")
@@ -338,7 +396,10 @@ def main():
             print(f"the total limit was reached: {len(todo) - k} models not run", file=sys.stderr)
             break
         try:
-            run_model(s, x, a, host)
+            if a.retime:
+                retime_model(s, x, a)
+            else:
+                run_model(s, x, a, host)
         except Exception as e:
             print(f"{x['id']}: runner error: {e!r}", file=sys.stderr)
 
