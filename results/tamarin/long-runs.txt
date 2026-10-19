@@ -1,3 +1,38 @@
 # Lemmas and models that reached a limit of scripts/run_tamarin.py here, for a run
 # with more time or memory.  Columns: model id, lemma (* = the whole model), why,
 # the model's Tamarin flags.  Regenerated after every model.
+emv/emverify/models-n-proofs/contact/Contact_CDA_EncPIN_Online	executable	reached the lemma limit (600.0 s)	--heuristic=O --oraclename=Contact.oracle
+emv/emverify/models-n-proofs/contact/Contact_CDA_EncPIN_Online	bank_accepts	reached the lemma limit (600.0 s)	--heuristic=O --oraclename=Contact.oracle
+emv/emverify/models-n-proofs/contact/Contact_CDA_EncPIN_Online	auth_to_terminal_minimal	reached the lemma limit (190.8 s)	--heuristic=O --oraclename=Contact.oracle
+emv/emverify/models-n-proofs/contact/Contact_CDA_EncPIN_Online	auth_to_bank_minimal	the model limit was reached first	--heuristic=O --oraclename=Contact.oracle
+emv/emverify/models-n-proofs/contact/Contact_CDA_EncPIN_Online	secrecy_MK	the model limit was reached first	--heuristic=O --oraclename=Contact.oracle
+emv/emverify/models-n-proofs/contact/Contact_CDA_EncPIN_Online	secrecy_privkCard	the model limit was reached first	--heuristic=O --oraclename=Contact.oracle
+emv/emverify/models-n-proofs/contact/Contact_CDA_EncPIN_Online	secrecy_PIN	the model limit was reached first	--heuristic=O --oraclename=Contact.oracle
+emv/emverify/models-n-proofs/contact/Contact_CDA_EncPIN_Online	secrecy_PAN	the model limit was reached first	--heuristic=O --oraclename=Contact.oracle
+emv/emverify/models-n-proofs/contact/Contact_CDA_OnlinePIN_Offline	executable	reached the lemma limit (600.0 s)	--heuristic=O --oraclename=Contact.oracle
+emv/emverify/models-n-proofs/contact/Contact_CDA_OnlinePIN_Offline	secrecy_MK	reached the lemma limit (600.0 s)	--heuristic=O --oraclename=Contact.oracle
+emv/emverify/models-n-proofs/contact/Contact_CDA_OnlinePIN_Offline	secrecy_privkCard	reached the lemma limit (459.0 s)	--heuristic=O --oraclename=Contact.oracle
+emv/emverify/models-n-proofs/contact/Contact_CDA_OnlinePIN_Offline	secrecy_PIN	the model limit was reached first	--heuristic=O --oraclename=Contact.oracle
+emv/emverify/models-n-proofs/contact/Contact_CDA_OnlinePIN_Offline	secrecy_PAN	the model limit was reached first	--heuristic=O --oraclename=Contact.oracle
+emv/emverify/models-n-proofs/contact/Contact_DDA_OnlinePIN_Offline	executable	reached the lemma limit (600.0 s)	--heuristic=O --oraclename=Contact.oracle
+emv/emverify/models-n-proofs/contact/Contact_DDA_OnlinePIN_Offline	secrecy_MK	reached the lemma limit (600.0 s)	--heuristic=O --oraclename=Contact.oracle
+emv/emverify/models-n-proofs/contact/Contact_DDA_OnlinePIN_Offline	secrecy_privkCard	reached the lemma limit (459.0 s)	--heuristic=O --oraclename=Contact.oracle
+emv/emverify/models-n-proofs/contact/Contact_DDA_OnlinePIN_Offline	secrecy_PIN	the model limit was reached first	--heuristic=O --oraclename=Contact.oracle
+emv/emverify/models-n-proofs/contact/Contact_DDA_OnlinePIN_Offline	secrecy_PAN	the model limit was reached first	--heuristic=O --oraclename=Contact.oracle
+emv/emverify/models-n-proofs/contact/Contact_SDA_EncPIN_Online	executable	reached the lemma limit (600.0 s)	--heuristic=O --oraclename=Contact.oracle
+emv/emverify/models-n-proofs/contact/Contact_SDA_EncPIN_Online	bank_accepts	reached the lemma limit (600.0 s)	--heuristic=O --oraclename=Contact.oracle
+emv/emverify/models-n-proofs/contact/Contact_SDA_EncPIN_Online	auth_to_terminal_minimal	reached the lemma limit (191.1 s)	--heuristic=O --oraclename=Contact.oracle
+emv/emverify/models-n-proofs/contact/Contact_SDA_EncPIN_Online	auth_to_bank_minimal	the model limit was reached first	--heuristic=O --oraclename=Contact.oracle
+emv/emverify/models-n-proofs/contact/Contact_SDA_EncPIN_Online	secrecy_MK	the model limit was reached first	--heuristic=O --oraclename=Contact.oracle
+emv/emverify/models-n-proofs/contact/Contact_SDA_EncPIN_Online	secrecy_PIN	the model limit was reached first	--heuristic=O --oraclename=Contact.oracle
+emv/emverify/models-n-proofs/contact/Contact_SDA_EncPIN_Online	secrecy_PAN	the model limit was reached first	--heuristic=O --oraclename=Contact.oracle
+emv/emverify/models-n-proofs/contact/Contact_SDA_NoPIN_Online	executable	reached the lemma limit (600.0 s)	--heuristic=O --oraclename=Contact.oracle
+emv/emverify/models-n-proofs/contact/Contact_SDA_NoPIN_Online	bank_accepts	reached the lemma limit (600.0 s)	--heuristic=O --oraclename=Contact.oracle
+emv/emverify/models-n-proofs/contact/Contact_SDA_NoPIN_Online	auth_to_terminal_minimal	reached the lemma limit (459.2 s)	--heuristic=O --oraclename=Contact.oracle
+emv/emverify/models-n-proofs/contact/Contact_SDA_NoPIN_Online	auth_to_bank_minimal	the model limit was reached first	--heuristic=O --oraclename=Contact.oracle
+emv/emverify/models-n-proofs/contact/Contact_SDA_NoPIN_Online	secrecy_MK	the model limit was reached first	--heuristic=O --oraclename=Contact.oracle
+emv/emverify/models-n-proofs/contact/Contact_SDA_NoPIN_Online	secrecy_PAN	the model limit was reached first	--heuristic=O --oraclename=Contact.oracle
+emv/emverify/models-n-proofs/contact/Contact_SDA_OnlinePIN_Offline	executable	reached the lemma limit (600.0 s)	--heuristic=O --oraclename=Contact.oracle
+emv/emverify/models-n-proofs/contact/Contact_SDA_OnlinePIN_Offline	secrecy_MK	reached the lemma limit (600.0 s)	--heuristic=O --oraclename=Contact.oracle
+emv/emverify/models-n-proofs/contact/Contact_SDA_OnlinePIN_Offline	secrecy_PIN	reached the lemma limit (458.7 s)	--heuristic=O --oraclename=Contact.oracle
+emv/emverify/models-n-proofs/contact/Contact_SDA_OnlinePIN_Offline	secrecy_PAN	the model limit was reached first	--heuristic=O --oraclename=Contact.oracle
