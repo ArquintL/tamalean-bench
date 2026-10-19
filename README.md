@@ -14,6 +14,8 @@ the benchmark.
   it. `models/manifest.toml` lists all of them, and
   `scripts/fetch_models.py` fetches them again from the pinned commits to check the copies.
 - `scripts/` runs Tamarin on the models, extracts its proofs, and generates and runs the Lean side.
+  The proofs Tamarin finds are stored under `proofs/`, which is not committed: run the scripts to
+  produce them.
 - `Bench/` holds one Lean module per model, generated from the manifest: the model read by
   Tamalean's `.spthy` reader and one `certify` per lemma.
 - `heuristics/` holds model-specific search heuristics: the counterpart of Tamarin's oracles and

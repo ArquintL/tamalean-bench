@@ -3,4 +3,7 @@
 /cache/
 # Raw tool output; the summaries under results/ are committed.
 /runs/
+# The proofs Tamarin finds (its `--output` files and their extraction): kept locally, never
+# committed.
+/proofs/
 __pycache__/
