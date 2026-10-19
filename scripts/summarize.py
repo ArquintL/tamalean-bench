@@ -165,6 +165,8 @@ def main():
                     lv, lt = "not run yet", ""
                 elif not q.get("reader", {}).get("ok"):
                     lv, lt = "rejected: " + q["reader"].get("reason", ""), ""
+                elif ql_ and ql_.get("message") == "only the reader ran":
+                    lv = "read; certify not run yet"
                 elif ql_:
                     lv = ql_["outcome"]
                     lt = fmt_time(ql_["ms"] / 1000) if ql_.get("ms") is not None else ""
