@@ -21,10 +21,8 @@
   "lemmas": [
     {
       "name": "acc",
-      "ms": 0,
-      "outcome": "rejected",
-      "message": "no statement WhoDunit.Lemmas.acc: the reader did not generate it"
+      "outcome": "rejected"
     }
   ],
-  "total_wall_s": 0.11
+  "total_wall_s": 0.0
 }

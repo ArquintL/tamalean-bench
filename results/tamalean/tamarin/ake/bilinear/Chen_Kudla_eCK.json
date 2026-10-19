@@ -21,10 +21,8 @@
   "lemmas": [
     {
       "name": "key_secrecy_eCK_like",
-      "ms": 0,
-      "outcome": "rejected",
-      "message": "no statement Chen_Kudla.Lemmas.key_secrecy_eCK_like: the reader did not generate it"
+      "outcome": "rejected"
     }
   ],
-  "total_wall_s": 0.1
+  "total_wall_s": 0.0
 }

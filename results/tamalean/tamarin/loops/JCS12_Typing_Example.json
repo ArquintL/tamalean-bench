@@ -1,0 +1,40 @@
+{
+  "id": "tamarin/loops/JCS12_Typing_Example",
+  "tool": "tamalean",
+  "setting": "no guidance",
+  "tactic": "certify (the model's default sources)",
+  "tamalean_commit": "7e8e63f23cef2427c1bef6a241adb67ce375c9a2",
+  "lean_toolchain": "leanprover/lean4:v4.35.0",
+  "host": "Apple M4 Pro, 14 cores, 24 GB, macOS 27.0.1",
+  "date": "2026-10-19",
+  "measured_alone": false,
+  "limits": {
+    "lemma_s": 600,
+    "model_s": 1800
+  },
+  "reader": {
+    "ok": false,
+    "ms": 2,
+    "error": "Bench/tamarin/loops/JCS12_Typing_Example.lean:12:0: error: ../../../models/tamarin/loops/JCS12_Typing_Example/JCS12_Typing_Example.spthy:61:13: tamarin_theory: rule `Serv_1` applies the destructor `adec`; Tamalean's protocol rules are constructor-only (match the message's structure in a premise instead)\n",
+    "reason": "a protocol rule applies a destructor"
+  },
+  "lemmas": [
+    {
+      "name": "typing_assertion",
+      "outcome": "rejected"
+    },
+    {
+      "name": "Client_session_key_secrecy_raw",
+      "outcome": "rejected"
+    },
+    {
+      "name": "Client_session_key_secrecy",
+      "outcome": "rejected"
+    },
+    {
+      "name": "Client_auth",
+      "outcome": "rejected"
+    }
+  ],
+  "total_wall_s": 0.0
+}

@@ -1,0 +1,48 @@
+{
+  "id": "tamarin/thesis-LaraSchmid-evoting/chapter3_Alethea/aletheaD_sel_ShHh",
+  "tool": "tamalean",
+  "setting": "no guidance",
+  "tactic": "certify (the model's default sources)",
+  "tamalean_commit": "7e8e63f23cef2427c1bef6a241adb67ce375c9a2",
+  "lean_toolchain": "leanprover/lean4:v4.35.0",
+  "host": "Apple M4 Pro, 14 cores, 24 GB, macOS 27.0.1",
+  "date": "2026-10-19",
+  "measured_alone": false,
+  "limits": {
+    "lemma_s": 600,
+    "model_s": 1800
+  },
+  "reader": {
+    "ok": false,
+    "ms": 5,
+    "error": "Bench/tamarin/thesis-LaraSchmid-evoting/chapter3_Alethea/aletheaD_sel_ShHh.lean:12:0: error: ../../../../models/tamarin/thesis-LaraSchmid-evoting/chapter3_Alethea/aletheaD_sel_ShHh/aletheaD_sel_ShHh.spthy:239:1: tamarin_theory_file: `restriction`: restrictions are not supported: the core has no trace restrictions\n",
+    "reason": "restrictions"
+  },
+  "lemmas": [
+    {
+      "name": "functional",
+      "outcome": "rejected"
+    },
+    {
+      "name": "functional2",
+      "outcome": "rejected"
+    },
+    {
+      "name": "functional3",
+      "outcome": "rejected"
+    },
+    {
+      "name": "indivVerif_D_ps",
+      "outcome": "rejected"
+    },
+    {
+      "name": "indivVerif_D_sel",
+      "outcome": "rejected"
+    },
+    {
+      "name": "univVerif_sel",
+      "outcome": "rejected"
+    }
+  ],
+  "total_wall_s": 0.0
+}

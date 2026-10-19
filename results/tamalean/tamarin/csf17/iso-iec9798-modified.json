@@ -1,0 +1,76 @@
+{
+  "id": "tamarin/csf17/iso-iec9798-modified",
+  "tool": "tamalean",
+  "setting": "no guidance",
+  "tactic": "certify (the model's default sources)",
+  "tamalean_commit": "7e8e63f23cef2427c1bef6a241adb67ce375c9a2",
+  "lean_toolchain": "leanprover/lean4:v4.35.0",
+  "host": "Apple M4 Pro, 14 cores, 24 GB, macOS 27.0.1",
+  "date": "2026-10-19",
+  "measured_alone": false,
+  "limits": {
+    "lemma_s": 600,
+    "model_s": 1800
+  },
+  "reader": {
+    "ok": false,
+    "ms": 3,
+    "error": "Bench/tamarin/csf17/iso-iec9798-modified.lean:12:0: error: ../../../models/tamarin/csf17/iso-iec9798-modified/iso-iec9798-modified.spthy:10:1: tamarin_theory_file: `heuristic`: proof-search heuristics and tactics are not supported\n",
+    "reason": "`heuristic:` or `tactic:`"
+  },
+  "lemmas": [
+    {
+      "name": "invariant_sources",
+      "outcome": "rejected"
+    },
+    {
+      "name": "commit_unique",
+      "outcome": "rejected"
+    },
+    {
+      "name": "token_compromise_source",
+      "outcome": "rejected"
+    },
+    {
+      "name": "force_nonce_ordering",
+      "outcome": "rejected"
+    },
+    {
+      "name": "exists_session",
+      "outcome": "rejected"
+    },
+    {
+      "name": "exists_second_session",
+      "outcome": "rejected"
+    },
+    {
+      "name": "exists_detect_no_I_compromise",
+      "outcome": "rejected"
+    },
+    {
+      "name": "detect_sound",
+      "outcome": "rejected"
+    },
+    {
+      "name": "correct_dolevyao",
+      "outcome": "rejected"
+    },
+    {
+      "name": "matching_detects_prior_misuse",
+      "outcome": "rejected"
+    },
+    {
+      "name": "sent_commit_implies_generated",
+      "outcome": "rejected"
+    },
+    {
+      "name": "sessions_injective",
+      "outcome": "rejected"
+    },
+    {
+      "name": "matching_detects_later_misuse",
+      "outcome": "rejected"
+    }
+  ],
+  "total_wall_s": 0.51
+}

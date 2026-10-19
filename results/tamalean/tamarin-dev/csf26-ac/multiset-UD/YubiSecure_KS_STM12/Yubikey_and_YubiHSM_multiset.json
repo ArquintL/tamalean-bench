@@ -1,0 +1,52 @@
+{
+  "id": "tamarin-dev/csf26-ac/multiset-UD/YubiSecure_KS_STM12/Yubikey_and_YubiHSM_multiset",
+  "tool": "tamalean",
+  "setting": "no guidance",
+  "tactic": "certify (the model's default sources)",
+  "tamalean_commit": "7e8e63f23cef2427c1bef6a241adb67ce375c9a2",
+  "lean_toolchain": "leanprover/lean4:v4.35.0",
+  "host": "Apple M4 Pro, 14 cores, 24 GB, macOS 27.0.1",
+  "date": "2026-10-19",
+  "measured_alone": false,
+  "limits": {
+    "lemma_s": 600,
+    "model_s": 1800
+  },
+  "reader": {
+    "ok": false,
+    "ms": 3,
+    "error": "Bench/tamarin-dev/csf26-ac/multiset-UD/YubiSecure_KS_STM12/Yubikey_and_YubiHSM_multiset.lean:12:0: error: ../../../../../models/tamarin-dev/csf26-ac/multiset-UD/YubiSecure_KS_STM12/Yubikey_and_YubiHSM_multiset/Yubikey_and_YubiHSM_multiset.spthy:7:33: tamarin_theory_file: function attributes (`[private]`, `[destructor]`) are not supported\n",
+    "reason": "function attributes ([private], [destructor])"
+  },
+  "lemmas": [
+    {
+      "name": "transitivity",
+      "outcome": "rejected"
+    },
+    {
+      "name": "otp_decode_does_not_help_adv_use_induction",
+      "outcome": "rejected"
+    },
+    {
+      "name": "neither_k_nor_k2_are_ever_leaked_inv",
+      "outcome": "rejected"
+    },
+    {
+      "name": "slightly_weaker_invariant",
+      "outcome": "rejected"
+    },
+    {
+      "name": "no_replay",
+      "outcome": "rejected"
+    },
+    {
+      "name": "injective_correspondance",
+      "outcome": "rejected"
+    },
+    {
+      "name": "Login_invalidates_smaller_counters",
+      "outcome": "rejected"
+    }
+  ],
+  "total_wall_s": 0.0
+}

@@ -1,0 +1,32 @@
+{
+  "id": "tamarin/sp14/TAK1_eCK_like",
+  "tool": "tamalean",
+  "setting": "no guidance",
+  "tactic": "certify (the model's default sources)",
+  "tamalean_commit": "7e8e63f23cef2427c1bef6a241adb67ce375c9a2",
+  "lean_toolchain": "leanprover/lean4:v4.35.0",
+  "host": "Apple M4 Pro, 14 cores, 24 GB, macOS 27.0.1",
+  "date": "2026-10-19",
+  "measured_alone": false,
+  "limits": {
+    "lemma_s": 600,
+    "model_s": 1800
+  },
+  "reader": {
+    "ok": false,
+    "ms": 1,
+    "error": "Bench/tamarin/sp14/TAK1_eCK_like.lean:12:0: error: ../../../models/tamarin/sp14/TAK1_eCK_like/TAK1_eCK_like.spthy:85:1: tamarin_theory_file: preprocessor directives (`#ifdef`, …) are not supported\n",
+    "reason": "preprocessor (#ifdef, #include)"
+  },
+  "lemmas": [
+    {
+      "name": "session_key_establish",
+      "outcome": "rejected"
+    },
+    {
+      "name": "Session_Key_Secrecy",
+      "outcome": "rejected"
+    }
+  ],
+  "total_wall_s": 0.0
+}

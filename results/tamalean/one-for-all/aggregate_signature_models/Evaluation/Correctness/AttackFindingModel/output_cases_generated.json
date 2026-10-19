@@ -1,0 +1,224 @@
+{
+  "id": "one-for-all/aggregate_signature_models/Evaluation/Correctness/AttackFindingModel/output_cases_generated",
+  "tool": "tamalean",
+  "setting": "no guidance",
+  "tactic": "certify (the model's default sources)",
+  "tamalean_commit": "7e8e63f23cef2427c1bef6a241adb67ce375c9a2",
+  "lean_toolchain": "leanprover/lean4:v4.35.0",
+  "host": "Apple M4 Pro, 14 cores, 24 GB, macOS 27.0.1",
+  "date": "2026-10-20",
+  "measured_alone": false,
+  "limits": {
+    "lemma_s": 600,
+    "model_s": 1800
+  },
+  "reader": {
+    "ok": false,
+    "ms": 6,
+    "error": "Bench/one-for-all/aggregate_signature_models/Evaluation/Correctness/AttackFindingModel/output_cases_generated.lean:12:0: error: ../../../../../../models/one-for-all/aggregate_signature_models/Evaluation/Correctness/AttackFindingModel/output_cases_generated/output_cases_generated.spthy:8:23: tamarin_theory_file: function attributes (`[private]`, `[destructor]`) are not supported\n",
+    "reason": "function attributes ([private], [destructor])"
+  },
+  "lemmas": [
+    {
+      "name": "OneValidSignature",
+      "outcome": "rejected"
+    },
+    {
+      "name": "TwoValidSignatures",
+      "outcome": "rejected"
+    },
+    {
+      "name": "ThreeValidSignatures",
+      "outcome": "rejected"
+    },
+    {
+      "name": "ThreeValidSignatures_twiceTheSameMessage",
+      "outcome": "rejected"
+    },
+    {
+      "name": "ThreeValidSignatures_twiceTheSameKey",
+      "outcome": "rejected"
+    },
+    {
+      "name": "ThreeValidSignatures_twiceTheSameSignature",
+      "outcome": "rejected"
+    },
+    {
+      "name": "SixSignatures",
+      "outcome": "rejected"
+    },
+    {
+      "name": "TwiceTheSameMessageAndKey",
+      "outcome": "rejected"
+    },
+    {
+      "name": "NotHonestKeys_correctSignature",
+      "outcome": "rejected"
+    },
+    {
+      "name": "OneValidSignature_false",
+      "outcome": "rejected"
+    },
+    {
+      "name": "TwoValidSignatures_false",
+      "outcome": "rejected"
+    },
+    {
+      "name": "ThreeValidSignatures_false",
+      "outcome": "rejected"
+    },
+    {
+      "name": "ThreeValidSignatures_twiceTheSameMessage_false",
+      "outcome": "rejected"
+    },
+    {
+      "name": "ThreeValidSignatures_twiceTheSameKey_false",
+      "outcome": "rejected"
+    },
+    {
+      "name": "ThreeValidSignatures_twiceTheSameSignature_false",
+      "outcome": "rejected"
+    },
+    {
+      "name": "SixSignatures_false",
+      "outcome": "rejected"
+    },
+    {
+      "name": "TwiceTheSameMessageAndKey_false",
+      "outcome": "rejected"
+    },
+    {
+      "name": "NotHonestKeys_correctSignature_false",
+      "outcome": "rejected"
+    },
+    {
+      "name": "OneValidSignature_WrongMessage",
+      "outcome": "rejected"
+    },
+    {
+      "name": "OneValidSignature_WrongKey",
+      "outcome": "rejected"
+    },
+    {
+      "name": "OneValidSignature_WrongMessageAndKey",
+      "outcome": "rejected"
+    },
+    {
+      "name": "TwoValidSignatures_MessagesSwapped",
+      "outcome": "rejected"
+    },
+    {
+      "name": "TwoValidSignatures_OrderSwapped",
+      "outcome": "rejected"
+    },
+    {
+      "name": "TwoValidSignatures_KeySwaped",
+      "outcome": "rejected"
+    },
+    {
+      "name": "NotHonestKeys_NonMatchingKey_verifyingHonest",
+      "outcome": "rejected"
+    },
+    {
+      "name": "TooManyMessages",
+      "outcome": "rejected"
+    },
+    {
+      "name": "TooManySignatures",
+      "outcome": "rejected"
+    },
+    {
+      "name": "NoPublicKey",
+      "outcome": "rejected"
+    },
+    {
+      "name": "MissingAggFunction",
+      "outcome": "rejected"
+    },
+    {
+      "name": "TooManyMessages_OneTwice",
+      "outcome": "rejected"
+    },
+    {
+      "name": "TooManySignatures_OneTwice",
+      "outcome": "rejected"
+    },
+    {
+      "name": "NotHonestKeys_NonMatchingMessage",
+      "outcome": "rejected"
+    },
+    {
+      "name": "NotHonestKeys_NonMatchingKey_BothNonHonest",
+      "outcome": "rejected"
+    },
+    {
+      "name": "NotHonestKeys_NonMatchingKey_signingHonest",
+      "outcome": "rejected"
+    },
+    {
+      "name": "OneValidSignature_WrongMessage_false",
+      "outcome": "rejected"
+    },
+    {
+      "name": "OneValidSignature_WrongKey_false",
+      "outcome": "rejected"
+    },
+    {
+      "name": "OneValidSignature_WrongMessageAndKey_false",
+      "outcome": "rejected"
+    },
+    {
+      "name": "TwoValidSignatures_MessagesSwapped_false",
+      "outcome": "rejected"
+    },
+    {
+      "name": "TwoValidSignatures_OrderSwapped_false",
+      "outcome": "rejected"
+    },
+    {
+      "name": "TwoValidSignatures_KeySwaped_false",
+      "outcome": "rejected"
+    },
+    {
+      "name": "NotHonestKeys_NonMatchingKey_verifyingHonest_false",
+      "outcome": "rejected"
+    },
+    {
+      "name": "TooManyMessages_false",
+      "outcome": "rejected"
+    },
+    {
+      "name": "TooManySignatures_false",
+      "outcome": "rejected"
+    },
+    {
+      "name": "NoPublicKey_false",
+      "outcome": "rejected"
+    },
+    {
+      "name": "MissingAggFunction_false",
+      "outcome": "rejected"
+    },
+    {
+      "name": "TooManyMessages_OneTwice_false",
+      "outcome": "rejected"
+    },
+    {
+      "name": "TooManySignatures_OneTwice_false",
+      "outcome": "rejected"
+    },
+    {
+      "name": "NotHonestKeys_NonMatchingMessage_false",
+      "outcome": "rejected"
+    },
+    {
+      "name": "NotHonestKeys_NonMatchingKey_BothNonHonest_false",
+      "outcome": "rejected"
+    },
+    {
+      "name": "NotHonestKeys_NonMatchingKey_signingHonest_false",
+      "outcome": "rejected"
+    }
+  ],
+  "total_wall_s": 0.51
+}

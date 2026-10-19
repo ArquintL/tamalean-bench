@@ -1,0 +1,104 @@
+{
+  "id": "emv/more-is-less/Visa_PinPlasticAppleSamsung",
+  "tool": "tamalean",
+  "setting": "no guidance",
+  "tactic": "certify (the model's default sources)",
+  "tamalean_commit": "7e8e63f23cef2427c1bef6a241adb67ce375c9a2",
+  "lean_toolchain": "leanprover/lean4:v4.35.0",
+  "host": "Apple M4 Pro, 14 cores, 24 GB, macOS 27.0.1",
+  "date": "2026-10-20",
+  "measured_alone": false,
+  "limits": {
+    "lemma_s": 600,
+    "model_s": 1800
+  },
+  "reader": {
+    "ok": false,
+    "ms": 10,
+    "error": "Bench/emv/more-is-less/Visa_PinPlasticAppleSamsung.lean:12:0: error: ../../../cache/emv/more-is-less/Visa_PinPlasticAppleSamsung/Visa_PinPlasticAppleSamsung.spthy:63:1: tamarin_theory_file: `restriction`: restrictions are not supported: the core has no trace restrictions\n",
+    "reason": "restrictions"
+  },
+  "lemmas": [
+    {
+      "name": "Correctness_Samsung_NoAuthAiP_Transit_Zero_NoAuth",
+      "outcome": "rejected"
+    },
+    {
+      "name": "Correctness_Samsung_NoAuthAiP_Retail_High_Auth",
+      "outcome": "rejected"
+    },
+    {
+      "name": "Correctness_Samsung_NoAuthAiP_Retail_Low_Auth",
+      "outcome": "rejected"
+    },
+    {
+      "name": "Correctness_Apple_NoAuthAiP_Transit_AnyAmount_NoAuth",
+      "outcome": "rejected"
+    },
+    {
+      "name": "Samsung_Can_Finish_Transit_term_fDDA_mode_noMatterTheMagic",
+      "outcome": "rejected"
+    },
+    {
+      "name": "Plastic_Can_Finish_fDDA_mode",
+      "outcome": "rejected"
+    },
+    {
+      "name": "Plastic_Can_Finish_emv_high",
+      "outcome": "rejected"
+    },
+    {
+      "name": "Samsung_Can_Finish_Transit_term_fDDA_mode_activelyIgnoringMagicBytes",
+      "outcome": "rejected"
+    },
+    {
+      "name": "Apple_Can_Finish_Transit_term_fDDA_mode_noMatterTheMagic",
+      "outcome": "rejected"
+    },
+    {
+      "name": "Apple_Can_Finish_Transit_term_fDDA_mode_processingMagic",
+      "outcome": "rejected"
+    },
+    {
+      "name": "Samsung_Finishing_Transit_term_fDDA_mode_onlyWithZero",
+      "outcome": "rejected"
+    },
+    {
+      "name": "Can_Finish_NoCDCVM",
+      "outcome": "rejected"
+    },
+    {
+      "name": "Can_Finish_CDCVM",
+      "outcome": "rejected"
+    },
+    {
+      "name": "Bank_Gets_Correct_MCC",
+      "outcome": "rejected"
+    },
+    {
+      "name": "High_Amount_Needs_CDCVM",
+      "outcome": "rejected"
+    },
+    {
+      "name": "Bypassing_CDCVM_Needs_MagicBytes",
+      "outcome": "rejected"
+    },
+    {
+      "name": "Bypassing_CDCVM_Needs_MCC_Equal_Transit",
+      "outcome": "rejected"
+    },
+    {
+      "name": "plastic_high_accepted_by_bank",
+      "outcome": "rejected"
+    },
+    {
+      "name": "Existence_Of_Apple_Visa_Attack",
+      "outcome": "rejected"
+    },
+    {
+      "name": "Existence_Of_Timurs_Attack",
+      "outcome": "rejected"
+    }
+  ],
+  "total_wall_s": 0.0
+}

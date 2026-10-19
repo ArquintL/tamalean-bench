@@ -1,0 +1,56 @@
+{
+  "id": "tamarin/sapic/not-working/PKCS11/pkcs11-dynamic-policy",
+  "tool": "tamalean",
+  "setting": "no guidance",
+  "tactic": "certify (the model's default sources)",
+  "tamalean_commit": "7e8e63f23cef2427c1bef6a241adb67ce375c9a2",
+  "lean_toolchain": "leanprover/lean4:v4.35.0",
+  "host": "Apple M4 Pro, 14 cores, 24 GB, macOS 27.0.1",
+  "date": "2026-10-19",
+  "measured_alone": false,
+  "limits": {
+    "lemma_s": 600,
+    "model_s": 1800
+  },
+  "reader": {
+    "ok": false,
+    "ms": 3,
+    "error": "Bench/tamarin/sapic/not-working/PKCS11/pkcs11-dynamic-policy.lean:12:0: error: ../../../../../models/tamarin/sapic/not-working/PKCS11/pkcs11-dynamic-policy/pkcs11-dynamic-policy.spthy:39:1: tamarin_theory_file: `predicates`: predicates are not supported\n",
+    "reason": "predicates"
+  },
+  "lemmas": [
+    {
+      "name": "dec_limits",
+      "outcome": "rejected"
+    },
+    {
+      "name": "untrusted_as_ut_impossible",
+      "outcome": "rejected"
+    },
+    {
+      "name": "untrusted_as_wt_impossible",
+      "outcome": "rejected"
+    },
+    {
+      "name": "bad_keys",
+      "outcome": "rejected"
+    },
+    {
+      "name": "no_key_is_wrap_and_dec__or_unwrap_and_dec_ind",
+      "outcome": "rejected"
+    },
+    {
+      "name": "no_key_is_enc_and_unwrap",
+      "outcome": "rejected"
+    },
+    {
+      "name": "cannot_obtain_key_ind",
+      "outcome": "rejected"
+    },
+    {
+      "name": "cannot_obtain_key",
+      "outcome": "rejected"
+    }
+  ],
+  "total_wall_s": 0.0
+}

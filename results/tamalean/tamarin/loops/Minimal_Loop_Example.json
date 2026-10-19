@@ -1,0 +1,47 @@
+{
+  "id": "tamarin/loops/Minimal_Loop_Example",
+  "tool": "tamalean",
+  "setting": "no guidance",
+  "tactic": "certify (the model's default sources)",
+  "tamalean_commit": "7e8e63f23cef2427c1bef6a241adb67ce375c9a2",
+  "lean_toolchain": "leanprover/lean4:v4.35.0",
+  "host": "Apple M4 Pro, 14 cores, 24 GB, macOS 27.0.1",
+  "date": "2026-10-19",
+  "measured_alone": false,
+  "limits": {
+    "lemma_s": 600,
+    "model_s": 1800
+  },
+  "reader": {
+    "ok": true,
+    "ms": 332
+  },
+  "lemmas": [
+    {
+      "name": "Start_before_Loop",
+      "outcome": "not run",
+      "message": "only the reader ran"
+    },
+    {
+      "name": "Start_before_Stop",
+      "outcome": "not run",
+      "message": "only the reader ran"
+    },
+    {
+      "name": "Loop_before_Stop",
+      "outcome": "not run",
+      "message": "only the reader ran"
+    },
+    {
+      "name": "Stop_unique",
+      "outcome": "not run",
+      "message": "only the reader ran"
+    },
+    {
+      "name": "Satisfied_by_empty_trace_only",
+      "outcome": "not run",
+      "message": "only the reader ran"
+    }
+  ],
+  "total_wall_s": 0.51
+}

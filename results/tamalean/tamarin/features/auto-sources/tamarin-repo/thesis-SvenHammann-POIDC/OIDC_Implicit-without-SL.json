@@ -1,0 +1,32 @@
+{
+  "id": "tamarin/features/auto-sources/tamarin-repo/thesis-SvenHammann-POIDC/OIDC_Implicit-without-SL",
+  "tool": "tamalean",
+  "setting": "no guidance",
+  "tactic": "certify (the model's default sources)",
+  "tamalean_commit": "7e8e63f23cef2427c1bef6a241adb67ce375c9a2",
+  "lean_toolchain": "leanprover/lean4:v4.35.0",
+  "host": "Apple M4 Pro, 14 cores, 24 GB, macOS 27.0.1",
+  "date": "2026-10-19",
+  "measured_alone": false,
+  "limits": {
+    "lemma_s": 600,
+    "model_s": 1800
+  },
+  "reader": {
+    "ok": false,
+    "ms": 3,
+    "error": "Bench/tamarin/features/auto-sources/tamarin-repo/thesis-SvenHammann-POIDC/OIDC_Implicit-without-SL.lean:12:0: error: ../../../../../../models/tamarin/features/auto-sources/tamarin-repo/thesis-SvenHammann-POIDC/OIDC_Implicit-without-SL/OIDC_Implicit-without-SL.spthy:23:17: tamarin_theory_file: function attributes (`[private]`, `[destructor]`) are not supported\n",
+    "reason": "function attributes ([private], [destructor])"
+  },
+  "lemmas": [
+    {
+      "name": "executable",
+      "outcome": "rejected"
+    },
+    {
+      "name": "User_Authentication",
+      "outcome": "rejected"
+    }
+  ],
+  "total_wall_s": 0.5
+}

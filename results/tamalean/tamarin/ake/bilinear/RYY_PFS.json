@@ -14,23 +14,19 @@
   },
   "reader": {
     "ok": false,
-    "ms": 4,
+    "ms": 2,
     "error": "Bench/tamarin/ake/bilinear/RYY_PFS.lean:12:0: error: ../../../../models/tamarin/ake/bilinear/RYY_PFS/RYY_PFS.spthy:4:11: tamarin_theory: unsupported builtin `bilinear-pairing` (supported: hashing, symmetric-encryption, asymmetric-encryption, signing, revealing-signing, diffie-hellman, xor, multiset)\n",
     "reason": "unsupported builtin: bilinear-pairing"
   },
   "lemmas": [
     {
       "name": "key_agreement_reachable",
-      "ms": 0,
-      "outcome": "rejected",
-      "message": "no statement RYY.Lemmas.key_agreement_reachable: the reader did not generate it"
+      "outcome": "rejected"
     },
     {
       "name": "key_secrecy_PFS",
-      "ms": 0,
-      "outcome": "rejected",
-      "message": "no statement RYY.Lemmas.key_secrecy_PFS: the reader did not generate it"
+      "outcome": "rejected"
     }
   ],
-  "total_wall_s": 0.26
+  "total_wall_s": 0.5
 }

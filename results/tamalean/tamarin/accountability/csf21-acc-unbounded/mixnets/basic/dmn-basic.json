@@ -14,41 +14,31 @@
   },
   "reader": {
     "ok": false,
-    "ms": 4,
+    "ms": 5,
     "error": "Bench/tamarin/accountability/csf21-acc-unbounded/mixnets/basic/dmn-basic.lean:12:0: error: ../../../../../../models/tamarin/accountability/csf21-acc-unbounded/mixnets/basic/dmn-basic/dmn-basic.spthy:16:9: tamarin_theory_file: function attributes (`[private]`, `[destructor]`) are not supported\n",
     "reason": "function attributes ([private], [destructor])"
   },
   "lemmas": [
     {
       "name": "sanity_submit",
-      "ms": 0,
-      "outcome": "rejected",
-      "message": "no statement DMNBasic.Lemmas.sanity_submit: the reader did not generate it"
+      "outcome": "rejected"
     },
     {
       "name": "sanity_mix",
-      "ms": 0,
-      "outcome": "rejected",
-      "message": "no statement DMNBasic.Lemmas.sanity_mix: the reader did not generate it"
+      "outcome": "rejected"
     },
     {
       "name": "sanity_receive",
-      "ms": 0,
-      "outcome": "rejected",
-      "message": "no statement DMNBasic.Lemmas.sanity_receive: the reader did not generate it"
+      "outcome": "rejected"
     },
     {
       "name": "correctness",
-      "ms": 0,
-      "outcome": "rejected",
-      "message": "no statement DMNBasic.Lemmas.correctness: the reader did not generate it"
+      "outcome": "rejected"
     },
     {
       "name": "duplicates",
-      "ms": 0,
-      "outcome": "rejected",
-      "message": "no statement DMNBasic.Lemmas.duplicates: the reader did not generate it"
+      "outcome": "rejected"
     }
   ],
-  "total_wall_s": 0.1
+  "total_wall_s": 0.51
 }

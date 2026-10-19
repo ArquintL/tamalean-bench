@@ -21,130 +21,88 @@
   "lemmas": [
     {
       "name": "onlyonce1",
-      "ms": 0,
-      "outcome": "rejected",
-      "message": "no statement mixvote_SmHh_acc_multi.Lemmas.onlyonce1: the reader did not generate it"
+      "outcome": "rejected"
     },
     {
       "name": "onlyonce2",
-      "ms": 0,
-      "outcome": "rejected",
-      "message": "no statement mixvote_SmHh_acc_multi.Lemmas.onlyonce2: the reader did not generate it"
+      "outcome": "rejected"
     },
     {
       "name": "onlyonce3",
-      "ms": 0,
-      "outcome": "rejected",
-      "message": "no statement mixvote_SmHh_acc_multi.Lemmas.onlyonce3: the reader did not generate it"
+      "outcome": "rejected"
     },
     {
       "name": "onlyonce4",
-      "ms": 0,
-      "outcome": "rejected",
-      "message": "no statement mixvote_SmHh_acc_multi.Lemmas.onlyonce4: the reader did not generate it"
+      "outcome": "rejected"
     },
     {
       "name": "onlyonce5",
-      "ms": 0,
-      "outcome": "rejected",
-      "message": "no statement mixvote_SmHh_acc_multi.Lemmas.onlyonce5: the reader did not generate it"
+      "outcome": "rejected"
     },
     {
       "name": "onlyonce6",
-      "ms": 0,
-      "outcome": "rejected",
-      "message": "no statement mixvote_SmHh_acc_multi.Lemmas.onlyonce6: the reader did not generate it"
+      "outcome": "rejected"
     },
     {
       "name": "onlyonce7",
-      "ms": 0,
-      "outcome": "rejected",
-      "message": "no statement mixvote_SmHh_acc_multi.Lemmas.onlyonce7: the reader did not generate it"
+      "outcome": "rejected"
     },
     {
       "name": "onlyonce8",
-      "ms": 0,
-      "outcome": "rejected",
-      "message": "no statement mixvote_SmHh_acc_multi.Lemmas.onlyonce8: the reader did not generate it"
+      "outcome": "rejected"
     },
     {
       "name": "onlyonce9",
-      "ms": 0,
-      "outcome": "rejected",
-      "message": "no statement mixvote_SmHh_acc_multi.Lemmas.onlyonce9: the reader did not generate it"
+      "outcome": "rejected"
     },
     {
       "name": "onlyonce10",
-      "ms": 0,
-      "outcome": "rejected",
-      "message": "no statement mixvote_SmHh_acc_multi.Lemmas.onlyonce10: the reader did not generate it"
+      "outcome": "rejected"
     },
     {
       "name": "functional",
-      "ms": 0,
-      "outcome": "rejected",
-      "message": "no statement mixvote_SmHh_acc_multi.Lemmas.functional: the reader did not generate it"
+      "outcome": "rejected"
     },
     {
       "name": "indivVerif",
-      "ms": 0,
-      "outcome": "rejected",
-      "message": "no statement mixvote_SmHh_acc_multi.Lemmas.indivVerif: the reader did not generate it"
+      "outcome": "rejected"
     },
     {
       "name": "VoterC",
-      "ms": 0,
-      "outcome": "rejected",
-      "message": "no statement mixvote_SmHh_acc_multi.Lemmas.VoterC: the reader did not generate it"
+      "outcome": "rejected"
     },
     {
       "name": "TimelyP",
-      "ms": 0,
-      "outcome": "rejected",
-      "message": "no statement mixvote_SmHh_acc_multi.Lemmas.TimelyP: the reader did not generate it"
+      "outcome": "rejected"
     },
     {
       "name": "Uniqueness",
-      "ms": 0,
-      "outcome": "rejected",
-      "message": "no statement mixvote_SmHh_acc_multi.Lemmas.Uniqueness: the reader did not generate it"
+      "outcome": "rejected"
     },
     {
       "name": "secretSskD",
-      "ms": 0,
-      "outcome": "rejected",
-      "message": "no statement mixvote_SmHh_acc_multi.Lemmas.secretSskD: the reader did not generate it"
+      "outcome": "rejected"
     },
     {
       "name": "ballotsFromVoters",
-      "ms": 0,
-      "outcome": "rejected",
-      "message": "no statement mixvote_SmHh_acc_multi.Lemmas.ballotsFromVoters: the reader did not generate it"
+      "outcome": "rejected"
     },
     {
       "name": "TalliedAsRecorded",
-      "ms": 0,
-      "outcome": "rejected",
-      "message": "no statement mixvote_SmHh_acc_multi.Lemmas.TalliedAsRecorded: the reader did not generate it"
+      "outcome": "rejected"
     },
     {
       "name": "EligVerif",
-      "ms": 0,
-      "outcome": "rejected",
-      "message": "no statement mixvote_SmHh_acc_multi.Lemmas.EligVerif: the reader did not generate it"
+      "outcome": "rejected"
     },
     {
       "name": "acc_VoterC",
-      "ms": 0,
-      "outcome": "rejected",
-      "message": "no statement mixvote_SmHh_acc_multi.Lemmas.acc_VoterC: the reader did not generate it"
+      "outcome": "rejected"
     },
     {
       "name": "acc_TimelyP",
-      "ms": 0,
-      "outcome": "rejected",
-      "message": "no statement mixvote_SmHh_acc_multi.Lemmas.acc_TimelyP: the reader did not generate it"
+      "outcome": "rejected"
     }
   ],
-  "total_wall_s": 0.1
+  "total_wall_s": 0.0
 }

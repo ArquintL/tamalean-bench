@@ -1,0 +1,28 @@
+{
+  "id": "tamarin/thesis-benedikt/running-examples/UM_one_pass_private",
+  "tool": "tamalean",
+  "setting": "no guidance",
+  "tactic": "certify (the model's default sources)",
+  "tamalean_commit": "7e8e63f23cef2427c1bef6a241adb67ce375c9a2",
+  "lean_toolchain": "leanprover/lean4:v4.35.0",
+  "host": "Apple M4 Pro, 14 cores, 24 GB, macOS 27.0.1",
+  "date": "2026-10-19",
+  "measured_alone": false,
+  "limits": {
+    "lemma_s": 600,
+    "model_s": 1800
+  },
+  "reader": {
+    "ok": false,
+    "ms": 1,
+    "error": "Bench/tamarin/thesis-benedikt/running-examples/UM_one_pass_private.lean:12:0: error: ../../../../models/tamarin/thesis-benedikt/running-examples/UM_one_pass_private/UM_one_pass_private.spthy:34:14: tamarin_theory: `h` is declared with arity 1 but applied to 5 argument(s)\n",
+    "reason": "frontend: `…` is declared with arity 1 but applied to 5 argument"
+  },
+  "lemmas": [
+    {
+      "name": "UM_executable",
+      "outcome": "rejected"
+    }
+  ],
+  "total_wall_s": 0.5
+}

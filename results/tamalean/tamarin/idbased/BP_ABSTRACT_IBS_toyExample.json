@@ -1,0 +1,44 @@
+{
+  "id": "tamarin/idbased/BP_ABSTRACT_IBS_toyExample",
+  "tool": "tamalean",
+  "setting": "no guidance",
+  "tactic": "certify (the model's default sources)",
+  "tamalean_commit": "7e8e63f23cef2427c1bef6a241adb67ce375c9a2",
+  "lean_toolchain": "leanprover/lean4:v4.35.0",
+  "host": "Apple M4 Pro, 14 cores, 24 GB, macOS 27.0.1",
+  "date": "2026-10-19",
+  "measured_alone": false,
+  "limits": {
+    "lemma_s": 600,
+    "model_s": 1800
+  },
+  "reader": {
+    "ok": false,
+    "ms": 2,
+    "error": "Bench/tamarin/idbased/BP_ABSTRACT_IBS_toyExample.lean:12:0: error: ../../../models/tamarin/idbased/BP_ABSTRACT_IBS_toyExample/BP_ABSTRACT_IBS_toyExample.spthy:95:1: tamarin_theory_file: `restriction`: restrictions are not supported: the core has no trace restrictions\n",
+    "reason": "restrictions"
+  },
+  "lemmas": [
+    {
+      "name": "nonInjectiveAgreementChallenge_Initiator_Acompro",
+      "outcome": "rejected"
+    },
+    {
+      "name": "nonInjectiveAgreementChallenge_Initiator_ABcompro",
+      "outcome": "rejected"
+    },
+    {
+      "name": "nonInjectiveAgreementChallenge_Responder_Bcompro",
+      "outcome": "rejected"
+    },
+    {
+      "name": "nonInjectiveAgreementChallenge_Responder_BAcompro",
+      "outcome": "rejected"
+    },
+    {
+      "name": "executability_lemma",
+      "outcome": "rejected"
+    }
+  ],
+  "total_wall_s": 0.0
+}

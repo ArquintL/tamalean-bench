@@ -21,16 +21,12 @@
   "lemmas": [
     {
       "name": "session_key_establish",
-      "ms": 0,
-      "outcome": "rejected",
-      "message": "no statement Joux.Lemmas.session_key_establish: the reader did not generate it"
+      "outcome": "rejected"
     },
     {
       "name": "Session_Key_Secrecy_PFS",
-      "ms": 0,
-      "outcome": "rejected",
-      "message": "no statement Joux.Lemmas.Session_Key_Secrecy_PFS: the reader did not generate it"
+      "outcome": "rejected"
     }
   ],
-  "total_wall_s": 0.11
+  "total_wall_s": 0.0
 }

@@ -1,0 +1,28 @@
+{
+  "id": "tamarin/regression/trace/issue527",
+  "tool": "tamalean",
+  "setting": "no guidance",
+  "tactic": "certify (the model's default sources)",
+  "tamalean_commit": "7e8e63f23cef2427c1bef6a241adb67ce375c9a2",
+  "lean_toolchain": "leanprover/lean4:v4.35.0",
+  "host": "Apple M4 Pro, 14 cores, 24 GB, macOS 27.0.1",
+  "date": "2026-10-19",
+  "measured_alone": false,
+  "limits": {
+    "lemma_s": 600,
+    "model_s": 1800
+  },
+  "reader": {
+    "ok": false,
+    "ms": 1,
+    "error": "Bench/tamarin/regression/trace/issue527.lean:12:0: error: ../../../../models/tamarin/regression/trace/issue527/issue527.spthy:13:6: tamarin_theory: rule `Register_pk` uses `~ltk` and `ltk`, which Tamarin reads as two different variables (its wellformedness check rejects this); write the variable with one sort\n",
+    "reason": "frontend: rule `…` uses `…` and `…`, which Tamarin reads as two different variables"
+  },
+  "lemmas": [
+    {
+      "name": "AB_key_honst",
+      "outcome": "rejected"
+    }
+  ],
+  "total_wall_s": 0.5
+}

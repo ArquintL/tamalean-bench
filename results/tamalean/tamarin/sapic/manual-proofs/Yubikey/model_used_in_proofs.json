@@ -1,0 +1,56 @@
+{
+  "id": "tamarin/sapic/manual-proofs/Yubikey/model_used_in_proofs",
+  "tool": "tamalean",
+  "setting": "no guidance",
+  "tactic": "certify (the model's default sources)",
+  "tamalean_commit": "7e8e63f23cef2427c1bef6a241adb67ce375c9a2",
+  "lean_toolchain": "leanprover/lean4:v4.35.0",
+  "host": "Apple M4 Pro, 14 cores, 24 GB, macOS 27.0.1",
+  "date": "2026-10-19",
+  "measured_alone": false,
+  "limits": {
+    "lemma_s": 600,
+    "model_s": 1800
+  },
+  "reader": {
+    "ok": false,
+    "ms": 6,
+    "error": "Bench/tamarin/sapic/manual-proofs/Yubikey/model_used_in_proofs.lean:12:0: error: ../../../../../models/tamarin/sapic/manual-proofs/Yubikey/model_used_in_proofs/model_used_in_proofs.spthy:4:18: tamarin_theory_file: function attributes (`[private]`, `[destructor]`) are not supported\n",
+    "reason": "function attributes ([private], [destructor])"
+  },
+  "lemmas": [
+    {
+      "name": "init_server",
+      "outcome": "rejected"
+    },
+    {
+      "name": "init_server_secrecy",
+      "outcome": "rejected"
+    },
+    {
+      "name": "init_yubikey",
+      "outcome": "rejected"
+    },
+    {
+      "name": "slightly_weaker_invariant",
+      "outcome": "rejected"
+    },
+    {
+      "name": "one_count_foreach_login",
+      "outcome": "rejected"
+    },
+    {
+      "name": "no_replay",
+      "outcome": "rejected"
+    },
+    {
+      "name": "injective_correspondance",
+      "outcome": "rejected"
+    },
+    {
+      "name": "Login_invalidates_smaller_counters",
+      "outcome": "rejected"
+    }
+  ],
+  "total_wall_s": 0.51
+}

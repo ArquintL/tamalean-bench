@@ -1,0 +1,52 @@
+{
+  "id": "tamarin/sapic/deprecated/accountability-old/OCSPS",
+  "tool": "tamalean",
+  "setting": "no guidance",
+  "tactic": "certify (the model's default sources)",
+  "tamalean_commit": "7e8e63f23cef2427c1bef6a241adb67ce375c9a2",
+  "lean_toolchain": "leanprover/lean4:v4.35.0",
+  "host": "Apple M4 Pro, 14 cores, 24 GB, macOS 27.0.1",
+  "date": "2026-10-19",
+  "measured_alone": false,
+  "limits": {
+    "lemma_s": 600,
+    "model_s": 1800
+  },
+  "reader": {
+    "ok": false,
+    "ms": 6,
+    "error": "Bench/tamarin/sapic/deprecated/accountability-old/OCSPS.lean:12:0: error: ../../../../../models/tamarin/sapic/deprecated/accountability-old/OCSPS/OCSPS.spthy:4:18: tamarin_theory_file: function attributes (`[private]`, `[destructor]`) are not supported\n",
+    "reason": "function attributes ([private], [destructor])"
+  },
+  "lemmas": [
+    {
+      "name": "acc_S_excl_0_1",
+      "outcome": "rejected"
+    },
+    {
+      "name": "acc_S_exh",
+      "outcome": "rejected"
+    },
+    {
+      "name": "acc_S_suf_0_0",
+      "outcome": "rejected"
+    },
+    {
+      "name": "acc_S_ver_empty_1",
+      "outcome": "rejected"
+    },
+    {
+      "name": "acc_S_ver_nonempty_0",
+      "outcome": "rejected"
+    },
+    {
+      "name": "acc_S_min_0_0_0",
+      "outcome": "rejected"
+    },
+    {
+      "name": "acc_S_uniq_0",
+      "outcome": "rejected"
+    }
+  ],
+  "total_wall_s": 0.0
+}

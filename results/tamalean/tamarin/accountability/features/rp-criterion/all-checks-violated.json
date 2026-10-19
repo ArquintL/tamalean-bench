@@ -14,17 +14,15 @@
   },
   "reader": {
     "ok": false,
-    "ms": 1,
+    "ms": 0,
     "error": "Bench/tamarin/accountability/features/rp-criterion/all-checks-violated.lean:12:0: error: ../../../../../models/tamarin/accountability/features/rp-criterion/all-checks-violated/all-checks-violated.spthy:14:1: tamarin_theory_file: `restriction`: restrictions are not supported: the core has no trace restrictions\n",
     "reason": "restrictions"
   },
   "lemmas": [
     {
       "name": "acc",
-      "ms": 0,
-      "outcome": "rejected",
-      "message": "no statement AllChecksViolated.Lemmas.acc: the reader did not generate it"
+      "outcome": "rejected"
     }
   ],
-  "total_wall_s": 0.1
+  "total_wall_s": 0.0
 }

@@ -1,0 +1,52 @@
+{
+  "id": "tamarin/testParser/define",
+  "tool": "tamalean",
+  "setting": "no guidance",
+  "tactic": "certify (the model's default sources)",
+  "tamalean_commit": "7e8e63f23cef2427c1bef6a241adb67ce375c9a2",
+  "lean_toolchain": "leanprover/lean4:v4.35.0",
+  "host": "Apple M4 Pro, 14 cores, 24 GB, macOS 27.0.1",
+  "date": "2026-10-19",
+  "measured_alone": false,
+  "limits": {
+    "lemma_s": 600,
+    "model_s": 1800
+  },
+  "reader": {
+    "ok": false,
+    "ms": 1,
+    "error": "Bench/tamarin/testParser/define.lean:12:0: error: ../../../models/tamarin/testParser/define/define.spthy:5:1: tamarin_theory_file: preprocessor directives (`#ifdef`, …) are not supported\n",
+    "reason": "preprocessor (#ifdef, #include)"
+  },
+  "lemmas": [
+    {
+      "name": "reachA",
+      "outcome": "rejected"
+    },
+    {
+      "name": "reachnoA",
+      "outcome": "rejected"
+    },
+    {
+      "name": "reachB",
+      "outcome": "rejected"
+    },
+    {
+      "name": "reachnotB",
+      "outcome": "rejected"
+    },
+    {
+      "name": "reachC",
+      "outcome": "rejected"
+    },
+    {
+      "name": "reachDorC",
+      "outcome": "rejected"
+    },
+    {
+      "name": "reachDandC",
+      "outcome": "rejected"
+    }
+  ],
+  "total_wall_s": 0.0
+}

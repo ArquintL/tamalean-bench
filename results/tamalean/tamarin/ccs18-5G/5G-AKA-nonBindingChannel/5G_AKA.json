@@ -1,0 +1,316 @@
+{
+  "id": "tamarin/ccs18-5G/5G-AKA-nonBindingChannel/5G_AKA",
+  "tool": "tamalean",
+  "setting": "no guidance",
+  "tactic": "certify (the model's default sources)",
+  "tamalean_commit": "7e8e63f23cef2427c1bef6a241adb67ce375c9a2",
+  "lean_toolchain": "leanprover/lean4:v4.35.0",
+  "host": "Apple M4 Pro, 14 cores, 24 GB, macOS 27.0.1",
+  "date": "2026-10-19",
+  "measured_alone": false,
+  "limits": {
+    "lemma_s": 600,
+    "model_s": 1800
+  },
+  "reader": {
+    "ok": false,
+    "ms": 21,
+    "error": "Bench/tamarin/ccs18-5G/5G-AKA-nonBindingChannel/5G_AKA.lean:12:0: error: ../../../../models/tamarin/ccs18-5G/5G-AKA-nonBindingChannel/5G_AKA/5G_AKA.spthy:1:8: tamarin_theory_file: expected the theory's name, found `5`\n",
+    "reason": "a theory name that starts with a digit"
+  },
+  "lemmas": [
+    {
+      "name": "dummy",
+      "outcome": "rejected"
+    },
+    {
+      "name": "rand_autn_src",
+      "outcome": "rejected"
+    },
+    {
+      "name": "sqn_ue_invariance",
+      "outcome": "rejected"
+    },
+    {
+      "name": "sqn_hss_invariance",
+      "outcome": "rejected"
+    },
+    {
+      "name": "sqn_ue_src",
+      "outcome": "rejected"
+    },
+    {
+      "name": "sqn_hss_src",
+      "outcome": "rejected"
+    },
+    {
+      "name": "sqn_ue_nodecrease",
+      "outcome": "rejected"
+    },
+    {
+      "name": "sqn_ue_unique",
+      "outcome": "rejected"
+    },
+    {
+      "name": "executability_honest",
+      "outcome": "rejected"
+    },
+    {
+      "name": "executability_keyConf_honest",
+      "outcome": "rejected"
+    },
+    {
+      "name": "executability_desync",
+      "outcome": "rejected"
+    },
+    {
+      "name": "executability_resync",
+      "outcome": "rejected"
+    },
+    {
+      "name": "weakagreement_ue_seaf_noRev",
+      "outcome": "rejected"
+    },
+    {
+      "name": "weakagreement_ue_seaf_keyConf_noRev",
+      "outcome": "rejected"
+    },
+    {
+      "name": "weakagreement_ue_hss_noAsyKeyRev_noSupiRev_noSqnRev_noChanRev",
+      "outcome": "rejected"
+    },
+    {
+      "name": "cleanAttack_injectiveagreement_ue_hss_supi_noRev",
+      "outcome": "rejected"
+    },
+    {
+      "name": "noninjectiveagreement_ue_hss_supi_noKeyRev",
+      "outcome": "rejected"
+    },
+    {
+      "name": "noninjectiveagreement_ue_hss_kseaf_noRev",
+      "outcome": "rejected"
+    },
+    {
+      "name": "noninjectiveagreement_ue_hss_snname_noRev",
+      "outcome": "rejected"
+    },
+    {
+      "name": "weakagreement_ue_hss_keyConf_noAsyKeyRev_noSupiRev_noSqnRev_noChanRev",
+      "outcome": "rejected"
+    },
+    {
+      "name": "injectiveagreement_ue_hss_kseaf_keyConf_noKeyRev",
+      "outcome": "rejected"
+    },
+    {
+      "name": "noninjectiveagreement_ue_hss_snname_keyConf_noKeyRev",
+      "outcome": "rejected"
+    },
+    {
+      "name": "cleanAttack_injectiveagreement_ue_hss_keyConf_supi_noRev",
+      "outcome": "rejected"
+    },
+    {
+      "name": "noninjectiveagreement_ue_hss_keyConf_supi_noKeyRev",
+      "outcome": "rejected"
+    },
+    {
+      "name": "noninjectiveagreement_seaf_ue_kseaf_noRev",
+      "outcome": "rejected"
+    },
+    {
+      "name": "cleanAttack_injectiveagreement_seaf_ue_supi_noRev",
+      "outcome": "rejected"
+    },
+    {
+      "name": "noninjectiveagreement_seaf_ue_supi_noKeyRev_noChanRev",
+      "outcome": "rejected"
+    },
+    {
+      "name": "weakagreement_seaf_ue_noKeyRev_noAsyKeyRev_noSupiRev_noSqnRev",
+      "outcome": "rejected"
+    },
+    {
+      "name": "weakagreement_seaf_ue_noAsyKeyRev_noSupiRev_noSqnRev_noChanRev",
+      "outcome": "rejected"
+    },
+    {
+      "name": "weakagreement_seaf_ue_noKeyRev_noChanRev",
+      "outcome": "rejected"
+    },
+    {
+      "name": "noninjectiveagreement_seaf_ue_kseaf_keyConf_noRev",
+      "outcome": "rejected"
+    },
+    {
+      "name": "noninjectiveagreement_seaf_ue_keyConf_supi_noKeyRev_noChanRev",
+      "outcome": "rejected"
+    },
+    {
+      "name": "weakagreement_seaf_ue_KeyConf_noKeyRev_noAsyKeyRev_noSupiRev_noSqnRev",
+      "outcome": "rejected"
+    },
+    {
+      "name": "weakagreement_seaf_ue_KeyConf_noKeyRev_noChanRev",
+      "outcome": "rejected"
+    },
+    {
+      "name": "weakagreement_seaf_ue_KeyConf_noAsyKeyRev_noSupiRev_noSqnRev_noChanRev",
+      "outcome": "rejected"
+    },
+    {
+      "name": "weakagreement_seaf_hss_noAsyKeyRev_noSupiRev_noSqnRev_noKeyRev",
+      "outcome": "rejected"
+    },
+    {
+      "name": "noninjectiveagreement_seaf_hss_kseaf_noChanRev",
+      "outcome": "rejected"
+    },
+    {
+      "name": "injectiveagreement_seaf_hss_kseaf_noChanRev_noSqnRev_noSupiRev_noAsyKeyRev",
+      "outcome": "rejected"
+    },
+    {
+      "name": "injectiveagreement_seaf_hss_kseaf_noKeyRev_noChanRev",
+      "outcome": "rejected"
+    },
+    {
+      "name": "noninjectiveagreement_seaf_hss_supi_noChanRev",
+      "outcome": "rejected"
+    },
+    {
+      "name": "weakagreement_seaf_hss_keyConf_noAsyKeyRev_noSupiRev_noSqnRev_noKeyRev",
+      "outcome": "rejected"
+    },
+    {
+      "name": "noninjectiveagreement_seaf_hss_kseaf_keyConf_noChanRev",
+      "outcome": "rejected"
+    },
+    {
+      "name": "injectiveagreement_seaf_hss_kseaf_keyConf_noChanRev_noSqnRev_noSupiRev_noAsyKeyRev",
+      "outcome": "rejected"
+    },
+    {
+      "name": "injectiveagreement_seaf_hss_kseaf_keyConf_noKeyRev_noChanRev",
+      "outcome": "rejected"
+    },
+    {
+      "name": "noninjectiveagreement_seaf_hss_keyConf_supi_noChanRev",
+      "outcome": "rejected"
+    },
+    {
+      "name": "injectiveagreement_hss_ue_kseaf_noKeyRev",
+      "outcome": "rejected"
+    },
+    {
+      "name": "weakagreement_hss_ue_noAsyKeyRev_noSupiRev_noSqnRev_noChanRev",
+      "outcome": "rejected"
+    },
+    {
+      "name": "noninjectiveagreement_hss_ue_supi_noKeyRev",
+      "outcome": "rejected"
+    },
+    {
+      "name": "noninjectiveagreement_hss_ue_snname_noKeyRev",
+      "outcome": "rejected"
+    },
+    {
+      "name": "injectiveagreement_hss_seaf_kseaf_noChanRev",
+      "outcome": "rejected"
+    },
+    {
+      "name": "weakagreement_hss_seaf_noAsyKeyRev_noSupiRev_noSqnRev_noKeyRev",
+      "outcome": "rejected"
+    },
+    {
+      "name": "noninjectiveagreement_hss_seaf_supi_noRev",
+      "outcome": "rejected"
+    },
+    {
+      "name": "cleanAttack_secrecy_ue_supi_noRev",
+      "outcome": "rejected"
+    },
+    {
+      "name": "secrecy_ue_supi_noChanRevAtAll_noSupiRev_noAsyKeyRev",
+      "outcome": "rejected"
+    },
+    {
+      "name": "secrecy_ue_supi_noChanRevAtAll_noSupiRev_noKeyRev_noSqnRev",
+      "outcome": "rejected"
+    },
+    {
+      "name": "cleanAttack_secrecy_ue_supi_keyConf_noRev",
+      "outcome": "rejected"
+    },
+    {
+      "name": "secrecy_ue_kseaf_noKeyRev_noChanRev",
+      "outcome": "rejected"
+    },
+    {
+      "name": "secrecy_ue_kseaf_noChanRev_noSupiRev_noSqnRev_noAsyKeyRev",
+      "outcome": "rejected"
+    },
+    {
+      "name": "secrecy_ue_kseaf_noKeyRev_noSupiRev_noSqnRev_noAsyKeyRev",
+      "outcome": "rejected"
+    },
+    {
+      "name": "secrecy_ue_k_noKeyRev",
+      "outcome": "rejected"
+    },
+    {
+      "name": "secrecy_hss_kseaf_noKeyRev_noSupiRev_noSqnRev_noAsyKeyRev",
+      "outcome": "rejected"
+    },
+    {
+      "name": "secrecy_hss_kseaf_noChanRev_noSupiRev_noSqnRev_noAsyKeyRev",
+      "outcome": "rejected"
+    },
+    {
+      "name": "secrecy_hss_kseaf_noChanRev_noKeyRev",
+      "outcome": "rejected"
+    },
+    {
+      "name": "cleanAttack_secrecy_hss_supi_noRev",
+      "outcome": "rejected"
+    },
+    {
+      "name": "secrecy_hss_supi_noChanRevAtAll_noSupiRev_noAsyKeyRev",
+      "outcome": "rejected"
+    },
+    {
+      "name": "secrecy_hss_supi_noChanRevAtAll_noSupiRev_noKeyRev_noSqnRev",
+      "outcome": "rejected"
+    },
+    {
+      "name": "secrecy_hss_k_noKeyRev",
+      "outcome": "rejected"
+    },
+    {
+      "name": "secrecy_seaf_kseaf_noChanRev_noKeyRev",
+      "outcome": "rejected"
+    },
+    {
+      "name": "secrecy_seaf_kseaf_noChanRev_noSupiRev_noSqnRev_noAsyKeyRev",
+      "outcome": "rejected"
+    },
+    {
+      "name": "secrecy_seaf_kseaf_noKeyRev_noSupiRev_noSqnRev_noAsyKeyRev",
+      "outcome": "rejected"
+    },
+    {
+      "name": "cleanAttack_secrecy_seaf_supi_noRev",
+      "outcome": "rejected"
+    },
+    {
+      "name": "secrecy_seaf_supi_noChanRevAtAll_noSupiRev_noAsyKeyRev",
+      "outcome": "rejected"
+    },
+    {
+      "name": "secrecy_seaf_supi_noChanRevAtAll_noSupiRev_noKeyRev_noSqnRev",
+      "outcome": "rejected"
+    }
+  ],
+  "total_wall_s": 0.0
+}

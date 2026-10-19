@@ -1,0 +1,68 @@
+{
+  "id": "tamarin/csf23-subterms/ParserTests",
+  "tool": "tamalean",
+  "setting": "no guidance",
+  "tactic": "certify (the model's default sources)",
+  "tamalean_commit": "7e8e63f23cef2427c1bef6a241adb67ce375c9a2",
+  "lean_toolchain": "leanprover/lean4:v4.35.0",
+  "host": "Apple M4 Pro, 14 cores, 24 GB, macOS 27.0.1",
+  "date": "2026-10-19",
+  "measured_alone": false,
+  "limits": {
+    "lemma_s": 600,
+    "model_s": 1800
+  },
+  "reader": {
+    "ok": false,
+    "ms": 4,
+    "error": "Bench/tamarin/csf23-subterms/ParserTests.lean:12:0: error: ../../../models/tamarin/csf23-subterms/ParserTests/ParserTests.spthy:13:20: tamarin_theory_file: expected `)`, found `:`\n",
+    "reason": "the subterm relation"
+  },
+  "lemmas": [
+    {
+      "name": "SnatChain",
+      "outcome": "rejected"
+    },
+    {
+      "name": "SnegRecurse",
+      "outcome": "rejected"
+    },
+    {
+      "name": "SnegACRecurse",
+      "outcome": "rejected"
+    },
+    {
+      "name": "Sneg",
+      "outcome": "rejected"
+    },
+    {
+      "name": "Sinvalid",
+      "outcome": "rejected"
+    },
+    {
+      "name": "Schain",
+      "outcome": "rejected"
+    },
+    {
+      "name": "SRecurse",
+      "outcome": "rejected"
+    },
+    {
+      "name": "SACRecurse",
+      "outcome": "rejected"
+    },
+    {
+      "name": "testEqual",
+      "outcome": "rejected"
+    },
+    {
+      "name": "arityOneDeduction",
+      "outcome": "rejected"
+    },
+    {
+      "name": "antiCharlie",
+      "outcome": "rejected"
+    }
+  ],
+  "total_wall_s": 0.51
+}

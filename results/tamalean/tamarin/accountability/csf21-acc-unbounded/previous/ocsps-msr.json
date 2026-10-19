@@ -21,10 +21,8 @@
   "lemmas": [
     {
       "name": "acc",
-      "ms": 0,
-      "outcome": "rejected",
-      "message": "no statement OCSPS_MSR.Lemmas.acc: the reader did not generate it"
+      "outcome": "rejected"
     }
   ],
-  "total_wall_s": 0.12
+  "total_wall_s": 0.0
 }

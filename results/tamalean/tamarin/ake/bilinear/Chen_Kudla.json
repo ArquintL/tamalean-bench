@@ -14,23 +14,19 @@
   },
   "reader": {
     "ok": false,
-    "ms": 4,
+    "ms": 3,
     "error": "Bench/tamarin/ake/bilinear/Chen_Kudla.lean:12:0: error: ../../../../models/tamarin/ake/bilinear/Chen_Kudla/Chen_Kudla.spthy:4:11: tamarin_theory: unsupported builtin `bilinear-pairing` (supported: hashing, symmetric-encryption, asymmetric-encryption, signing, revealing-signing, diffie-hellman, xor, multiset)\n",
     "reason": "unsupported builtin: bilinear-pairing"
   },
   "lemmas": [
     {
       "name": "key_agreement_reachable",
-      "ms": 0,
-      "outcome": "rejected",
-      "message": "no statement Chen_Kudla.Lemmas.key_agreement_reachable: the reader did not generate it"
+      "outcome": "rejected"
     },
     {
       "name": "key_secrecy_ephemeral_no_WPFS",
-      "ms": 0,
-      "outcome": "rejected",
-      "message": "no statement Chen_Kudla.Lemmas.key_secrecy_ephemeral_no_WPFS: the reader did not generate it"
+      "outcome": "rejected"
     }
   ],
-  "total_wall_s": 0.1
+  "total_wall_s": 0.0
 }

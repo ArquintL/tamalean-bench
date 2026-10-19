@@ -1,0 +1,60 @@
+{
+  "id": "emv/emverify/models-n-proofs/contact/Contact_CDA_EncPIN_Online",
+  "tool": "tamalean",
+  "setting": "no guidance",
+  "tactic": "certify (the model's default sources)",
+  "tamalean_commit": "7e8e63f23cef2427c1bef6a241adb67ce375c9a2",
+  "lean_toolchain": "leanprover/lean4:v4.35.0",
+  "host": "Apple M4 Pro, 14 cores, 24 GB, macOS 27.0.1",
+  "date": "2026-10-20",
+  "measured_alone": false,
+  "limits": {
+    "lemma_s": 600,
+    "model_s": 1800
+  },
+  "reader": {
+    "ok": false,
+    "ms": 9,
+    "error": "Bench/emv/emverify/models-n-proofs/contact/Contact_CDA_EncPIN_Online.lean:12:0: error: ../../../../../cache/emv/emverify/models-n-proofs/contact/Contact_CDA_EncPIN_Online/Contact_CDA_EncPIN_Online.spthy:671:1: tamarin_theory_file: `restriction`: restrictions are not supported: the core has no trace restrictions\n",
+    "reason": "restrictions"
+  },
+  "lemmas": [
+    {
+      "name": "ARPC_source",
+      "outcome": "rejected"
+    },
+    {
+      "name": "executable",
+      "outcome": "rejected"
+    },
+    {
+      "name": "bank_accepts",
+      "outcome": "rejected"
+    },
+    {
+      "name": "auth_to_terminal_minimal",
+      "outcome": "rejected"
+    },
+    {
+      "name": "auth_to_bank_minimal",
+      "outcome": "rejected"
+    },
+    {
+      "name": "secrecy_MK",
+      "outcome": "rejected"
+    },
+    {
+      "name": "secrecy_privkCard",
+      "outcome": "rejected"
+    },
+    {
+      "name": "secrecy_PIN",
+      "outcome": "rejected"
+    },
+    {
+      "name": "secrecy_PAN",
+      "outcome": "rejected"
+    }
+  ],
+  "total_wall_s": 0.5
+}

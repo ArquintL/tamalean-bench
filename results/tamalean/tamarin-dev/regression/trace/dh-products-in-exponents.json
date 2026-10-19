@@ -1,0 +1,32 @@
+{
+  "id": "tamarin-dev/regression/trace/dh-products-in-exponents",
+  "tool": "tamalean",
+  "setting": "no guidance",
+  "tactic": "certify (the model's default sources)",
+  "tamalean_commit": "7e8e63f23cef2427c1bef6a241adb67ce375c9a2",
+  "lean_toolchain": "leanprover/lean4:v4.35.0",
+  "host": "Apple M4 Pro, 14 cores, 24 GB, macOS 27.0.1",
+  "date": "2026-10-20",
+  "measured_alone": false,
+  "limits": {
+    "lemma_s": 600,
+    "model_s": 1800
+  },
+  "reader": {
+    "ok": true,
+    "ms": 525
+  },
+  "lemmas": [
+    {
+      "name": "power_neutral_exists",
+      "outcome": "not run",
+      "message": "only the reader ran"
+    },
+    {
+      "name": "power_premise_exists",
+      "outcome": "not run",
+      "message": "only the reader ran"
+    }
+  ],
+  "total_wall_s": 0.51
+}

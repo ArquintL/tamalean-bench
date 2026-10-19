@@ -14,17 +14,15 @@
   },
   "reader": {
     "ok": false,
-    "ms": 1,
+    "ms": 0,
     "error": "Bench/tamarin/accountability/features/rp-criterion/public-names.lean:12:0: error: ../../../../../models/tamarin/accountability/features/rp-criterion/public-names/public-names.spthy:15:1: tamarin_theory_file: unexpected `test`: expected an item or `end`\n",
-    "reason": "other: unexpected `test`: expected an item or `end`"
+    "reason": "unsupported item `test`"
   },
   "lemmas": [
     {
       "name": "acc",
-      "ms": 0,
-      "outcome": "rejected",
-      "message": "no statement PublicNames.Lemmas.acc: the reader did not generate it"
+      "outcome": "rejected"
     }
   ],
-  "total_wall_s": 0.11
+  "total_wall_s": 0.0
 }

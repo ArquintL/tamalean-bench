@@ -1,0 +1,23 @@
+{
+  "id": "tamarin-dev/regression/negative/issue905-undeclared-em",
+  "tool": "tamalean",
+  "setting": "no guidance",
+  "tactic": "certify (the model's default sources)",
+  "tamalean_commit": "7e8e63f23cef2427c1bef6a241adb67ce375c9a2",
+  "lean_toolchain": "leanprover/lean4:v4.35.0",
+  "host": "Apple M4 Pro, 14 cores, 24 GB, macOS 27.0.1",
+  "date": "2026-10-19",
+  "measured_alone": false,
+  "limits": {
+    "lemma_s": 600,
+    "model_s": 1800
+  },
+  "reader": {
+    "ok": false,
+    "ms": 1,
+    "error": "Bench/tamarin-dev/regression/negative/issue905-undeclared-em.lean:12:0: error: ../../../../models/tamarin-dev/regression/negative/issue905-undeclared-em/issue905-undeclared-em.spthy:4:26: tamarin_theory: undeclared function symbol `em`; declare it with `functions: em/2` or with the builtin that provides it (Tamarin rejects undeclared symbols)\n",
+    "reason": "frontend: undeclared function symbol `…`"
+  },
+  "lemmas": [],
+  "total_wall_s": 0.0
+}

@@ -1,0 +1,64 @@
+{
+  "id": "tamarin/sapic/export/States/secure-device",
+  "tool": "tamalean",
+  "setting": "no guidance",
+  "tactic": "certify (the model's default sources)",
+  "tamalean_commit": "7e8e63f23cef2427c1bef6a241adb67ce375c9a2",
+  "lean_toolchain": "leanprover/lean4:v4.35.0",
+  "host": "Apple M4 Pro, 14 cores, 24 GB, macOS 27.0.1",
+  "date": "2026-10-19",
+  "measured_alone": false,
+  "limits": {
+    "lemma_s": 600,
+    "model_s": 1800
+  },
+  "reader": {
+    "ok": false,
+    "ms": 1,
+    "error": "Bench/tamarin/sapic/export/States/secure-device.lean:12:0: error: ../../../../../models/tamarin/sapic/export/States/secure-device/secure-device.spthy:16:1: tamarin_theory_file: `let`: processes (SAPIC) are not supported\n",
+    "reason": "processes (SAPIC+)"
+  },
+  "lemmas": [
+    {
+      "name": "source",
+      "outcome": "rejected"
+    },
+    {
+      "name": "reachability_left",
+      "outcome": "rejected"
+    },
+    {
+      "name": "reachability_right",
+      "outcome": "rejected"
+    },
+    {
+      "name": "initnott",
+      "outcome": "rejected"
+    },
+    {
+      "name": "uniqInit",
+      "outcome": "rejected"
+    },
+    {
+      "name": "initdev2",
+      "outcome": "rejected"
+    },
+    {
+      "name": "initdev3",
+      "outcome": "rejected"
+    },
+    {
+      "name": "secrecyleft",
+      "outcome": "rejected"
+    },
+    {
+      "name": "secrecyright",
+      "outcome": "rejected"
+    },
+    {
+      "name": "secrecy",
+      "outcome": "rejected"
+    }
+  ],
+  "total_wall_s": 0.0
+}

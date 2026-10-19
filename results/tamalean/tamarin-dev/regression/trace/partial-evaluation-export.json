@@ -1,0 +1,64 @@
+{
+  "id": "tamarin-dev/regression/trace/partial-evaluation-export",
+  "tool": "tamalean",
+  "setting": "no guidance",
+  "tactic": "certify (the model's default sources)",
+  "tamalean_commit": "7e8e63f23cef2427c1bef6a241adb67ce375c9a2",
+  "lean_toolchain": "leanprover/lean4:v4.35.0",
+  "host": "Apple M4 Pro, 14 cores, 24 GB, macOS 27.0.1",
+  "date": "2026-10-20",
+  "measured_alone": false,
+  "limits": {
+    "lemma_s": 600,
+    "model_s": 1800
+  },
+  "reader": {
+    "ok": false,
+    "ms": 1,
+    "error": "Bench/tamarin-dev/regression/trace/partial-evaluation-export.lean:12:0: error: ../../../../models/tamarin-dev/regression/trace/partial-evaluation-export/partial-evaluation-export.spthy:6:1: tamarin_theory_file: `macros`: macros are not supported\n",
+    "reason": "macros"
+  },
+  "lemmas": [
+    {
+      "name": "unreduced_secret",
+      "outcome": "rejected"
+    },
+    {
+      "name": "decrypted_reachable",
+      "outcome": "rejected"
+    },
+    {
+      "name": "unreduced_reachable",
+      "outcome": "rejected"
+    },
+    {
+      "name": "pruned_family_unreachable",
+      "outcome": "rejected"
+    },
+    {
+      "name": "first_specialization_reachable",
+      "outcome": "rejected"
+    },
+    {
+      "name": "second_specialization_reachable",
+      "outcome": "rejected"
+    },
+    {
+      "name": "existing_rule_reachable",
+      "outcome": "rejected"
+    },
+    {
+      "name": "embedded_restriction_first",
+      "outcome": "rejected"
+    },
+    {
+      "name": "embedded_restriction_second",
+      "outcome": "rejected"
+    },
+    {
+      "name": "embedded_restriction_repeated",
+      "outcome": "rejected"
+    }
+  ],
+  "total_wall_s": 0.0
+}

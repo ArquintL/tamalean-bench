@@ -21,22 +21,16 @@
   "lemmas": [
     {
       "name": "accCA",
-      "ms": 0,
-      "outcome": "rejected",
-      "message": "no statement CertificateTransparencyExt.Lemmas.accCA: the reader did not generate it"
+      "outcome": "rejected"
     },
     {
       "name": "accLA",
-      "ms": 0,
-      "outcome": "rejected",
-      "message": "no statement CertificateTransparencyExt.Lemmas.accLA: the reader did not generate it"
+      "outcome": "rejected"
     },
     {
       "name": "acc",
-      "ms": 0,
-      "outcome": "rejected",
-      "message": "no statement CertificateTransparencyExt.Lemmas.acc: the reader did not generate it"
+      "outcome": "rejected"
     }
   ],
-  "total_wall_s": 0.11
+  "total_wall_s": 0.0
 }

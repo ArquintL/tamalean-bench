@@ -1,0 +1,48 @@
+{
+  "id": "tamarin/sapic/fast/SCADA/opc_ua_secure_conversation",
+  "tool": "tamalean",
+  "setting": "no guidance",
+  "tactic": "certify (the model's default sources)",
+  "tamalean_commit": "7e8e63f23cef2427c1bef6a241adb67ce375c9a2",
+  "lean_toolchain": "leanprover/lean4:v4.35.0",
+  "host": "Apple M4 Pro, 14 cores, 24 GB, macOS 27.0.1",
+  "date": "2026-10-19",
+  "measured_alone": false,
+  "limits": {
+    "lemma_s": 600,
+    "model_s": 1800
+  },
+  "reader": {
+    "ok": false,
+    "ms": 3,
+    "error": "Bench/tamarin/sapic/fast/SCADA/opc_ua_secure_conversation.lean:12:0: error: ../../../../../models/tamarin/sapic/fast/SCADA/opc_ua_secure_conversation/opc_ua_secure_conversation.spthy:13:1: tamarin_theory_file: `options`: `options:` is not supported\n",
+    "reason": "`options:`"
+  },
+  "lemmas": [
+    {
+      "name": "Executable",
+      "outcome": "rejected"
+    },
+    {
+      "name": "all_received_were_sent",
+      "outcome": "rejected"
+    },
+    {
+      "name": "all_received_were_sent_injective",
+      "outcome": "rejected"
+    },
+    {
+      "name": "order",
+      "outcome": "rejected"
+    },
+    {
+      "name": "delivery_wo_order",
+      "outcome": "rejected"
+    },
+    {
+      "name": "delivery_order",
+      "outcome": "rejected"
+    }
+  ],
+  "total_wall_s": 0.5
+}

@@ -1,0 +1,100 @@
+{
+  "id": "tamarin/sp14/GDH",
+  "tool": "tamalean",
+  "setting": "no guidance",
+  "tactic": "certify (the model's default sources)",
+  "tamalean_commit": "7e8e63f23cef2427c1bef6a241adb67ce375c9a2",
+  "lean_toolchain": "leanprover/lean4:v4.35.0",
+  "host": "Apple M4 Pro, 14 cores, 24 GB, macOS 27.0.1",
+  "date": "2026-10-19",
+  "measured_alone": false,
+  "limits": {
+    "lemma_s": 600,
+    "model_s": 1800
+  },
+  "reader": {
+    "ok": false,
+    "ms": 3,
+    "error": "Bench/tamarin/sp14/GDH.lean:12:0: error: ../../../models/tamarin/sp14/GDH/GDH.spthy:22:1: tamarin_theory_file: `restriction`: restrictions are not supported: the core has no trace restrictions\n",
+    "reason": "restrictions"
+  },
+  "lemmas": [
+    {
+      "name": "No_Inv_exp",
+      "outcome": "rejected"
+    },
+    {
+      "name": "Esk_secret",
+      "outcome": "rejected"
+    },
+    {
+      "name": "Esk_fresh_name",
+      "outcome": "rejected"
+    },
+    {
+      "name": "ExpKeyFor_one",
+      "outcome": "rejected"
+    },
+    {
+      "name": "Relate_KeyFor_RoundKey",
+      "outcome": "rejected"
+    },
+    {
+      "name": "Exp_subterm",
+      "outcome": "rejected"
+    },
+    {
+      "name": "Exp_earlier_Esk",
+      "outcome": "rejected"
+    },
+    {
+      "name": "Exp_earlier_Esk_2",
+      "outcome": "rejected"
+    },
+    {
+      "name": "roundkey_keyfor_different",
+      "outcome": "rejected"
+    },
+    {
+      "name": "Exp_nonce_or_product2",
+      "outcome": "rejected"
+    },
+    {
+      "name": "Exp_factor_secret",
+      "outcome": "rejected"
+    },
+    {
+      "name": "Exp_name_secret",
+      "outcome": "rejected"
+    },
+    {
+      "name": "Esk_Exp_same_gid",
+      "outcome": "rejected"
+    },
+    {
+      "name": "key_secret_last",
+      "outcome": "rejected"
+    },
+    {
+      "name": "key_secret",
+      "outcome": "rejected"
+    },
+    {
+      "name": "key_reachable_2",
+      "outcome": "rejected"
+    },
+    {
+      "name": "key_reachable_3",
+      "outcome": "rejected"
+    },
+    {
+      "name": "key_reachable_4",
+      "outcome": "rejected"
+    },
+    {
+      "name": "key_reachable_5",
+      "outcome": "rejected"
+    }
+  ],
+  "total_wall_s": 0.0
+}

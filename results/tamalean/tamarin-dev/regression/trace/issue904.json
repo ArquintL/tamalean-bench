@@ -1,0 +1,28 @@
+{
+  "id": "tamarin-dev/regression/trace/issue904",
+  "tool": "tamalean",
+  "setting": "no guidance",
+  "tactic": "certify (the model's default sources)",
+  "tamalean_commit": "7e8e63f23cef2427c1bef6a241adb67ce375c9a2",
+  "lean_toolchain": "leanprover/lean4:v4.35.0",
+  "host": "Apple M4 Pro, 14 cores, 24 GB, macOS 27.0.1",
+  "date": "2026-10-20",
+  "measured_alone": false,
+  "limits": {
+    "lemma_s": 600,
+    "model_s": 1800
+  },
+  "reader": {
+    "ok": false,
+    "ms": 1,
+    "error": "Bench/tamarin-dev/regression/trace/issue904.lean:12:0: error: ../../../../models/tamarin-dev/regression/trace/issue904/issue904.spthy:6:47: tamarin_theory: rule `Gen` applies the destructor `fst`; Tamalean's protocol rules are constructor-only (match the message's structure in a premise instead)\n",
+    "reason": "a protocol rule applies a destructor"
+  },
+  "lemmas": [
+    {
+      "name": "secret",
+      "outcome": "rejected"
+    }
+  ],
+  "total_wall_s": 0.51
+}

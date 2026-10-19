@@ -1,0 +1,72 @@
+{
+  "id": "one-for-all/aggregate_signature_models/AttackScenarios/3_ValidationModel_RoguePublicKeyAttack",
+  "tool": "tamalean",
+  "setting": "no guidance",
+  "tactic": "certify (the model's default sources)",
+  "tamalean_commit": "7e8e63f23cef2427c1bef6a241adb67ce375c9a2",
+  "lean_toolchain": "leanprover/lean4:v4.35.0",
+  "host": "Apple M4 Pro, 14 cores, 24 GB, macOS 27.0.1",
+  "date": "2026-10-20",
+  "measured_alone": false,
+  "limits": {
+    "lemma_s": 600,
+    "model_s": 1800
+  },
+  "reader": {
+    "ok": false,
+    "ms": 4,
+    "error": "Bench/one-for-all/aggregate_signature_models/AttackScenarios/3_ValidationModel_RoguePublicKeyAttack.lean:12:0: error: ../../../../models/one-for-all/aggregate_signature_models/AttackScenarios/3_ValidationModel_RoguePublicKeyAttack/3_ValidationModel_RoguePublicKeyAttack.spthy:47:22: tamarin_theory_file: function attributes (`[private]`, `[destructor]`) are not supported\n",
+    "reason": "function attributes ([private], [destructor])"
+  },
+  "lemmas": [
+    {
+      "name": "executable_oneSignature",
+      "outcome": "rejected"
+    },
+    {
+      "name": "executable_twoSignatures",
+      "outcome": "rejected"
+    },
+    {
+      "name": "executable_twoSignatures_nice",
+      "outcome": "rejected"
+    },
+    {
+      "name": "executable_twoSignatures_No_Aggregator",
+      "outcome": "rejected"
+    },
+    {
+      "name": "aliveness_falsified",
+      "outcome": "rejected"
+    },
+    {
+      "name": "message_authentic_falsified",
+      "outcome": "rejected"
+    },
+    {
+      "name": "weak_agreement_falsified",
+      "outcome": "rejected"
+    },
+    {
+      "name": "no_ZerosplittingAttack",
+      "outcome": "rejected"
+    },
+    {
+      "name": "no_RogueKeyAttack_falsified",
+      "outcome": "rejected"
+    },
+    {
+      "name": "Show_RogueKeyAttack",
+      "outcome": "rejected"
+    },
+    {
+      "name": "showZeroSplitting",
+      "outcome": "rejected"
+    },
+    {
+      "name": "showZeroSplitting_WorseCase_falsified",
+      "outcome": "rejected"
+    }
+  ],
+  "total_wall_s": 0.0
+}

@@ -94,7 +94,7 @@ REJECT_PATTERNS = [
 
 EXTRA_PATTERNS = [
     (r"applies the destructor", "a protocol rule applies a destructor"),
-    (r"unterminated public name", "lexer: an unterminated public name (a quote ' in the text)"),
+    (r"unterminated public name", "lexer: an unterminated public name (a quote, here always in a `tactic:` block)"),
     (r"expected the theory's name, found `\d", "a theory name that starts with a digit"),
     (r"unexpected `([^`]+)`: expected an item", "unsupported item `{0}`"),
 ]

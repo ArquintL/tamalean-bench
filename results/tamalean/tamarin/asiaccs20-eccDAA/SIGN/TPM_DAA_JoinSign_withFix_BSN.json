@@ -1,0 +1,124 @@
+{
+  "id": "tamarin/asiaccs20-eccDAA/SIGN/TPM_DAA_JoinSign_withFix_BSN",
+  "tool": "tamalean",
+  "setting": "no guidance",
+  "tactic": "certify (the model's default sources)",
+  "tamalean_commit": "7e8e63f23cef2427c1bef6a241adb67ce375c9a2",
+  "lean_toolchain": "leanprover/lean4:v4.35.0",
+  "host": "Apple M4 Pro, 14 cores, 24 GB, macOS 27.0.1",
+  "date": "2026-10-19",
+  "measured_alone": false,
+  "limits": {
+    "lemma_s": 600,
+    "model_s": 1800
+  },
+  "reader": {
+    "ok": false,
+    "ms": 4,
+    "error": "Bench/tamarin/asiaccs20-eccDAA/SIGN/TPM_DAA_JoinSign_withFix_BSN.lean:12:0: error: ../../../../models/tamarin/asiaccs20-eccDAA/SIGN/TPM_DAA_JoinSign_withFix_BSN/TPM_DAA_JoinSign_withFix_BSN.spthy:231:24: tamarin_theory_file: unterminated public name `'…'`\n",
+    "reason": "lexer: an unterminated public name (a quote, here always in a `tactic:` block)"
+  },
+  "lemmas": [
+    {
+      "name": "auto_bind_restriction",
+      "outcome": "rejected"
+    },
+    {
+      "name": "auto_restriction_one_host_per_tpm",
+      "outcome": "rejected"
+    },
+    {
+      "name": "auto_restriction_one_tpm_per_host",
+      "outcome": "rejected"
+    },
+    {
+      "name": "auto_restricition_pke_comes_from_tpm",
+      "outcome": "rejected"
+    },
+    {
+      "name": "auto_restriction_single_issuer",
+      "outcome": "rejected"
+    },
+    {
+      "name": "auto_verify_multiple_pkes",
+      "outcome": "rejected"
+    },
+    {
+      "name": "oracle_correctness_two_sigs_same_credentials_same_bsn",
+      "outcome": "rejected"
+    },
+    {
+      "name": "oracle_correctness_two_sigs_same_credentials_different_bsn",
+      "outcome": "rejected"
+    },
+    {
+      "name": "oracle_correctness_two_sigs_different_credentials_same_bsn",
+      "outcome": "rejected"
+    },
+    {
+      "name": "oracle_correctness_two_sigs_different_credentials_different_bsn",
+      "outcome": "rejected"
+    },
+    {
+      "name": "oracle_correctness_two_valid_linked_sigs",
+      "outcome": "rejected"
+    },
+    {
+      "name": "oracle_correctness_two_valid_unlinked_sigs",
+      "outcome": "rejected"
+    },
+    {
+      "name": "oracle_correctness_join_only",
+      "outcome": "rejected"
+    },
+    {
+      "name": "oracle_correctness_no_verify",
+      "outcome": "rejected"
+    },
+    {
+      "name": "oracle_correctness_with_verify",
+      "outcome": "rejected"
+    },
+    {
+      "name": "oracle_auth_aliveness_host_very_weak",
+      "outcome": "rejected"
+    },
+    {
+      "name": "oracle_auth_aliveness_host",
+      "outcome": "rejected"
+    },
+    {
+      "name": "oracle_auth_aliveness_issuer",
+      "outcome": "rejected"
+    },
+    {
+      "name": "oracle_auth_weak_agreement_host",
+      "outcome": "rejected"
+    },
+    {
+      "name": "oracle_auth_non_injective_agreement_host_issuer",
+      "outcome": "rejected"
+    },
+    {
+      "name": "oracle_auth_injective_agreement_host_issuer",
+      "outcome": "rejected"
+    },
+    {
+      "name": "oracle_auth_secrecy_cre",
+      "outcome": "rejected"
+    },
+    {
+      "name": "auto_SP2_UserControlledLinkability",
+      "outcome": "rejected"
+    },
+    {
+      "name": "oracle_SP3_Unforgeability",
+      "outcome": "rejected"
+    },
+    {
+      "name": "oracle_SP4_NonFrameability",
+      "outcome": "rejected"
+    }
+  ],
+  "total_wall_s": 0.5
+}

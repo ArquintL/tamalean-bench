@@ -21,28 +21,20 @@
   "lemmas": [
     {
       "name": "Client_session_key_secrecy",
-      "ms": 0,
-      "outcome": "rejected",
-      "message": "no statement Tutorial.Lemmas.Client_session_key_secrecy: the reader did not generate it"
+      "outcome": "rejected"
     },
     {
       "name": "Client_auth",
-      "ms": 0,
-      "outcome": "rejected",
-      "message": "no statement Tutorial.Lemmas.Client_auth: the reader did not generate it"
+      "outcome": "rejected"
     },
     {
       "name": "Client_auth_injective",
-      "ms": 0,
-      "outcome": "rejected",
-      "message": "no statement Tutorial.Lemmas.Client_auth_injective: the reader did not generate it"
+      "outcome": "rejected"
     },
     {
       "name": "Client_session_key_honest_setup",
-      "ms": 0,
-      "outcome": "rejected",
-      "message": "no statement Tutorial.Lemmas.Client_session_key_honest_setup: the reader did not generate it"
+      "outcome": "rejected"
     }
   ],
-  "total_wall_s": 0.11
+  "total_wall_s": 0.0
 }

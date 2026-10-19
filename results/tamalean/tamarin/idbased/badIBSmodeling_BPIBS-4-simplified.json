@@ -1,0 +1,84 @@
+{
+  "id": "tamarin/idbased/badIBSmodeling_BPIBS-4-simplified",
+  "tool": "tamalean",
+  "setting": "no guidance",
+  "tactic": "certify (the model's default sources)",
+  "tamalean_commit": "7e8e63f23cef2427c1bef6a241adb67ce375c9a2",
+  "lean_toolchain": "leanprover/lean4:v4.35.0",
+  "host": "Apple M4 Pro, 14 cores, 24 GB, macOS 27.0.1",
+  "date": "2026-10-19",
+  "measured_alone": false,
+  "limits": {
+    "lemma_s": 600,
+    "model_s": 1800
+  },
+  "reader": {
+    "ok": false,
+    "ms": 2,
+    "error": "Bench/tamarin/idbased/badIBSmodeling_BPIBS-4-simplified.lean:12:0: error: ../../../models/tamarin/idbased/badIBSmodeling_BPIBS-4-simplified/badIBSmodeling_BPIBS-4-simplified.spthy:131:1: tamarin_theory_file: `restriction`: restrictions are not supported: the core has no trace restrictions\n",
+    "reason": "restrictions"
+  },
+  "lemmas": [
+    {
+      "name": "secrecy_session_key",
+      "outcome": "rejected"
+    },
+    {
+      "name": "session_escrow",
+      "outcome": "rejected"
+    },
+    {
+      "name": "Weak_Forward_Secrecy_key",
+      "outcome": "rejected"
+    },
+    {
+      "name": "Strong_Forward_Secrecy_key",
+      "outcome": "rejected"
+    },
+    {
+      "name": "alivenessInitiatorNoAuthReveal",
+      "outcome": "rejected"
+    },
+    {
+      "name": "alivenessInitiatorNoSignReveal",
+      "outcome": "rejected"
+    },
+    {
+      "name": "weakagreementInitiatorNoSignReveal",
+      "outcome": "rejected"
+    },
+    {
+      "name": "noninjectiveagreemenInitiatorNoSignReveal",
+      "outcome": "rejected"
+    },
+    {
+      "name": "injectiveagreementInitiatorNoSignReveal",
+      "outcome": "rejected"
+    },
+    {
+      "name": "alivenessResponderNoAuthReveal",
+      "outcome": "rejected"
+    },
+    {
+      "name": "alivenessResponderNoSignReveal",
+      "outcome": "rejected"
+    },
+    {
+      "name": "weakagreementResponderNoSignReveal",
+      "outcome": "rejected"
+    },
+    {
+      "name": "noninjectiveagreemenResponderNoSignReveal",
+      "outcome": "rejected"
+    },
+    {
+      "name": "injectiveagreementResponderNoSignReveal",
+      "outcome": "rejected"
+    },
+    {
+      "name": "executability_lemma",
+      "outcome": "rejected"
+    }
+  ],
+  "total_wall_s": 0.51
+}

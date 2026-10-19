@@ -16,15 +16,13 @@
     "ok": false,
     "ms": 0,
     "error": "Bench/tamarin/accountability/features/rp-criterion/party-identities.lean:12:0: error: ../../../../../models/tamarin/accountability/features/rp-criterion/party-identities/party-identities.spthy:15:1: tamarin_theory_file: unexpected `test`: expected an item or `end`\n",
-    "reason": "other: unexpected `test`: expected an item or `end`"
+    "reason": "unsupported item `test`"
   },
   "lemmas": [
     {
       "name": "acc",
-      "ms": 0,
-      "outcome": "rejected",
-      "message": "no statement PartyIdentities.Lemmas.acc: the reader did not generate it"
+      "outcome": "rejected"
     }
   ],
-  "total_wall_s": 0.1
+  "total_wall_s": 0.0
 }

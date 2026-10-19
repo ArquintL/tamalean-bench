@@ -21,28 +21,20 @@
   "lemmas": [
     {
       "name": "finished",
-      "ms": 0,
-      "outcome": "rejected",
-      "message": "no statement DMNMessageTracingAll4.Lemmas.finished: the reader did not generate it"
+      "outcome": "rejected"
     },
     {
       "name": "valid",
-      "ms": 0,
-      "outcome": "rejected",
-      "message": "no statement DMNMessageTracingAll4.Lemmas.valid: the reader did not generate it"
+      "outcome": "rejected"
     },
     {
       "name": "blame",
-      "ms": 0,
-      "outcome": "rejected",
-      "message": "no statement DMNMessageTracingAll4.Lemmas.blame: the reader did not generate it"
+      "outcome": "rejected"
     },
     {
       "name": "missing",
-      "ms": 0,
-      "outcome": "rejected",
-      "message": "no statement DMNMessageTracingAll4.Lemmas.missing: the reader did not generate it"
+      "outcome": "rejected"
     }
   ],
-  "total_wall_s": 0.1
+  "total_wall_s": 0.0
 }

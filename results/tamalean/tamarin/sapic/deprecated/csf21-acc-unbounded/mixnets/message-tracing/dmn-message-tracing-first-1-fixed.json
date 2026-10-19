@@ -1,0 +1,64 @@
+{
+  "id": "tamarin/sapic/deprecated/csf21-acc-unbounded/mixnets/message-tracing/dmn-message-tracing-first-1-fixed",
+  "tool": "tamalean",
+  "setting": "no guidance",
+  "tactic": "certify (the model's default sources)",
+  "tamalean_commit": "7e8e63f23cef2427c1bef6a241adb67ce375c9a2",
+  "lean_toolchain": "leanprover/lean4:v4.35.0",
+  "host": "Apple M4 Pro, 14 cores, 24 GB, macOS 27.0.1",
+  "date": "2026-10-19",
+  "measured_alone": false,
+  "limits": {
+    "lemma_s": 600,
+    "model_s": 1800
+  },
+  "reader": {
+    "ok": false,
+    "ms": 2,
+    "error": "Bench/tamarin/sapic/deprecated/csf21-acc-unbounded/mixnets/message-tracing/dmn-message-tracing-first-1-fixed.lean:12:0: error: ../../../../../../../models/tamarin/sapic/deprecated/csf21-acc-unbounded/mixnets/message-tracing/dmn-message-tracing-first-1-fixed/dmn-message-tracing-first-1-fixed.spthy:18:9: tamarin_theory_file: function attributes (`[private]`, `[destructor]`) are not supported\n",
+    "reason": "function attributes ([private], [destructor])"
+  },
+  "lemmas": [
+    {
+      "name": "finished",
+      "outcome": "rejected"
+    },
+    {
+      "name": "valid",
+      "outcome": "rejected"
+    },
+    {
+      "name": "blame",
+      "outcome": "rejected"
+    },
+    {
+      "name": "missing_excl_0_1",
+      "outcome": "rejected"
+    },
+    {
+      "name": "missing_exh",
+      "outcome": "rejected"
+    },
+    {
+      "name": "missing_suf_0",
+      "outcome": "rejected"
+    },
+    {
+      "name": "missing_ver_empty_1",
+      "outcome": "rejected"
+    },
+    {
+      "name": "missing_ver_nonempty_0",
+      "outcome": "rejected"
+    },
+    {
+      "name": "missing_min_0_0",
+      "outcome": "rejected"
+    },
+    {
+      "name": "missing_uniq_sing_0",
+      "outcome": "rejected"
+    }
+  ],
+  "total_wall_s": 0.0
+}

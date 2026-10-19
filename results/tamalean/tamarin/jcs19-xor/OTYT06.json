@@ -1,0 +1,80 @@
+{
+  "id": "tamarin/jcs19-xor/OTYT06",
+  "tool": "tamalean",
+  "setting": "no guidance",
+  "tactic": "certify (the model's default sources)",
+  "tamalean_commit": "7e8e63f23cef2427c1bef6a241adb67ce375c9a2",
+  "lean_toolchain": "leanprover/lean4:v4.35.0",
+  "host": "Apple M4 Pro, 14 cores, 24 GB, macOS 27.0.1",
+  "date": "2026-10-19",
+  "measured_alone": false,
+  "limits": {
+    "lemma_s": 600,
+    "model_s": 1800
+  },
+  "reader": {
+    "ok": false,
+    "ms": 1,
+    "error": "Bench/tamarin/jcs19-xor/OTYT06.lean:12:0: error: ../../../models/tamarin/jcs19-xor/OTYT06/OTYT06.spthy:98:1: tamarin_theory_file: `restriction`: restrictions are not supported: the core has no trace restrictions\n",
+    "reason": "restrictions"
+  },
+  "lemmas": [
+    {
+      "name": "helping_reader_start",
+      "outcome": "rejected"
+    },
+    {
+      "name": "helping_tag_start",
+      "outcome": "rejected"
+    },
+    {
+      "name": "helping_keys_reader_are_secret",
+      "outcome": "rejected"
+    },
+    {
+      "name": "helping_keys_disjoint_challenge",
+      "outcome": "rejected"
+    },
+    {
+      "name": "helping_keys_disjoint_XX",
+      "outcome": "rejected"
+    },
+    {
+      "name": "helping_keys_disjoint_XS",
+      "outcome": "rejected"
+    },
+    {
+      "name": "helping_keys_disjoint_DD",
+      "outcome": "rejected"
+    },
+    {
+      "name": "helping_keys_disjoint_OutX",
+      "outcome": "rejected"
+    },
+    {
+      "name": "alive_tag",
+      "outcome": "rejected"
+    },
+    {
+      "name": "recentalive_tag_bounded",
+      "outcome": "rejected"
+    },
+    {
+      "name": "WA_tag",
+      "outcome": "rejected"
+    },
+    {
+      "name": "alive_reader",
+      "outcome": "rejected"
+    },
+    {
+      "name": "desynch_impossible",
+      "outcome": "rejected"
+    },
+    {
+      "name": "executable",
+      "outcome": "rejected"
+    }
+  ],
+  "total_wall_s": 0.0
+}

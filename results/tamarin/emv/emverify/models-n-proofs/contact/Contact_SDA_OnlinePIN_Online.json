@@ -1,0 +1,134 @@
+{
+  "id": "emv/emverify/models-n-proofs/contact/Contact_SDA_OnlinePIN_Online",
+  "tool": "tamarin",
+  "setting": "a ranking",
+  "tamarin_version": "1.12.0",
+  "maude_version": "3.5.1",
+  "rts": "+RTS -N4 -M8G -RTS",
+  "parallel_runs": 2,
+  "host": "Apple M4 Pro, 14 cores, 24 GB, macOS 27.0.1",
+  "date": "2026-10-19",
+  "flags": [
+    "--heuristic=O",
+    "--oraclename=Contact.oracle"
+  ],
+  "env": {},
+  "flags_basis": "--heuristic=O --oraclename: the command the authors give",
+  "oracle": [
+    "Contact.oracle"
+  ],
+  "oracle_notes": [
+    "Contact.oracle: its interpreter line names /usr/bin/python, which this machine lacks; the same file runs with Python 2.7.18 (it is written for Python 2)"
+  ],
+  "limits": {
+    "lemma_s": 600,
+    "model_s": 1800
+  },
+  "load": {
+    "wall_s": 5.596,
+    "processing_s": 5.49,
+    "exit": 0,
+    "lock_wait_s": 0.1,
+    "max_rss_mb": 63.2,
+    "status": "ok"
+  },
+  "lemmas": [
+    {
+      "name": "ARPC_source",
+      "kind": "all-traces",
+      "side": null,
+      "wall_s": 142.378,
+      "processing_s": 141.91,
+      "limit_s": 600.0,
+      "max_rss_mb": 4992.1,
+      "lock_wait_s": 0.1,
+      "load_avg": 13.8,
+      "verdict": "verified",
+      "steps": 21,
+      "summary": "verified (21 steps)",
+      "proof": "proofs/emv/emverify/models-n-proofs/contact/Contact_SDA_OnlinePIN_Online/ARPC_source.spthy"
+    },
+    {
+      "name": "executable",
+      "kind": "exists-trace",
+      "side": null,
+      "wall_s": 600.602,
+      "processing_s": null,
+      "limit_s": 600.0,
+      "max_rss_mb": 4955.8,
+      "lock_wait_s": 0.1,
+      "load_avg": 7.5,
+      "verdict": "timeout",
+      "steps": null,
+      "long_run": true
+    },
+    {
+      "name": "bank_accepts",
+      "kind": "all-traces",
+      "side": null,
+      "wall_s": 600.596,
+      "processing_s": null,
+      "limit_s": 600.0,
+      "max_rss_mb": 5235.5,
+      "lock_wait_s": 0.1,
+      "load_avg": 19.6,
+      "verdict": "timeout",
+      "steps": null,
+      "long_run": true
+    },
+    {
+      "name": "auth_to_terminal_minimal",
+      "kind": "all-traces",
+      "side": null,
+      "wall_s": 451.255,
+      "processing_s": null,
+      "limit_s": 450.8,
+      "max_rss_mb": 5105.6,
+      "lock_wait_s": 180.5,
+      "load_avg": 8.6,
+      "verdict": "timeout",
+      "steps": null,
+      "long_run": true
+    },
+    {
+      "name": "auth_to_bank_minimal",
+      "kind": "all-traces",
+      "side": null,
+      "verdict": "not run",
+      "reason": "the model limit was reached first",
+      "long_run": true
+    },
+    {
+      "name": "secrecy_MK",
+      "kind": "all-traces",
+      "side": null,
+      "verdict": "not run",
+      "reason": "the model limit was reached first",
+      "long_run": true
+    },
+    {
+      "name": "secrecy_PIN",
+      "kind": "all-traces",
+      "side": null,
+      "verdict": "not run",
+      "reason": "the model limit was reached first",
+      "long_run": true
+    },
+    {
+      "name": "secrecy_PAN",
+      "kind": "all-traces",
+      "side": null,
+      "verdict": "not run",
+      "reason": "the model limit was reached first",
+      "long_run": true
+    }
+  ],
+  "warnings": [
+    "wellformedness checks failed: Derivation Checks; =================",
+    "Derivation checks timed out.",
+    "WARNING: 1 wellformedness check failed!"
+  ],
+  "notes": [],
+  "status": "limit reached",
+  "total_wall_s": 1800.43
+}

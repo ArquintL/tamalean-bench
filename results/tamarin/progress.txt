@@ -8,3 +8,7 @@
 2026-10-19 19:56  emv/emverify/models-n-proofs/contact/Contact_SDA_NoPIN_Online  limit reached  3 not run, 3 timeout, 1 verified  (1800 s)
 2026-10-19 23:18  emv/emverify/models-n-proofs/contact/Contact_CDA_EncPIN_Online  limit reached  5 not run, 3 timeout, 1 verified  (1800 s)
 2026-10-19 23:18  emv/emverify/models-n-proofs/contact/Contact_SDA_EncPIN_Online  limit reached  4 not run, 3 timeout, 1 verified  (1800 s)
+2026-10-19 23:48  emv/emverify/models-n-proofs/contact/Contact_SDA_NoPIN_Offline  limit reached  3 not run, 3 timeout, 1 verified  (1801 s)
+2026-10-19 23:48  emv/emverify/models-n-proofs/contact/Contact_CDA_PlainPIN_Online  limit reached  5 not run, 3 timeout, 1 verified  (1801 s)
+2026-10-20 00:21  emv/emverify/models-n-proofs/contact/Contact_SDA_PlainPIN_Online  limit reached  4 not run, 3 timeout, 1 verified  (1800 s)
+2026-10-20 00:21  emv/emverify/models-n-proofs/contact/Contact_SDA_OnlinePIN_Online  limit reached  4 not run, 3 timeout, 1 verified  (1800 s)
