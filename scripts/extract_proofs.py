@@ -109,6 +109,21 @@ class ProofSyntax(Exception):
     pass
 
 
+def unwrap_step(node):
+    """A diff proof's `step( m )` applies the trace method m on one side: record m too."""
+    if node["method"] == "step" and node.get("goal"):
+        inner = node.pop("goal")
+        node.pop("goal_kind", None)
+        im = inner.split("(")[0].strip()
+        node["inner"] = im
+        if "(" in inner and inner.endswith(")"):
+            node["goal"] = inner[inner.index("(") + 1:-1].strip()
+            node["goal_kind"] = goal_kind(node["goal"])
+        if "end" in node:
+            node["end"] = im
+    return node
+
+
 def parse_step(toks, i):
     if i >= len(toks):
         raise ProofSyntax("the proof ends early")
@@ -122,7 +137,7 @@ def parse_step(toks, i):
             node["goal_kind"] = goal_kind(node["goal"])
         if note:
             node["note"] = note
-        return node, i + 1
+        return unwrap_step(node), i + 1
     if body.split(" ")[0] in LEAF_WORDS:
         node = {"method": body.split(" ")[0], "end": body.split(" ")[0]}
         if note:
@@ -138,6 +153,7 @@ def parse_step(toks, i):
         node["detail"] = body
     if note:
         node["note"] = note
+    unwrap_step(node)
     i += 1
     cases = []
     if i < len(toks) and toks[i][1].startswith("case "):
@@ -173,6 +189,11 @@ def lemma_proofs(text):
         if not m:
             continue
         name = m.group(2)
+        attrs = line[m.end():]
+        if re.search(r"\[[^\]]*\bleft\b", attrs):
+            name += "@LHS"
+        elif re.search(r"\[[^\]]*\bright\b", attrs):
+            name += "@RHS"
         # skip the header: the trace quantifier and the formula in quotes, then the proof
         j = n + 1
         while j < len(lines) and lines[j].strip() in ("all-traces", "exists-trace", ""):
@@ -211,6 +232,8 @@ def stats(tree):
         st["depth"] = max(st["depth"], d)
         meth = node["method"]
         st["methods"][meth] = st["methods"].get(meth, 0) + 1
+        if node.get("inner"):
+            meth = node["inner"]
         if meth == "solve" and node.get("goal_kind"):
             k = node["goal_kind"]
             st["solve_goal_kinds"][k] = st["solve_goal_kinds"].get(k, 0) + 1
@@ -235,7 +258,7 @@ def extract_file(path, lemma=None):
     text = open(path, encoding="utf-8", errors="replace").read()
     res = lemma_proofs(text)
     if lemma:
-        res = {k: v for k, v in res.items() if k == lemma}
+        res = {k: v for k, v in res.items() if k.split("@")[0] == lemma}
     return res
 
 
@@ -250,7 +273,10 @@ def process_result(model_id, write_trees=True):
         p = benchlib.PROOFS / model_id / f"{lem['name']}.spthy"
         if not p.exists() or lem.get("verdict") not in ("verified", "falsified"):
             continue
-        res = extract_file(p, lem["name"]).get(lem["name"])
+        key = lem["name"] + (f"@{lem['side']}" if lem.get("side") else "")
+        if lem.get("kind") == "diff":
+            key = lem["name"]
+        res = lemma_proofs(open(p, encoding="utf-8", errors="replace").read()).get(key)
         if not res:
             continue
         tree, err = res
@@ -261,7 +287,7 @@ def process_result(model_id, write_trees=True):
             continue
         lem["proof_stats"] = stats(tree)
         if write_trees:
-            benchlib.write_json(benchlib.PROOFS / model_id / f"{lem['name']}.json", tree)
+            benchlib.write_json(benchlib.PROOFS / model_id / f"{key}.json", tree)
         n += 1
     benchlib.write_json(benchlib.results_path("tamarin", model_id), r)
     return n
