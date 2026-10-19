@@ -8,9 +8,10 @@ the benchmark.
 
 ## What is in it
 
-- `models/manifest.toml` lists every model with its source: the repository, the commit, the path,
-  the paper it comes from and the license. The models are fetched at those commits
-  (`scripts/fetch_models.py`), not copied into this repository.
+- `models/<id>/` holds each model as its authors published it, with its oracle where it has one,
+  and a `SOURCE.txt` that documents it: the link to the online source, the commit or version, the
+  license, and how long Tamarin takes on it. `models/manifest.toml` lists all of them, and
+  `scripts/fetch_models.py` fetches them again from the pinned commits to check the copies.
 - `scripts/` runs Tamarin on the models, extracts its proofs, and generates and runs the Lean side.
 - `Bench/` holds one Lean module per model, generated from the manifest: the model read by
   Tamalean's `.spthy` reader and one `certify` per lemma.
@@ -33,5 +34,5 @@ belongs to, and results are compared only within one setting:
 
 ## CI
 
-Pushes run only the light checks: the scripts and the manifest. The benchmark itself runs on
-demand (`workflow_dispatch`, with a subset of models as input) and on a schedule.
+Every push runs the benchmark. Tamalean's own CI never runs it: this repository exists so that
+Tamalean's CI stays as fast as it is.
