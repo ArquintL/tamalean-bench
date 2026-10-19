@@ -6,7 +6,7 @@
   "tamalean_commit": "7e8e63f23cef2427c1bef6a241adb67ce375c9a2",
   "lean_toolchain": "leanprover/lean4:v4.35.0",
   "host": "Apple M4 Pro, 14 cores, 24 GB, macOS 27.0.1",
-  "date": "2026-10-19",
+  "date": "2026-10-20",
   "measured_alone": false,
   "limits": {
     "lemma_s": 600,
@@ -14,19 +14,21 @@
   },
   "reader": {
     "ok": true,
-    "ms": 850
+    "ms": 495
   },
   "lemmas": [
     {
       "name": "keaplus_initiator_key",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 935,
+      "outcome": "no verdict",
+      "message": "certify: out of fuel: this path used up the fuel bound of 26 proof steps; the search's next move there: split exp($g, ~?23) = exp(h(pair(exp(?13, ~?17), pair(exp($g, mult(~?8, ~?20)), pair($?9, $?10)))), inv(?26)) on the variants of exp($g, ~?23)"
     },
     {
       "name": "keaplus_responder_key",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 867,
+      "outcome": "no verdict",
+      "message": "certify: out of fuel: this path used up the fuel bound of 26 proof steps; the search's next move there: split exp($g, ~?22) = exp(h(pair(exp($g, mult(~?8, ~?19)), pair(exp(?12, ~?17), pair($?9, $?10)))), inv(?25)) on the variants of exp($g, ~?22)"
     }
   ],
-  "total_wall_s": 1.01
+  "total_wall_s": 2.54
 }

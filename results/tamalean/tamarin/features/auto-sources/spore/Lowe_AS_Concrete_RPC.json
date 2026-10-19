@@ -6,7 +6,7 @@
   "tamalean_commit": "7e8e63f23cef2427c1bef6a241adb67ce375c9a2",
   "lean_toolchain": "leanprover/lean4:v4.35.0",
   "host": "Apple M4 Pro, 14 cores, 24 GB, macOS 27.0.1",
-  "date": "2026-10-19",
+  "date": "2026-10-20",
   "measured_alone": false,
   "limits": {
     "lemma_s": 600,
@@ -14,39 +14,44 @@
   },
   "reader": {
     "ok": true,
-    "ms": 11362
+    "ms": 10835
   },
   "lemmas": [
     {
       "name": "secrecy",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 10505,
+      "outcome": "no verdict",
+      "message": "certify: out of fuel: this path used up the fuel bound of 26 proof steps; the search's next move there: the chain (#53, 0) ~~> (#36, 0) ends there, or takes a deconstruction step"
     },
     {
       "name": "injectiveagreement_A",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 8533,
+      "outcome": "no verdict",
+      "message": "certify: this leaf is solved: it passes the solved check, so the lemma is probably false (a candidate attack)"
     },
     {
       "name": "injectiveagreement_B",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 115359,
+      "outcome": "no verdict",
+      "message": "certify: this leaf is solved: it passes the solved check, so the lemma is probably false (a candidate attack)"
     },
     {
       "name": "noninjectiveagreement_A",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 5686,
+      "outcome": "proved"
     },
     {
       "name": "noninjectiveagreement_B",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 7838,
+      "outcome": "no verdict",
+      "message": "certify: out of fuel: this path used up the fuel bound of 26 proof steps; the search's next move there: `origin KU 15` — the step that emitted KU(~?6)"
     },
     {
       "name": "Session_key_honest_setup",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 2161,
+      "outcome": "no verdict",
+      "message": "certify: no witness trace: the search for a proof of the formula's negation failed, and none of its open leaves gives a trace.  Its report:"
     }
   ],
-  "total_wall_s": 11.08
+  "total_wall_s": 161.64
 }

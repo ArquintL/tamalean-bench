@@ -6,7 +6,7 @@
   "tamalean_commit": "7e8e63f23cef2427c1bef6a241adb67ce375c9a2",
   "lean_toolchain": "leanprover/lean4:v4.35.0",
   "host": "Apple M4 Pro, 14 cores, 24 GB, macOS 27.0.1",
-  "date": "2026-10-19",
+  "date": "2026-10-20",
   "measured_alone": false,
   "limits": {
     "lemma_s": 600,
@@ -14,14 +14,15 @@
   },
   "reader": {
     "ok": true,
-    "ms": 885
+    "ms": 856
   },
   "lemmas": [
     {
       "name": "Perfect_Forward_Secrecy",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 2473,
+      "outcome": "no verdict",
+      "message": "certify: stuck: the leaf is not solved, and the search has no move for the condition it fails (equations and sorts: the equation verify(?11, pair($2, pair($?4, pair($?3, DH_neutral()))), pk(~?15)) = true() does not hold once the leaf's definitions are substituted: verify(?11, pair($2, pair($?4, pair($?3, DH_neutral()))), pk(~?15)) ≠ true())"
     }
   ],
-  "total_wall_s": 1.01
+  "total_wall_s": 3.53
 }

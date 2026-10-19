@@ -6,7 +6,7 @@
   "tamalean_commit": "7e8e63f23cef2427c1bef6a241adb67ce375c9a2",
   "lean_toolchain": "leanprover/lean4:v4.35.0",
   "host": "Apple M4 Pro, 14 cores, 24 GB, macOS 27.0.1",
-  "date": "2026-10-19",
+  "date": "2026-10-20",
   "measured_alone": false,
   "limits": {
     "lemma_s": 600,
@@ -14,14 +14,15 @@
   },
   "reader": {
     "ok": true,
-    "ms": 1314
+    "ms": 501
   },
   "lemmas": [
     {
       "name": "gk_secrecy",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 18398,
+      "outcome": "attack found",
+      "message": "certify: the lemma is false: the search found an attack, and the kernel checked that it is a trace of the model that violates the lemma"
     }
   ],
-  "total_wall_s": 1.51
+  "total_wall_s": 19.24
 }

@@ -6,7 +6,7 @@
   "tamalean_commit": "7e8e63f23cef2427c1bef6a241adb67ce375c9a2",
   "lean_toolchain": "leanprover/lean4:v4.35.0",
   "host": "Apple M4 Pro, 14 cores, 24 GB, macOS 27.0.1",
-  "date": "2026-10-19",
+  "date": "2026-10-20",
   "measured_alone": false,
   "limits": {
     "lemma_s": 600,
@@ -14,29 +14,33 @@
   },
   "reader": {
     "ok": true,
-    "ms": 32168
+    "ms": 26765
   },
   "lemmas": [
     {
       "name": "Secrecy",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 1021,
+      "outcome": "no verdict",
+      "message": "certify: stuck: the leaf is not solved, and the search has no move for the condition it fails (equations and sorts: verify(?14, ?15, ?16) is no fresh name, and the leaf sorts it fresh)"
     },
     {
       "name": "injectiveagreement_B",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 1263,
+      "outcome": "no verdict",
+      "message": "certify: out of fuel: this path used up the fuel bound of 26 proof steps; the search's next move there: `chase Pk 1` — case-split the sources of Pk($?24, ?23)"
     },
     {
       "name": "agreement_B",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 1227,
+      "outcome": "no verdict",
+      "message": "certify: out of fuel: this path used up the fuel bound of 26 proof steps; the search's next move there: `chase Pk 1` — case-split the sources of Pk($?22, ?21)"
     },
     {
       "name": "Session_key_honest_setup",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 1163,
+      "outcome": "no verdict",
+      "message": "certify: no witness trace: the search for a proof of the formula's negation failed, and none of its open leaves gives a trace.  Its report:"
     }
   ],
-  "total_wall_s": 32.17
+  "total_wall_s": 31.41
 }

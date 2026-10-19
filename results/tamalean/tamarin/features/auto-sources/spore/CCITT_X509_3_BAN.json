@@ -6,7 +6,7 @@
   "tamalean_commit": "7e8e63f23cef2427c1bef6a241adb67ce375c9a2",
   "lean_toolchain": "leanprover/lean4:v4.35.0",
   "host": "Apple M4 Pro, 14 cores, 24 GB, macOS 27.0.1",
-  "date": "2026-10-19",
+  "date": "2026-10-20",
   "measured_alone": false,
   "limits": {
     "lemma_s": 600,
@@ -14,39 +14,45 @@
   },
   "reader": {
     "ok": true,
-    "ms": 54010
+    "ms": 48171
   },
   "lemmas": [
     {
       "name": "Secrecy",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 2151,
+      "outcome": "no verdict",
+      "message": "certify: stuck: the leaf is not solved, and the search has no move for the condition it fails (equations and sorts: verify(?20, ?21, ?22) is no fresh name, and the leaf sorts it fresh)"
     },
     {
       "name": "injectiveagreement_B",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 1557,
+      "outcome": "no verdict",
+      "message": "certify: out of fuel: this path used up the fuel bound of 26 proof steps; the search's next move there: the chain (#72, 0) ~~> (#57, 0) ends there, or takes a deconstruction step"
     },
     {
       "name": "agreement_B",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 1505,
+      "outcome": "no verdict",
+      "message": "certify: out of fuel: this path used up the fuel bound of 26 proof steps; the search's next move there: the chain (#71, 0) ~~> (#56, 0) ends there, or takes a deconstruction step"
     },
     {
       "name": "injectiveagreement_A",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 1668,
+      "outcome": "no verdict",
+      "message": "certify: out of fuel: this path used up the fuel bound of 26 proof steps; the search's next move there: the chain (#81, 0) ~~> (#68, 0) ends there, or takes a deconstruction step"
     },
     {
       "name": "agreement_A",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 1616,
+      "outcome": "no verdict",
+      "message": "certify: out of fuel: this path used up the fuel bound of 26 proof steps; the search's next move there: the chain (#80, 0) ~~> (#67, 0) ends there, or takes a deconstruction step"
     },
     {
       "name": "Session_key_honest_setup",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 1277,
+      "outcome": "no verdict",
+      "message": "certify: no witness trace: the search for a proof of the formula's negation failed, and none of its open leaves gives a trace.  Its report:"
     }
   ],
-  "total_wall_s": 54.31
+  "total_wall_s": 58.33
 }

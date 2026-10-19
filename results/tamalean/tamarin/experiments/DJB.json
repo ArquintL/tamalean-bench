@@ -6,7 +6,7 @@
   "tamalean_commit": "7e8e63f23cef2427c1bef6a241adb67ce375c9a2",
   "lean_toolchain": "leanprover/lean4:v4.35.0",
   "host": "Apple M4 Pro, 14 cores, 24 GB, macOS 27.0.1",
-  "date": "2026-10-19",
+  "date": "2026-10-20",
   "measured_alone": false,
   "limits": {
     "lemma_s": 600,
@@ -14,29 +14,33 @@
   },
   "reader": {
     "ok": true,
-    "ms": 1241
+    "ms": 599
   },
   "lemmas": [
     {
       "name": "KI_Perfect_Forward_Secrecy_I",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 768,
+      "outcome": "no verdict",
+      "message": "certify: out of fuel: this path used up the fuel bound of 26 proof steps; the search's next move there: decompose exp($g, ~?23) = exp(senc(pair(?13, ?20), h(exp($g, mult(~?8, ~?21)))), inv(?26)) as the irreducible exp($g, ~?23) = exp(senc(pair(?13, ?20), h(exp(exp($g, ~?21), ~?8))), inv(?26))"
     },
     {
       "name": "KI_Perfect_Forward_Secrecy_R",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 758,
+      "outcome": "no verdict",
+      "message": "certify: out of fuel: this path used up the fuel bound of 26 proof steps; the search's next move there: split exp(exp($g, ~?31), ?34) = senc(pair(exp($g, ~?29), senc(?12, h(exp(exp($g, ~?29), ~?16)))), h(exp(?12, ~?8))) on the variants of exp(exp($g, ~?31), ?34)"
     },
     {
       "name": "Reachable_I",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 721,
+      "outcome": "no verdict",
+      "message": "certify: out of fuel: this path used up the fuel bound of 26 proof steps; the search's next move there: decompose exp($g, ~?21) = exp(senc(pair(?11, ?18), h(exp($g, mult(~?6, ~?19)))), inv(?27)) as the irreducible exp($g, ~?21) = exp(senc(pair(?11, ?18), h(exp(exp($g, ~?19), ~?6))), inv(?27))"
     },
     {
       "name": "Reachable_R",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 835,
+      "outcome": "no verdict",
+      "message": "certify: out of fuel: this path used up the fuel bound of 26 proof steps; the search's next move there: split exp(exp($g, ~?29), ?35) = senc(pair(exp($g, ~?27), senc(?10, h(exp(exp($g, ~?27), ~?14)))), h(exp(?10, ~?6))) on the variants of exp(exp($g, ~?29), ?35)"
     }
   ],
-  "total_wall_s": 1.52
+  "total_wall_s": 4.07
 }

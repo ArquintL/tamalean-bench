@@ -6,7 +6,7 @@
   "tamalean_commit": "7e8e63f23cef2427c1bef6a241adb67ce375c9a2",
   "lean_toolchain": "leanprover/lean4:v4.35.0",
   "host": "Apple M4 Pro, 14 cores, 24 GB, macOS 27.0.1",
-  "date": "2026-10-19",
+  "date": "2026-10-20",
   "measured_alone": false,
   "limits": {
     "lemma_s": 600,
@@ -14,39 +14,40 @@
   },
   "reader": {
     "ok": true,
-    "ms": 12541
+    "ms": 11283
   },
   "lemmas": [
     {
       "name": "secrecy",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "outcome": "timeout",
+      "ms": 600000
     },
     {
       "name": "injectiveagreement_A",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "outcome": "timeout",
+      "ms": 600000
     },
     {
       "name": "injectiveagreement_B",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "outcome": "timeout",
+      "ms": null,
+      "message": "the model limit was reached during this lemma"
     },
     {
       "name": "noninjectiveagreement_A",
       "outcome": "not run",
-      "message": "only the reader ran"
+      "message": "the model limit was reached first"
     },
     {
       "name": "noninjectiveagreement_B",
       "outcome": "not run",
-      "message": "only the reader ran"
+      "message": "the model limit was reached first"
     },
     {
       "name": "Session_key_honest_setup",
       "outcome": "not run",
-      "message": "only the reader ran"
+      "message": "the model limit was reached first"
     }
   ],
-  "total_wall_s": 13.1
+  "total_wall_s": 1800.28
 }
