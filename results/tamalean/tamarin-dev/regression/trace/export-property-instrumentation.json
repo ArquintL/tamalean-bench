@@ -7,51 +7,60 @@
   "lean_toolchain": "leanprover/lean4:v4.35.0",
   "host": "Apple M4 Pro, 14 cores, 24 GB, macOS 27.0.1",
   "date": "2026-10-20",
-  "measured_alone": false,
+  "measured_alone": true,
   "limits": {
     "lemma_s": 600,
     "model_s": 1800
   },
   "reader": {
     "ok": true,
-    "ms": 312
+    "ms": 256,
+    "measured_alone": true
   },
   "lemmas": [
     {
       "name": "completion_required",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 56,
+      "outcome": "proved",
+      "measured_alone": true
     },
     {
       "name": "completion_not_required_for_same_fact",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 38,
+      "outcome": "proved",
+      "measured_alone": true
     },
     {
       "name": "temporal_equality_uses_rule_ids",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 74,
+      "outcome": "proved",
+      "measured_alone": true
     },
     {
       "name": "induction_composite",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 68,
+      "outcome": "proved",
+      "measured_alone": true
     },
     {
       "name": "split_queries_notice",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 13,
+      "outcome": "no verdict",
+      "message": "check: no antecedent to introduce"
     },
     {
       "name": "independent_shadowed_binders",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 101,
+      "outcome": "proved",
+      "measured_alone": true
     },
     {
       "name": "mixed_quantifier_negated_disjunct",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 112,
+      "outcome": "proved",
+      "measured_alone": true
     }
   ],
-  "total_wall_s": 0.51
+  "total_wall_s": 1.01,
+  "retimed": "2026-10-20"
 }

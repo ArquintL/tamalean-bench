@@ -39,7 +39,19 @@ Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4
 --prove=<lemma> Token_Request_Model.spthy
 Where the flags come from: no flags: the source gives none for this model.
 
-Measured for this benchmark: not run yet.
+Measured for this benchmark (Tamarin 1.12.0, Maude 3.5.1, +RTS -N4 -M8G -RTS, Apple M4 Pro, 14
+cores, 24 GB, macOS 27.0.1, 2026-10-20; limits 600 s per lemma, 1800 s per model;
+results/tamarin/one-for-all/SANA_models/Token_Request/Verifiers_initialized_without_owner_id/Token_Request_Model.json):
+  executable                        exists-trace  verified   14 steps  0.92 s
+  owner_verifier_inj_agreement      all-traces    falsified  8 steps   0.82 s
+  verifier_owner_inj_agreement      all-traces    falsified  12 steps  0.93 s
+  owner_verifier_non_inj_agreement  all-traces    falsified  8 steps   0.80 s
+  verifier_owner_non_inj_agreement  all-traces    falsified  12 steps  0.98 s
+  owner_verifier_weak_agreement     all-traces    falsified  8 steps   0.82 s
+  verifier_owner_weak_agreement     all-traces    falsified  11 steps   1.6 s
+  owner_verifier_aliveness          all-traces    verified   9 steps   0.81 s
+  verifier_owner_aliveness          all-traces    falsified  10 steps  0.85 s
+  total wall-clock time: 9.2 s
 
 Tamarin version the authors used: aggregate_signature_models: Tamarin development version
 compiled 2021-03-05 (README); SANA models: 1.8.0 (f172d7f0), 1.9.0 (86014ad1) or 1.11.0

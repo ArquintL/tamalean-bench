@@ -1,0 +1,666 @@
+{
+  "id": "pq3/model",
+  "tool": "tamarin",
+  "setting": "a ranking",
+  "tamarin_version": "1.12.0",
+  "maude_version": "3.5.1",
+  "rts": "+RTS -N4 -M8G -RTS",
+  "parallel_runs": 2,
+  "host": "Apple M4 Pro, 14 cores, 24 GB, macOS 27.0.1",
+  "date": "2026-10-20",
+  "flags": [
+    "--derivcheck-timeout=0"
+  ],
+  "env": {},
+  "flags_basis": "--derivcheck-timeout=0: the authors' command; the oracle is named in the theory file (no flag needed)",
+  "oracle": [
+    "oracle.py"
+  ],
+  "oracle_notes": [],
+  "limits": {
+    "lemma_s": 600,
+    "model_s": 1800
+  },
+  "load": {
+    "wall_s": 29.544,
+    "processing_s": 29.45,
+    "exit": 0,
+    "lock_wait_s": 0.1,
+    "max_rss_mb": 87.8,
+    "status": "ok"
+  },
+  "lemmas": [
+    {
+      "name": "Auto_ChainKeySources",
+      "kind": "all-traces",
+      "side": null,
+      "wall_s": 90.24,
+      "processing_s": 90.08,
+      "limit_s": 600.0,
+      "max_rss_mb": 2215.1,
+      "lock_wait_s": 0.1,
+      "load_avg": 6.8,
+      "verdict": "verified",
+      "steps": 46,
+      "summary": "verified (46 steps)",
+      "proof": "proofs/pq3/model/Auto_ChainKeySources.spthy",
+      "proof_stats": {
+        "size": 46,
+        "depth": 5,
+        "leaves": {
+          "contradiction": 41
+        },
+        "methods": {
+          "induction": 1,
+          "contradiction": 41,
+          "solve": 4
+        },
+        "solve_goal_kinds": {
+          "disjunction": 1,
+          "premise": 3
+        },
+        "contradictions": {
+          "from formulas": 41
+        }
+      }
+    },
+    {
+      "name": "ExecutabilityPublicKeyRatchetSomeNewKEMSS",
+      "kind": "exists-trace",
+      "side": null,
+      "verdict": "not run",
+      "reason": "not run: the authors prove it interactively (stored proof in the repository's proofs/); only the Auto_* lemmas are proved automatically",
+      "long_run": false
+    },
+    {
+      "name": "ExecutabilityPublicKeyRatchetNoNewKEMSS",
+      "kind": "exists-trace",
+      "side": null,
+      "verdict": "not run",
+      "reason": "not run: the authors prove it interactively (stored proof in the repository's proofs/); only the Auto_* lemmas are proved automatically",
+      "long_run": false
+    },
+    {
+      "name": "Auto_SessionStart",
+      "kind": "all-traces",
+      "side": null,
+      "wall_s": 88.919,
+      "processing_s": 88.78,
+      "limit_s": 600.0,
+      "max_rss_mb": 2064.6,
+      "lock_wait_s": 0.1,
+      "load_avg": 6.6,
+      "verdict": "verified",
+      "steps": 80,
+      "summary": "verified (80 steps)",
+      "proof": "proofs/pq3/model/Auto_SessionStart.spthy",
+      "proof_stats": {
+        "size": 80,
+        "depth": 6,
+        "leaves": {
+          "contradiction": 63
+        },
+        "methods": {
+          "induction": 1,
+          "contradiction": 63,
+          "solve": 16
+        },
+        "solve_goal_kinds": {
+          "disjunction": 1,
+          "action": 9,
+          "premise": 6
+        },
+        "contradictions": {
+          "from formulas": 63
+        }
+      }
+    },
+    {
+      "name": "Auto_SessionStartUnique",
+      "kind": "all-traces",
+      "side": null,
+      "wall_s": 88.052,
+      "processing_s": 87.92,
+      "limit_s": 600.0,
+      "max_rss_mb": 2073.9,
+      "lock_wait_s": 0.1,
+      "load_avg": 5.0,
+      "verdict": "verified",
+      "steps": 6,
+      "summary": "verified (6 steps)",
+      "proof": "proofs/pq3/model/Auto_SessionStartUnique.spthy",
+      "proof_stats": {
+        "size": 6,
+        "depth": 4,
+        "leaves": {
+          "contradiction": 2
+        },
+        "methods": {
+          "simplify": 1,
+          "solve": 3,
+          "contradiction": 2
+        },
+        "solve_goal_kinds": {
+          "action": 3
+        },
+        "contradictions": {
+          "from formulas": 2
+        }
+      }
+    },
+    {
+      "name": "Auto_ECDHSkOrigin",
+      "kind": "all-traces",
+      "side": null,
+      "wall_s": 90.114,
+      "processing_s": 89.93,
+      "limit_s": 600.0,
+      "max_rss_mb": 2042.4,
+      "lock_wait_s": 0.1,
+      "load_avg": 4.6,
+      "verdict": "verified",
+      "steps": 117,
+      "summary": "verified (117 steps)",
+      "proof": "proofs/pq3/model/Auto_ECDHSkOrigin.spthy",
+      "proof_stats": {
+        "size": 117,
+        "depth": 8,
+        "leaves": {
+          "contradiction": 87
+        },
+        "methods": {
+          "induction": 1,
+          "contradiction": 87,
+          "solve": 29
+        },
+        "solve_goal_kinds": {
+          "disjunction": 7,
+          "action": 16,
+          "premise": 6
+        },
+        "contradictions": {
+          "from formulas": 67,
+          "cyclic": 20
+        }
+      }
+    },
+    {
+      "name": "Auto_RootKeyConnectionSend",
+      "kind": "all-traces",
+      "side": null,
+      "wall_s": 90.195,
+      "processing_s": 90.05,
+      "limit_s": 600.0,
+      "max_rss_mb": 2056.6,
+      "lock_wait_s": 0.1,
+      "load_avg": 5.6,
+      "verdict": "verified",
+      "steps": 69,
+      "summary": "verified (69 steps)",
+      "proof": "proofs/pq3/model/Auto_RootKeyConnectionSend.spthy",
+      "proof_stats": {
+        "size": 69,
+        "depth": 8,
+        "leaves": {
+          "contradiction": 53,
+          "solve": 3
+        },
+        "methods": {
+          "induction": 1,
+          "contradiction": 53,
+          "solve": 15
+        },
+        "solve_goal_kinds": {
+          "disjunction": 1,
+          "action": 6,
+          "equation split": 1,
+          "premise": 7
+        },
+        "contradictions": {
+          "from formulas": 45,
+          "contradictory subterm store": 7,
+          "non-normal terms": 1
+        }
+      }
+    },
+    {
+      "name": "Auto_RootKeyConnectionReceive",
+      "kind": "all-traces",
+      "side": null,
+      "wall_s": 93.123,
+      "processing_s": 93.01,
+      "limit_s": 600.0,
+      "max_rss_mb": 2067.4,
+      "lock_wait_s": 0.1,
+      "load_avg": 5.4,
+      "verdict": "verified",
+      "steps": 73,
+      "summary": "verified (73 steps)",
+      "proof": "proofs/pq3/model/Auto_RootKeyConnectionReceive.spthy",
+      "proof_stats": {
+        "size": 73,
+        "depth": 8,
+        "leaves": {
+          "contradiction": 52,
+          "solve": 3
+        },
+        "methods": {
+          "induction": 1,
+          "contradiction": 52,
+          "solve": 20
+        },
+        "solve_goal_kinds": {
+          "disjunction": 1,
+          "action": 6,
+          "equation split": 1,
+          "premise": 12
+        },
+        "contradictions": {
+          "from formulas": 40,
+          "contradictory subterm store": 12
+        }
+      }
+    },
+    {
+      "name": "Auto_RootKeyMonotonicity",
+      "kind": "all-traces",
+      "side": null,
+      "wall_s": 600.144,
+      "processing_s": null,
+      "limit_s": 600.0,
+      "max_rss_mb": 8603.0,
+      "lock_wait_s": 0.1,
+      "load_avg": 4.7,
+      "verdict": "timeout",
+      "steps": null,
+      "long_run": true
+    },
+    {
+      "name": "Auto_ChainKeyMonotonicity",
+      "kind": "all-traces",
+      "side": null,
+      "wall_s": 87.804,
+      "processing_s": 87.72,
+      "limit_s": 600.0,
+      "max_rss_mb": 2079.3,
+      "lock_wait_s": 0.1,
+      "load_avg": 5.4,
+      "verdict": "verified",
+      "steps": 32,
+      "summary": "verified (32 steps)",
+      "proof": "proofs/pq3/model/Auto_ChainKeyMonotonicity.spthy",
+      "proof_stats": {
+        "size": 40,
+        "depth": 13,
+        "leaves": {
+          "contradiction": 27
+        },
+        "methods": {
+          "hide_lemma=Auto_SessionStart, hide_lemma=Auto_SessionStartUnique,": 1,
+          "hide_lemma=Auto_RootKeyConnectionSend, hide_lemma=Auto_ECDHSkOrigin,": 1,
+          "hide_lemma=Auto_RootKeyConnectionReceive,": 1,
+          "hide_lemma=Auto_RootKeyMonotonicity]:": 1,
+          "all-traces": 1,
+          "\"∀ rkCK ck a b c d e f g h i j #t.": 1,
+          "": 2,
+          "induction": 1,
+          "contradiction": 27,
+          "simplify": 1,
+          "solve": 3
+        },
+        "solve_goal_kinds": {
+          "action": 1,
+          "premise": 2
+        },
+        "contradictions": {
+          "from formulas": 3,
+          "contradictory subterm store": 24
+        }
+      }
+    },
+    {
+      "name": "Auto_RootKeyConnectionInjectivity",
+      "kind": "all-traces",
+      "side": null,
+      "wall_s": 120.055,
+      "processing_s": 119.93,
+      "limit_s": 541.9,
+      "max_rss_mb": 3313.4,
+      "lock_wait_s": 0.1,
+      "load_avg": 5.2,
+      "verdict": "verified",
+      "steps": 270,
+      "summary": "verified (270 steps)",
+      "proof": "proofs/pq3/model/Auto_RootKeyConnectionInjectivity.spthy",
+      "proof_stats": {
+        "size": 278,
+        "depth": 17,
+        "leaves": {
+          "contradiction": 171
+        },
+        "methods": {
+          "hide_lemma=Auto_RootKeyConnectionSend,": 1,
+          "hide_lemma=Auto_RootKeyConnectionReceive,": 1,
+          "hide_lemma=Auto_ChainKeyMonotonicity]:": 1,
+          "all-traces": 1,
+          "\"∀ id i1 i2 me them theirIdPk myPk theirPk ecdhSS myKemPk maybeTheirKemPk": 1,
+          "maybeNewKemPk kemSS encapPk rk #t1 #t2.": 1,
+          "": 2,
+          "induction": 1,
+          "contradiction": 171,
+          "solve": 98
+        },
+        "solve_goal_kinds": {
+          "disjunction": 1,
+          "action": 46,
+          "premise": 51
+        },
+        "contradictions": {
+          "from formulas": 27,
+          "cyclic": 144
+        }
+      }
+    },
+    {
+      "name": "Auto_MkCkRelation",
+      "kind": "all-traces",
+      "side": null,
+      "wall_s": 89.698,
+      "processing_s": 89.58,
+      "limit_s": 421.8,
+      "max_rss_mb": 2083.4,
+      "lock_wait_s": 0.1,
+      "load_avg": 4.8,
+      "verdict": "verified",
+      "steps": 130,
+      "summary": "verified (130 steps)",
+      "proof": "proofs/pq3/model/Auto_MkCkRelation.spthy",
+      "proof_stats": {
+        "size": 130,
+        "depth": 5,
+        "leaves": {
+          "contradiction": 110
+        },
+        "methods": {
+          "induction": 1,
+          "contradiction": 110,
+          "solve": 19
+        },
+        "solve_goal_kinds": {
+          "disjunction": 1,
+          "action": 18
+        },
+        "contradictions": {
+          "from formulas": 110
+        }
+      }
+    },
+    {
+      "name": "Auto_CkRkRelation",
+      "kind": "all-traces",
+      "side": null,
+      "wall_s": 119.254,
+      "processing_s": 119.05,
+      "limit_s": 332.1,
+      "max_rss_mb": 5699.2,
+      "lock_wait_s": 0.1,
+      "load_avg": 4.5,
+      "verdict": "verified",
+      "steps": 818,
+      "summary": "verified (818 steps)",
+      "proof": "proofs/pq3/model/Auto_CkRkRelation.spthy",
+      "proof_stats": {
+        "size": 818,
+        "depth": 7,
+        "leaves": {
+          "contradiction": 486,
+          "solve": 192
+        },
+        "methods": {
+          "induction": 1,
+          "contradiction": 486,
+          "solve": 331
+        },
+        "solve_goal_kinds": {
+          "disjunction": 1,
+          "action": 30,
+          "premise": 300
+        },
+        "contradictions": {
+          "from formulas": 304,
+          "node #t1 after last node #t2": 4,
+          "cyclic": 174,
+          "node #t2 after last node #t1": 4
+        }
+      }
+    },
+    {
+      "name": "ECDHSSCompromise",
+      "kind": "all-traces",
+      "side": null,
+      "verdict": "not run",
+      "reason": "not run: the authors prove it interactively (stored proof in the repository's proofs/); only the Auto_* lemmas are proved automatically",
+      "long_run": false
+    },
+    {
+      "name": "Auto_MyKemKeyOrigin",
+      "kind": "all-traces",
+      "side": null,
+      "wall_s": 93.427,
+      "processing_s": 93.29,
+      "limit_s": 212.9,
+      "max_rss_mb": 2074.1,
+      "lock_wait_s": 0.1,
+      "load_avg": 4.8,
+      "verdict": "verified",
+      "steps": 148,
+      "summary": "verified (148 steps)",
+      "proof": "proofs/pq3/model/Auto_MyKemKeyOrigin.spthy",
+      "proof_stats": {
+        "size": 155,
+        "depth": 15,
+        "leaves": {
+          "contradiction": 97
+        },
+        "methods": {
+          "hide_lemma=ECDHSSCompromise, hide_lemma=Auto_SessionStart,": 1,
+          "hide_lemma=Auto_ECDHSkOrigin]:": 1,
+          "all-traces": 1,
+          "\"∀ id i me them theirIdPk myPk theirPk ecdhSS myKemPk maybeTheirKemPk": 1,
+          "maybeNewKemPk kemSS encapPk rk ck mk #t.": 1,
+          "": 2,
+          "induction": 1,
+          "contradiction": 97,
+          "solve": 50
+        },
+        "solve_goal_kinds": {
+          "disjunction": 31,
+          "action": 9,
+          "premise": 10
+        },
+        "contradictions": {
+          "from formulas": 97
+        }
+      }
+    },
+    {
+      "name": "Auto_MaybeNewKemKeyOrigin",
+      "kind": "all-traces",
+      "side": null,
+      "wall_s": 91.478,
+      "processing_s": 91.36,
+      "limit_s": 119.4,
+      "max_rss_mb": 2138.4,
+      "lock_wait_s": 0.1,
+      "load_avg": 4.6,
+      "verdict": "verified",
+      "steps": 18,
+      "summary": "verified (18 steps)",
+      "proof": "proofs/pq3/model/Auto_MaybeNewKemKeyOrigin.spthy",
+      "proof_stats": {
+        "size": 25,
+        "depth": 13,
+        "leaves": {
+          "contradiction": 9
+        },
+        "methods": {
+          "hide_lemma=ECDHSSCompromise, hide_lemma=Auto_SessionStart,": 1,
+          "hide_lemma=Auto_ECDHSkOrigin, hide_lemma=Auto_MyKemKeyOrigin]:": 1,
+          "all-traces": 1,
+          "\"∀ id i me them theirIdPk myPk theirPk ecdhSS myKemPk maybeTheirKemPk": 1,
+          "newKemPk kemSS encapPk rk ck mk #t.": 1,
+          "": 2,
+          "induction": 1,
+          "contradiction": 9,
+          "solve": 8
+        },
+        "solve_goal_kinds": {
+          "disjunction": 1,
+          "action": 5,
+          "premise": 2
+        },
+        "contradictions": {
+          "from formulas": 9
+        }
+      }
+    },
+    {
+      "name": "Auto_TheirKemKeyOrigin",
+      "kind": "all-traces",
+      "side": null,
+      "wall_s": 27.968,
+      "processing_s": null,
+      "limit_s": 28.0,
+      "max_rss_mb": 142.1,
+      "lock_wait_s": 0.1,
+      "load_avg": 4.5,
+      "verdict": "timeout",
+      "steps": null,
+      "long_run": true
+    },
+    {
+      "name": "Auto_KemSSOrigin",
+      "kind": "all-traces",
+      "side": null,
+      "verdict": "not run",
+      "reason": "the model limit was reached first",
+      "long_run": true
+    },
+    {
+      "name": "Auto_KemKeyOriginEncap",
+      "kind": "all-traces",
+      "side": null,
+      "verdict": "not run",
+      "reason": "the model limit was reached first",
+      "long_run": true
+    },
+    {
+      "name": "Auto_KemKeyOriginDecap",
+      "kind": "all-traces",
+      "side": null,
+      "verdict": "not run",
+      "reason": "the model limit was reached first",
+      "long_run": true
+    },
+    {
+      "name": "RkFixesKEMSS",
+      "kind": "all-traces",
+      "side": null,
+      "verdict": "not run",
+      "reason": "not run: the authors prove it interactively (stored proof in the repository's proofs/); only the Auto_* lemmas are proved automatically",
+      "long_run": false
+    },
+    {
+      "name": "Auto_RkFixesEcdhSS",
+      "kind": "all-traces",
+      "side": null,
+      "verdict": "not run",
+      "reason": "the model limit was reached first",
+      "long_run": true
+    },
+    {
+      "name": "KemSSCompromise",
+      "kind": "all-traces",
+      "side": null,
+      "verdict": "not run",
+      "reason": "not run: the authors prove it interactively (stored proof in the repository's proofs/); only the Auto_* lemmas are proved automatically",
+      "long_run": false
+    },
+    {
+      "name": "CkCompromise",
+      "kind": "all-traces",
+      "side": null,
+      "verdict": "not run",
+      "reason": "not run: the authors prove it interactively (stored proof in the repository's proofs/); only the Auto_* lemmas are proved automatically",
+      "long_run": false
+    },
+    {
+      "name": "Auto_RkFormat",
+      "kind": "all-traces",
+      "side": null,
+      "verdict": "not run",
+      "reason": "the model limit was reached first",
+      "long_run": true
+    },
+    {
+      "name": "Auto_RkSecretCompromiseECDH",
+      "kind": "all-traces",
+      "side": null,
+      "verdict": "not run",
+      "reason": "the model limit was reached first",
+      "long_run": true
+    },
+    {
+      "name": "Expensive_Auto_RkSecretCompromiseKemSS",
+      "kind": "all-traces",
+      "side": null,
+      "verdict": "not run",
+      "reason": "not run here: the authors' prove-expensive.sh proves it automatically in about 8 hours with 100 GB",
+      "long_run": true
+    },
+    {
+      "name": "Auto_ChainKeyMonotonicity2",
+      "kind": "all-traces",
+      "side": null,
+      "verdict": "not run",
+      "reason": "the model limit was reached first",
+      "long_run": true
+    },
+    {
+      "name": "Auto_MkCompromise",
+      "kind": "all-traces",
+      "side": null,
+      "verdict": "not run",
+      "reason": "the model limit was reached first",
+      "long_run": true
+    },
+    {
+      "name": "Auto_Secrecy",
+      "kind": "all-traces",
+      "side": null,
+      "verdict": "not run",
+      "reason": "the model limit was reached first",
+      "long_run": true
+    },
+    {
+      "name": "Auto_NoninjectiveAgreement",
+      "kind": "all-traces",
+      "side": null,
+      "verdict": "not run",
+      "reason": "the model limit was reached first",
+      "long_run": true
+    },
+    {
+      "name": "Auto_InjectiveMessageReceived",
+      "kind": "all-traces",
+      "side": null,
+      "verdict": "not run",
+      "reason": "the model limit was reached first",
+      "long_run": true
+    }
+  ],
+  "warnings": [],
+  "notes": [],
+  "status": "limit reached",
+  "total_wall_s": 1800.02
+}

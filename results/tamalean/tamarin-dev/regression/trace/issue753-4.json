@@ -14,13 +14,14 @@
   },
   "reader": {
     "ok": true,
-    "ms": 557
+    "ms": 479
   },
   "lemmas": [
     {
       "name": "False",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 6,
+      "outcome": "no verdict",
+      "message": "check: no antecedent to introduce"
     }
   ],
   "total_wall_s": 0.51

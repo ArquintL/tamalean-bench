@@ -179,3 +179,61 @@ emv/emverify/models-n-proofs/contact/Contact_SDA_PlainPIN_Online	auth_to_bank_mi
 emv/emverify/models-n-proofs/contact/Contact_SDA_PlainPIN_Online	secrecy_MK	the model limit was reached first	--heuristic=O --oraclename=Contact.oracle
 emv/emverify/models-n-proofs/contact/Contact_SDA_PlainPIN_Online	secrecy_PIN	the model limit was reached first	--heuristic=O --oraclename=Contact.oracle
 emv/emverify/models-n-proofs/contact/Contact_SDA_PlainPIN_Online	secrecy_PAN	the model limit was reached first	--heuristic=O --oraclename=Contact.oracle
+emv/emverify/models-n-proofs/contactless/Mastercard_CDA_NoPIN_Low	bank_accepts	reached the lemma limit (600.0 s)	--heuristic=O --oraclename=Mastercard.oracle
+emv/emverify/models-n-proofs/contactless/Mastercard_CDA_OnlinePIN_High	bank_accepts	reached the lemma limit (600.0 s)	--heuristic=O --oraclename=Mastercard.oracle
+emv/emverify/models-n-proofs/contactless/Mastercard_CDA_OnlinePIN_Low	bank_accepts	reached the lemma limit (600.0 s)	--heuristic=O --oraclename=Mastercard.oracle
+emv/emverify/models-n-proofs/contactless/Mastercard_DDA_OnlinePIN_High	bank_accepts	reached the lemma limit (600.0 s)	--heuristic=O --oraclename=Mastercard.oracle
+emv/emverify/models-n-proofs/contactless/Visa_DDA_High	bank_accepts	reached the lemma limit (600.0 s)	--heuristic=O --oraclename=Visa.oracle
+emv/emverify/models-n-proofs/contactless/Visa_DDA_Low	bank_accepts	reached the lemma limit (600.0 s)	--heuristic=O --oraclename=Visa.oracle
+emv/emverify/models-n-proofs/contactless/Visa_DDA_Low_Fix	bank_accepts	reached the lemma limit (600.0 s)	--heuristic=O --oraclename=Visa.oracle
+emv/pan-routing/Contactless_HardFix	bank_accepts	reached the lemma limit (600.0 s)	--heuristic=O --oraclename=Visa.oracle
+emv/pan-routing/Contactless_HardFix	auth_to_terminal	reached the lemma limit (600.0 s)	--heuristic=O --oraclename=Visa.oracle
+emv/pan-routing/Contactless_HardFix	secrecy_PAN	reached the lemma limit (2.5 s)	--heuristic=O --oraclename=Visa.oracle
+emv/pan-routing/Contactless_SoftFix	bank_accepts	reached the lemma limit (600.0 s)	--heuristic=O --oraclename=Visa.oracle
+emv/pan-routing/Contactless_SoftFix	auth_to_terminal	reached the lemma limit (600.0 s)	--heuristic=O --oraclename=Visa.oracle
+emv/pan-routing/Contactless_SoftFix	auth_to_bank	reached the lemma limit (162.3 s)	--heuristic=O --oraclename=Visa.oracle
+emv/pan-routing/Contactless_SoftFix	secrecy_MK	the model limit was reached first	--heuristic=O --oraclename=Visa.oracle
+emv/pan-routing/Contactless_SoftFix	secrecy_privkCard	the model limit was reached first	--heuristic=O --oraclename=Visa.oracle
+emv/pan-routing/Contactless_SoftFix	secrecy_PIN	the model limit was reached first	--heuristic=O --oraclename=Visa.oracle
+emv/pan-routing/Contactless_SoftFix	secrecy_PAN	the model limit was reached first	--heuristic=O --oraclename=Visa.oracle
+emv/pan-routing/Mastercard_CDA_OnlinePIN_High_PaynetPAN	bank_accepts	reached the lemma limit (600.0 s)	--heuristic=O --oraclename=Mastercard.oracle
+emv/pan-routing/Mastercard_DDA_OnlinePIN_High_PaynetPAN	bank_accepts	reached the lemma limit (600.0 s)	--heuristic=O --oraclename=Mastercard.oracle
+emv/pan-routing/Visa_DDA_Low	bank_accepts	reached the lemma limit (600.0 s)	--heuristic=O --oraclename=Visa.oracle
+pq3/model	Auto_RootKeyMonotonicity	reached the lemma limit (600.0 s)	--derivcheck-timeout=0
+pq3/model	Auto_TheirKemKeyOrigin	reached the lemma limit (28.0 s)	--derivcheck-timeout=0
+pq3/model	Auto_KemSSOrigin	the model limit was reached first	--derivcheck-timeout=0
+pq3/model	Auto_KemKeyOriginEncap	the model limit was reached first	--derivcheck-timeout=0
+pq3/model	Auto_KemKeyOriginDecap	the model limit was reached first	--derivcheck-timeout=0
+pq3/model	Auto_RkFixesEcdhSS	the model limit was reached first	--derivcheck-timeout=0
+pq3/model	Auto_RkFormat	the model limit was reached first	--derivcheck-timeout=0
+pq3/model	Auto_RkSecretCompromiseECDH	the model limit was reached first	--derivcheck-timeout=0
+pq3/model	Expensive_Auto_RkSecretCompromiseKemSS	not run here: the authors' prove-expensive.sh proves it automatically in about 8 hours with 100 GB	--derivcheck-timeout=0
+pq3/model	Auto_ChainKeyMonotonicity2	the model limit was reached first	--derivcheck-timeout=0
+pq3/model	Auto_MkCompromise	the model limit was reached first	--derivcheck-timeout=0
+pq3/model	Auto_Secrecy	the model limit was reached first	--derivcheck-timeout=0
+pq3/model	Auto_NoninjectiveAgreement	the model limit was reached first	--derivcheck-timeout=0
+pq3/model	Auto_InjectiveMessageReceived	the model limit was reached first	--derivcheck-timeout=0
+securedrop/securedrop	Easy_NewsroomKeySecrecy	reached the lemma limit (600.0 s)	--derivcheck-timeout=0
+securedrop/securedrop	Easy_SourcePKEKeySecrecy	reached the lemma limit (99.4 s)	--derivcheck-timeout=0
+securedrop/securedrop	Easy_SourceAPKEKeySecrecy	the model limit was reached first	--derivcheck-timeout=0
+securedrop/securedrop	Easy_JournalistFetchingKeySecrecy	the model limit was reached first	--derivcheck-timeout=0
+securedrop/securedrop	Easy_JournalistSIGKeySecrecy	the model limit was reached first	--derivcheck-timeout=0
+securedrop/securedrop	Easy_JournalistAPKEKeySecrecy	the model limit was reached first	--derivcheck-timeout=0
+securedrop/securedrop	Easy_JournalistEPKEKeySecrecy	the model limit was reached first	--derivcheck-timeout=0
+securedrop/securedrop	Easy_JournalistEAPKEKeySecrecy	the model limit was reached first	--derivcheck-timeout=0
+securedrop/securedrop	Easy_Submissions	the model limit was reached first	--derivcheck-timeout=0
+securedrop/securedrop	Auto_SecureChannelSources	the model limit was reached first	--derivcheck-timeout=0
+securedrop/securedrop	Executability	the model limit was reached first	--derivcheck-timeout=0
+securedrop/securedrop	Easy_SessionSecrecy	the model limit was reached first	--derivcheck-timeout=0
+securedrop/securedrop	Easy_EphemeralDHSecrecy	the model limit was reached first	--derivcheck-timeout=0
+securedrop/securedrop	Agreement_Source	the model limit was reached first	--derivcheck-timeout=0
+securedrop/securedrop	Agreement_Journalist	the model limit was reached first	--derivcheck-timeout=0
+securedrop/securedrop	Easy_SubmissionEquality	the model limit was reached first	--derivcheck-timeout=0
+securedrop/securedrop	Auto_FetchingSharedSecretSecrecySourceSubmission	the model limit was reached first	--derivcheck-timeout=0
+securedrop/securedrop	Auto_FetchingSharedSecretSecrecyJournalistSubmission	the model limit was reached first	--derivcheck-timeout=0
+securedrop/securedrop	Auto_FetchingChallengeSecrecy	the model limit was reached first	--derivcheck-timeout=0
+securedrop/securedrop	Secrecy_SourceSubmission	the model limit was reached first	--derivcheck-timeout=0
+securedrop/securedrop	Secrecy_JournalistSubmission	the model limit was reached first	--derivcheck-timeout=0
+tamarin/fm24-cardpayments/offlineAndOnlineAuthorized/C8	executable	reached the lemma limit (600.0 s)	--heuristic=O --oraclename=oracle/C8.oracle
+tamarin/fm24-cardpayments/offlineAndOnlineAuthorized/C8	offlineAuth_executable	reached the lemma limit (600.0 s)	--heuristic=O --oraclename=oracle/C8.oracle
+tamarin/fm24-cardpayments/onlineAuthorized/C8	executable	reached the lemma limit (600.0 s)	--heuristic=O --oraclename=oracle/C8.oracle

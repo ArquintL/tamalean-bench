@@ -14,44 +14,51 @@
   },
   "reader": {
     "ok": true,
-    "ms": 7894
+    "ms": 6417
   },
   "lemmas": [
     {
       "name": "sources",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 5,
+      "outcome": "no verdict",
+      "message": "certify: this lemma is stated against the full attacker, which also applies destructors (`registry.withDestructorConstructions`), and the bridge to the registry's attacker, where `certify` works, does not apply to it: its formula mentions `KU`."
     },
     {
       "name": "loop_induction_resp",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 120,
+      "outcome": "no verdict",
+      "message": "check: no antecedent to introduce"
     },
     {
       "name": "loop_induction_init",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 128,
+      "outcome": "no verdict",
+      "message": "check: no antecedent to introduce"
     },
     {
       "name": "first_message_exec",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 867,
+      "outcome": "no verdict",
+      "message": "certify: no witness trace: the search for a proof of the formula's negation failed, and none of its open leaves gives a trace.  Its report:"
     },
     {
       "name": "auth_resp",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 8536,
+      "outcome": "no verdict",
+      "message": "certify: stuck: the leaf is not solved, and the search has no move for the condition it fails (equations and sorts: the equation verify(?58, ?59, ?60, ?61) = format4($4, ?12, ?13, aead(kdf1_(kdf1(kdf1(kdf1(kdf1(kdf1(kdf1(kdf1(h_($i), exp($g, ~?53)), exp(exp($g, ~?53), ~?21)), exp(exp($g, ~?43), ~?21)), exp($g, ~?27)), exp(exp($g, ~?53), ~?27)), exp(exp($g, ~?43), ~?27)), $00)), ?13, ?14, $e)) does not hold once the leaf's definitions are substituted: verify(?58, ?59, ?60, ?61) ≠ format4($4, ?12, ?13, aead(kdf1_(kdf1(kdf1(kdf1(kdf1(kdf1(kdf1(kdf1(h_($i), exp($g, ~?53)), exp(exp($g, ~?53), ~?21)), exp(exp($g, ~?43), ~?21)), exp($g, ~?27)), exp(exp($g, ~?53), ~?27)), exp(exp($g, ~?43), ~?27)), $00)), ?13, ?14, $e)))"
     },
     {
       "name": "auth_init",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 27093,
+      "outcome": "no verdict",
+      "message": "certify: stuck: the leaf is not solved, and the search has no move for the condition it fails (equations and sorts: the equation verify(?32, ?33, ?34, ?35) = format2($2, ?15, ~?4, ?16, aead(kdf3(kdf1(kdf1(kdf1(kdf1(kdf1(kdf1(h_($i), exp($g, ~?11)), exp(exp($g, ~?31), ~?11)), exp(exp($g, ~?31), ~?9)), ?16), exp(?16, ~?11)), exp(?16, ~?9)), $00), $0, $e, h(h(h(h(h(h(h(h_($i), $p), exp($g, ~?31)), exp($g, ~?11)), aead(kdf2(kdf1(h_($i), exp($g, ~?11)), exp(exp($g, ~?31), ~?11)), $0, exp($g, ~?9), h(h(h(h_($i), $p), exp($g, ~?31)), exp($g, ~?11)))), aead(kdf2(kdf1(kdf1(h_($i), exp($g, ~?11)), exp(exp($g, ~?31), ~?11)), exp(exp($g, ~?31), ~?9)), $0, ?28, h(h(h(h(h_($i), $p), exp($g, ~?31)), exp($g, ~?11)), aead(kdf2(kdf1(h_($i), exp($g, ~?11)), exp(exp($g, ~?31), ~?11)), $0, exp($g, ~?9), h(h(h(h_($i), $p), exp($g, ~?31)), exp($g, ~?11)))))), ?16), kdf2(kdf1(kdf1(kdf1(kdf1(kdf1(kdf1(h_($i), exp($g, ~?11)), exp(exp($g, ~?31), ~?11)), exp(exp($g, ~?31), ~?9)), ?16), exp(?16, ~?11)), exp(?16, ~?9)), $00))), ?17, ?18) does not hold once the leaf's definitions are substituted: verify(?32, ?33, ?34, ?35) ≠ format2($2, ?15, ~?4, ?16, aead(kdf3(kdf1(kdf1(kdf1(kdf1(kdf1(kdf1(h_($i), exp($g, ~?11)), exp(exp($g, ~?31), ~?11)), exp(exp($g, ~?31), ~?9)), ?16), exp(?16, ~?11)), exp(?16, ~?9)), $00), $0, $e, h(h(h(h(h(h(h(h_($i), $p), exp($g, ~?31)), exp($g, ~?11)), aead(kdf2(kdf1(h_($i), exp($g, ~?11)), exp(exp($g, ~?31), ~?11)), $0, exp($g, ~?9), h(h(h(h_($i), $p), exp($g, ~?31)), exp($g, ~?11)))), aead(kdf2(kdf1(kdf1(h_($i), exp($g, ~?11)), exp(exp($g, ~?31), ~?11)), exp(exp($g, ~?31), ~?9)), $0, ?28, h(h(h(h(h_($i), $p), exp($g, ~?31)), exp($g, ~?11)), aead(kdf2(kdf1(h_($i), exp($g, ~?11)), exp(exp($g, ~?31), ~?11)), $0, exp($g, ~?9), h(h(h(h_($i), $p), exp($g, ~?31)), exp($g, ~?11)))))), ?16), kdf2(kdf1(kdf1(kdf1(kdf1(kdf1(kdf1(h_($i), exp($g, ~?11)), exp(exp($g, ~?31), ~?11)), exp(exp($g, ~?31), ~?9)), ?16), exp(?16, ~?11)), exp(?16, ~?9)), $00))), ?17, ?18))"
     },
     {
       "name": "forward_secrecy",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 22067,
+      "outcome": "no verdict",
+      "message": "certify: out of fuel: this path used up the fuel bound of 26 proof steps; the search's next move there: split exp($g, ~?40) = kdf2_(kdf1(kdf1(kdf1(kdf1(kdf1(kdf1(kdf1(h_($i), exp($g, ~?10)), exp(exp($g, ~?30), ~?10)), exp(exp($g, ~?30), ~?8)), ?15), exp(?15, ~?10)), exp(?15, ~?8)), $00)) on the variants of exp($g, ~?40)"
     }
   ],
-  "total_wall_s": 8.11
+  "total_wall_s": 65.38
 }

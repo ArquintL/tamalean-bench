@@ -6,42 +6,49 @@
   "tamalean_commit": "7e8e63f23cef2427c1bef6a241adb67ce375c9a2",
   "lean_toolchain": "leanprover/lean4:v4.35.0",
   "host": "Apple M4 Pro, 14 cores, 24 GB, macOS 27.0.1",
-  "date": "2026-10-19",
-  "measured_alone": false,
+  "date": "2026-10-20",
+  "measured_alone": true,
   "limits": {
     "lemma_s": 600,
     "model_s": 1800
   },
   "reader": {
     "ok": true,
-    "ms": 332
+    "ms": 233,
+    "measured_alone": true
   },
   "lemmas": [
     {
       "name": "Start_before_Loop",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 64,
+      "outcome": "no verdict",
+      "message": "certify: out of fuel: this path used up the fuel bound of 26 proof steps; the search's next move there: `chase A 1` — case-split the sources of A(?0)"
     },
     {
       "name": "Start_before_Stop",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 59,
+      "outcome": "no verdict",
+      "message": "certify: out of fuel: this path used up the fuel bound of 26 proof steps; the search's next move there: `chase A 1` — case-split the sources of A(?0)"
     },
     {
       "name": "Loop_before_Stop",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 1340,
+      "outcome": "no verdict",
+      "message": "certify: out of fuel: this path used up the fuel bound of 26 proof steps; the search's next move there: `chase A 1` — case-split the sources of A(~?0)"
     },
     {
       "name": "Stop_unique",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 1764,
+      "outcome": "no verdict",
+      "message": "certify: out of fuel: this path used up the fuel bound of 26 proof steps; the search's next move there: `chase A 1` — case-split the sources of A(~?0)"
     },
     {
       "name": "Satisfied_by_empty_trace_only",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 35,
+      "outcome": "proved",
+      "measured_alone": true
     }
   ],
-  "total_wall_s": 0.51
+  "total_wall_s": 3.53,
+  "retimed": "2026-10-20"
 }

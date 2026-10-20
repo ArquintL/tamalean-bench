@@ -43,7 +43,14 @@ Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4
 --prove=<lemma> malicious_user.spthy
 Where the flags come from: the oracle is named in the theory file (no flag needed).
 
-Measured for this benchmark: not run yet.
+Measured for this benchmark (Tamarin 1.12.0, Maude 3.5.1, +RTS -N4 -M8G -RTS, Apple M4 Pro, 14
+cores, 24 GB, macOS 27.0.1, 2026-10-20; limits 600 s per lemma, 1800 s per model;
+results/tamarin/securedrop-thesis/malicious_user.json):
+  Tamarin did not load the model: maude tool: 'maude' |  checking version: 3.5.1. OK. |
+  checking installation: OK. | "malicious_user.spthy" (line 77, column 31): | unexpected "d" |
+  expecting "colour=", "color=", "process=", "no_derivcheck", "role=", "issapicrule", "x-" or
+  "]"
+  total wall-clock time: 0.09 s
 
 Tamarin version the authors used: 1.8.0 (README; stored proofs say Tamarin 1.8.0, Maude 2.7.1)
 

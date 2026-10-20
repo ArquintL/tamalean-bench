@@ -48,7 +48,33 @@ Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4
 Where the flags come from: --derivcheck-timeout=0: the authors' command; the oracle is named in
 the theory file (no flag needed).
 
-Measured for this benchmark: not run yet.
+Measured for this benchmark (Tamarin 1.12.0, Maude 3.5.1, +RTS -N4 -M8G -RTS, Apple M4 Pro, 14
+cores, 24 GB, macOS 27.0.1, 2026-10-20; limits 600 s per lemma, 1800 s per model;
+results/tamarin/securedrop/securedrop.json):
+  Easy_NewsroomKeySecrecy                               all-traces    timeout    600.1 s
+  Easy_SourcePassphraseSecrecy                          all-traces    error      520.4 s
+  Easy_SourceFetchingKeySecrecy                         all-traces    error      577.5 s
+  Easy_SourcePKEKeySecrecy                              all-traces    timeout     99.7 s
+  Easy_SourceAPKEKeySecrecy                             all-traces    not run          -
+  Easy_JournalistFetchingKeySecrecy                     all-traces    not run          -
+  Easy_JournalistSIGKeySecrecy                          all-traces    not run          -
+  Easy_JournalistAPKEKeySecrecy                         all-traces    not run          -
+  Easy_JournalistEPKEKeySecrecy                         all-traces    not run          -
+  Easy_JournalistEAPKEKeySecrecy                        all-traces    not run          -
+  Easy_Submissions                                      all-traces    not run          -
+  Auto_SecureChannelSources                             all-traces    not run          -
+  Executability                                         exists-trace  not run          -
+  Easy_SessionSecrecy                                   all-traces    not run          -
+  Easy_EphemeralDHSecrecy                               all-traces    not run          -
+  Agreement_Source                                      all-traces    not run          -
+  Agreement_Journalist                                  all-traces    not run          -
+  Easy_SubmissionEquality                               all-traces    not run          -
+  Auto_FetchingSharedSecretSecrecySourceSubmission      all-traces    not run          -
+  Auto_FetchingSharedSecretSecrecyJournalistSubmission  all-traces    not run          -
+  Auto_FetchingChallengeSecrecy                         all-traces    not run          -
+  Secrecy_SourceSubmission                              all-traces    not run          -
+  Secrecy_JournalistSubmission                          all-traces    not run          -
+  total wall-clock time: 1800.3 s
 
 Tamarin version the authors used: 1.12 with Maude 3.5 (README); not checked against the
 installed 1.10.0

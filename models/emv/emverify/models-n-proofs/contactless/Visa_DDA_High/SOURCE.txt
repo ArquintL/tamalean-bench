@@ -40,7 +40,22 @@ Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4
 --heuristic=O --oraclename=Visa.oracle --prove=<lemma> Visa_DDA_High.spthy
 Where the flags come from: --heuristic=O --oraclename: the command the authors give.
 
-Measured for this benchmark: not run yet.
+Measured for this benchmark (Tamarin 1.12.0, Maude 3.5.1, +RTS -N4 -M8G -RTS, Apple M4 Pro, 14
+cores, 24 GB, macOS 27.0.1, 2026-10-20; limits 600 s per lemma, 1800 s per model;
+results/tamarin/emv/emverify/models-n-proofs/contactless/Visa_DDA_High.json):
+  executable                exists-trace  verified   28 steps     45.0 s
+  bank_accepts              all-traces    timeout                600.2 s
+  auth_to_terminal_minimal  all-traces    verified   378 steps    74.8 s
+  auth_to_terminal          all-traces    verified   3605 steps  437.2 s
+  auth_to_bank_minimal      all-traces    verified   122 steps    39.4 s
+  auth_to_bank              all-traces    verified   312 steps    58.6 s
+  secrecy_MK                all-traces    verified   12 steps     29.5 s
+  secrecy_privkCard         all-traces    verified   13 steps     30.3 s
+  secrecy_PIN               all-traces    verified   4 steps      30.0 s
+  secrecy_PAN               all-traces    falsified  7 steps      29.2 s
+  total wall-clock time: 1379.8 s
+  Tamarin's wellformedness or derivation warnings: Derivation Checks: Derivation checks timed
+  out. Use --derivcheck-timeout=INT to configure timeout. Set to 0 to deactivate for no timeout.
 
 Reported by the authors: 1210.482538392s processing time in Visa_DDA_High.proof (Tamarin 1.7.0
 (git 2884fce8); 2x Xeon E5-2650 v4, 10 threads, 20 GB)

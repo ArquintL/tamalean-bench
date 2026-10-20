@@ -14,24 +14,27 @@
   },
   "reader": {
     "ok": true,
-    "ms": 498
+    "ms": 360
   },
   "lemmas": [
     {
       "name": "OuterLoopStep",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 230,
+      "outcome": "no verdict",
+      "message": "certify: out of fuel: this path used up the fuel bound of 26 proof steps; the search's next move there: `chase Construct 1` — case-split the sources of Construct(~?0, ?54, ?2)"
     },
     {
       "name": "SeedSecrecy",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 2,
+      "outcome": "no verdict",
+      "message": "certify: this lemma is stated against the full attacker, which also applies destructors (`registry.withDestructorConstructions`), and the bridge to the registry's attacker, where `certify` works, does not apply to it: its formula mentions `KU`."
     },
     {
       "name": "KeySecrecy",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 2686,
+      "outcome": "no verdict",
+      "message": "certify: this leaf is solved: it passes the solved check, so the lemma is probably false (a candidate attack)"
     }
   ],
-  "total_wall_s": 0.51
+  "total_wall_s": 3.54
 }

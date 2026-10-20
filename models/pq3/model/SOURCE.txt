@@ -41,7 +41,42 @@ Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4
 Where the flags come from: --derivcheck-timeout=0: the authors' command; the oracle is named in
 the theory file (no flag needed).
 
-Measured for this benchmark: not run yet.
+Measured for this benchmark (Tamarin 1.12.0, Maude 3.5.1, +RTS -N4 -M8G -RTS, Apple M4 Pro, 14
+cores, 24 GB, macOS 27.0.1, 2026-10-20; limits 600 s per lemma, 1800 s per model;
+results/tamarin/pq3/model.json):
+  Auto_ChainKeySources                       all-traces    verified  46 steps    90.2 s
+  ExecutabilityPublicKeyRatchetSomeNewKEMSS  exists-trace  not run                    -
+  ExecutabilityPublicKeyRatchetNoNewKEMSS    exists-trace  not run                    -
+  Auto_SessionStart                          all-traces    verified  80 steps    88.9 s
+  Auto_SessionStartUnique                    all-traces    verified  6 steps     88.1 s
+  Auto_ECDHSkOrigin                          all-traces    verified  117 steps   90.1 s
+  Auto_RootKeyConnectionSend                 all-traces    verified  69 steps    90.2 s
+  Auto_RootKeyConnectionReceive              all-traces    verified  73 steps    93.1 s
+  Auto_RootKeyMonotonicity                   all-traces    timeout              600.1 s
+  Auto_ChainKeyMonotonicity                  all-traces    verified  32 steps    87.8 s
+  Auto_RootKeyConnectionInjectivity          all-traces    verified  270 steps  120.1 s
+  Auto_MkCkRelation                          all-traces    verified  130 steps   89.7 s
+  Auto_CkRkRelation                          all-traces    verified  818 steps  119.3 s
+  ECDHSSCompromise                           all-traces    not run                    -
+  Auto_MyKemKeyOrigin                        all-traces    verified  148 steps   93.4 s
+  Auto_MaybeNewKemKeyOrigin                  all-traces    verified  18 steps    91.5 s
+  Auto_TheirKemKeyOrigin                     all-traces    timeout               28.0 s
+  Auto_KemSSOrigin                           all-traces    not run                    -
+  Auto_KemKeyOriginEncap                     all-traces    not run                    -
+  Auto_KemKeyOriginDecap                     all-traces    not run                    -
+  RkFixesKEMSS                               all-traces    not run                    -
+  Auto_RkFixesEcdhSS                         all-traces    not run                    -
+  KemSSCompromise                            all-traces    not run                    -
+  CkCompromise                               all-traces    not run                    -
+  Auto_RkFormat                              all-traces    not run                    -
+  Auto_RkSecretCompromiseECDH                all-traces    not run                    -
+  Expensive_Auto_RkSecretCompromiseKemSS     all-traces    not run                    -
+  Auto_ChainKeyMonotonicity2                 all-traces    not run                    -
+  Auto_MkCompromise                          all-traces    not run                    -
+  Auto_Secrecy                               all-traces    not run                    -
+  Auto_NoninjectiveAgreement                 all-traces    not run                    -
+  Auto_InjectiveMessageReceived              all-traces    not run                    -
+  total wall-clock time: 1800.0 s
 
 Reported by the authors: prove-auto.sh: 8h, 10 GB; prove-expensive.sh: 8h, 100 GB (README;
 elsewhere the README says the expensive lemma took around 1-2 days)

@@ -6,32 +6,35 @@
   "tamalean_commit": "7e8e63f23cef2427c1bef6a241adb67ce375c9a2",
   "lean_toolchain": "leanprover/lean4:v4.35.0",
   "host": "Apple M4 Pro, 14 cores, 24 GB, macOS 27.0.1",
-  "date": "2026-10-19",
-  "measured_alone": false,
+  "date": "2026-10-20",
+  "measured_alone": true,
   "limits": {
     "lemma_s": 600,
     "model_s": 1800
   },
   "reader": {
     "ok": true,
-    "ms": 7974
+    "ms": 5646,
+    "measured_alone": true
   },
   "lemmas": [
     {
       "name": "nonce_secrecy",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "outcome": "timeout",
+      "ms": 600000
     },
     {
       "name": "injective_agree",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "outcome": "timeout",
+      "ms": 600000
     },
     {
       "name": "session_key_setup_possible",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 2340,
+      "outcome": "proved",
+      "measured_alone": true
     }
   ],
-  "total_wall_s": 8.08
+  "total_wall_s": 1223.66,
+  "retimed": "2026-10-20"
 }

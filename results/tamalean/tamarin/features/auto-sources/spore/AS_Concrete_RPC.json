@@ -7,14 +7,15 @@
   "lean_toolchain": "leanprover/lean4:v4.35.0",
   "host": "Apple M4 Pro, 14 cores, 24 GB, macOS 27.0.1",
   "date": "2026-10-20",
-  "measured_alone": false,
+  "measured_alone": true,
   "limits": {
     "lemma_s": 600,
     "model_s": 1800
   },
   "reader": {
     "ok": true,
-    "ms": 10092
+    "ms": 7434,
+    "measured_alone": true
   },
   "lemmas": [
     {
@@ -25,27 +26,31 @@
     },
     {
       "name": "injectiveagreement_A",
-      "ms": 8510,
+      "ms": 7764,
       "outcome": "attack found",
-      "message": "certify: the lemma is false: the search found an attack, and the kernel checked that it is a trace of the model that violates the lemma"
+      "message": "certify: the lemma is false: the search found an attack, and the kernel checked that it is a trace of the model that violates the lemma",
+      "measured_alone": true
     },
     {
       "name": "injectiveagreement_B",
-      "ms": 74932,
+      "ms": 71807,
       "outcome": "attack found",
-      "message": "certify: the lemma is false: the search found an attack, and the kernel checked that it is a trace of the model that violates the lemma"
+      "message": "certify: the lemma is false: the search found an attack, and the kernel checked that it is a trace of the model that violates the lemma",
+      "measured_alone": true
     },
     {
       "name": "noninjectiveagreement_A",
-      "ms": 2211,
+      "ms": 2110,
       "outcome": "attack found",
-      "message": "certify: the lemma is false: the search found an attack, and the kernel checked that it is a trace of the model that violates the lemma"
+      "message": "certify: the lemma is false: the search found an attack, and the kernel checked that it is a trace of the model that violates the lemma",
+      "measured_alone": true
     },
     {
       "name": "noninjectiveagreement_B",
-      "ms": 42005,
+      "ms": 38181,
       "outcome": "attack found",
-      "message": "certify: the lemma is false: the search found an attack, and the kernel checked that it is a trace of the model that violates the lemma"
+      "message": "certify: the lemma is false: the search found an attack, and the kernel checked that it is a trace of the model that violates the lemma",
+      "measured_alone": true
     },
     {
       "name": "Session_key_honest_setup",
@@ -54,5 +59,6 @@
       "message": "certify: no witness trace: the search for a proof of the formula's negation failed, and none of its open leaves gives a trace.  Its report:"
     }
   ],
-  "total_wall_s": 147.55
+  "total_wall_s": 147.55,
+  "retimed": "2026-10-20"
 }

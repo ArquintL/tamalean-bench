@@ -1,0 +1,392 @@
+{
+  "id": "emv/pan-routing/Visa_DDA_High",
+  "tool": "tamarin",
+  "setting": "a ranking",
+  "tamarin_version": "1.12.0",
+  "maude_version": "3.5.1",
+  "rts": "+RTS -N4 -M8G -RTS",
+  "parallel_runs": 2,
+  "host": "Apple M4 Pro, 14 cores, 24 GB, macOS 27.0.1",
+  "date": "2026-10-20",
+  "flags": [
+    "--heuristic=O",
+    "--oraclename=Visa.oracle"
+  ],
+  "env": {},
+  "flags_basis": "--heuristic=O --oraclename: the command the authors give",
+  "oracle": [
+    "Visa.oracle"
+  ],
+  "oracle_notes": [
+    "Visa.oracle: its interpreter line names /usr/bin/python, which this machine lacks; the same file runs with Python 2.7.18 (it is written for Python 2)"
+  ],
+  "limits": {
+    "lemma_s": 600,
+    "model_s": 1800
+  },
+  "load": {
+    "wall_s": 5.717,
+    "processing_s": 5.63,
+    "exit": 0,
+    "lock_wait_s": 0.1,
+    "max_rss_mb": 65.2,
+    "status": "ok"
+  },
+  "lemmas": [
+    {
+      "name": "executable",
+      "kind": "exists-trace",
+      "side": null,
+      "wall_s": 42.876,
+      "processing_s": 42.79,
+      "limit_s": 600.0,
+      "max_rss_mb": 1652.5,
+      "lock_wait_s": 0.1,
+      "load_avg": 6.5,
+      "verdict": "verified",
+      "steps": 28,
+      "summary": "verified (28 steps)",
+      "proof": "proofs/emv/pan-routing/Visa_DDA_High/executable.spthy",
+      "proof_stats": {
+        "size": 28,
+        "depth": 28,
+        "leaves": {
+          "SOLVED": 1
+        },
+        "methods": {
+          "simplify": 1,
+          "solve": 26,
+          "SOLVED": 1
+        },
+        "solve_goal_kinds": {
+          "action": 4,
+          "premise": 12,
+          "KU action": 10
+        },
+        "contradictions": {}
+      }
+    },
+    {
+      "name": "bank_accepts",
+      "kind": "all-traces",
+      "side": null,
+      "wall_s": 349.999,
+      "processing_s": 349.76,
+      "limit_s": 600.0,
+      "max_rss_mb": 5880.4,
+      "lock_wait_s": 0.1,
+      "load_avg": 5.4,
+      "verdict": "verified",
+      "steps": 2313,
+      "summary": "verified (2313 steps)",
+      "proof": "proofs/emv/pan-routing/Visa_DDA_High/bank_accepts.spthy",
+      "proof_stats": {
+        "size": 2313,
+        "depth": 14,
+        "leaves": {
+          "solve": 279,
+          "contradiction": 738
+        },
+        "methods": {
+          "simplify": 1,
+          "solve": 1574,
+          "contradiction": 738
+        },
+        "solve_goal_kinds": {
+          "premise": 321,
+          "action": 23,
+          "KU action": 1230
+        },
+        "contradictions": {
+          "from formulas": 738
+        }
+      }
+    },
+    {
+      "name": "auth_to_terminal_minimal",
+      "kind": "all-traces",
+      "side": null,
+      "wall_s": 70.925,
+      "processing_s": 70.81,
+      "limit_s": 600.0,
+      "max_rss_mb": 1554.4,
+      "lock_wait_s": 0.1,
+      "load_avg": 5.9,
+      "verdict": "verified",
+      "steps": 370,
+      "summary": "verified (370 steps)",
+      "proof": "proofs/emv/pan-routing/Visa_DDA_High/auth_to_terminal_minimal.spthy",
+      "proof_stats": {
+        "size": 370,
+        "depth": 13,
+        "leaves": {
+          "contradiction": 119,
+          "solve": 9
+        },
+        "methods": {
+          "simplify": 1,
+          "solve": 250,
+          "contradiction": 119
+        },
+        "solve_goal_kinds": {
+          "action": 1,
+          "premise": 22,
+          "KU action": 227
+        },
+        "contradictions": {
+          "from formulas": 119
+        }
+      }
+    },
+    {
+      "name": "auth_to_terminal",
+      "kind": "all-traces",
+      "side": null,
+      "wall_s": 349.805,
+      "processing_s": 349.39,
+      "limit_s": 600.0,
+      "max_rss_mb": 5071.0,
+      "lock_wait_s": 0.1,
+      "load_avg": 6.0,
+      "verdict": "verified",
+      "steps": 2965,
+      "summary": "verified (2965 steps)",
+      "proof": "proofs/emv/pan-routing/Visa_DDA_High/auth_to_terminal.spthy",
+      "proof_stats": {
+        "size": 2965,
+        "depth": 14,
+        "leaves": {
+          "solve": 230,
+          "contradiction": 910
+        },
+        "methods": {
+          "simplify": 1,
+          "solve": 2054,
+          "contradiction": 910
+        },
+        "solve_goal_kinds": {
+          "disjunction": 2,
+          "action": 163,
+          "premise": 659,
+          "KU action": 1230
+        },
+        "contradictions": {
+          "from formulas": 750,
+          "cyclic": 160
+        }
+      }
+    },
+    {
+      "name": "auth_to_bank_minimal",
+      "kind": "all-traces",
+      "side": null,
+      "wall_s": 35.805,
+      "processing_s": 35.67,
+      "limit_s": 600.0,
+      "max_rss_mb": 1516.4,
+      "lock_wait_s": 0.1,
+      "load_avg": 5.5,
+      "verdict": "verified",
+      "steps": 76,
+      "summary": "verified (76 steps)",
+      "proof": "proofs/emv/pan-routing/Visa_DDA_High/auth_to_bank_minimal.spthy",
+      "proof_stats": {
+        "size": 76,
+        "depth": 14,
+        "leaves": {
+          "contradiction": 21
+        },
+        "methods": {
+          "simplify": 1,
+          "solve": 54,
+          "contradiction": 21
+        },
+        "solve_goal_kinds": {
+          "action": 1,
+          "premise": 18,
+          "KU action": 35
+        },
+        "contradictions": {
+          "from formulas": 21
+        }
+      }
+    },
+    {
+      "name": "auth_to_bank",
+      "kind": "all-traces",
+      "side": null,
+      "wall_s": 49.273,
+      "processing_s": 49.18,
+      "limit_s": 600.0,
+      "max_rss_mb": 1622.4,
+      "lock_wait_s": 0.1,
+      "load_avg": 4.7,
+      "verdict": "verified",
+      "steps": 234,
+      "summary": "verified (234 steps)",
+      "proof": "proofs/emv/pan-routing/Visa_DDA_High/auth_to_bank.spthy",
+      "proof_stats": {
+        "size": 234,
+        "depth": 15,
+        "leaves": {
+          "contradiction": 72
+        },
+        "methods": {
+          "simplify": 1,
+          "solve": 161,
+          "contradiction": 72
+        },
+        "solve_goal_kinds": {
+          "disjunction": 2,
+          "action": 11,
+          "premise": 54,
+          "KU action": 94
+        },
+        "contradictions": {
+          "from formulas": 64,
+          "cyclic": 8
+        }
+      }
+    },
+    {
+      "name": "secrecy_MK",
+      "kind": "all-traces",
+      "side": null,
+      "wall_s": 28.982,
+      "processing_s": 28.86,
+      "limit_s": 600.0,
+      "max_rss_mb": 1689.4,
+      "lock_wait_s": 0.1,
+      "load_avg": 6.1,
+      "verdict": "verified",
+      "steps": 12,
+      "summary": "verified (12 steps)",
+      "proof": "proofs/emv/pan-routing/Visa_DDA_High/secrecy_MK.spthy",
+      "proof_stats": {
+        "size": 12,
+        "depth": 7,
+        "leaves": {
+          "contradiction": 2
+        },
+        "methods": {
+          "simplify": 1,
+          "solve": 9,
+          "contradiction": 2
+        },
+        "solve_goal_kinds": {
+          "action": 1,
+          "premise": 6,
+          "KU action": 2
+        },
+        "contradictions": {
+          "from formulas": 2
+        }
+      }
+    },
+    {
+      "name": "secrecy_privkCard",
+      "kind": "all-traces",
+      "side": null,
+      "wall_s": 28.715,
+      "processing_s": 28.59,
+      "limit_s": 600.0,
+      "max_rss_mb": 1548.4,
+      "lock_wait_s": 0.1,
+      "load_avg": 6.7,
+      "verdict": "verified",
+      "steps": 13,
+      "summary": "verified (13 steps)",
+      "proof": "proofs/emv/pan-routing/Visa_DDA_High/secrecy_privkCard.spthy",
+      "proof_stats": {
+        "size": 13,
+        "depth": 8,
+        "leaves": {
+          "contradiction": 2
+        },
+        "methods": {
+          "simplify": 1,
+          "solve": 10,
+          "contradiction": 2
+        },
+        "solve_goal_kinds": {
+          "action": 1,
+          "premise": 7,
+          "KU action": 2
+        },
+        "contradictions": {
+          "from formulas": 2
+        }
+      }
+    },
+    {
+      "name": "secrecy_PIN",
+      "kind": "all-traces",
+      "side": null,
+      "wall_s": 26.536,
+      "processing_s": 26.42,
+      "limit_s": 600.0,
+      "max_rss_mb": 1449.4,
+      "lock_wait_s": 0.1,
+      "load_avg": 7.2,
+      "verdict": "verified",
+      "steps": 4,
+      "summary": "verified (4 steps)",
+      "proof": "proofs/emv/pan-routing/Visa_DDA_High/secrecy_PIN.spthy",
+      "proof_stats": {
+        "size": 4,
+        "depth": 3,
+        "leaves": {
+          "solve": 2
+        },
+        "methods": {
+          "simplify": 1,
+          "solve": 3
+        },
+        "solve_goal_kinds": {
+          "premise": 1,
+          "KU action": 2
+        },
+        "contradictions": {}
+      }
+    },
+    {
+      "name": "secrecy_PAN",
+      "kind": "all-traces",
+      "side": null,
+      "wall_s": 27.342,
+      "processing_s": 27.25,
+      "limit_s": 600.0,
+      "max_rss_mb": 1458.4,
+      "lock_wait_s": 0.1,
+      "load_avg": 7.1,
+      "verdict": "falsified",
+      "steps": 7,
+      "summary": "falsified - found trace (7 steps)",
+      "proof": "proofs/emv/pan-routing/Visa_DDA_High/secrecy_PAN.spthy",
+      "proof_stats": {
+        "size": 7,
+        "depth": 7,
+        "leaves": {
+          "SOLVED": 1
+        },
+        "methods": {
+          "simplify": 1,
+          "solve": 5,
+          "SOLVED": 1
+        },
+        "solve_goal_kinds": {
+          "action": 1,
+          "premise": 3,
+          "KU action": 1
+        },
+        "contradictions": {}
+      }
+    }
+  ],
+  "warnings": [
+    "Derivation Checks: Derivation checks timed out. Use --derivcheck-timeout=INT to configure timeout. Set to 0 to deactivate for no timeout."
+  ],
+  "notes": [],
+  "status": "complete",
+  "total_wall_s": 1015.98
+}

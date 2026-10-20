@@ -6,7 +6,7 @@
   "tamalean_commit": "7e8e63f23cef2427c1bef6a241adb67ce375c9a2",
   "lean_toolchain": "leanprover/lean4:v4.35.0",
   "host": "Apple M4 Pro, 14 cores, 24 GB, macOS 27.0.1",
-  "date": "2026-10-19",
+  "date": "2026-10-20",
   "measured_alone": false,
   "limits": {
     "lemma_s": 600,
@@ -14,44 +14,51 @@
   },
   "reader": {
     "ok": true,
-    "ms": 414
+    "ms": 368
   },
   "lemmas": [
     {
       "name": "Loop_Start",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 195,
+      "outcome": "no verdict",
+      "message": "certify: out of fuel: this path used up the fuel bound of 26 proof steps; the search's next move there: `chase Loop 1` — case-split the sources of Loop(?0, ?52, ?2)"
     },
     {
       "name": "Loop_Success_ord",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 2042,
+      "outcome": "no verdict",
+      "message": "certify: out of fuel: this path used up the fuel bound of 26 proof steps; the search's next move there: `chase Loop 1` — case-split the sources of Loop(~?0, ?25, ?2)"
     },
     {
       "name": "Loop_charn",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 193,
+      "outcome": "no verdict",
+      "message": "certify: out of fuel: this path used up the fuel bound of 26 proof steps; the search's next move there: `chase Loop 1` — case-split the sources of Loop(?0, ?52, ?2)"
     },
     {
       "name": "Helper_Loop_and_success",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 6110,
+      "outcome": "no verdict",
+      "message": "certify: out of fuel: this path used up the fuel bound of 26 proof steps; the search's next move there: `chase Loop 22` — case-split the sources of Loop(~?0, ~?2, ?1)"
     },
     {
       "name": "Loop_and_success",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 2154,
+      "outcome": "no verdict",
+      "message": "certify: out of fuel: this path used up the fuel bound of 26 proof steps; the search's next move there: `chase Loop 1` — case-split the sources of Loop(~?0, ?27, ?2)"
     },
     {
       "name": "Helper_Success_charn",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 183,
+      "outcome": "no verdict",
+      "message": "certify: out of fuel: this path used up the fuel bound of 26 proof steps; the search's next move there: `chase Loop 1` — case-split the sources of Loop(?0, ?19, ?2)"
     },
     {
       "name": "Success_charn",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 122,
+      "outcome": "no verdict",
+      "message": "certify: out of fuel: this path used up the fuel bound of 26 proof steps; the search's next move there: `chase Gen 1` — case-split the sources of Gen(?11, ~?6)"
     }
   ],
-  "total_wall_s": 0.51
+  "total_wall_s": 11.11
 }

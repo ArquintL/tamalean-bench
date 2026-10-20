@@ -14,44 +14,51 @@
   },
   "reader": {
     "ok": true,
-    "ms": 2291
+    "ms": 1777
   },
   "lemmas": [
     {
       "name": "types",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 1,
+      "outcome": "no verdict",
+      "message": "certify: this lemma is stated against the full attacker, which also applies destructors (`registry.withDestructorConstructions`), and the bridge to the registry's attacker, where `certify` works, does not apply to it: its formula mentions `KU`."
     },
     {
       "name": "exec",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 2781,
+      "outcome": "no verdict",
+      "message": "certify: no witness trace: the search for a proof of the formula's negation failed, and none of its open leaves gives a trace.  Its report:"
     },
     {
       "name": "ni_agreement_init",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 1426,
+      "outcome": "no verdict",
+      "message": "certify: stuck: the leaf is not solved, and the search has no move for the condition it fails (equations and sorts: the equation verify(?18, ?19) = sign(format($0, $?13, $?12, exp($g, ~?16), ?17), ~?15) does not hold once the leaf's definitions are substituted: verify(?18, ?19) ≠ sign(format($0, $?13, $?12, exp($g, ~?16), ?17), ~?15))"
     },
     {
       "name": "i_agreement_init",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 5427,
+      "outcome": "no verdict",
+      "message": "certify: stuck: the leaf is not solved, and the search has no move for the condition it fails (equations and sorts: the equation verify(?18, ?19) = sign(format($0, $?13, $?12, exp($g, ~?16), ?17), ~?15) does not hold once the leaf's definitions are substituted: verify(?18, ?19) ≠ sign(format($0, $?13, $?12, exp($g, ~?16), ?17), ~?15))"
     },
     {
       "name": "ni_agreement_resp",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 1501,
+      "outcome": "no verdict",
+      "message": "certify: stuck: the leaf is not solved, and the search has no move for the condition it fails (equations and sorts: the equation verify(?18, ?19) = sign(format($0, $?13, $?12, exp($g, ~?16), ?17), ~?15) does not hold once the leaf's definitions are substituted: verify(?18, ?19) ≠ sign(format($0, $?13, $?12, exp($g, ~?16), ?17), ~?15))"
     },
     {
       "name": "i_agreement_resp",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 6066,
+      "outcome": "no verdict",
+      "message": "certify: stuck: the leaf is not solved, and the search has no move for the condition it fails (equations and sorts: the equation verify(?18, ?19) = sign(format($0, $?13, $?12, exp($g, ~?16), ?17), ~?15) does not hold once the leaf's definitions are substituted: verify(?18, ?19) ≠ sign(format($0, $?13, $?12, exp($g, ~?16), ?17), ~?15))"
     },
     {
       "name": "forward_secrecy",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 2594,
+      "outcome": "no verdict",
+      "message": "certify: out of fuel: this path used up the fuel bound of 26 proof steps; the search's next move there: split exp(exp($g, ~?24), ?26) = sign(format($0, $?13, $?12, exp($g, ~?16), ?17), ~?15) on the variants of exp(exp($g, ~?24), ?26)"
     }
   ],
-  "total_wall_s": 2.03
+  "total_wall_s": 21.78
 }

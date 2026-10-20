@@ -42,7 +42,22 @@ Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4
 Where the flags come from: --heuristic=O --oraclename: Makefile: the default brand is Visa
 (--heuristic=O --oraclename=Visa.oracle).
 
-Measured for this benchmark: not run yet.
+Measured for this benchmark (Tamarin 1.12.0, Maude 3.5.1, +RTS -N4 -M8G -RTS, Apple M4 Pro, 14
+cores, 24 GB, macOS 27.0.1, 2026-10-20; limits 600 s per lemma, 1800 s per model;
+results/tamarin/emv/pan-routing/Contactless_SoftFix.json):
+  executable                exists-trace  verified  29 steps     93.7 s
+  bank_accepts              all-traces    timeout               600.1 s
+  auth_to_terminal_minimal  all-traces    verified  1491 steps  212.5 s
+  auth_to_terminal          all-traces    timeout               600.3 s
+  auth_to_bank_minimal      all-traces    verified  755 steps   125.3 s
+  auth_to_bank              all-traces    timeout               162.4 s
+  secrecy_MK                all-traces    not run                     -
+  secrecy_privkCard         all-traces    not run                     -
+  secrecy_PIN               all-traces    not run                     -
+  secrecy_PAN               all-traces    not run                     -
+  total wall-clock time: 1800.0 s
+  Tamarin's wellformedness or derivation warnings: Derivation Checks: Derivation checks timed
+  out. Use --derivcheck-timeout=INT to configure timeout. Set to 0 to deactivate for no timeout.
 
 Reported by the authors: 19175.087521797s processing time in Contactless_SoftFix.proof (Tamarin
 1.7.0 (git 2884fce8); 2x Xeon E5-2650 v4, 10 threads, 20 GB)

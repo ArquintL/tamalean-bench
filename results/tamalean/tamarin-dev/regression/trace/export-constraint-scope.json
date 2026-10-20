@@ -7,26 +7,30 @@
   "lean_toolchain": "leanprover/lean4:v4.35.0",
   "host": "Apple M4 Pro, 14 cores, 24 GB, macOS 27.0.1",
   "date": "2026-10-20",
-  "measured_alone": false,
+  "measured_alone": true,
   "limits": {
     "lemma_s": 600,
     "model_s": 1800
   },
   "reader": {
     "ok": true,
-    "ms": 271
+    "ms": 240,
+    "measured_alone": true
   },
   "lemmas": [
     {
       "name": "existential_constraint_scope",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 82,
+      "outcome": "proved",
+      "measured_alone": true
     },
     {
       "name": "existential_constraint_scope_reversed",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 77,
+      "outcome": "proved",
+      "measured_alone": true
     }
   ],
-  "total_wall_s": 0.51
+  "total_wall_s": 0.51,
+  "retimed": "2026-10-20"
 }

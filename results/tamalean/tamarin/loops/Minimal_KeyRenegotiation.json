@@ -6,27 +6,31 @@
   "tamalean_commit": "7e8e63f23cef2427c1bef6a241adb67ce375c9a2",
   "lean_toolchain": "leanprover/lean4:v4.35.0",
   "host": "Apple M4 Pro, 14 cores, 24 GB, macOS 27.0.1",
-  "date": "2026-10-19",
-  "measured_alone": false,
+  "date": "2026-10-20",
+  "measured_alone": true,
   "limits": {
     "lemma_s": 600,
     "model_s": 1800
   },
   "reader": {
     "ok": true,
-    "ms": 444
+    "ms": 338,
+    "measured_alone": true
   },
   "lemmas": [
     {
       "name": "Secret_reachable",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 13769,
+      "outcome": "proved",
+      "measured_alone": true
     },
     {
       "name": "secrecy",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 1,
+      "outcome": "no verdict",
+      "message": "certify: this lemma is stated against the full attacker, which also applies destructors (`registry.withDestructorConstructions`), and the bridge to the registry's attacker, where `certify` works, does not apply to it: its formula mentions `KU`."
     }
   ],
-  "total_wall_s": 1.01
+  "total_wall_s": 15.15,
+  "retimed": "2026-10-20"
 }

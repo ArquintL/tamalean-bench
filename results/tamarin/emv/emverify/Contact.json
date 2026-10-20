@@ -1,0 +1,121 @@
+{
+  "id": "emv/emverify/Contact",
+  "tool": "tamarin",
+  "setting": "a ranking",
+  "tamarin_version": "1.12.0",
+  "maude_version": "3.5.1",
+  "rts": "+RTS -N4 -M8G -RTS",
+  "parallel_runs": 2,
+  "host": "Apple M4 Pro, 14 cores, 24 GB, macOS 27.0.1",
+  "date": "2026-10-20",
+  "flags": [
+    "--heuristic=O",
+    "--oraclename=Contact.oracle"
+  ],
+  "env": {},
+  "flags_basis": "--heuristic=O --oraclename: the command the authors give",
+  "oracle": [
+    "Contact.oracle"
+  ],
+  "oracle_notes": [
+    "Contact.oracle: its interpreter line names /usr/bin/python, which this machine lacks; the same file runs with Python 2.7.18 (it is written for Python 2)"
+  ],
+  "limits": {
+    "lemma_s": 600,
+    "model_s": 1800
+  },
+  "load": {
+    "wall_s": 5.501,
+    "processing_s": 5.43,
+    "exit": 0,
+    "lock_wait_s": 0.1,
+    "max_rss_mb": 63.2,
+    "status": "ok"
+  },
+  "lemmas": [
+    {
+      "name": "ARPC_source",
+      "kind": "all-traces",
+      "side": null,
+      "wall_s": 111.373,
+      "processing_s": 111.2,
+      "limit_s": 600.0,
+      "max_rss_mb": 5693.4,
+      "lock_wait_s": 0.1,
+      "load_avg": 5.8,
+      "verdict": "verified",
+      "steps": 21,
+      "summary": "verified (21 steps)",
+      "proof": "proofs/emv/emverify/Contact/ARPC_source.spthy",
+      "proof_stats": {
+        "size": 21,
+        "depth": 4,
+        "leaves": {
+          "contradiction": 17
+        },
+        "methods": {
+          "induction": 1,
+          "contradiction": 17,
+          "solve": 3
+        },
+        "solve_goal_kinds": {
+          "premise": 3
+        },
+        "contradictions": {
+          "from formulas": 17
+        }
+      }
+    },
+    {
+      "name": "executable",
+      "kind": "exists-trace",
+      "side": null,
+      "wall_s": 485.48,
+      "processing_s": null,
+      "limit_s": 600.0,
+      "max_rss_mb": 8593.4,
+      "lock_wait_s": 0.1,
+      "load_avg": 5.0,
+      "verdict": "error",
+      "steps": null,
+      "message": "0 | 1 | 2 | 3 | >>>>>>>>>>>>>>>>>>>>>>>> END Oracle call | [Open Chains] Too many chain constraints, stopping precomputation. Open Chains limits (can be changed with -c=): 10 | [Saturating Sources] Step 1 (Max 5) | [Saturating Sources] Done | [Saturating Sources] Step 1 (Max 5) | tamarin-prover: Heap exhausted; | tamarin-prover: Current maximum heap size is 8589934592 bytes (8192 MB). | tamarin-prover: Use `+RTS -M<size>' to increase it.",
+      "long_run": false
+    },
+    {
+      "name": "secrecy_MK",
+      "kind": "all-traces",
+      "side": null,
+      "wall_s": 598.436,
+      "processing_s": null,
+      "limit_s": 600.0,
+      "max_rss_mb": 8595.9,
+      "lock_wait_s": 0.1,
+      "load_avg": 4.8,
+      "verdict": "error",
+      "steps": null,
+      "message": "1: !CertBank( $Bank, certBank ) ▶₄ #i | 2: !IssuingCA( $Bank, $CA ) ▶₅ #i | 3: !KU( ~MK ) @ #j | >>>>>>>>>>>>>>>>>>>>>>>> START OUTPUT | >>>>>>>>>>>>>>>>>>>>>>>> END Oracle call | [Saturating Sources] Step 1 (Max 5) | [Open Chains] Too many chain constraints, stopping precomputation. Open Chains limits (can be changed with -c=): 10 | [Saturating Sources] Done | [Saturating Sources] Step 1 (Max 5) | tamarin-prover: Heap exhausted; | tamarin-prover: Current maximum heap size is 8589934592 bytes (8192 MB). | tamarin-prover: Use `+RTS -M<size>' to increase it.",
+      "long_run": false
+    },
+    {
+      "name": "secrecy_PAN",
+      "kind": "all-traces",
+      "side": null,
+      "wall_s": 491.67,
+      "processing_s": null,
+      "limit_s": 599.2,
+      "max_rss_mb": 8475.2,
+      "lock_wait_s": 0.1,
+      "load_avg": 5.0,
+      "verdict": "error",
+      "steps": null,
+      "message": "1: !CertBank( $Bank, certBank ) ▶₄ #i | 2: !IssuingCA( $Bank, $CA ) ▶₅ #i | 3: !KU( ~PAN ) @ #j | >>>>>>>>>>>>>>>>>>>>>>>> START OUTPUT | >>>>>>>>>>>>>>>>>>>>>>>> END Oracle call | [Saturating Sources] Step 1 (Max 5) | [Open Chains] Too many chain constraints, stopping precomputation. Open Chains limits (can be changed with -c=): 10 | [Saturating Sources] Done | [Saturating Sources] Step 1 (Max 5) | tamarin-prover: Heap exhausted; | tamarin-prover: Current maximum heap size is 8589934592 bytes (8192 MB). | tamarin-prover: Use `+RTS -M<size>' to increase it.",
+      "long_run": false
+    }
+  ],
+  "warnings": [
+    "Derivation Checks: Derivation checks timed out. Use --derivcheck-timeout=INT to configure timeout. Set to 0 to deactivate for no timeout."
+  ],
+  "notes": [],
+  "status": "complete",
+  "total_wall_s": 1692.46
+}

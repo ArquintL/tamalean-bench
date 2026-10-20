@@ -7,46 +7,59 @@
   "lean_toolchain": "leanprover/lean4:v4.35.0",
   "host": "Apple M4 Pro, 14 cores, 24 GB, macOS 27.0.1",
   "date": "2026-10-20",
-  "measured_alone": false,
+  "measured_alone": true,
   "limits": {
     "lemma_s": 600,
     "model_s": 1800
   },
   "reader": {
     "ok": true,
-    "ms": 545
+    "ms": 344,
+    "measured_alone": true
   },
   "lemmas": [
     {
       "name": "product_unit_never",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 1534,
+      "outcome": "attack found",
+      "message": "certify: the lemma is false: the search found an attack, and the kernel checked that it is a trace of the model that violates the lemma",
+      "measured_alone": true
     },
     {
       "name": "nested_unit_never",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 1540,
+      "outcome": "attack found",
+      "message": "certify: the lemma is false: the search found an attack, and the kernel checked that it is a trace of the model that violates the lemma",
+      "measured_alone": true
     },
     {
       "name": "stored_unit_never",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 1514,
+      "outcome": "attack found",
+      "message": "certify: the lemma is false: the search found an attack, and the kernel checked that it is a trace of the model that violates the lemma",
+      "measured_alone": true
     },
     {
       "name": "matched_unit_never",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 1528,
+      "outcome": "attack found",
+      "message": "certify: the lemma is false: the search found an attack, and the kernel checked that it is a trace of the model that violates the lemma",
+      "measured_alone": true
     },
     {
       "name": "matched_nested_unit_never",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 1524,
+      "outcome": "attack found",
+      "message": "certify: the lemma is false: the search found an attack, and the kernel checked that it is a trace of the model that violates the lemma",
+      "measured_alone": true
     },
     {
       "name": "power_neutral_exists",
-      "outcome": "not run",
-      "message": "only the reader ran"
+      "ms": 914,
+      "outcome": "proved",
+      "measured_alone": true
     }
   ],
-  "total_wall_s": 1.01
+  "total_wall_s": 9.63,
+  "retimed": "2026-10-20"
 }

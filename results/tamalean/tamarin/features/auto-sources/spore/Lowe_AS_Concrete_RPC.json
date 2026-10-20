@@ -7,14 +7,15 @@
   "lean_toolchain": "leanprover/lean4:v4.35.0",
   "host": "Apple M4 Pro, 14 cores, 24 GB, macOS 27.0.1",
   "date": "2026-10-20",
-  "measured_alone": false,
+  "measured_alone": true,
   "limits": {
     "lemma_s": 600,
     "model_s": 1800
   },
   "reader": {
     "ok": true,
-    "ms": 10835
+    "ms": 8367,
+    "measured_alone": true
   },
   "lemmas": [
     {
@@ -37,8 +38,9 @@
     },
     {
       "name": "noninjectiveagreement_A",
-      "ms": 5686,
-      "outcome": "proved"
+      "ms": 4718,
+      "outcome": "proved",
+      "measured_alone": true
     },
     {
       "name": "noninjectiveagreement_B",
@@ -53,5 +55,6 @@
       "message": "certify: no witness trace: the search for a proof of the formula's negation failed, and none of its open leaves gives a trace.  Its report:"
     }
   ],
-  "total_wall_s": 161.64
+  "total_wall_s": 161.64,
+  "retimed": "2026-10-20"
 }

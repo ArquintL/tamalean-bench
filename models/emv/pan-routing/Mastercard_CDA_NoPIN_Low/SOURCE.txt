@@ -41,7 +41,21 @@ Run here, one lemma at a time, in the model's directory: tamarin-prover +RTS -N4
 --heuristic=O --oraclename=Mastercard.oracle --prove=<lemma> Mastercard_CDA_NoPIN_Low.spthy
 Where the flags come from: --heuristic=O --oraclename: the command the authors give.
 
-Measured for this benchmark: not run yet.
+Measured for this benchmark (Tamarin 1.12.0, Maude 3.5.1, +RTS -N4 -M8G -RTS, Apple M4 Pro, 14
+cores, 24 GB, macOS 27.0.1, 2026-10-20; limits 600 s per lemma, 1800 s per model;
+results/tamarin/emv/pan-routing/Mastercard_CDA_NoPIN_Low.json):
+  executable                exists-trace  verified   29 steps     42.8 s
+  bank_accepts              all-traces    verified   1048 steps  231.4 s
+  auth_to_terminal_minimal  all-traces    verified   204 steps    52.1 s
+  auth_to_terminal          all-traces    verified   1360 steps  202.7 s
+  auth_to_bank_minimal      all-traces    verified   49 steps     30.9 s
+  auth_to_bank              all-traces    verified   125 steps    36.4 s
+  secrecy_MK                all-traces    verified   12 steps     28.7 s
+  secrecy_privkCard         all-traces    verified   13 steps     30.2 s
+  secrecy_PAN               all-traces    falsified  7 steps      27.3 s
+  total wall-clock time: 688.2 s
+  Tamarin's wellformedness or derivation warnings: Derivation Checks: Derivation checks timed
+  out. Use --derivcheck-timeout=INT to configure timeout. Set to 0 to deactivate for no timeout.
 
 Reported by the authors: 323.136582107s processing time in Mastercard_CDA_NoPIN_Low.proof
 (Tamarin 1.7.0 (git 2884fce8); 2x Xeon E5-2650 v4, 10 threads, 20 GB)
